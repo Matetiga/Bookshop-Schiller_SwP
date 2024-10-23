@@ -1,8 +1,7 @@
 = Protokoll Gruppe XX
 
-Treffen am XX.XX.20XX
-
-Ort:      Ort des Treffens +
+Treffen am XX.XX.20XX 
+Ort:      Ort des Treffens APB +
 Beginn:   xx:xx Uhr +
 Ende:     xx:xx Uhr
 
@@ -14,9 +13,15 @@ XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
 __Teilnehmer:__
 //Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
 
-- Teilnehmer 1
-- Teilnehmer 2
-- ...
+- Martin
+- Linus
+- Erion 
+- Vincent
+- Willi
+- Marco
+- Kevin 
+- Fabian
+
 
 == Bemerkungen
 Verwarnungen, besondere Vorfälle, Organisatorisches, wichtige getroffene Entscheidungen
