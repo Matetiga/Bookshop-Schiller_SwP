@@ -119,6 +119,194 @@ D.h., pro (komplexen) Anwendungsfall gibt es typischerweise mindestens ein Seque
 Szenarium beschreibt). Für jedes Szenarium sollte es einen Akzeptanztestfall geben. Listen Sie alle Akzeptanztestfälle in tabellarischer Form auf.
 Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumenten (z.B. im Test-Plan) referenzieren zu können.
 
+:Pre: Precondition(s)
+:Event: Event
+:Result: Expected Result
+
+
+[[AT001]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT001>>
+|Use Case      |Admin
+|{Pre}        a|
+- The system has existing admin.
+- A dummy-order is accepted.
+|{Event}      a|Admin logg in and look for finance-chart.
+|{Result}     a|
+- Finance-Chart exists.
+- Profit is correct insert in chart.
+|===
+
+[[AT002]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT002>>
+|Use Case      |Admin
+|{Pre}        a|
+- The system has existing admin.
+- A dummy-employee exists.
+|{Event}      a|Admin logg in and views the employee list.
+|{Result}     a|
+- The employee list is displayed-
+- Dummy-employee is can been seen.
+|===
+
+[[AT003]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT003>>
+|Use Case      |Admin
+|{Pre}        a|
+- The system has existing admin.
+- A dummy-employee exists.
+|{Event}      a|Admin logg in and deletes dummy-employee.
+|{Result}     a|The dummy-employee is no longer in the list.
+|===
+
+[[AT004]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT004>>
+|Use Case      |Admin
+|{Pre}        a|
+- The system has existing admin.
+|{Event}      a|Admin logg in and adds a new employee with valid name, email, adress and password.
+|{Result}     a|The new employee appears in the list.
+|===
+
+[[AT005]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT005>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-order exists.
+|{Event}      a|The employee logg in and look at existing order-page.
+|{Result}     a|The dummy-order is displayed correctly.
+|===
+
+[[AT006]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT006>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-customer exists.
+|{Event}      a|The employee logg in and views the customer list
+|{Result}     a|The customer is displayed correctly in the customer list.
+|===
+
+[[AT007]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT007>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-order exists.
+|{Event}      a|The employee logg in and deletes a dummy orde.
+|{Result}     a|The order is no longer found in the order list.
+|===
+
+[[AT008]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT008>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-order exists.
+|{Event}      a|The employee logg in and confirms the dummy order.
+|{Result}     a|The order is displayed as already paid.
+|===
+
+[[AT009]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT009>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-customer exists.
+|{Event}      a|The employee logg in and deletes a dummy customer.
+|{Result}     a|The customer is deleted successfully and the customer is no longer in the customer list.
+|===
+
+[[AT010]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT010>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|- The system has existing employee.
+|{Event}      a|The employee logg in and adds a new product with valid name, picture, stock, price and genre.
+|{Result}     a|The product can be found in product list. 
+|===
+
+[[AT011]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT011>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-product exists.
+|{Event}      a|The employee loggs in and remove the dummy-product.
+|{Result}     a|Dummy-product no longer in product list.
+|===
+
+[[AT012]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT012>>
+|Use Case      |Mitarbeiter
+|{Pre}        a|
+- The system has existing employee.
+- A dummy-product book exists.
+|{Event}      a|The employee deletes genre of book.
+|{Result}     a|The product is furthermore in the product list.
+|===
+
+[[AT013]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT013>>
+|Use Case      |Kunde
+|{Pre}        a|
+- The system has existing customer.
+- A dummy-product exists.
+|{Event}      a|The customer loggs in and add dummy-product with count 1 to cart.
+|{Result}     a|The item is displayed correct in cart.
+|===
+
+[[AT014]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT014>>
+|Use Case      |Kunde
+|{Pre}        a|
+- The system has existing customer.
+- A dummy-product of count 5 exists.
+- The dummy-product is add with count 1 to cart
+|{Event}      a|The customer loggs in and removes the dummy item from the cart.
+|{Result}     a|No item is displayed in the cart
+|===
+
+[[AT015]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT015>>
+|Use Case      |Without Permissions
+|{Pre}        a|
+- The system has existing customer.
+- A dummy-product exists.
+|{Event}      a|The customer searches for the title of dummy-product in seach ad.
+|{Result}     a|The book is displayed as correct result of search.
+|===
+
+
 == Glossar
 Sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten
 Stakeholder essenziell ist, sollten hier aufgeführt werden.
