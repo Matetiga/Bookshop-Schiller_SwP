@@ -1,0 +1,67 @@
+= Protokoll Gruppe XX
+
+Treffen am 29.10.2024 
+Ort:      Ort des Treffens APB
+Beginn:   13:00 Uhr
+Ende:     14:20 Uhr
+
+__Schriftführer:__
+Erion Leka
+
+*Nächstes Treffen:* +
+05.11.2024, 13:00 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Martin
+- Linus
+- Erion 
+- Vincent
+- Willi
+- Marco
+- Kevin 
+- Fabian
+
+
+== Bemerkungen
+Verwarnungen, besondere Vorfälle, Organisatorisches, wichtige getroffene Entscheidungen
+
+Basierend auf dem Kundengespräch, wurde zusammen im Meeting
+die Analysediagramme (bis auf Sequenzdiagramm) erstellt und 
+daraufhin diese in Papyrus überführt und hochgeladen. 
+Außerdem hat jeder eine Aufgabe (Erweiterung für den Videoshop) gemacht.
+
+Einteilung in Gruppen für Erledigung von Aufgaben bis 03.11.2024 (Sonntag):
+Gui-Prototyp 		- 	Marco, Emilio
+Sequenzdiagramme 	-	Kevin, Erion
+Testfälle		- 	Linus, Martin
+Pflichtenheft		-	Willi, Vincent 
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|…     |…       |…      |…
+|===
+
+
+== Aktueller Stand
+Anmerkungen und Kritik zum aktuellen Stand der Software, den Diagrammen und den
+Dokumenten.
+
+Da
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===
