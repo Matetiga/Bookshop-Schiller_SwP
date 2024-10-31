@@ -647,11 +647,33 @@ UML-Analyseklassendiagramm
 === Klassen und Enumerationen
 Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
 
+image::./models/analysis/aUMLClassDiagramm/aUML_bookshop.png[aUML Class Diagramm, 100%, 100%, pdfwidth=100%, title="aUML model of the Book shop", align=center]
+
+
 // See http://asciidoctor.org/docs/user-manual/#tables
-[options="header"]
+[options="header", cols="1h, 4"]
 |===
-|Klasse/Enumeration |Beschreibung |
-|…                  |…            |
+|Class/Enumeration |Description|
+|Büchershop        |The basis of the system ( book shop)
+|Person            |A not registered account that uses the system (with limited capabilities) |
+|Customer          |A person that has register into he system and can perform basic shopping actions
+|Employee          |A worker, created by the admin, with more managment capabilities
+|Admin             |The manager of the book store, with full access to the entire system 
+|Cart              |The virtual cart, where chosen items will be stored for later purchase creating an order
+|Order             |Created by the purchase action of an user, which contains the item's information quantity, initialized as "not payed", which can  later be changed by the worker/admin.
+|Status            |Are the different possible states of an Order, managed by the admin/worker +
+_OPEN:_ The order has been created but is still unpayed +
+_PAID:_ The order has been payed and the product's stock has been reduced
+_DELIVERED:_ An order chosen to be delivered, has been received by the buyer
+_CANCELLED:_ An order that is no longer wanted and must be cancelled
+|ProductQuantity   |Keeps track of the stock of a product used for the cart and check if there is enough for a purchase
+|Product           |A parent class that wraps the different items that are sold  in the shop, which works as a blueprint to later add new products
+|Book              |A child  of the class Product, with extra specific qualities
+|Calendar          |A child of the class Product, considered as an extra item sold by the book shop
+|Merch             |A child of the class Product, used for various extra items 
+|Catalog           |Contains all the products that are to be shown to the public, with the possibility to buy them.
+|Inventory         |Contains all the products, including the possibility to edit/add/delete them. Meant to be used only by the worker and admin
+ 
 |===
 
 == Akzeptanztestfälle
