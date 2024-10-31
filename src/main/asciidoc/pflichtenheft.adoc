@@ -59,6 +59,549 @@ Für komplexere Anwendungsfälle ein UML-Sequenzdiagramm ergänzen.
 Einfache Anwendungsfälle mit einem Absatz beschreiben.
 Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
 
+
+[cols="1h, 3"]
+[[UC001]]
+|===
+|ID                         |<<UC001>>
+|Name                       |Registration
+|Description                |User is able to enter their details to create an account in the system.
+|Actors                     |User
+|Trigger                    |User wants to register in the system
+
+|Precondition(s)           a| password is strong enough (lenght min. 5, min. 1 number, min. 1 special character)
+
+|Essential Steps           a|
+
+  1. User accesses "Register" in the navigation bar
+  2. User enters his credentials 
+  3. User hits "register" button
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC002]]
+|===
+|ID                         |<<UC002>>
+|Name                       |Login
+|Description                |User authentification with the website (prior registration is required). The user can then log out, whenever it wants.
+|Actors                     |User
+|Trigger                    |User wants to log into the system
+
+|Precondition(s)           a|Registration <<UC001>>
+
+|Essential Steps           a|
+
+  1. User accesses "Log in" in the navigation bar
+  2. User enters his credentials and are correct
+  3. User hits "Log in" button
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC003]]
+|===
+|ID                         |<<UC003>>
+|Name                       |Logout
+|Description                |After being loged in, the user log out from their account. Everything related to their account will not be accessible.
+|Actors                     |User
+|Trigger                    |User wants to log out of the system
+
+|Precondition(s)           a|Login <<UC002>>
+
+|Essential Steps           a|
+
+  1. User accesses their profile
+  2. User hits "Log out" button
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC004]]
+|===
+|ID                         |<<UC004>>
+|Name                       |Catalog browsing
+|Description                |Every Person (user, worker, admin and a not registered Person) is able to look and browse through the catalog of books and the merchandise. 
+|Actors                     |User, Admin, Worker, Not registered Person
+|Trigger                    |Usere wants to see the products of the catalog
+
+|Precondition(s)           a|
+
+|Essential Steps           a|
+1. User browses to the "catalog" window
+
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC005]]
+|===
+|ID                         |<<UC005>>
+|Name                       |Adding an Item to the cart
+|Description                |loged in users can add products (books, merchandise) into their cart 
+|Actors                     |User, Admin, Worker
+|Trigger                    |User wants to potentially by an article
+
+|Precondition(s)           a|User is Loged in <<UC002>>
+
+|Essential Steps           a|
+1. A product is selected
+2. User hits "add to cart" button 
+
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC006]]
+|===
+|ID                         |<<UC006>>
+|Name                       |Item visualization 
+|Description                |Item information is displayed in a new page (price, stock, picture, title...)
+|Actors                     |User, Admin, Worker, not registered Person
+|Trigger                    |Person wants to check the information of a specific item
+
+|Precondition(s)           a|
+
+|Essential Steps           a|
+1. User browses into the "Catalog" window
+2. User selects a specific item
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC007]]
+|===
+|ID                         |<<UC007>>
+|Name                       |Edit profil 
+|Description                |loged in users change their credentials (password, address) 
+|Actors                     |User, Admin, Worker
+|Trigger                    |User wants to change their account information
+
+|Precondition(s)           a|User is Loged in <<UC002>>
+
+|Essential Steps           a|
+1. User browses to the "Account" window
+2. User selects the information field that wants to renew
+3. New Information is typed and sent with "Submit" button.
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC008]]
+|===
+|ID                         |<<UC008>>
+|Name                       |Buy items from cart
+|Description                |The items added to the cart can be purchased.
+|Actors                     |User, Admin, Worker
+|Trigger                    |User wants to check out (buy items in the cart)
+
+|Precondition(s)           a|User is Loged in <<UC002>>, Cart is not empty <<UC005>>
+
+|Essential Steps           a|
+1. User has selected items and added the previously into the cart 
+2. User checks the information is correct (can still edit the amoutn)
+3. System checks if item's stock is available with the chosen amount
+4. Buy method is checked (delivered or taken)
+5. User hits "Buy" button
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC009]]
+|===
+|ID                         |<<UC009>>
+|Name                       |Add new products
+|Description                |New products are added to the catalog (new books or merch)
+|Actors                     |Admin, Worker
+|Trigger                    |New Products must be shown in the web page
+
+|Precondition(s)           a|User is Loged in <<UC002>> and is a Worker or Admin
+
+|Essential Steps           a|
+1. Admin or Worken navegate to the "Inventory" page
+2. They hit "Add new item" button
+3. Item type is selected (book, merch or calender)
+4. They give the corresponding information (stock, price, id, picture, title, ...)
+5. They hit "Store changes" button to publish the new item to the web site
+6. The item is then shown with the corresponding information in the correct page and added to the catalog
+
+|Extensions                 |-
+1. All items IDs must be different
+2. Product names can be the same (e.g same book title) but the rest of the information should be different
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC010]]
+|===
+|ID                         |<<UC010>>
+|Name                       |Edit a Product
+|Description                |A product's name, price, picture (for books also genre) can be edited 
+|Actors                     |Admin, Worker
+|Trigger                    |Worker or Admin want to update the information of a specific product
+
+|Precondition(s)           a|User is Loged in <<UC002>> and is a Worker or Admin
+
+|Essential Steps           a|
+1. Worker or Admin browse to the "Inventory" page
+2. They navegate to the desired product
+3. Change the product's information 
+4. They hit then "Update Information" button
+
+|Extensions                 |
+1. New ID must not be already taken
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC011]]
+|===
+|ID                         |<<UC011>>
+|Name                       |Delete a Product
+|Description                |A new product is added to the catalog
+|Actors                     |Admin, Worker
+|Trigger                    |A product should be removed from the catalog
+
+|Precondition(s)           a|User is Loged in <<UC002>> (is a Worker or Admin)  and the product exists <<UC009>>
+
+|Essential Steps           a|
+1. Worker or Admin navegate to the product in the "Inventory" page
+2. They hit the "delete" button
+3. The product is removed from the system (should not appear anywhere)
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC012]]
+|===
+|ID                         |<<UC012>>
+|Name                       |Refill stock
+|Description                |A product's stock is refilled 
+|Actors                     |Admin, Worker
+|Trigger                    |A product's stock is running low and must be refilled
+
+|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin) and the product already was registered <<UC009>>
+
+|Essential Steps           a|
+1. Worker or Admin navegate to the "Inventory" page and look for the stock of each product
+2. A product is selected and an amount is chosen to replenish the stock
+3. Total price is shown
+4. They  hit the "Submit order" button
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC013]]
+|===
+|ID                         |<<UC013>>
+|Name                       |Check Worker and Users List
+|Description                |A list with all the registered workers and users of the system 
+|Actors                     |Admin, Worker
+|Trigger                    |Total amount of workers or users is needed
+
+|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin)
+
+|Essential Steps           a|
+1. Worker or Admin navegate to the "User's List"
+2. They select the user type to be displayed (users or workers) 
+3. A List is shown of the respective user type
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC014]]
+|===
+|ID                         |<<UC014>>
+|Name                       |Manage Orders
+|Description                |A list with all the pending and already completed orders, which can be edited 
+|Actors                     |Admin, Worker
+|Trigger                    |Need to change the state of an order (e.g after it was payed in place or delivered) 
+|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin), at least one order was created <<UC016>>
+
+|Essential Steps           a|
+1. Worker or Admin navegate to the "Orders" page
+2. They can change the status of an order
+3. They hit "Update" button
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC015]]
+|===
+|ID                         |<<UC015>>
+|Name                       |Check stock
+|Description                |A list with all registered products with the amount of each one 
+|Actors                     |Admin, Worker
+|Trigger                    |Shop's stock is required for all items
+
+|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin), one or more items have already been registered <<UC009>>
+
+|Essential Steps           a|
+1. Worker or Admin navegate to the "Inventory" page
+2. A List of all registered items is shown alongside is the quantity included
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC016]]
+|===
+|ID                         |<<UC016>>
+|Name                       |Order Creation
+|Description                |An order is automatically created after a user hits the "buy" button in the cart <<UC008>>
+|Actors                     |User, Admin, Worker
+|Trigger                    |"buy" button is pressed in the cart page
+
+|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin), one or more items have been added to the cart <<UC005>> and there is enough stock 
+
+|Essential Steps           a|
+1. User hits the "buy" button in the cart page
+2. A new order is registered in the system with the user's information
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC017]]
+|===
+|ID                         |<<UC017>>
+|Name                       |Financiall status 
+|Description                |A preview (graphic) of the financiall status of every month (money gained)   
+|Actors                     |Admin
+|Trigger                    |Admin wants to check how much has been gained/lost in a month
+
+|Precondition(s)           a|Admin is loged in <<UC002>>
+
+|Essential Steps           a|
+1. Admin browses to the "Financiall overview" page
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC018]]
+|===
+|ID                         |<<UC018>>
+|Name                       |Add Worker
+|Description                |A new worker is created into the system
+|Actors                     |Admin
+|Trigger                    |A new person is accepted as a worker.
+|Precondition(s)           a|Admin is loged in <<UC002>>
+
+|Essential Steps           a|
+1. Admin browses to the "User's List" page
+2. Admin hits the "promote" button alongside the user account
+3. The user is promoted to "Worker" and has its privileges
+ 
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC019]]
+|===
+|ID                         |<<UC019>>
+|Name                       |Delete Worker
+|Description                |A worker's account is completely deleted from the system 
+|Actors                     |Admin
+|Trigger                    |A worker's account is not longer needed and should be deleted
+|Precondition(s)           a|Admin is loged in <<UC002>>, there must be at least one worker <<UC018>>
+
+|Essential Steps           a|
+1. Admin browses to the "User's List" page
+2. Admin filters for Workers
+3. They find the specific worker and hit the "delete" button 
+4. The worker's information is deleted from the system 
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC020]]
+|===
+|ID                         |<<UC020>>
+|Name                       |Cancel Order
+|Description                |An Admin or a worker can cancel a specific order, for variuos reasons.
+|Actors                     |Admin, Worker
+|Trigger                    |A client wants to cancel an order
+|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, at least one order must have been created <<UC016>>
+
+|Essential Steps           a|
+1. Admin/Worker browses to the "Orders" page
+2. They find the specific order in the list and hit "cancel" button
+3. The order is removed
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC021]]
+|===
+|ID                         |<<UC021>>
+|Name                       |View Orders
+|Description                |An Admin or a worker can view a list of all orders.
+|Actors                     |Admin, Worker
+|Trigger                    |Manage the orders or look for a specific one
+|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, at least one order must have been created <<UC016>>
+
+|Essential Steps           a|
+1. Admin/Worker browses to the "Orders" page
+2. They find the specific order 
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC022]]
+|===
+|ID                         |<<UC022>>
+|Name                       |Delete an User
+|Description                |An Admin or a worker can delete an user's account 
+|Actors                     |Admin, Worker
+|Trigger                    |The user wants their information to be deleted from the system
+|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, the user exists <<UC001>>
+
+|Essential Steps           a|
+1. Admin/Worker browses to the "User's List" page
+2. They find the specific user
+3. They hit "delete" button 
+4. User's information is deleted completely from the system
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC023]]
+|===
+|ID                         |<<UC023>>
+|Name                       |Add a book's genre
+|Description                |An Admin or a worker can add a new book's genre to the catalog 
+|Actors                     |Admin, Worker
+|Trigger                    |A new genre is sold in the book shop
+|Precondition(s)           a|Admin/Worker is loged in <<UC002>>
+
+|Essential Steps           a|
+1. Admin/Worker browses to the "inventory" page
+2. They hit "add new Genre" button
+3. The name of the genre is specified
+4. They select all books that should include the new genre
+5. They hit "Store changes" button 
+6. New books will be able to have the new genre
+
+|Extensions                 |-
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC024]]
+|===
+|ID                         |<<UC024>>
+|Name                       |Delete a book's genre
+|Description                |An Admin or a worker can delete a specific book's genre 
+|Actors                     |Admin, Worker
+|Trigger                    |A specific genre is no longer sold in the store
+|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, the genre exists <<UC023>>
+
+|Essential Steps           a|
+1. Admin/Worker browses to the "Inventory" page 
+2. They hit "Delete genre" button
+3. They select all the previous created genres to be deleted
+4. The genre is deleted from all books 
+
+|Extensions                 |
+1. If a book has only one genre and it is deleted, then the book is clasified as "no genre"
+|Functional Requirements    |-
+|===
+
+[cols="1h, 3"]
+[[UC025]]
+|===
+|ID                         |<<UC025>>
+|Name                       |Delete an Item from the cart 
+|Description                |An item can be deleted from the cart 
+|Actors                     |Admin, Worker, User
+|Trigger                    |A user does not want to buy a product any more and wishes it outside the cart
+|Precondition(s)           a|Admin/Worker/User is loged in <<UC002>>, the cart was not empty <<UC005>>
+
+|Essential Steps           a|
+1. User/Admin/Worker browses to the "Cart" page 
+2. They hit "Delete item" button
+3. They select the product and the amount to be deleted from the cart 
+4. They hit "Confirm" button
+5. The item is no longer in their cart
+
+|Extensions                 |
+|Functional Requirements    |-
+|===
+
+
+[cols="1h, 3"]
+[[UC026]]
+|===
+|ID                         |<<UC026>>
+|Name                       |Search for an Item
+|Description                |Input in the search bar will show up the items acordingly the specified keywords 
+|Actors                     |Admin, Worker, User
+|Trigger                    |A user is looking for a specific item in the catalog
+|Precondition(s)           a|
+
+|Essential Steps           a|
+1. (Any) Person hit the search bar and input words related to their search
+2. Products with a degree of similarity will be shown as a list
+3. If the person hits any of the products, they will be redirected to the item's page
+
+|Extensions                 |
+|Functional Requirements    |-
+|===
+
 == Funktionale Anforderungen
 
 === Muss-Kriterien
@@ -128,50 +671,50 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT001>>
-|Use Case      |Admin
+|Use Case      |<<UC017>>
 |{Pre}        a|
-- The system has existing admin.
+- The system has an existing admin.
 - A dummy-order is accepted.
-|{Event}      a|Admin logg in and look for finance-chart.
+|{Event}      a|Admin logs in and looks for the finance-chart.
 |{Result}     a|
 - Finance-Chart exists.
-- Profit is correct insert in chart.
+- Profit is correctly inserted in the chart.
 |===
 
 [[AT002]]
 [cols="1h, 4"]
 |===
 |ID            |<<AT002>>
-|Use Case      |Admin
+|Use Case      |<<UC013>>
 |{Pre}        a|
-- The system has existing admin.
+- The system has an existing admin.
 - A dummy-employee exists.
-|{Event}      a|Admin logg in and views the employee list.
+|{Event}      a|Admin logs in and views the employee list.
 |{Result}     a|
-- The employee list is displayed-
-- Dummy-employee is can been seen.
+- The employee list is displayed
+- Dummy-employee can been seen.
 |===
 
 [[AT003]]
 [cols="1h, 4"]
 |===
 |ID            |<<AT003>>
-|Use Case      |Admin
+|Use Case      |<<UC019>>
 |{Pre}        a|
-- The system has existing admin.
+- The system has an  existing admin.
 - A dummy-employee exists.
-|{Event}      a|Admin logg in and deletes dummy-employee.
-|{Result}     a|The dummy-employee is no longer in the list.
+|{Event}      a|Admin logs in and deletes dummy-employee.
+|{Result}     a|The dummy-employee is not longer in the list.
 |===
 
 [[AT004]]
 [cols="1h, 4"]
 |===
 |ID            |<<AT004>>
-|Use Case      |Admin
+|Use Case      |<<UC018>>
 |{Pre}        a|
-- The system has existing admin.
-|{Event}      a|Admin logg in and adds a new employee with valid name, email, adress and password.
+- The system has an existing admin.
+|{Event}      a|Admin logs in and adds a new employee with a valid name, email, address and password.
 |{Result}     a|The new employee appears in the list.
 |===
 
@@ -179,11 +722,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT005>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC021>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-order exists.
-|{Event}      a|The employee logg in and look at existing order-page.
+|{Event}      a|The employee logs in and browses to the order's page.
 |{Result}     a|The dummy-order is displayed correctly.
 |===
 
@@ -191,11 +734,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT006>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC013>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-customer exists.
-|{Event}      a|The employee logg in and views the customer list
+|{Event}      a|The employee logs in and views the customer list
 |{Result}     a|The customer is displayed correctly in the customer list.
 |===
 
@@ -203,11 +746,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT007>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC020>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-order exists.
-|{Event}      a|The employee logg in and deletes a dummy orde.
+|{Event}      a|The employee logs in and deletes a dummy order
 |{Result}     a|The order is no longer found in the order list.
 |===
 
@@ -215,11 +758,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT008>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC014>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-order exists.
-|{Event}      a|The employee logg in and confirms the dummy order.
+|{Event}      a|The employee logs in and confirms the dummy order.
 |{Result}     a|The order is displayed as already paid.
 |===
 
@@ -227,11 +770,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT009>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC022>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-customer exists.
-|{Event}      a|The employee logg in and deletes a dummy customer.
+|{Event}      a|The employee logs in and deletes a dummy customer.
 |{Result}     a|The customer is deleted successfully and the customer is no longer in the customer list.
 |===
 
@@ -239,9 +782,10 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT010>>
-|Use Case      |Mitarbeiter
-|{Pre}        a|- The system has existing employee.
-|{Event}      a|The employee logg in and adds a new product with valid name, picture, stock, price and genre.
+|Use Case      |<<UC009>>
+|{Pre}        a|
+- The system has an existing employee.
+|{Event}      a|The employee logs in and adds a new product with valid a name, picture, stock, price and genre.
 |{Result}     a|The product can be found in product list. 
 |===
 
@@ -249,23 +793,23 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT011>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC011>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-product exists.
-|{Event}      a|The employee loggs in and remove the dummy-product.
-|{Result}     a|Dummy-product no longer in product list.
+|{Event}      a|The employee logs in and removes the dummy-product.
+|{Result}     a|Dummy-product is  no longer in product list.
 |===
 
 [[AT012]]
 [cols="1h, 4"]
 |===
 |ID            |<<AT012>>
-|Use Case      |Mitarbeiter
+|Use Case      |<<UC024>>
 |{Pre}        a|
-- The system has existing employee.
+- The system has an existing employee.
 - A dummy-product book exists.
-|{Event}      a|The employee deletes genre of book.
+|{Event}      a|The employee deletes a book's genre. 
 |{Result}     a|The product is furthermore in the product list.
 |===
 
@@ -273,11 +817,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT013>>
-|Use Case      |Kunde
+|Use Case      |<<UC005>>
 |{Pre}        a|
-- The system has existing customer.
+- The system has an existing customer.
 - A dummy-product exists.
-|{Event}      a|The customer loggs in and add dummy-product with count 1 to cart.
+|{Event}      a|The customer logs in and adds dummy-product with count 1 to cart.
 |{Result}     a|The item is displayed correct in cart.
 |===
 
@@ -285,12 +829,11 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT014>>
-|Use Case      |Kunde
+|Use Case      |<<UC025>>
 |{Pre}        a|
-- The system has existing customer.
-- A dummy-product of count 5 exists.
-- The dummy-product is add with count 1 to cart
-|{Event}      a|The customer loggs in and removes the dummy item from the cart.
+- The system has an existing customer.
+- One dummy-product (with enough stock) is added to the cart
+|{Event}      a|The customer logs in and removes the item from the cart.
 |{Result}     a|No item is displayed in the cart
 |===
 
@@ -298,14 +841,260 @@ Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumen
 [cols="1h, 4"]
 |===
 |ID            |<<AT015>>
-|Use Case      |Without Permissions
+|Use Case      |<<UC026>>
 |{Pre}        a|
-- The system has existing customer.
+- The system has an existing customer.
 - A dummy-product exists.
-|{Event}      a|The customer searches for the title of dummy-product in seach ad.
+|{Event}      a|The customer searches for the title of dummy-product in seach bar.
 |{Result}     a|The book is displayed as correct result of search.
 |===
 
+
+[[AT016]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT016>>
+|Use Case      |<<UC001>>
+|{Pre}        a|
+- The input information has to be complete and met password standars
+|{Event}      a|A new costumer wishes to create an account and inputs all the necessary information
+- _Name:_ Carlos
+- _Password:_ 31415
+- _Address:_ Mars
+|{Result}     a|A new user account is registered into the system with the given information
+|===
+
+
+[[AT017]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT017>>
+|Use Case      |<<UC002>>
+|{Pre}        a|
+- The user account was previously registered into the system 
+|{Event}      a|User enters their credentials and are correct
+- _Name:_ Carlos
+- _Password:_ 31415
+
+|{Result}     a|The user is logged into the system to their personalized page and has their corresponding privileges
+|===
+
+
+[[AT018]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT018>>
+|Use Case      |<<UC003>>
+|{Pre}        a|
+- The user was logged in 
+|{Event}      a|The user hits the "log out" button
+|{Result}     a|Their profile is exited and is only allowed to browse the site
+|===
+
+
+[[AT019]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT019>>
+|Use Case      |<<UC004>>
+|{Pre}        a|
+|{Event}      a|When pressed the "Catalog" button, it should be displayed for everyone (even not registered persons)
+|{Result}     a|Catalog is displayed entirely 
+|===
+
+
+[[AT020]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT020>>
+|Use Case      |<<UC006>>
+|{Pre}        a|
+|{Event}      a|Any person presses the name of a product
+|{Result}     a|They are redirected into the product's page
+|===
+
+
+[[AT021]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT021>>
+|Use Case      |<<UC007>>
+|{Pre}        a|
+- The user was logged in 
+|{Event}      a|The user hits "Edit Profile" button
+- They enter the information they want to change (password, address) 
+- The information is not empty and meets the conditions (password is strong enough)
+- They hit the "Save" button
+|{Result}     a|Their information is updated in the whole system 
+|===
+
+
+[[AT022]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT022>>
+|Use Case      |<<UC007>>
+|{Pre}        a|
+- The user was logged in 
+|{Event}      a|The user hits "Edit Profile" button to edit their password
+- They type the new password, but is the same as the old 
+|{Result}     a|The system promts them that the password is the same as the old one
+|===
+
+
+[[AT023]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT023>>
+|Use Case      |<<UC008>>
+|{Pre}        a|
+- The user was logged in
+- The user has added previouly items to the cart 
+|{Event}      a|The user hits "buy" button inside the cart page  
+|{Result}     a|The cart is emptied and the order with the specified items is registered into the system as "not payed"
+|===
+
+
+[[AT024]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT024>>
+|Use Case      |<<UC008>>
+|{Pre}        a|
+- The user was logged in
+- There are no items in the cart
+|{Event}      a|The user hits "buy" button inside the cart page
+|{Result}     a|The system promts the user that the cart is empty
+|===
+
+
+[[AT025]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT025>>
+|Use Case      |<<UC010>>
+|{Pre}        a
+- The worker/admin is logged in
+|{Event}      a|The worker/admin hits "Edit" button inside the "Inventory" page
+- They change the desired information of a book
+- New _Name:_ Chuck Norris‘s keyboard doesn’t have an escape key. 
+|{Result}     a|The book will be shown with the updated title across the entire system
+|===
+
+[[AT026]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT026>>
+|Use Case      |<<UC010>>
+|{Pre}        a
+- The worker/admin is logged in
+|{Event}      a|The worker/admin hits "Edit" button inside the "Inventory" page
+- They change the desired information
+- The new product's ID is already taken by another item 
+|{Result}     a|The system prompts them to use another not used ID
+|===
+
+
+[[AT027]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT027>>
+|Use Case      |<<UC010>>
+|{Pre}        a
+- The worker/admin is logged in
+|{Event}      a|The worker/admin hits "Edit" button inside the "Inventory" page
+- The space for the new information is left empty
+|{Result}     a|The system prompts them to fill the spaces
+|===
+
+
+[[AT028]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT028>>
+|Use Case      |<<UC012>>
+|{Pre}        a
+- The worker/admin is logged in
+|{Event}      a|The admin/worker navigate to the product inside the "Inventory" page
+- They hit "Replenish stock" button
+- They select the amount to buy of the product
+|{Result}     a|The system generates a buy order of the product
+- The stock of the product is updated with the specified amount 
+|===
+
+
+[[AT029]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT029>>
+|Use Case      |<<UC014>>
+|{Pre}        a
+- The worker/admin is logged in
+|{Event}      a|The admin/worker navigate to the "Orders" page 
+- They select an order of 1 Book: "Dune" 
+- They hit the "Payed" button  
+|{Result}     a|The order's status is updated to payed the stock is reduced by 1
+
+
+[[AT030]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT030>>
+|Use Case      |<<UC015>>
+|{Pre}        a
+- The worker/admin is logged in
+|{Event}      a|The admin/worker navigate to the "Inventory" page 
+|{Result}     a|All the products are displayed as a list with their corresponding amount in stock
+
+
+[[AT031]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT031>>
+|Use Case      |<<UC016>>
+|{Pre}        a
+- The worker/admin/user is logged in
+- Their cart has at least one item
+- There is enough stock of the item
+|{Event}      a|They hit the "buy" button
+|{Result}     a|An order is automatically set into the system with the item and corresponding amount, it's status is "Not payed" 
+
+
+[[AT032]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT032>>
+|Use Case      |<<UC016>>
+|{Pre}        a
+- The worker/admin/user is logged in
+- Their cart has at least one item
+- There is not enough stock of the item
+|{Event}      a|They hit the "buy" button
+|{Result}     a|The system promts them that stock is not sufficient
+
+
+[[AT033]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT033>>
+|Use Case      |<<UC024>>
+|{Pre}        a
+- The worker/admin/user is logged in
+- There are books registered with the "Fantasy" and "Action" genre
+|{Event}      a|They delete the "Fantasy" genre
+|{Result}     a|All book associated with the "Fantasy genre are not categorized by the "Action" genre
+
+
+[[AT034]]
+[cols="1h, 4"]
+|===
+|ID            |<<AT034>>
+|Use Case      |<<UC024>>
+|{Pre}        a
+- The worker/admin/user is logged in
+- There are books registered only with the "Fantasy"
+|{Event}      a|They delete the "Fantasy" genre
+|{Result}     a|All book associated with the "Fantasy" genre now display: "No genre" as their genre
 
 == Glossar
 Sämtliche Begriffe, die innerhalb des Projektes verwendet werden und deren gemeinsames Verständnis aller beteiligten
