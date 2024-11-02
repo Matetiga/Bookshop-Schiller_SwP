@@ -187,14 +187,6 @@ image::./models/analysis/UseCaseDiagramm/UseCaseDiagramm.png[Use Case diagram, 1
 
 This section describes the use cases shown in the use case diagram in detail. It tries to cover the great mayority of use cases.
 
-
-NOTE: We did not provide a sequence diagram for every use case.
-In general, especially complex use cases should be shown in detail with a sequence diagram. Simple use cases should be described in the text only.
-
-NOTE: See the following Link for examples of use case descriptions: +
-https://www.sophist.de/fileadmin/user_upload/Bilder_zu_Seiten/Publikationen/UML2_glasklar/4._Auflage/12-1_Schablone_fuer__Use-Case-Beschreibung.pdf
-
-
 [cols="1h, 3"]
 [[UC001]]
 |===
@@ -1250,8 +1242,6 @@ image::./models/gui/UsersListPage.png[Users List page, 100%, 100%, pdfwidth=100%
 === Class Diagram
 The (analysis) class diagram is supposed to give an overview of the domain in the context of the system, which shall be developed in the scope of this project.
 
-NOTE: The domain model is supposed to explain the concepts and terms of the domain and their relationships. Please, try to avoid technical terms or implementation knowledge.
-
 [[AKD]]
 image::./models/analysis/aUMLClassDiagramm/aUML_bookshop.png[Class diagram, 100%, 100%, pdfwidth=100%, title= "Domain model of {project_name}", align=center]
 
@@ -1727,27 +1717,11 @@ The following table shows which acceptance tests the software system does have t
 |{Result}     a|All book associated with the "Fantasy" genre now display: "No genre" as their genre
 |===
 
-
-NOTE: This list of acceptance tests does obviously not cover every use case. The process is mostly the same for every
-acceptance test case, which is why we provide only some examples to show you the ropes.
-
-NOTE: It is often also necessary to create test cases for non-functional requirements in order to prove that the
-requirement has been fulfilled by the finished system.
-
 [[Glossary]]
 == Glossary
 
 The glossary contains a list of all words and phrases used in this project, which require a description to avoid misunderstandings between stakeholders.
 Please also consult the list of <<actors, actors>>, the list of <<Stakeholders, stakeholders>> and the <<classes_enumerations, domain model>> for further definitions of terms.
-
-NOTE: Some terms can be used regularly during a project, while all involved stakeholders think that the meaning is
-obvious. This not necessarily the case though, as different domains of expertise can mean different levels of knowledge or simply a different understanding of a term. +
-An example from a previous year of this course: +
-Imagine a shift schedule, where every shift is occupied by 3 different kinds of staff.
-The manager responsible for the schedule would use the term "shift" to describe the whole timeslot with all 3 involved staff members (e.g. "shift X is gonna be hard for you guys, prepare yourselves").
-One of the staff members occupying one of these slots would use the term "shift" to describe his one slot (of the three) in one timeslot of the day (e.g. "My shift this time puts me in touch with the customers, while the other two can relax in the warehouse"). +
-While this is common sense and does not really affect communication in the real world, it becomes an issue if you have to design a system which represents such a shift schedule. You could - in this case - use "shift" as in the understanding of the manager and use "slot" or "cell" to model what the staff member meant.
-In such cases, you have to force all stakeholders to use this common wording in order to avoid misunderstandings.
 
 :domain_ref: See <<classes_enumerations, domain overview>>
 //Note: you could do it like this, but this might not work with multi-line texts. Consult the documentation for additional information
