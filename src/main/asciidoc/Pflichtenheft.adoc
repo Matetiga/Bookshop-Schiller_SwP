@@ -1240,7 +1240,7 @@ image::./models/gui/FianancialPage.png[Financial Dashboard page, 100%, 100%, pdf
 image::./models/gui/EmployeeListPage.png[Employee List page, 100%, 100%, pdfwidth=100%, title= "List of all workers of  {project_name} visible to the admin", align=center]
 
 [[Orders_List_image]]
-image::./models/gui/AllOrderPage.png[Orders List page, 100%, 100%, pdfwidth=100%, title= "List of all orders with their corresponding information of {project_name} visible to the admin and the workers", align=center]
+image::./models/gui/AllOrdersPage.png[Orders List page, 100%, 100%, pdfwidth=100%, title= "List of all orders with their corresponding information of {project_name} visible to the admin and the workers", align=center]
 
 [[Users_List_image]]
 image::./models/gui/UsersListPage.png[Users List page, 100%, 100%, pdfwidth=100%, title= "List of all registered Users of {project_name} visible to the admin and workers", align=center]
