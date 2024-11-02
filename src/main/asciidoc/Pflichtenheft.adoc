@@ -259,7 +259,8 @@ https://www.sophist.de/fileadmin/user_upload/Bilder_zu_Seiten/Publikationen/UML2
 |===
 
 [[Catalog_SequenceDiagram]]
-image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagram_catalog.png[Catalog Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "Sequence Diagram for item visualization in the catalog of {project_name}", align=center]
+
+image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagram_Catalog.png[Catalog Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "Sequence Diagram for item visualization in the catalog of {project_name}", align=center]
 
 [cols="1h, 3"]
 [[UC004]]
@@ -503,7 +504,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDi
 
 
 [[Inventory_Check_SequenceDiagram]]
-image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiagram_inventory.png[Inventory Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "All Information regarding the inventory of  {project_name}", align=center]
+image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiagram_Inventory.png[Inventory Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "All Information regarding the inventory of  {project_name}", align=center]
 
 
 [cols="1h, 3"]
