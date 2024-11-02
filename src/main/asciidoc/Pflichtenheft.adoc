@@ -1292,15 +1292,6 @@ _CANCELLED:_ An order that is no longer wanted and must be cancelled.
 Acceptance tests are used to determine, whether or not the delivered software system fulfills the requirements of the client during the actual usage.
 The following table shows which acceptance tests the software system does have to pass at the end of the project in order to satisfy the client and complete the contract (regarding the requirements).
 
-NOTE: Acceptance tests can be derived from the use cases and the respective sequence diagrams, but also from other parts
-of the SRS.
-Each sequence diagram represents one scenario of a use case (e.g. successful order completion).
-However, another scenario of the same use case (e.g. failed order because of insufficient stock) would require an own sequence diagram as well as at least an own acceptance test.
-It is also highly necessary to design the test cases in a measurable manner to be able to determine if the acceptance test has passed or not.
-
-NOTE: There are multiple different types of acceptance tests. In this course, we mainly focus on documenting test cases,
-which show that the functional requirements are fulfilled from the perspective of the user (UAT).
-
 :Pre: Precondition(s)
 :Event: Event
 :Result: Expected Result
