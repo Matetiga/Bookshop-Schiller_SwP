@@ -259,7 +259,7 @@ https://www.sophist.de/fileadmin/user_upload/Bilder_zu_Seiten/Publikationen/UML2
 |===
 
 [[Catalog_SequenceDiagram]]
-image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog.png[Catalog Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "Sequence Diagram for item visualization in the catalog of {project_name}", align=center]
+image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagram_catalog.png[Catalog Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "Sequence Diagram for item visualization in the catalog of {project_name}", align=center]
 
 [cols="1h, 3"]
 [[UC004]]
@@ -391,7 +391,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog.png[Catalog Se
 |===
 
 [[EditProduct_SequenceDiagram]]
-image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct.png[Edit Product Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "Edition of a product's information of {project_name}", align=center]
+image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDiagram_editProduct.png[Edit Product Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "Edition of a product's information of {project_name}", align=center]
 
 
 [cols="1h, 3"]
@@ -503,7 +503,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct.png[Edit P
 
 
 [[Inventory_Check_SequenceDiagram]]
-image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory.png[Inventory Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "All Information regarding the inventory of  {project_name}", align=center]
+image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiagram_inventory.png[Inventory Sequence Diagram, 100%, 100%, pdfwidth=100%, title= "All Information regarding the inventory of  {project_name}", align=center]
 
 
 [cols="1h, 3"]
@@ -1266,7 +1266,7 @@ Therefore, this section is a subset of the <<Glossary, glossary>> and shall be u
 |===
 |Class/Enumeration      |Description
 |Büchershop        |The basis of the system ( book shop)
-|Person            |A not registered account that uses the system (with limited capabilities) |
+|Person            |A not registered account that uses the system (with limited capabilities)
 |Customer          |A person that has register into he system and can perform basic shopping actions
 |Employee          |A worker, created by the admin, with more managment capabilities
 |Admin             |The manager of the book store, with full access to the entire system 
@@ -1611,7 +1611,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT025>>
 |Use Case      |<<UC010>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin is logged in
 |{Event}      a|The worker/admin hits "Edit" button inside the "Inventory" page
 - They change the desired information of a book
@@ -1624,7 +1624,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT026>>
 |Use Case      |<<UC010>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin is logged in
 |{Event}      a|The worker/admin hits "Edit" button inside the "Inventory" page
 - They change the desired information
@@ -1638,7 +1638,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT027>>
 |Use Case      |<<UC010>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin is logged in
 |{Event}      a|The worker/admin hits "Edit" button inside the "Inventory" page
 - The space for the new information is left empty
@@ -1651,7 +1651,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT028>>
 |Use Case      |<<UC012>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin is logged in
 |{Event}      a|The admin/worker navigate to the product inside the "Inventory" page
 - They hit "Replenish stock" button
@@ -1666,7 +1666,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT029>>
 |Use Case      |<<UC014>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin is logged in
 |{Event}      a|The admin/worker navigate to the "Orders" page 
 - They select an order of 1 Book: "Dune" 
@@ -1679,7 +1679,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT030>>
 |Use Case      |<<UC015>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin is logged in
 |{Event}      a|The admin/worker navigate to the "Inventory" page 
 |{Result}     a|All the products are displayed as a list with their corresponding amount in stock
@@ -1690,7 +1690,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT031>>
 |Use Case      |<<UC016>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin/user is logged in
 - Their cart has at least one item
 - There is enough stock of the item
@@ -1703,7 +1703,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT032>>
 |Use Case      |<<UC016>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin/user is logged in
 - Their cart has at least one item
 - There is not enough stock of the item
@@ -1716,7 +1716,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT033>>
 |Use Case      |<<UC024>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin/user is logged in
 - There are books registered with the "Fantasy" and "Action" genre
 |{Event}      a|They delete the "Fantasy" genre
@@ -1728,7 +1728,7 @@ which show that the functional requirements are fulfilled from the perspective o
 |===
 |ID            |<<AT034>>
 |Use Case      |<<UC024>>
-|{Pre}        a
+|{Pre}        a|
 - The worker/admin/user is logged in
 - There are books registered only with the "Fantasy"
 |{Event}      a|They delete the "Fantasy" genre
