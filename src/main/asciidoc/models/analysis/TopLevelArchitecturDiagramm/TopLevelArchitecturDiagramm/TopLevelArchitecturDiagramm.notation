@@ -109,7 +109,7 @@
         </children>
         <children xmi:type="notation:Shape" xmi:id="_lhkAEJYiEe-6OIAc86a0xw" type="Port_Shape">
           <children xmi:type="notation:DecorationNode" xmi:id="_lhkAEpYiEe-6OIAc86a0xw" type="Port_NameLabel">
-            <layoutConstraint xmi:type="notation:Location" xmi:id="_lhkAE5YiEe-6OIAc86a0xw" x="-110" y="-20"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_lhkAE5YiEe-6OIAc86a0xw" x="-130" y="-20"/>
           </children>
           <children xmi:type="notation:DecorationNode" xmi:id="_lhknIJYiEe-6OIAc86a0xw" type="Port_StereotypeLabel">
             <layoutConstraint xmi:type="notation:Location" xmi:id="_lhknIZYiEe-6OIAc86a0xw" x="25" y="-10"/>
@@ -119,7 +119,7 @@
         </children>
         <children xmi:type="notation:Shape" xmi:id="_n7_bIJYiEe-6OIAc86a0xw" type="Port_Shape">
           <children xmi:type="notation:DecorationNode" xmi:id="_n8ACMJYiEe-6OIAc86a0xw" type="Port_NameLabel">
-            <layoutConstraint xmi:type="notation:Location" xmi:id="_n8ACMZYiEe-6OIAc86a0xw" x="40" y="-20"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_n8ACMZYiEe-6OIAc86a0xw" x="20" y="-20"/>
           </children>
           <children xmi:type="notation:DecorationNode" xmi:id="_n8ACMpYiEe-6OIAc86a0xw" type="Port_StereotypeLabel">
             <layoutConstraint xmi:type="notation:Location" xmi:id="_n8ACM5YiEe-6OIAc86a0xw" x="25" y="-10"/>
@@ -145,7 +145,7 @@
         </children>
         <children xmi:type="notation:Shape" xmi:id="_kTS2IJYiEe-6OIAc86a0xw" type="Port_Shape">
           <children xmi:type="notation:DecorationNode" xmi:id="_kTTdMJYiEe-6OIAc86a0xw" type="Port_NameLabel">
-            <layoutConstraint xmi:type="notation:Location" xmi:id="_kTTdMZYiEe-6OIAc86a0xw" x="25" y="3"/>
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_kTTdMZYiEe-6OIAc86a0xw" x="-130" y="20"/>
           </children>
           <children xmi:type="notation:DecorationNode" xmi:id="_kTTdMpYiEe-6OIAc86a0xw" type="Port_StereotypeLabel">
             <layoutConstraint xmi:type="notation:Location" xmi:id="_kTTdM5YiEe-6OIAc86a0xw" x="25" y="-10"/>
@@ -204,13 +204,14 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_B-0gUZYiEe-6OIAc86a0xw" x="731" y="340"/>
     </children>
     <element xmi:type="uml:Component" href="TopLevelArchitecturDiagramm.uml#_51dMgJYhEe-6OIAc86a0xw"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_51r2AZYhEe-6OIAc86a0xw" x="300" y="60" width="741" height="461"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_51r2AZYhEe-6OIAc86a0xw" x="300" y="60" width="781" height="481"/>
   </children>
   <styles xmi:type="notation:StringValueStyle" xmi:id="_47F2AJYhEe-6OIAc86a0xw" name="diagram_compatibility_version" stringValue="1.4.0"/>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_47F2AZYhEe-6OIAc86a0xw"/>
   <styles xmi:type="style:PapyrusDiagramStyle" xmi:id="_47F2ApYhEe-6OIAc86a0xw" diagramKindId="org.eclipse.papyrus.uml.diagram.component.root.package">
     <owner xmi:type="uml:Model" href="TopLevelArchitecturDiagramm.uml#_1poFQJYhEe-6OIAc86a0xw"/>
   </styles>
+  <styles xmi:type="notation:BooleanValueStyle" xmi:id="_nAUAkJYjEe-6OIAc86a0xw" name="rulergrid.viewgrid"/>
   <element xmi:type="uml:Model" href="TopLevelArchitecturDiagramm.uml#_1poFQJYhEe-6OIAc86a0xw"/>
   <edges xmi:type="notation:Connector" xmi:id="_pdLhEJYiEe-6OIAc86a0xw" type="Connector_Edge" source="_n7_bIJYiEe-6OIAc86a0xw" target="_B-0gUJYiEe-6OIAc86a0xw">
     <children xmi:type="notation:DecorationNode" xmi:id="_pdMIIJYiEe-6OIAc86a0xw" type="Connector_StereotypeLabel">

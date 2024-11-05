@@ -3,7 +3,7 @@
   <packageImport xmi:type="uml:PackageImport" xmi:id="_HTwpgJg3Ee-FHaHBMaW8AQ">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
-  <packagedElement xmi:type="uml:Component" xmi:id="_OLiZoJg3Ee-FHaHBMaW8AQ" name="Buchhandlung">
+  <packagedElement xmi:type="uml:Component" xmi:id="_OLiZoJg3Ee-FHaHBMaW8AQ" name="Bookshop">
     <ownedAttribute xmi:type="uml:Port" xmi:id="_OLiZoZg3Ee-FHaHBMaW8AQ" name="Person (unangemeldet)" visibility="public" aggregation="composite">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_OLiZopg3Ee-FHaHBMaW8AQ"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_OLiZo5g3Ee-FHaHBMaW8AQ" value="*"/>
@@ -22,15 +22,15 @@
     <ownedAttribute xmi:type="uml:Port" xmi:id="_bBG94Jg3Ee-FHaHBMaW8AQ" name="Admin" visibility="public" aggregation="composite">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_sK034Jg3Ee-FHaHBMaW8AQ" value="*"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Port" xmi:id="_bn-JkJg3Ee-FHaHBMaW8AQ" name="Kunde" visibility="public" aggregation="composite">
+    <ownedAttribute xmi:type="uml:Port" xmi:id="_bn-JkJg3Ee-FHaHBMaW8AQ" name="Customer" visibility="public" aggregation="composite">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_pvihMJg3Ee-FHaHBMaW8AQ"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_pvuHYJg3Ee-FHaHBMaW8AQ" value="*"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Port" xmi:id="_caADcJg3Ee-FHaHBMaW8AQ" name="Mitarbeiter" visibility="public" aggregation="composite">
+    <ownedAttribute xmi:type="uml:Port" xmi:id="_caADcJg3Ee-FHaHBMaW8AQ" name="Employee" visibility="public" aggregation="composite">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_m-R6gJg3Ee-FHaHBMaW8AQ"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_m-kOYJg3Ee-FHaHBMaW8AQ" value="*"/>
     </ownedAttribute>
-    <ownedAttribute xmi:type="uml:Port" xmi:id="_dHVqkJg3Ee-FHaHBMaW8AQ" name="Person (unangemeldet)" visibility="public" aggregation="composite">
+    <ownedAttribute xmi:type="uml:Port" xmi:id="_dHVqkJg3Ee-FHaHBMaW8AQ" name="Person (unregistered)" visibility="public" aggregation="composite">
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ildgIJg3Ee-FHaHBMaW8AQ"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_il8oUJg3Ee-FHaHBMaW8AQ" value="*"/>
     </ownedAttribute>
