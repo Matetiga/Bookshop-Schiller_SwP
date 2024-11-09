@@ -185,7 +185,7 @@ image::./models/analysis/UseCaseDiagramm/UseCaseDiagramm.png[Use Case diagram, 1
 
 === Use-Case Descriptions
 
-This section describes the use cases shown in the use case diagram in detail. It tries to cover the great mayority of use cases.
+This section describes the use cases shown in the use case diagram in detail. It tries to cover the great majority of use cases.
 
 [cols="1h, 3"]
 [[UC001]]
@@ -196,7 +196,7 @@ This section describes the use cases shown in the use case diagram in detail. It
 |Actors                     |User
 |Trigger                    |User wants to register in the system
 
-|Precondition(s)           a| password is strong enough (lenght min. 5, min. 1 number, min. 1 special character)
+|Precondition(s)           a| password is strong enough (length min. 5, min. 1 number, min. 1 special character)
 
 |Essential Steps           a|
 
@@ -213,7 +213,7 @@ This section describes the use cases shown in the use case diagram in detail. It
 |===
 |ID                         |<<UC002>>
 |Name                       |Login
-|Description                |User authentification with the website (prior registration is required). The user can then log out, whenever it wants.
+|Description                |User authentication with the website (prior registration is required). The user can then log out, whenever it wants.
 |Actors                     |User
 |Trigger                    |User wants to log into the system
 
@@ -221,7 +221,7 @@ This section describes the use cases shown in the use case diagram in detail. It
 
 |Essential Steps           a|
 
-  1. User accesses "Log in" in the navigation bar
+  1. User accesses "Log in" on the navigation bar
   2. User enters his credentials and are correct
   3. User hits "Log in" button
 
@@ -235,7 +235,7 @@ This section describes the use cases shown in the use case diagram in detail. It
 |===
 |ID                         |<<UC003>>
 |Name                       |Logout
-|Description                |After being loged in, the user log out from their account. Everything related to their account will not be accessible.
+|Description                |After being logged in, the user log out from their account. Everything related to their account will not be accessible.
 |Actors                     |User
 |Trigger                    |User wants to log out of the system
 
@@ -261,7 +261,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagra
 |Name                       |Catalog browsing
 |Description                |Every Person (user, worker, admin and a not registered Person) is able to look and browse through the catalog of books and the merchandise. 
 |Actors                     |User, Admin, Worker, Not registered Person
-|Trigger                    |Usere wants to see the products of the catalog
+|Trigger                    |User wants to see the products of the catalog
 
 |Precondition(s)           a|
 
@@ -279,11 +279,11 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagra
 |===
 |ID                         |<<UC005>>
 |Name                       |Adding an Item to the cart
-|Description                |loged in users can add products (books, merchandise) into their cart 
+|Description                |logged-in users can add products (books, merchandise) into their cart
 |Actors                     |User, Admin, Worker
 |Trigger                    |User wants to potentially by an article
 
-|Precondition(s)           a|User is Loged in <<UC002>>
+|Precondition(s)           a|User is logged in <<UC002>>
 
 |Essential Steps           a|
 1. A product is selected
@@ -318,12 +318,12 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagra
 [[UC007]]
 |===
 |ID                         |<<UC007>>
-|Name                       |Edit profil 
-|Description                |loged in users change their credentials (password, address) 
+|Name                       |Edit profile
+|Description                |logged-in users change their credentials (password, address)
 |Actors                     |User, Admin, Worker
 |Trigger                    |User wants to change their account information
 
-|Precondition(s)           a|User is Loged in <<UC002>>
+|Precondition(s)           a|User is logged in <<UC002>>
 
 |Essential Steps           a|
 1. User browses to the "Account" window
@@ -343,10 +343,10 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagra
 |Actors                     |User, Admin, Worker
 |Trigger                    |User wants to check out (buy items in the cart)
 
-|Precondition(s)           a|User is Loged in <<UC002>>, Cart is not empty <<UC005>>
+|Precondition(s)           a|User is logged in <<UC002>>, Cart is not empty <<UC005>>
 
 |Essential Steps           a|
-1. User has selected items and added the previously into the cart 
+1. User has selected some items and added them previously into the cart
 2. User checks the information is correct (can still edit the amount)
 3. System checks if item's stock is available with the chosen amount
 4. Buy method is checked (delivered or taken)
@@ -367,19 +367,19 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_catalog/SequenceDiagra
 |Actors                     |Admin, Worker
 |Trigger                    |New Products must be shown in the web page
 
-|Precondition(s)           a|User is Loged in <<UC002>> and is a Worker or Admin
+|Precondition(s)           a|User is logged in <<UC002>> and is a Worker or Admin
 
 |Essential Steps           a|
-1. Admin or Worken navegate to the "Inventory" page
+1. Admin or Worker navigate to the "Inventory" page
 2. They hit "Add new item" button
-3. Item type is selected (book, merch or calender)
+3. Item type is selected (book, merch or calendar)
 4. They give the corresponding information (stock, price, id, picture, title, ...)
-5. They hit "Store changes" button to publish the new item to the web site
+5. They hit "Store changes" button to publish the new item to the website
 6. The item is then shown with the corresponding information in the correct page and added to the catalog
 
 |Extensions                 |-
 1. All items IDs must be different
-2. Product names can be the same (e.g same book title) but the rest of the information should be different
+2. Product names can be the same (e.g. same book title) but the rest of the information should be different
 |Functional Requirements    |<<F0100>>, <<F0103>>, <<F0245>>
 |===
 
@@ -396,11 +396,11 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDi
 |Actors                     |Admin, Worker
 |Trigger                    |Worker or Admin want to update the information of a specific product
 
-|Precondition(s)           a|User is Loged in <<UC002>> and is a Worker or Admin
+|Precondition(s)           a|User is logged in <<UC002>> and is a Worker or Admin
 
 |Essential Steps           a|
 1. Worker or Admin browse to the "Inventory" page
-2. They navegate to the desired product
+2. They navigate to the desired product
 3. Change the product's information 
 4. They hit then "Update Information" button
 
@@ -419,10 +419,10 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDi
 |Actors                     |Admin, Worker
 |Trigger                    |A product should be removed from the catalog
 
-|Precondition(s)           a|User is Loged in <<UC002>> (is a Worker or Admin)  and the product exists <<UC009>>
+|Precondition(s)           a|User is logged in <<UC002>> (is a Worker or Admin)  and the product exists <<UC009>>
 
 |Essential Steps           a|
-1. Worker or Admin navegate to the product in the "Inventory" page
+1. Worker or Admin navigate to the product in the "Inventory" page
 2. They hit the "delete" button
 3. The product is removed from the system (should not appear anywhere)
 
@@ -440,10 +440,10 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDi
 |Actors                     |Admin, Worker
 |Trigger                    |A product's stock is running low and must be refilled
 
-|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin) and the product already was registered <<UC009>>
+|Precondition(s)           a|User is logged in <<UC002>>(is a Worker or Admin) and the product already was registered <<UC009>>
 
 |Essential Steps           a|
-1. Worker or Admin navegate to the "Inventory" page and look for the stock of each product
+1. Worker or Admin navigate to the "Inventory" page and look for the stock of each product
 2. A product is selected and an amount is chosen to replenish the stock
 3. Total price is shown
 4. They  hit the "Submit order" button
@@ -462,10 +462,10 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDi
 |Actors                     |Admin, Worker
 |Trigger                    |Total amount of workers or users is needed
 
-|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin)
+|Precondition(s)           a|User is logged in <<UC002>>(is a Worker or Admin)
 
 |Essential Steps           a|
-1. Worker or Admin navegate to the "User's List"
+1. Worker or Admin navigate to the "User's List"
 2. They select the user type to be displayed (users or workers) 
 3. A List is shown of the respective user type
 
@@ -481,11 +481,11 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_editProduct/SequenceDi
 |Name                       |Manage Orders
 |Description                |A list with all the pending and already completed orders, which can be edited 
 |Actors                     |Admin, Worker
-|Trigger                    |Need to change the state of an order (e.g after it was payed in place or delivered) 
-|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin), at least one order was created <<UC016>>
+|Trigger                    |Need to change the state of an order (e.g. after it was pay in place or delivered)
+|Precondition(s)           a|User is logged in <<UC002>>(is a Worker or Admin), at least one order was created <<UC016>>
 
 |Essential Steps           a|
-1. Worker or Admin navegate to the "Orders" page
+1. Worker or Admin navigate to the "Orders" page
 2. They can change the status of an order
 3. They hit "Update" button
 4. If an order is completed, then update the stock of the product
@@ -508,10 +508,10 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Actors                     |Admin, Worker
 |Trigger                    |Shop's stock is required for all items
 
-|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin), one or more items have already been registered <<UC009>>
+|Precondition(s)           a|User is logged in <<UC002>>(is a Worker or Admin), one or more items have already been registered <<UC009>>
 
 |Essential Steps           a|
-1. Worker or Admin navegate to the "Inventory" page
+1. Worker or Admin navigate to the "Inventory" page
 2. A List of all registered items is shown alongside is the quantity included
 
 |Extensions                 |-
@@ -528,7 +528,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Actors                     |User, Admin, Worker
 |Trigger                    |"buy" button is pressed in the cart page
 
-|Precondition(s)           a|User is Loged in <<UC002>>(is a Worker or Admin), one or more items have been added to the cart <<UC005>> and there is enough stock 
+|Precondition(s)           a|User is logged in <<UC002>>(is a Worker or Admin), one or more items have been added to the cart <<UC005>> and there is enough stock
 
 |Essential Steps           a|
 1. User hits the "buy" button in the cart page
@@ -543,15 +543,15 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 [[UC017]]
 |===
 |ID                         |<<UC017>>
-|Name                       |Financiall status 
-|Description                |A preview (graphic) of the financiall status of every month (money gained)   
+|Name                       |Financial status
+|Description                |A preview (graphic) of the financial status of every month (money gained)
 |Actors                     |Admin
 |Trigger                    |Admin wants to check how much has been gained/lost in a month
 
-|Precondition(s)           a|Admin is loged in <<UC002>>
+|Precondition(s)           a|Admin is logged in <<UC002>>
 
 |Essential Steps           a|
-1. Admin browses to the "Financiall overview" page
+1. Admin browses to the "Financial overview" page
 
 |Extensions                 |-
 |Functional Requirements    |<<F0401>>
@@ -566,7 +566,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Description                |A new worker is created into the system
 |Actors                     |Admin
 |Trigger                    |A new person is accepted as a worker.
-|Precondition(s)           a|Admin is loged in <<UC002>>
+|Precondition(s)           a|Admin is logged in <<UC002>>
 
 |Essential Steps           a|
 1. Admin browses to the "User's List" page
@@ -585,8 +585,8 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Name                       |Delete Worker
 |Description                |A worker's account is completely deleted from the system 
 |Actors                     |Admin
-|Trigger                    |A worker's account is not longer needed and should be deleted
-|Precondition(s)           a|Admin is loged in <<UC002>>, there must be at least one worker <<UC018>>
+|Trigger                    |A worker's account is no longer needed and should be deleted
+|Precondition(s)           a|Admin is logged in <<UC002>>, there must be at least one worker <<UC018>>
 
 |Essential Steps           a|
 1. Admin browses to the "User's List" page
@@ -604,10 +604,10 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |===
 |ID                         |<<UC020>>
 |Name                       |Cancel Order
-|Description                |An Admin or a worker can cancel a specific order, for variuos reasons.
+|Description                |An Admin or a worker can cancel a specific order, for various reasons.
 |Actors                     |Admin, Worker
 |Trigger                    |A client wants to cancel an order
-|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, at least one order must have been created <<UC016>>
+|Precondition(s)           a|Admin/Worker is logged in <<UC002>>, at least one order must have been created <<UC016>>
 
 |Essential Steps           a|
 1. Admin/Worker browses to the "Orders" page
@@ -627,7 +627,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Description                |An Admin or a worker can view a list of all orders.
 |Actors                     |Admin, Worker
 |Trigger                    |Manage the orders or look for a specific one
-|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, at least one order must have been created <<UC016>>
+|Precondition(s)           a|Admin/Worker is logged in <<UC002>>, at least one order must have been created <<UC016>>
 
 |Essential Steps           a|
 1. Admin/Worker browses to the "Orders" page
@@ -646,7 +646,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Description                |An Admin, a worker and the user can delete their own account 
 |Actors                     |Admin, Worker
 |Trigger                    |The user wants their information to be deleted from the system
-|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, the user exists <<UC001>>
+|Precondition(s)           a|Admin/Worker is logged in <<UC002>>, the user exists <<UC001>>
 
 |Essential Steps           a|
 1. Admin/Worker browses to the "User's List" page
@@ -666,8 +666,8 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Name                       |Add a book's genre
 |Description                |An Admin or a worker can add a new book's genre to the catalog 
 |Actors                     |Admin, Worker
-|Trigger                    |A new genre is sold in the book shop
-|Precondition(s)           a|Admin/Worker is loged in <<UC002>>
+|Trigger                    |A new genre is sold in the bookshop
+|Precondition(s)           a|Admin/Worker is logged in <<UC002>>
 
 |Essential Steps           a|
 1. Admin/Worker browses to the "inventory" page
@@ -689,7 +689,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Description                |An Admin or a worker can delete a specific book's genre 
 |Actors                     |Admin, Worker
 |Trigger                    |A specific genre is no longer sold in the store
-|Precondition(s)           a|Admin/Worker is loged in <<UC002>>, the genre exists <<UC023>>
+|Precondition(s)           a|Admin/Worker is logged in <<UC002>>, the genre exists <<UC023>>
 
 |Essential Steps           a|
 1. Admin/Worker browses to the "Inventory" page 
@@ -698,7 +698,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 4. The genre is deleted from all books 
 
 |Extensions                 |
-1. If a book has only one genre and it is deleted, then the book is clasified as "no genre"
+1. If a book has only one genre, and it is deleted, then the book is classified as "no genre"
 |Functional Requirements    |<<F0105>>
 |===
 
@@ -709,8 +709,8 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Name                       |Delete an Item from the cart 
 |Description                |An item can be deleted from the cart 
 |Actors                     |Admin, Worker, User
-|Trigger                    |A user does not want to buy a product any more and wishes it outside the cart
-|Precondition(s)           a|Admin/Worker/User is loged in <<UC002>>, the cart was not empty <<UC005>>
+|Trigger                    |A user does not want to buy a product anymore and wishes it outside the cart
+|Precondition(s)           a|Admin/Worker/User is logged in <<UC002>>, the cart was not empty <<UC005>>
 
 |Essential Steps           a|
 1. User/Admin/Worker browses to the "Cart" page 
@@ -729,7 +729,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |===
 |ID                         |<<UC026>>
 |Name                       |Search for an Item using the search bar
-|Description                |Input in the search bar will show up the items acordingly the specified keywords 
+|Description                |Input in the search bar will show up the items accordingly the specified keywords
 |Actors                     |Admin, Worker, User, unregistered person
 |Trigger                    |A user is looking for a specific item in the catalog
 |Precondition(s)           a|
@@ -777,7 +777,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 |Essential Steps           a|
 1. (Any) Person browses to the "Catalog" page 
 2. They hit the "Sort by: price (low to high)" button 
-3. All items will be aranged by their price accordingly (from lowest to highest)
+3. All items will be arranged by their price accordingly (from lowest to highest)
 4. User will be redirected to the item's page if they click on it
 
 |Extensions                 |
@@ -838,7 +838,7 @@ following information:
 |Registration
 a|
 The system shall provide an Unauthenticated User the ability to register after
-accessing the navigation element named "Registrieren".
+accessing the navigation element named "Registration".
 
 The following information has to be provided:
 
@@ -850,7 +850,7 @@ The following information has to be provided:
 
 
 The system shall validate the provided data (<<F0021>>).
-The user shall be registered in the system as customer and he shall be able to authenticate (<<F0010>>) after successful validation.
+The user should be registered in the system as customer, and he should be able to authenticate (<<F0010>>) after successful validation.
 
 
 |[[F0021]]<<F0021>>
@@ -1141,7 +1141,7 @@ The following table shows what quality demands have to be met to which extent.
 The first column lists the quality demands, while in the following columns an "x" is used to mark the priority.
 
 
-1 = Not Important ..
+1 = Not Important ...
 5 = Very Important
 [options="header", cols="3h, ^1, ^1, ^1, ^1, ^1"]
 |===
@@ -1256,22 +1256,22 @@ Therefore, this section is a subset of the <<Glossary, glossary>> and shall be u
 [[classes_enumerations]]
 |===
 |Class/Enumeration      |Description
-|Büchershop        |The basis of the system ( book shop)
+|Bookshop        |The basis of the system ( bookshop)
 |Person            |A not registered account that uses the system (with limited capabilities)
-|Customer          |A person that has register into he system and can perform basic shopping actions
-|Employee          |A worker, created by the admin, with more managment capabilities
+|Customer          |A person that has register into the system and can perform basic shopping actions
+|Employee          |A worker, created by the admin, with more management capabilities
 |Admin             |The manager of the book store, with full access to the entire system 
 |Cart              |The virtual cart, where chosen items will be stored for later purchase creating an order
-|Order             |Created by the purchase action of an user, which contains the item's information quantity, initialized as "not payed", which can  later be changed by the worker/admin.
+|Order             |Created by the purchase action of a user, which contains the item's information quantity, initialized as "not paid", which can  later be changed by the worker/admin.
 |Status            |Are the different possible states of an Order, managed by the admin/worker +
-_OPEN:_ The order has been created but is still unpayed +
-_PAID:_ The order has been payed and the product's stock has been reduced +
+_OPEN:_ The order has been created but is still not paid +
+_PAID:_ The order has been paid and the product's stock has been reduced +
 _DELIVERED:_ An order chosen to be delivered, has been received by the buyer +
 _CANCELLED:_ An order that is no longer wanted and must be cancelled.
 |ProductQuantity   |Keeps track of the stock of a product used for the cart and check if there is enough for a purchase
 |Product           |A parent class that wraps the different items that are sold  in the shop, which works as a blueprint to later add new products
 |Book              |A child  of the class Product, with extra specific qualities
-|Calendar          |A child of the class Product, considered as an extra item sold by the book shop
+|Calendar          |A child of the class Product, considered as an extra item sold by the bookshop
 |Merch             |A child of the class Product, used for various extra items 
 |Catalog           |Contains all the products that are to be shown to the public, with the possibility to buy them.
 |Inventory         |Contains all the products, including the possibility to edit/add/delete them. Meant to be used only by the worker and admin
@@ -1279,7 +1279,7 @@ _CANCELLED:_ An order that is no longer wanted and must be cancelled.
 
 == Acceptance Testing
 
-Acceptance tests are used to determine, whether or not the delivered software system fulfills the requirements of the client during the actual usage.
+Acceptance tests are used to determine, whether the delivered software system fulfills the requirements of the client during the actual usage.
 The following table shows which acceptance tests the software system does have to pass at the end of the project in order to satisfy the client and complete the contract (regarding the requirements).
 
 :Pre: Precondition(s)
@@ -1312,7 +1312,7 @@ The following table shows which acceptance tests the software system does have t
 |{Event}      a|Admin logs in and views the employee list.
 |{Result}     a|
 - The employee list is displayed
-- Dummy-employee can been seen.
+- Dummy-employee can be seen.
 |===
 
 [[AT003]]
@@ -1324,7 +1324,7 @@ The following table shows which acceptance tests the software system does have t
 - The system has an  existing admin.
 - A dummy-employee exists.
 |{Event}      a|Admin logs in and deletes dummy-employee.
-|{Result}     a|The dummy-employee is not longer in the list.
+|{Result}     a|The dummy-employee is no longer in the list.
 |===
 
 [[AT004]]
@@ -1465,7 +1465,7 @@ The following table shows which acceptance tests the software system does have t
 |{Pre}        a|
 - The system has an existing customer.
 - A dummy-product exists.
-|{Event}      a|The customer searches for the title of dummy-product in seach bar.
+|{Event}      a|The customer searches for the title of dummy-product in search bar.
 |{Result}     a|The book is displayed as correct result of search.
 |===
 
@@ -1476,7 +1476,7 @@ The following table shows which acceptance tests the software system does have t
 |ID            |<<AT016>>
 |Use Case      |<<UC001>>
 |{Pre}        a|
-- The input information has to be complete and met password standars
+- The input information has to be complete and met password standards
 |{Event}      a|A new costumer wishes to create an account and inputs all the necessary information
 - _Name:_ Carlos
 - _Password:_ 31415
@@ -1507,7 +1507,7 @@ The following table shows which acceptance tests the software system does have t
 |Use Case      |<<UC003>>
 |{Pre}        a|
 - The user was logged in 
-|{Event}      a|The user hits the "log out" button
+|{Event}      a|The user hits the "log-out" button
 |{Result}     a|Their profile is exited and is only allowed to browse the site
 |===
 
@@ -1558,7 +1558,7 @@ The following table shows which acceptance tests the software system does have t
 - The user was logged in 
 |{Event}      a|The user hits "Edit Profile" button to edit their password
 - They type the new password, but is the same as the old 
-|{Result}     a|The system promts them that the password is the same as the old one
+|{Result}     a|The system prompts them that the password is the same as the old one
 |===
 
 
@@ -1569,9 +1569,9 @@ The following table shows which acceptance tests the software system does have t
 |Use Case      |<<UC008>>
 |{Pre}        a|
 - The user was logged in
-- The user has added previouly items to the cart 
+- The user has added previously items to the cart
 |{Event}      a|The user hits "buy" button inside the cart page  
-|{Result}     a|The cart is emptied and the order with the specified items is registered into the system as "not payed"
+|{Result}     a|The cart is emptied and the order with the specified items is registered into the system as "not paid"
 |===
 
 
@@ -1584,7 +1584,7 @@ The following table shows which acceptance tests the software system does have t
 - The user was logged in
 - There are no items in the cart
 |{Event}      a|The user hits "buy" button inside the cart page
-|{Result}     a|The system promts the user that the cart is empty
+|{Result}     a|The system prompts the user that the cart is empty
 |===
 
 
@@ -1653,7 +1653,7 @@ The following table shows which acceptance tests the software system does have t
 |{Event}      a|The admin/worker navigate to the "Orders" page 
 - They select an order of 1 Book: "Dune" 
 - They hit the "Payed" button  
-|{Result}     a|The order's status is updated to payed the stock is reduced by 1
+|{Result}     a|The order's status is updated to "PAID", the stock is reduced by 1
 |===
 
 [[AT030]]
@@ -1677,7 +1677,7 @@ The following table shows which acceptance tests the software system does have t
 - Their cart has at least one item
 - There is enough stock of the item
 |{Event}      a|They hit the "buy" button
-|{Result}     a|An order is automatically set into the system with the item and corresponding amount, it's status is "Not payed" 
+|{Result}     a|An order is automatically set into the system with the item and corresponding amount, it's status is "Not paid"
 |===
 
 [[AT032]]
@@ -1690,7 +1690,7 @@ The following table shows which acceptance tests the software system does have t
 - Their cart has at least one item
 - There is not enough stock of the item
 |{Event}      a|They hit the "buy" button
-|{Result}     a|The system promts them that stock is not sufficient
+|{Result}     a|The system prompts them that stock is not sufficient
 |===
 
 [[AT033]]
