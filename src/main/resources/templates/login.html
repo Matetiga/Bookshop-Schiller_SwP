@@ -11,7 +11,7 @@
 </header>
 
 <div class="container">
-    <section class="login-section sectionStyling">
+    <section class="login-section panel-effect">
         <form class="login-form" th:action="@{/login}" method="post">
             <div class="field">
                 <label for="username" th:text="#{login.username}">Benutzername</label>
@@ -21,7 +21,7 @@
                 <label for="password" th:text="#{login.password}">Passwort</label>
                 <input type="password" id="password" name="password" required/>
             </div>
-            <button type="submit" class="login-button" th:text="#{login.login}">Einloggen</button>
+            <button type="submit" class="my-cool-button" th:text="#{login.login}">Einloggen</button>
         </form>
     </section>
 </div>

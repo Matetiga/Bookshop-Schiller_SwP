@@ -11,30 +11,32 @@
 <header>
     <h1>Book</h1>
 </header>
-
-<div class="detailContainer sectionStyling">
-    <div class="two-column-container">
-        <!-- Image Section -->
-        <div class="left-column pd2">
-            <div class="book-image-detail left-column">
-                <img th:src="@{/resources/img/cover/{image}.jpg(image=${book.image})}" alt="Book Cover">
+<div class="container">
+    <div class="panel-effect">
+        <div class="two-column-container">
+            <!-- Image Section -->
+            <div class="left-column paddingContainer">
+                <div class="product-details-image left-column">
+                    <img th:src="@{/resources/img/cover/{image}.jpg(image=${book.image})}" alt="Book Cover">
+                </div>
             </div>
-        </div>
 
 
-        <!-- Book Information Section -->
-        <div class="book-info right-column">
-            <h2 class="book-title" th:text="${book.name}">Book Title</h2>
-            <p class="genre" th:text="'Genre: ' + ${book.genre}">Genre: Genre Name</p>
-            <p class="price" th:text="${book.price}">9.99 €</p>
+            <!-- Book Information Section -->
+            <div class="right-column paddingContainer product-details-info ">
+                <h2 th:text="${book.name}">Book Title</h2>
+                <p class="genre" th:text="'Genre: ' + ${book.genre}">Genre: Genre Name</p>
+                <p class="price" th:text="${book.price}">9.99 €</p>
 
-            <!-- Add to Cart Button -->
-            <div class="actions">
-                <button class="add-to-cart-button">In den Warenkorb</button>
+                <!-- Add to Cart Button -->
+                <div class="actions">
+                    <button class="my-cool-button">In den Warenkorb</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 </body>
