@@ -1,9 +1,10 @@
 package kickstart.catalog;
 
+import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 
-// TODO: Umbenennen da wir es eigentlich Product nennen wollten, nur ist im VideoShop die Class Disc auf extends Product gesetzt
+@Entity
 public class ShopProduct extends Product {
 
 	public static enum ProductType {

@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" th:href="@{/resources/css/style.css}">
         <title th:text="#{catalog.title}">Welcome2!</title>
     </head>
     <body>
-        <h1 th:text="#{catalog.title}">Welcome!</h1>
-        <p th:text="#{catalog.text}"></p>
-        <p th:text="#{catalog.text}"></p>
+        <header>
+            <h1 th:text="#{catalog.title}">Welcome!</h1>
+        </header>
+        <section layout:fragment="content">
+            <div class="ui link cards" th:remove="all-but-first">
+                <div class="ui card" th:each="shopProduct : ${catalog}">
+                    <div class="content">
+                        <a class="header" th:href="@{/books/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Last Action Hero</a>
+                    </div>
+                    <div class="image">
+                        <a th:href="@{/books/{id}(id=${shopProduct.id})}">
+                            <img class="thumbnail"
+                                 th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
+                                 src="../static/resources/img/cover/stephen.jpg"/>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <div class="description" th:text="${{shopProduct.price}}">9.99 €</div>
+                    </div>
+                    <div class="extra content" th:text="${shopProduct.genre}"> Action</div>
+
+                </div>
+            </div>
+        </section>
     </body>
 </html>
