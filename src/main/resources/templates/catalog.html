@@ -16,26 +16,26 @@
 
 <div class="container">
     <!-- Sidebar for filters -->
-    <aside class="sidebar">
-    <h2>Kategorien</h2>
-    <ul class="category-nav">
-        <li><button class="tab-button active">Bücher</button></li>
-        <li><button class="tab-button">Kalender</button></li>
-        <li><button class="tab-button">Merch</button></li>
-    </ul>
+    <aside class="sidebar sectionStyling">
+        <h2>Kategorien</h2>
+        <ul class="category-nav">
+            <li><button class="tab-button active">Bücher</button></li>
+            <li><button class="tab-button">Kalender</button></li>
+            <li><button class="tab-button">Merch</button></li>
+        </ul>
 
-    <h2>Filter nach Genre</h2>
-    <ul class="genre-filter">
-        <li><label><input type="checkbox" name="genre" value="Geschichte"> Geschichte</label></li>
-        <li><label><input type="checkbox" name="genre" value="Populärwissenschaft"> Populärwissenschaft</label></li>
-        <li><label><input type="checkbox" name="genre" value="Action"> Action</label></li>
-        <li><label><input type="checkbox" name="genre" value="Manga"> Manga</label></li>
-        <li><label><input type="checkbox" name="genre" value="Horror"> Horror</label></li>
-    </ul>
-</aside>
+        <h2>Filter nach Genre</h2>
+        <ul class="genre-filter">
+            <li><label><input type="checkbox" name="genre" value="Geschichte"> Geschichte</label></li>
+            <li><label><input type="checkbox" name="genre" value="Populärwissenschaft"> Populärwissenschaft</label></li>
+            <li><label><input type="checkbox" name="genre" value="Action"> Action</label></li>
+            <li><label><input type="checkbox" name="genre" value="Manga"> Manga</label></li>
+            <li><label><input type="checkbox" name="genre" value="Horror"> Horror</label></li>
+        </ul>
+    </aside>
 
     <!-- Book List -->
-    <section class="book-list">
+    <section class="book-list sectionStyling">
         <div class="book-item" th:each="shopProduct : ${catalog}">
             <div class="image">
                 <a th:href="@{/books/{id}(id=${shopProduct.id})}">

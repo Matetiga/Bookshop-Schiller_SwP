@@ -34,7 +34,7 @@ public class CatalogController {
 		return "catalog";
 	}
 
-	@GetMapping("/books/{book}")
+	@GetMapping("/books/{bookProduct}")
 	String detail(@PathVariable ShopProduct bookProduct, Model model) {
 
 		var quantity = inventory.findByProductIdentifier(bookProduct.getId()) //

@@ -26,6 +26,44 @@ h1 {
     gap: 20px; /* Abstand zwischen Sidebar und Buchliste */
 }
 
+.detailContainer {
+    margin: 0 10%;           /* 10% Abstand links und rechts */
+    padding: 0px;
+    text-align: center;      /* Zentriert den Text oder Inhalt */
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* Zentriert den Inhalt horizontal */
+    justify-content: center; /* Zentriert den Inhalt vertikal */
+}
+
+.two-column-container {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.left-column {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+.right-column {
+    width: 50%;
+    display: flex;
+    justify-content: left;
+    align-content: flex-start;
+    padding: 20px;
+    text-align: left;
+}
+
+
+
+.sectionStyling {
+    border-radius: 8px;
+    background-color: moccasin;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.5);
+}
+
 .genre-filter {
     list-style: none;
     padding-left: 0;
@@ -69,10 +107,7 @@ h1 {
 /* Book List Styling */
 .book-list {
     flex: 1;
-    background-color: moccasin;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.5);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Grid-Layout für die Bücher */
     gap: 20px;
@@ -122,10 +157,7 @@ h1 {
 
 .sidebar {
     width: 250px;
-    background-color: moccasin;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar h2 {
@@ -163,3 +195,100 @@ h1 {
     color: #009688;
     border-left: 3px solid #009688;
 }
+
+
+/* Book Image */
+.book-image img {
+    width: 250px;
+    border-radius: 8px;
+}
+
+.book-image-detail img {
+    width: 100%;             /* Passt das Bild an die volle Breite des Containers an */
+    height: auto;            /* Beibehaltung des Seitenverhältnisses */
+    border-radius: 8px;      /* Abgerundete Ecken */
+    object-fit: cover;
+}
+
+.pd2 {
+    padding: 40px;
+}
+
+/* Book Info */
+.book-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;                 /* Mehr Abstand zwischen den Elementen */
+    align-items: flex-start;   /* Linksbündige Ausrichtung */
+    text-align: left;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Leichter Schatten für Abhebung */
+}
+
+
+.book-info .book-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0;
+}
+
+.book-info .author, .book-info .genre, .book-info .price {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.book-info .price {
+    color: #009688;
+    font-weight: bold;
+    font-size: 3em;
+}
+
+/* Description */
+.description {
+    margin-top: 20px;
+}
+
+.description h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.description p {
+    font-size: 1em;
+    color: #666;
+}
+
+/* Add to Cart Button */
+.actions {
+    margin: auto 0 0 auto;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.add-to-cart-button {
+    padding: 10px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: #009688;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-button:hover {
+    padding: 12px 24px;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: #009688;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Schatten für Button */
+}
+
