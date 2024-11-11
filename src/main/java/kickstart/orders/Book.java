@@ -1,4 +1,4 @@
-package orders;
+package kickstart.orders;
 
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
