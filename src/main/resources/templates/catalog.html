@@ -4,35 +4,54 @@
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" th:href="@{/resources/css/style.css}">
-        <title th:text="#{catalog.title}">Welcome2!</title>
-    </head>
-    <body>
-        <header>
-            <h1 th:text="#{catalog.title}">Welcome!</h1>
-        </header>
-        <section layout:fragment="content">
-            <div class="ui link cards" th:remove="all-but-first">
-                <div class="ui card" th:each="shopProduct : ${catalog}">
-                    <div class="content">
-                        <a class="header" th:href="@{/books/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Last Action Hero</a>
-                    </div>
-                    <div class="image">
-                        <a th:href="@{/books/{id}(id=${shopProduct.id})}">
-                            <img class="thumbnail"
-                                 th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
-                                 src="../static/resources/img/cover/stephen.jpg"/>
-                        </a>
-                    </div>
-                    <div class="content">
-                        <div class="description" th:text="${{shopProduct.price}}">9.99 €</div>
-                    </div>
-                    <div class="extra content" th:text="${shopProduct.genre}"> Action</div>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title th:text="#{catalog.title}">Welcome2!</title>
+</head>
+<body>
+<header>
+    <h1 th:text="#{catalog.title}">Welcome!</h1>
+</header>
 
-                </div>
+<div class="container">
+    <!-- Sidebar for filters -->
+    <aside class="sidebar">
+    <h2>Kategorien</h2>
+    <ul class="category-nav">
+        <li><button class="tab-button active">Bücher</button></li>
+        <li><button class="tab-button">Kalender</button></li>
+        <li><button class="tab-button">Merch</button></li>
+    </ul>
+
+    <h2>Filter nach Genre</h2>
+    <ul class="genre-filter">
+        <li><label><input type="checkbox" name="genre" value="Geschichte"> Geschichte</label></li>
+        <li><label><input type="checkbox" name="genre" value="Populärwissenschaft"> Populärwissenschaft</label></li>
+        <li><label><input type="checkbox" name="genre" value="Action"> Action</label></li>
+        <li><label><input type="checkbox" name="genre" value="Manga"> Manga</label></li>
+        <li><label><input type="checkbox" name="genre" value="Horror"> Horror</label></li>
+    </ul>
+</aside>
+
+    <!-- Book List -->
+    <section class="book-list">
+        <div class="book-item" th:each="shopProduct : ${catalog}">
+            <div class="image">
+                <a th:href="@{/books/{id}(id=${shopProduct.id})}">
+                    <img class="thumbnail"
+                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
+                         src="../static/resources/img/cover/stephen.jpg"/>
+                </a>
             </div>
-        </section>
-    </body>
+            <div class="info">
+                <a class="header" th:href="@{/books/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Book
+                    Title</a>
+                <div class="genre" th:text="${shopProduct.genre}">History</div>
+                <div class="price" th:text="${shopProduct.price + ' €'}">9.99 €</div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
 </html>

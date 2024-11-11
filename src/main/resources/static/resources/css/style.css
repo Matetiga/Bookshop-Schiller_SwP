@@ -1,25 +1,165 @@
 /* CSS RESET */
-
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-	margin: 0 auto;
-	width: 940px;
-	font: 13px/22px Helvetica, Arial, sans-serif;
-	background: #f0f0f0;
+    margin: 0 auto;
+    font: 13px/22px Helvetica, Arial, sans-serif;
+    background: sandybrown;
 }
 
 h1 {
-	font-size: 3em;
-	line-height: 3.2em;
-	text-align:center;
+    font-size: 2.5em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 20px 0;
 }
 
-img.thumbnail {
-    margin: 0 auto 0 auto;
-    width: 160px;
-    display: block;
+.container {
+    display: flex; /* Flexbox Layout */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px; /* Abstand zwischen Sidebar und Buchliste */
+}
+
+.genre-filter {
+    list-style: none;
+    padding-left: 0;
+}
+
+.genre-filter li {
+    margin-bottom: 10px;
+}
+
+.genre-filter label {
+    font-size: 1em;
+    color: #333;
+    cursor: pointer;
+}
+
+.genre-filter input[type="checkbox"] {
+    margin-right: 8px;
+    transform: scale(1.2); /* Vergrößert die Checkbox */
+    cursor: pointer;
+}
+
+.sidebar h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.author-filter {
+    list-style: none;
+}
+
+.author-filter li {
+    margin-bottom: 10px;
+}
+
+.author-filter a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1em;
+}
+
+/* Book List Styling */
+.book-list {
+    flex: 1;
+    background-color: moccasin;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.5);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Grid-Layout für die Bücher */
+    gap: 20px;
+}
+
+.book-item {
+    display: flex;
+    padding: 15px 0;
+    align-items: center;
+}
+
+.book-item:last-child {
+    border-bottom: none; /* Keine Linie für letztes Element */
+}
+
+.image img.thumbnail {
+    width: 100px;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: #333333;
+}
+
+.header {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.genre {
+    font-size: 1em;
+    color: #666;
+}
+
+.price {
+    font-size: 1.2em;
+    color: #009688;
+    font-weight: bold;
+}
+
+
+.sidebar {
+    width: 250px;
+    background-color: moccasin;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.category-nav, .genre-filter {
+    list-style: none;
+    padding-left: 0;
+}
+
+.category-nav li, .genre-filter li {
+    margin-bottom: 10px;
+}
+
+.tab-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #333;
+    text-align: left;
+    width: 100%;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.tab-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.tab-button.active {
+    font-weight: bold;
+    color: #009688;
+    border-left: 3px solid #009688;
 }

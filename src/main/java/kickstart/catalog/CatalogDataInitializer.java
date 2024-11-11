@@ -52,5 +52,85 @@ public class CatalogDataInitializer implements DataInitializer {
 			"Geschichte",
 			ProductType.BOOK
 		));
+
+		productCatalog.save(new ShopProduct(
+			"Eine Kurze Reise durch die Zeit - Stephen Hawking",
+			"stephen",
+			Money.of(10, EURO),
+			"Populärwissenschaft",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Codeknacker gegen Codemacher - Klaus Schmeh",
+			"schmeh",
+			Money.of(15, EURO),
+			"Geschichte",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Eine Kurze Reise durch die Zeit - Stephen Hawking",
+			"stephen",
+			Money.of(10, EURO),
+			"Populärwissenschaft",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Codeknacker gegen Codemacher - Klaus Schmeh",
+			"schmeh",
+			Money.of(15, EURO),
+			"Geschichte",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Eine Kurze Reise durch die Zeit - Stephen Hawking",
+			"stephen",
+			Money.of(10, EURO),
+			"Populärwissenschaft",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Codeknacker gegen Codemacher - Klaus Schmeh",
+			"schmeh",
+			Money.of(15, EURO),
+			"Geschichte",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Eine Kurze Reise durch die Zeit - Stephen Hawking",
+			"stephen",
+			Money.of(10, EURO),
+			"Populärwissenschaft",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Codeknacker gegen Codemacher - Klaus Schmeh",
+			"schmeh",
+			Money.of(15, EURO),
+			"Geschichte",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Eine Kurze Reise durch die Zeit - Stephen Hawking",
+			"stephen",
+			Money.of(10, EURO),
+			"Populärwissenschaft",
+			ProductType.BOOK
+		));
+
+		productCatalog.save(new ShopProduct(
+			"Codeknacker gegen Codemacher - Klaus Schmeh",
+			"schmeh",
+			Money.of(15, EURO),
+			"Geschichte",
+			ProductType.BOOK
+		));
 	}
 }
