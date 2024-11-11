@@ -292,3 +292,57 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Schatten für Button */
 }
 
+/* Login-Section Styling */
+.login-section {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field label {
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.field input[type="text"],
+.field input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.field input[type="text"]:focus,
+.field input[type="password"]:focus {
+    border-color: #009688;
+    outline: none;
+}
+
+/* Login Button */
+.login-button {
+    padding: 12px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    background-color: #009688;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #00796b;
+}
