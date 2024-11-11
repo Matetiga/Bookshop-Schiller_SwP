@@ -15,8 +15,15 @@
  */
 package kickstart.welcome;
 
+import org.salespointframework.order.Cart;
+import org.salespointframework.useraccount.UserAccount;
+import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 @Controller
 public class WelcomeController {
@@ -24,5 +31,16 @@ public class WelcomeController {
 	@GetMapping("/")
 	public String index() {
 		return "welcome";
+	}
+
+
+	@PostMapping("/cart")
+	public String redirectCart() {
+		return ("redirect:/cart");
+	}
+
+	@PostMapping("/orders")
+	public String redirectOrders() {
+		return ("redirect:/orderview");
 	}
 }

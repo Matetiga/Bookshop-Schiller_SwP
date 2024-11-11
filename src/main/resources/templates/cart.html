@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <meta charset="UTF-8">
-  <title>Einkaufswagen</title>
+  <title>Warenkorb</title>
 </head>
 <body>
-<h2>Einkaufswagen</h2>
+    <section layout:fragment="content">
+        <h1>Warenkorb</h1> <br>
+            <form class="ui form" method="post" th:action="@{/checkout}">
+                 <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
+            </form> <br>
+            <form class="ui form" method="post" th:action="@{/clear}">
+                <button type="submit" class="ui button" th:text="#{cart.clear}">Warenkorb leeren</button> <br>
+            </form><br>
+            <form class="ui form" method="post" th:action="@{/cartAdd}">
+                <button type="submit" class="ui button" th:text="#{cart.add}">Produkt hinzufügen</button>
+            </form><br>
+            <form class="ui form" method="post" th:action="@{/cartDelete}">
+                <button type="submit" class="ui button" th:text="#{cart.delete}">Produkt entfernen</button>
+             </form><br>
+    </section>
 </body>
 </html>
