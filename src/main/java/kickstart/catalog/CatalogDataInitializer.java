@@ -47,7 +47,7 @@ public class CatalogDataInitializer implements DataInitializer {
 
 		productCatalog.save(new ShopProduct(
 			"Codeknacker gegen Codemacher - Klaus Schmeh",
-			"stephen",
+			"schmeh",
 			Money.of(15, EURO),
 			"Geschichte",
 			ProductType.BOOK

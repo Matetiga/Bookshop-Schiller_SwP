@@ -17,3 +17,9 @@ h1 {
 	line-height: 3.2em;
 	text-align:center;
 }
+
+img.thumbnail {
+    margin: 0 auto 0 auto;
+    width: 160px;
+    display: block;
+}
