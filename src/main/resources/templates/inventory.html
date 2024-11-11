@@ -1,54 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css">
-    <title th:text="#{inventory.title}">Product Inventory</title>
+    <title>Shop Inventory</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
 </head>
-<body class="font-sans">
-<header class="bg-gray-800 text-white py-4 px-6">
-    <nav class="flex justify-between items-center">
-        <a href="#" class="text-xl font-bold" th:text="#{nav.title}">Bookstore</a>
-        <ul class="flex space-x-4">
-            <li>
-                <a th:href="@{/}" class="hover:text-gray-300" th:text="#{nav.home}">Home</a>
-            </li>
-            <li>
-                <a th:href="@{/inventory}" class="hover:text-gray-300" th:text="#{nav.inventory}">Inventory</a>
-            </li>
-        </ul>
-    </nav>
-</header>
+<body>
+<h1>Shop Inventory</h1>
 
-<main class="py-8 px-6">
-    <h1 class="text-3xl font-bold mb-4" th:text="#{inventory.title}">Product Inventory</h1>
-    <div class="overflow-x-auto">
-        <table class="w-full border-collapse">
-            <thead>
-            <tr class="bg-gray-200">
-                <th class="px-4 py-2 text-left" th:text="#{inventory.table.name}">Name</th>
-                <th class="px-4 py-2 text-left" th:text="#{inventory.table.image}">Image</th>
-                <th class="px-4 py-2 text-left" th:text="#{inventory.table.price}">Price</th>
-                <th class="px-4 py-2 text-left" th:text="#{inventory.table.genre}">Genre</th>
-                <th class="px-4 py-2 text-left" th:text="#{inventory.table.type}">Type</th>
-                <th class="px-4 py-2 text-left" th:text="#{inventory.table.id}">ID</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="border-b" th:each="product : ${products}">
-                <td class="px-4 py-2" th:text="${product.name}">Product Name</td>
-                <td class="px-4 py-2">
-                    <img th:src="${product.image}" alt="Product Image" class="max-h-16">
-                </td>
-                <td class="px-4 py-2" th:text="${product.price}">$9.99</td>
-                <td class="px-4 py-2" th:text="${product.genre}">Fiction</td>
-                <td class="px-4 py-2" th:text="${product.type}">Book</td>
-                <td class="px-4 py-2" th:text="${product.id}">1</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</main>
+<table>
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Genre</th>
+        <th>Type</th>
+        <th>Inventory</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td>
+            <img th:src="@{'/images/' + ${product.image}}" alt="Product Image"/>
+        </td>
+        <td th:text="${product.name}">Product Name</td>
+        <td th:text="${product.price}">Price</td>
+        <td th:text="${product.genre.name}">Genre</td>
+        <td th:text="${product.productType}">Type</td>
+        <td>
+            <a th:href="@{/inventory/edit/{id}(id=${product.id})}">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>
 

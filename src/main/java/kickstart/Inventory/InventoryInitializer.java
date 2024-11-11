@@ -1,7 +1,11 @@
 package  kickstart.Inventory;
 
+import com.mysema.commons.lang.Assert;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
+import org.salespointframework.inventory.UniqueInventory;
+import org.salespointframework.inventory.UniqueInventoryItem;
+import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -11,9 +15,18 @@ public class InventoryInitializer implements DataInitializer {
 		// this list should be displayed in the inventory
 //		private final BookCatalog bookCatalog;
 //		Catalog
-		ArrayList<ShopProduct> mockProducts = new ArrayList<>();
+//		ArrayList<ShopProduct> mockProducts = new ArrayList<>(); //Nano tu lista ya lo remplace por un catalogo, para poder usar las fuciones
 		Genre scienceFiction = new Genre("Science Fiction");
 
+		private final UniqueInventory<UniqueInventoryItem> inventory;
+		private final BookCatalog bookCatalog; //Book catalog to be able to use the functions of the UniqueItem interface
+
+		InventoryInitializer(UniqueInventory<UniqueInventoryItem> inventory, BookCatalog bookCatalog){
+
+			this.bookCatalog = bookCatalog;
+			this.inventory = inventory;
+
+		}
 		// this should be for calendars and merch, but is this the way
 		// or should the be left empty?
 		Genre general = new Genre("General");
@@ -27,32 +40,45 @@ public class InventoryInitializer implements DataInitializer {
 		@Override
 			public void initialize() {
 
-			mockProducts.add(new ShopProduct("Calendar 2024", "calendar2024.jpg",
-				Money.of(12.99, "USD"), general, ShopProduct.ProductType.CALENDER, 1));
+			if (bookCatalog.findAll().iterator().hasNext()){
+				return;
+			}
+				bookCatalog.save((new ShopProduct("Calendar 2024", "calendar2024.jpg",
+				Money.of(12.99, "USD"), general, ShopProduct.ProductType.CALENDER, 1)));
 
-			mockProducts.add(new ShopProduct("Science Fiction Book", "scifi_book.jpg",
+			bookCatalog.save(new ShopProduct("Science Fiction Book", "scifi_book.jpg",
 				Money.of(9.99, "USD"), scienceFiction, ShopProduct.ProductType.BOOK, 2));
 
-			mockProducts.add(new ShopProduct("Novel", "novel.jpg",
+			bookCatalog.save(new ShopProduct("Novel", "novel.jpg",
 				Money.of(14.99, "USD"), fiction, ShopProduct.ProductType.BOOK, 3));
 
-			mockProducts.add(new ShopProduct("Adventure Calendar", "adventure_calendar.jpg",
+			bookCatalog.save(new ShopProduct("Adventure Calendar", "adventure_calendar.jpg",
 				Money.of(15.00, "USD"), adventure, ShopProduct.ProductType.CALENDER, 4));
 
-			mockProducts.add(new ShopProduct("Mystery Book", "mystery_book.jpg",
+			bookCatalog.save(new ShopProduct("Mystery Book", "mystery_book.jpg",
 				Money.of(10.99, "USD"), mystery, ShopProduct.ProductType.BOOK, 5));
 
-			mockProducts.add(new ShopProduct("Band T-Shirt", "band_tshirt.jpg",
+			bookCatalog.save(new ShopProduct("Band T-Shirt", "band_tshirt.jpg",
 				Money.of(20.00, "USD"), general, ShopProduct.ProductType.MERCH, 6));
 
-			mockProducts.add(new ShopProduct("Cooking Book", "cooking_book.jpg",
+			bookCatalog.save(new ShopProduct("Cooking Book", "cooking_book.jpg",
 				Money.of(18.00, "USD"), cooking, ShopProduct.ProductType.BOOK, 7));
 
-			mockProducts.add(new ShopProduct("Pop Star Poster", "pop_poster.jpg",
+			bookCatalog.save(new ShopProduct("Pop Star Poster", "pop_poster.jpg",
 				Money.of(5.99, "USD"), general, ShopProduct.ProductType.MERCH, 8));
 
-			mockProducts.add(new ShopProduct("History Calendar", "history_calendar.jpg",
+			bookCatalog.save(new ShopProduct("History Calendar", "history_calendar.jpg",
 				Money.of(11.50, "USD"), history, ShopProduct.ProductType.CALENDER, 9));
+			//All products added to a catalog
+
+			bookCatalog.findAll().forEach(ShopProduct -> {
+
+				// Try to find an InventoryItem for the project and create a default one with 10 items if none available
+				if (inventory.findByProduct(ShopProduct).isEmpty()) {
+					inventory.save(new UniqueInventoryItem(ShopProduct, Quantity.of(10)));
+				}
+			}); //This thing iterates through the book catalog, and for each product it adds it to the inventory with 10 as the default quantity
+
 		}
 
 }

@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome to the Bookstore</title>
-    <link rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Bookstore</title>
+    <style>
+        header {
+            background-color: #333;
+            padding: 1em;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .store-name {
+            color: white;
+            font-size: 1.5em;
+        }
+        .nav-links {
+            list-style: none;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-<header class="bg-gray-800 text-white py-4 px-6">
-    <nav class="flex justify-between items-center">
-        <a href="#" class="text-xl font-bold">Bookstore</a>
-        <ul class="flex space-x-4">
+<header>
+    <nav>
+        <span class="store-name">Bookstore</span>
+        <ul class="nav-links">
             <li>
-                <a th:href="@{/inventory}" class="hover:text-gray-300">Inventory</a>
+                <a th:href="@{/inventory}">Inventory</a>
             </li>
         </ul>
     </nav>
 </header>
-
-<main class="py-8 px-6">
-    <h1 class="text-3xl font-bold mb-4">Welcome to our Bookstore</h1>
-    <p class="text-gray-600 mb-8">Discover a wide selection of books in our store.</p>
-</main>
-
-
 </body>
 </html>

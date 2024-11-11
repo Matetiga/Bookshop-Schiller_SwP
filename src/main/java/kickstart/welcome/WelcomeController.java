@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WelcomeController {
 
-	@GetMapping("/")
+	@GetMapping("/ignore")
 	public String index() {
 		return "welcome";
 	}

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.InventoryItem;
+import org.salespointframework.quantity.Quantity;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,8 @@ public class ShopProduct extends Product {
 	private Genre genre;
 	private int id;
 
-	public ShopProduct() {}
+
+//	public ShopProduct() {} //Tu funcion me arrojaba un error, todo lo que me provocaba error lo comente
 	public ShopProduct(String name, String image, Money price, Genre genre, ProductType type, int id) {
 		// should we test for illegal values?
 
@@ -28,6 +30,7 @@ public class ShopProduct extends Product {
 		this.image = image;
 		this.genre = genre;
 		this.type = type;
+
 
 		// InventoryItemIdentifier -> from SalesPoint
 		// use that or something else
