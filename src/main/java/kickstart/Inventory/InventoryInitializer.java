@@ -12,10 +12,6 @@ import java.util.ArrayList;
 
 @Component
 public class InventoryInitializer implements DataInitializer {
-		// this list should be displayed in the inventory
-//		private final BookCatalog bookCatalog;
-//		Catalog
-//		ArrayList<ShopProduct> mockProducts = new ArrayList<>(); //Nano tu lista ya lo remplace por un catalogo, para poder usar las fuciones
 		Genre scienceFiction = new Genre("Science Fiction");
 
 		private final UniqueInventory<UniqueInventoryItem> inventory;

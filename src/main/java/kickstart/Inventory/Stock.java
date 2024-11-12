@@ -15,3 +15,12 @@
 // and not InventoryTtem
 // inventoryItem associates a product with its quantity
 // UniqueInventoryItem associates a product with its quantity and a unique identifier
+
+// TODO
+// this class us not necessaty
+// the inventory controller should be the one to create the inventory
+// that means that the inventory initializer should store the items in tis inventory attribute
+// like in the videoshop example
+
+// TODO, separate the genre from the merch and calendar,
+// they should beother classes

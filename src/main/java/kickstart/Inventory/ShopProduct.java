@@ -2,6 +2,7 @@ package kickstart.Inventory;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.InventoryItem;
@@ -24,8 +25,8 @@ public class ShopProduct extends Product {
 	private ProductType type;
 	private int id;
 
-	// shows that this function is deprecated
-	// public ShopProduct() {} //Tu funcion me arrojaba un error, todo lo que me provocaba error lo comente
+	@SuppressWarnings({"deprecation"})
+	private ShopProduct() {}
 	public ShopProduct(String name, String image, Money price, Genre genre, ProductType type, int id) {
 		// should we test for illegal values?
 
@@ -34,9 +35,9 @@ public class ShopProduct extends Product {
 		this.genre = genre;
 		this.type = type;
 
-
-		// InventoryItemIdentifier -> from SalesPoint
-		// use that or something else
+		// InventoryItemIdentifier -> from SalesPoint -> should be used for the ID
+		// book has ID and ISBN
+		// ISBN should be created using a match case (following the ISBN rules)
 		this.id = id;
 	}
 

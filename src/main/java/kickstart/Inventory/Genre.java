@@ -8,7 +8,7 @@ import jakarta.persistence.Embeddable;
 // this @Embeddable should be because it is a part of the ShopProduct
 @Embeddable
 public class Genre {
-	// used to store a list of simple values inside of an entity/embeddable
+	// used to store a list of simple values inside an entity/embeddable
 	@ElementCollection
 	private List<String> genres = new ArrayList<>();
 
@@ -23,7 +23,6 @@ public class Genre {
 	}
 
 	// is an addMethod required, if the constructor is already adding them
-
 	public List<String> getGenres() {
 		return genres;
 	}
