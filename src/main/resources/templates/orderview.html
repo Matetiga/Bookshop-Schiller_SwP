@@ -13,9 +13,12 @@
     <th>Anzahl</th>
 </tr>
 </thead>
-<tr th:each=" item : ${stock}">
-    <td th:text="${item.product.name}">Last Action Hero</td>
-    <td th:text="${{item.quantity}}">9000</td>
+<tr th:each=" order : ${orderList}">
+    <td th:text="${order.name}"></td>
+    <tr th:each=" item : ${order.product}">
+        <td th:text="${{item.name}}"></td>
+        <td th:text="${{item.quantity}}"></td>
+    </tr>
 </tr>
 </table>
 </body>
