@@ -6,9 +6,17 @@
     <title>Title</title>
 </head>
 <body>
+<table class="ui celled table">
+<thead>
+<tr>
+    <th>Titel</th>
+    <th>Anzahl</th>
+</tr>
+</thead>
 <tr th:each=" item : ${stock}">
     <td th:text="${item.product.name}">Last Action Hero</td>
     <td th:text="${{item.quantity}}">9000</td>
 </tr>
+</table>
 </body>
 </html>

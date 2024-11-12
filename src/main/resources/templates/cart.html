@@ -20,6 +20,20 @@
             <form class="ui form" method="post" th:action="@{/cartDelete}">
                 <button type="submit" class="ui button" th:text="#{cart.delete}">Produkt entfernen</button>
              </form><br>
+        <table class="ui celled table">
+            <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Anzahl</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each=" item : ${cart}">
+                <td th:text="${item.productName}"></td>
+                <td th:text="${{item.quantity}}"></td>
+            </tr>
+            </tbody>
+        </table>
     </section>
 </body>
 </html>
