@@ -1,6 +1,7 @@
 package  kickstart.Inventory;
 
-import com.mysema.commons.lang.Assert;
+import kickstart.Inventory.Products.Genre;
+import kickstart.Inventory.Products.ShopProduct;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
 import org.salespointframework.inventory.UniqueInventory;
@@ -9,32 +10,37 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class InventoryInitializer implements DataInitializer {
-		Genre scienceFiction = new Genre("Science Fiction");
+	//added this initialization, because otherwise in the Genre class a new List would be
+	// created everytime a new Genre object is created
+	private List<Genre> genres;
 
-		private final UniqueInventory<UniqueInventoryItem> inventory;
-		private final BookCatalog bookCatalog; //Book catalog to be able to use the functions of the UniqueItem interface
+	private final UniqueInventory<UniqueInventoryItem> inventory;
+	private final BookCatalog bookCatalog; //Book catalog to be able to use the functions of the UniqueItem interface
 
-		InventoryInitializer(UniqueInventory<UniqueInventoryItem> inventory, BookCatalog bookCatalog){
+	InventoryInitializer(UniqueInventory<UniqueInventoryItem> inventory, BookCatalog bookCatalog){
 
-			this.bookCatalog = bookCatalog;
-			this.inventory = inventory;
+		this.bookCatalog = bookCatalog;
+		this.inventory = inventory;
+		genres = new ArrayList<>();
+	}
 
-		}
-		// this should be for calendars and merch, but is this the way
-		// or should the be left empty?
-		Genre general = new Genre("General");
-
-		Genre adventure = new Genre("Adventure");
-		Genre fiction = new Genre("Fiction");
-		Genre cooking = new Genre("Cooking");
-		Genre history = new Genre("History");
-		Genre mystery = new Genre("Mystery");
 
 		@Override
-			public void initialize() {
+		public void initialize() {
+			// this should be for calendars and merch, but is this the way
+			// or should the be left empty?
+			Genre general = new Genre("General");
+			Genre scienceFiction = new Genre("Science Fiction");
+			genres.add(general);
+			Genre adventure = new Genre("Adventure");
+			Genre fiction = new Genre("Fiction");
+			Genre cooking = new Genre("Cooking");
+			Genre history = new Genre("History");
+			Genre mystery = new Genre("Mystery");
 
 			if (bookCatalog.findAll().iterator().hasNext()){
 				return;

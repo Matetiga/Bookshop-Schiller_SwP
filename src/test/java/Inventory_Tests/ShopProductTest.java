@@ -1,11 +1,5 @@
 package Inventory_Tests;
 
-import kickstart.Inventory.ShopProduct;
-import kickstart.Inventory.Genre;
-import org.javamoney.moneta.Money;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 //public class ShopProductTest {
 //
 //	@Test
