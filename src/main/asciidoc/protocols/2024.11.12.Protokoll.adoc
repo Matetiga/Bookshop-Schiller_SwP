@@ -3,7 +3,7 @@
 Treffen am 12.11.2024 
 Ort:      Ort des Treffens APB +
 Beginn:   13:00 Uhr +
-Ende:     14:30 Uhr
+Ende:     13:35 Uhr
 
 __Schriftführer:__
 
@@ -26,6 +26,7 @@ __Teilnehmer:__
 Verwarnungen, besondere Vorfälle, Organisatorisches, wichtige getroffene Entscheidungen
 
 Fragen zu Salespoint von Martin geklärt.
+
 Einteilung in Programmier-Prototypen:
 Accountverwaltung: Erion & Linus
 Inventurverwaltung: Martin & Marco
