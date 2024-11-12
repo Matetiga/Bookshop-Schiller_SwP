@@ -1,29 +1,30 @@
 package kickstart.Inventory;
-
+import java.util.List;
 import java.util.ArrayList;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 
 // this @Embeddable should be because it is a part of the ShopProduct
 @Embeddable
 public class Genre {
-	private String genre;
-	private ArrayList<String> genres;
+	// used to store a list of simple values inside of an entity/embeddable
+	@ElementCollection
+	private List<String> genres = new ArrayList<>();
 
+	// default constructor for JPA
 	protected Genre() {}
 
 	public Genre(String genre) {
 		if (genre == null || genre.isEmpty()) {
 			throw new IllegalArgumentException("Genre cannot be empty");
 		}
-		genres = new ArrayList<String>();
-		this.genre = genre;
-		// like this or make an own method for adding?
 		genres.add(genre);
 	}
 
-	// check the related problem
-	public ArrayList<String> getGenres() {
+	// is an addMethod required, if the constructor is already adding them
+
+	public List<String> getGenres() {
 		return genres;
 	}
 

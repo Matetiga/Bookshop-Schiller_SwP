@@ -1,12 +1,13 @@
 package kickstart.Inventory;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.quantity.Quantity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class ShopProduct extends Product {
@@ -16,13 +17,15 @@ public class ShopProduct extends Product {
 	}
 
 
+	@Embedded
+	private Genre genre;
+
 	private String image;
 	private ProductType type;
-	private Genre genre;
 	private int id;
 
-
-//	public ShopProduct() {} //Tu funcion me arrojaba un error, todo lo que me provocaba error lo comente
+	// shows that this function is deprecated
+	// public ShopProduct() {} //Tu funcion me arrojaba un error, todo lo que me provocaba error lo comente
 	public ShopProduct(String name, String image, Money price, Genre genre, ProductType type, int id) {
 		// should we test for illegal values?
 
@@ -47,8 +50,8 @@ public class ShopProduct extends Product {
 
 		// test for illegal values ?
 
-		ArrayList<String> allGenres = genre.getGenres();
-		if (!allGenres.contains(genre)) {
+		List<String> allGenres = genre.getGenres();
+		if (!allGenres.contains(genre.toString())) {
 			throw new IllegalArgumentException("Genre does not exist");
 			// return or Exception?
 		}
@@ -56,7 +59,6 @@ public class ShopProduct extends Product {
 	}
 
 	// Getters
-	// why is this throwing an error
 	public Genre getProductGenre() {
 		// should this be made for each product
 		// what about the Merch and calendar, which do not have a genre
