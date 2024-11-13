@@ -23,6 +23,6 @@ public class WelcomeController {
 
 	@GetMapping("/welcome")
 	public String index() {
-		return "catalog";
+		return "catalog_books";
 	}
 }

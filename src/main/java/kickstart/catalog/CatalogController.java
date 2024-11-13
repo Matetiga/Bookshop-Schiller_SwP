@@ -31,11 +31,29 @@ public class CatalogController {
 		model.addAttribute("catalog", catalog.findByType(ShopProduct.ProductType.BOOK));
 		model.addAttribute("title", "catalog.book.title");
 
-		return "catalog";
+		return "catalog_books";
 	}
 
-	@GetMapping("/books/{bookProduct}")
-	String detail(@PathVariable ShopProduct bookProduct, Model model) {
+	@GetMapping("/merch")
+	String merchCatalog(Model model) {
+
+		model.addAttribute("catalog", catalog.findByType(ShopProduct.ProductType.MERCH));
+		model.addAttribute("title", "catalog.merch.title");
+
+		return "catalog_merch";
+	}
+
+	@GetMapping("/calenders")
+	String calenderCatalog(Model model) {
+
+		model.addAttribute("catalog", catalog.findByType(ShopProduct.ProductType.CALENDER));
+		model.addAttribute("title", "catalog.calender.title");
+
+		return "catalog_calender";
+	}
+
+	@GetMapping("/book/{bookProduct}")
+	String bookDetail(@PathVariable ShopProduct bookProduct, Model model) {
 
 		var quantity = inventory.findByProductIdentifier(bookProduct.getId()) //
 			.map(InventoryItem::getQuantity) //
@@ -45,6 +63,36 @@ public class CatalogController {
 		model.addAttribute("quantity", quantity);
 		model.addAttribute("orderable", quantity.isGreaterThan(NONE));
 
-		return "detail";
+		return "detail_book";
 	}
+
+	@GetMapping("/merch/{merchProduct}")
+	String merchDetail(@PathVariable ShopProduct merchProduct, Model model) {
+
+		var quantity = inventory.findByProductIdentifier(merchProduct.getId()) //
+			.map(InventoryItem::getQuantity) //
+			.orElse(NONE);
+
+		model.addAttribute("merch", merchProduct);
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("orderable", quantity.isGreaterThan(NONE));
+
+		return "detail_merch";
+	}
+
+	@GetMapping("/calender/{calenderProduct}")
+	String calenderDetail(@PathVariable ShopProduct calenderProduct, Model model) {
+
+		var quantity = inventory.findByProductIdentifier(calenderProduct.getId()) //
+			.map(InventoryItem::getQuantity) //
+			.orElse(NONE);
+
+		model.addAttribute("calender", calenderProduct);
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("orderable", quantity.isGreaterThan(NONE));
+
+		return "detail_calender";
+	}
+
+
 }
