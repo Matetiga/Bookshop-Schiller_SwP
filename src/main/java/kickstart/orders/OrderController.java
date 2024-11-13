@@ -66,6 +66,7 @@ public class OrderController {
 		}
 
 		myOrderRepository.save(order);
+		System.out.println(myOrderRepository.findAll());
 		cart.clear();
 		return "cart";
 	}

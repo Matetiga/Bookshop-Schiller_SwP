@@ -38,11 +38,14 @@ public class OrderViewController {
 		return  new ArrayList<>();
 	}
 
-	@PostMapping("/orderview")
-	public void addOrders(@ModelAttribute ArrayList<MyOrder> orderList){
+	@GetMapping("/orderview")
+	public String addOrders(@ModelAttribute ArrayList<MyOrder> orderList){
 		for(MyOrder myOrder : myOrderRepository.findAll()){
 			orderList.add(myOrder);
 		}
+		System.out.println("orderList:");
+		System.out.println(orderList);
+		return "orderview";
 	}
 
 	@PostMapping("/deleteOrder")
@@ -51,9 +54,5 @@ public class OrderViewController {
 		return "orderview";
 	}
 
-	@GetMapping("/orderview")
-	private String orders(@ModelAttribute ArrayList<MyOrder> orderList){
-		System.out.println(orderList);
-		return "orderview";
-	}
+	//@GetMapping("/orderview") private String orders(@ModelAttribute ArrayList<MyOrder> orderList){return "orderview";}
 }

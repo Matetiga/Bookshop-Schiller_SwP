@@ -20,10 +20,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${ordersCompleted} ">
-            <td th:text="${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}">g</td>
-            <td th:text="${order.userAccountIdentifier}">h</td>
-            <td th:text="${order.total}">j</td>
+        <tr th:each="order : ${orderList} ">
+            <td th:text="${order.orderIdentifier}">j</td>
+            <td th:text="${order.orderStatus}">h</td>
         </tr>
         </tbody>
     </table>
