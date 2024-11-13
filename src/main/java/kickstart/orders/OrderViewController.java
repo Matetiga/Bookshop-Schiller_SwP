@@ -19,18 +19,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 
 @Controller
 @SessionAttributes("orderList")
 public class OrderViewController {
-	//private ArrayList<Order> orderList;
+
 	private final OrderManagement<MyOrder> orderManagement;
 	private final MyOrderRepository myOrderRepository;
 
 	public OrderViewController(OrderManagement<MyOrder> orderManagement, MyOrderRepository myOrderRepository){
 		this.orderManagement = orderManagement;
 		this.myOrderRepository = myOrderRepository;
-		//this.orderList  = new ArrayList<>();
 	}
 
 	@ModelAttribute("orderList")
@@ -38,12 +38,11 @@ public class OrderViewController {
 		return new ArrayList<>();
 	}
 
-	public ArrayList<MyOrder> getOrderList(@ModelAttribute ArrayList<MyOrder> orderList){
-		return orderList;
-	}
-
-	public void addOrder(MyOrder order, @ModelAttribute ArrayList<Order> orderList){
-		orderList.add(order);
+	@PostMapping("/orderview")
+	public void addOrders(@ModelAttribute ArrayList<MyOrder> orderList){
+		for(MyOrder myOrder : myOrderRepository.findAll()){
+			orderList.add(myOrder);
+		}
 	}
 
 	@PostMapping("/deleteOrder")

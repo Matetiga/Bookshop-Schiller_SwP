@@ -67,7 +67,9 @@ public class OrderController {
 		for(CartItem item : cart.stream().toList()){
 			order.addOrderLine(item.getProduct(), item.getQuantity());
 		}
+
 		myOrderRepository.save(order);
+		cart.clear();
 		return "cart";
 	}
 }
