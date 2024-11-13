@@ -4,13 +4,10 @@ import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
-import org.salespointframework.order.Order;
-import org.salespointframework.payment.PaymentMethod;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
 import java.util.UUID;
 
 
@@ -20,6 +17,10 @@ public class OrderController {
 	private UserAccount.UserAccountIdentifier userId;
 	private final MyOrderRepository myOrderRepository;
 
+	//for testing:
+	private static final Product exampleProduct = new Book("geiles Buch", Money.of(100, "EUR"), Book.Genre.Fantasy, "Jesus");
+	private final Product exampleProduct2 = new Book("schlechtes Buch", Money.of(200, "EUR"), Book.Genre.Fantasy, "Arno Dübel");
+	private final long exampleAmount = 1;
 
 	OrderController(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
@@ -37,11 +38,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartAdd")
-	String addProduct(@ModelAttribute Cart cart) {
-		Product product = new Book("geiles Buch", Money.of(100, "EUR"), Book.Genre.Fantasy, "Jesus");
-		Product product2 = new Book("schlechtes Buch", Money.of(200, "EUR"), Book.Genre.Fantasy, "Arno Dübel");
-		cart.addOrUpdateItem(product, 1);
-		cart.addOrUpdateItem(product2, 3);
+	String addProduct(@ModelAttribute Cart cart, @RequestParam(value = "product", required = false) Product product, @RequestParam(value = "amount", required = false) long amount) {
+		cart.addOrUpdateItem(exampleProduct, exampleAmount);
 		return "cart";
 	}
 
@@ -60,13 +58,10 @@ public class OrderController {
 	@PostMapping("/checkout")
 	String checkOut(@ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
 		MyOrder order = new MyOrder(userId, paymentMethod);
-
 		for(CartItem item : cart.stream().toList()){
 			order.addOrderLine(item.getProduct(), item.getQuantity());
 		}
-
 		myOrderRepository.save(order);
-		System.out.println(myOrderRepository.findAll());
 		cart.clear();
 		return "cart";
 	}

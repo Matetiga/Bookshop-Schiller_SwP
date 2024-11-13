@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <meta charset="UTF-8">
@@ -17,17 +17,23 @@
             <th th:text="#{orders.date}">Datum</th>
             <th th:text="#{orders.customerId}">Kunde</th>
             <th th:text="#{orders.price}">Bestellwert</th>
-            <th th:text="#orders.paymentMethod"></th>
+            <th th:text="#{orders.paymentMethod}"></th>
             <th th:text="#{orders.state}">Status</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="order : ${orderList}">
-            <td th:text="${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
-            <td th:text="${order.getId()}"></td>
-            <td> Hier fehlt noch der Preis >:-O</td>
-            <td> Und hier die Bezahlmethode :,-(</td>
+            <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
+            <td th:text="${order.getUserAccountIdentifier()}"></td>
+            <td th:text="${order.getTotal()}"></td>
+            <td th:text="${order.getStringPaymentMethod()}"></td>
             <td th:text="${order.getOrderStatus()}"></td>
+            <td>
+                <form class="ui form" method="post" th:action="@{/deleteOrder}">
+                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                    <button type="submit" class="ui button">Bestellung entfernen</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

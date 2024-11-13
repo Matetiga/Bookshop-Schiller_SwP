@@ -9,15 +9,19 @@ import java.io.Serializable;
 
 @Entity
 public class MyOrder extends Order {
-	private String paymentMethod;
+	private String stringPaymentMethod;
 
-	public MyOrder(UserAccount.UserAccountIdentifier userId, String paymentMethod){
+	public MyOrder(UserAccount.UserAccountIdentifier userId, String stringPaymentMethod){
 		super(userId);
-		this.paymentMethod = paymentMethod;
+		this.stringPaymentMethod = stringPaymentMethod;
 
 	}
 
 	public MyOrder(){
 
+	}
+
+	public String getStringPaymentMethod(){
+		return this.stringPaymentMethod;
 	}
 }
