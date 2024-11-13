@@ -39,7 +39,7 @@ public class Application {
 	}
 
 	@Configuration
-	static class WebSecurityConfiguration {
+	static class WebSecurityhomeProvisorischConfiguration {
 
 		@Bean
 		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {
