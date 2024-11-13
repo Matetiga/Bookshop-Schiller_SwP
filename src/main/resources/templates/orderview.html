@@ -10,18 +10,23 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <h2 th:text="#{orders.completed}"></h2>
+    <h2 th:text="#{orders.header}">Bestellungen</h2>
     <table class="ui celled table">
         <thead>
         <tr>
             <th th:text="#{orders.date}">Datum</th>
-            <th th:text="#{orders.customer}">Kunde</th>
-            <th th:text="#{orders.payed}">Bezahlt</th>
+            <th th:text="#{orders.customerId}">Kunde</th>
+            <th th:text="#{orders.price}">Bestellwert</th>
+            <th th:text="#orders.paymentMethod"></th>
+            <th th:text="#{orders.state}">Status</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${orderList} ">
+        <tr th:each="order : ${orderList}">
+            <td th:text="${#temporals.format(order.dateCreated, 'dd.MM.yyyy HH:mm')}"></td>
             <td th:text="${order.getId()}"></td>
+            <td> Hier fehlt noch der Preis >:-O</td>
+            <td> Und hier die Bezahlmethode :,-(</td>
             <td th:text="${order.getOrderStatus()}"></td>
         </tr>
         </tbody>
