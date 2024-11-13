@@ -9,16 +9,20 @@ import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 
 @Controller
 @SessionAttributes("cart")
 public class OrderController {
-	private UserAccount.UserAccountIdentifier userId;
+	private UserAccount.UserAccountIdentifier userAccount;
+	//private final OrderViewController orderViewController;
+	private final MyOrderRepository myOrderRepository;
 
-	private final OrderViewController orderViewController;
-
-	OrderController(OrderViewController orderViewController){
-		this.orderViewController = orderViewController;
+	OrderController(MyOrderRepository myOrderRepository){
+		//this.orderViewController = orderViewController;
+		this.myOrderRepository = myOrderRepository;
+		//this.userAccount =
 	}
 
 	@ModelAttribute("cart")
@@ -42,7 +46,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartDelete")
-	String deleteProduct(@RequestParam("product") Product product, @ModelAttribute Cart cart) {
+	String deleteProduct(@RequestParam("product") String product, @ModelAttribute Cart cart) {
+		cart.removeItem(product);
 		return "cart";
 	}
 
@@ -54,11 +59,12 @@ public class OrderController {
 
 	@PostMapping("/checkout")
 	String checkOut(@ModelAttribute Cart cart) {
-		Order order = new Order(userId);
+		MyOrder order = new MyOrder();
+
 		for(CartItem item : cart.stream().toList()){
 			order.addOrderLine(item.getProduct(), item.getQuantity());
 		}
-
+		myOrderRepository.save(order);
 		return "cart";
 	}
 }

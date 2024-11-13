@@ -28,6 +28,7 @@
                     <td th:text="${item.price}"></td>
                     <td>
                         <form class="ui form" method="post" th:action="@{/cartDelete}">
+                            <input type="hidden" name="product" th:value="${item.id}"/>
                             <button type="submit" class="ui button" th:text="#{cart.delete}">Produkt entfernen</button>
                         </form>
                     </td>
