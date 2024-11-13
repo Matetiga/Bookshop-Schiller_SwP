@@ -72,4 +72,9 @@ public class OrderController {
 		cart.clear();
 		return "cart";
 	}
+
+	@PostMapping("/welcome")
+	String welcome(){
+		return "welcome";
+	}
 }
