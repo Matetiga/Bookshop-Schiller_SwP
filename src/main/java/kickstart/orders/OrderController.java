@@ -5,24 +5,27 @@ import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
 import org.salespointframework.order.Order;
+import org.salespointframework.payment.PaymentMethod;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Controller
 @SessionAttributes("cart")
 public class OrderController {
-	private UserAccount.UserAccountIdentifier userAccount;
+	private UserAccount.UserAccountIdentifier userId;
 	//private final OrderViewController orderViewController;
 	private final MyOrderRepository myOrderRepository;
+	//private PaymentMethod paymentMethod;
 
 	OrderController(MyOrderRepository myOrderRepository){
 		//this.orderViewController = orderViewController;
 		this.myOrderRepository = myOrderRepository;
-		//this.userAccount =
+		this.userId = UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString());
 	}
 
 	@ModelAttribute("cart")
@@ -46,8 +49,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartDelete")
-	String deleteProduct(@RequestParam("product") String product, @ModelAttribute Cart cart) {
-		cart.removeItem(product);
+	String deleteProduct(@RequestParam("productId") String productId, @ModelAttribute Cart cart) {
+		cart.removeItem(productId);
 		return "cart";
 	}
 
@@ -58,8 +61,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/checkout")
-	String checkOut(@ModelAttribute Cart cart) {
-		MyOrder order = new MyOrder();
+	String checkOut(@ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
+		MyOrder order = new MyOrder(userId, paymentMethod);
 
 		for(CartItem item : cart.stream().toList()){
 			order.addOrderLine(item.getProduct(), item.getQuantity());

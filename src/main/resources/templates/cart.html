@@ -28,7 +28,7 @@
                     <td th:text="${item.price}"></td>
                     <td>
                         <form class="ui form" method="post" th:action="@{/cartDelete}">
-                            <input type="hidden" name="product" th:value="${item.id}"/>
+                            <input type="hidden" name="productId" th:value="${item.id}"/>
                             <button type="submit" class="ui button" th:text="#{cart.delete}">Produkt entfernen</button>
                         </form>
                     </td>
@@ -45,6 +45,7 @@
                     <option value="invoice">Rechnung</option>
                 </select> <br>
                 <form class="ui form" method="post" th:action="@{/checkout}">
+                    <input type="hidden" name="productId" th:value="${item.id}"/>
                     <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
                 </form>
             </div>
