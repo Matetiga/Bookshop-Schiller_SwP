@@ -3,14 +3,16 @@ package kickstart.Inventory.Products;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
+import org.jetbrains.annotations.NotNull;
 import org.salespointframework.catalog.Product;
 
 import java.util.List;
 
 @Entity
-public abstract class ShopProduct extends Product {
+public class ShopProduct extends Product {
 
-
+	private String name;
+	private Money price;
 	private String image;
 	private int id;
 	private String description;
@@ -18,10 +20,27 @@ public abstract class ShopProduct extends Product {
 	@SuppressWarnings({"deprecation"})
 	protected ShopProduct() {}
 	public ShopProduct(String name, String image, Money price, int id, String description) {
-		// is this the most optimal way or is it better to replace it for a factory method?
+		// TODO is this the most optimal way or is it better to replace it for a factory method?
+		// TODO should it be possible to create a Product or ONLY a BOOK, CALENDAR OR MERCH?
 
-		// TODO : add checks for illegal values
 		super(name, price);
+		if (image == null) {
+			throw new NullPointerException("ShopProduct Image cannot be null");
+		}
+
+		if(image.isBlank()){
+			throw new IllegalArgumentException("ShopProduct image cannot be blank");
+		}
+
+		if(description == null){
+			throw new NullPointerException("ShopProduct Description cannot be null");
+		}
+		if(description.isBlank()){
+			throw new IllegalArgumentException("ShopProduct Description cannot be blank");
+		}
+
+		this.name = name;
+		this.price = price;
 		this.image = image;
 		this.id = id;
 		this.description = description;
@@ -29,22 +48,24 @@ public abstract class ShopProduct extends Product {
 	}
 
 	// Setters
+	// setters for name and price are already given by the Product class (setName() and setPrice())
+
 	public void setDescription(String description) {
 		if (description == null){
 			throw new NullPointerException("Product Description cannot be null");
 		}
 		if(description.isBlank()){
-			throw new IllegalArgumentException("Product Description cannot be empty");
+			throw new IllegalArgumentException("Product Description cannot be blank");
 		}
 		this.description = description;
 	}
 
 	public void setImage(String image) {
 		if (image == null){
-			throw new NullPointerException("Product Image cannot be null");
+			throw new NullPointerException("ShopProduct Image cannot be null");
 		}
 		if(image.isBlank()){
-			throw new IllegalArgumentException("Product Image cannot be empty");
+			throw new IllegalArgumentException("ShopProduct Image cannot be blank");
 		}
 		this.image = image;
 	}
@@ -60,13 +81,11 @@ public abstract class ShopProduct extends Product {
 		this.id = id;
 	}
 
-	// TODO
-	// name setter ?
-	// money setter ?
 
 
 
 	// Getters
+	// getters for name and price are already given by the Product class (getName() and getPrice())
 
 	public String getImage() {
 		return image;
@@ -79,8 +98,5 @@ public abstract class ShopProduct extends Product {
 	public String getDescription() {
 		return description;
 	}
-
-	// TODO
-	// name, price getters?
 
 }

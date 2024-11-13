@@ -28,6 +28,11 @@ public class InventoryInitializer implements DataInitializer {
 		genres = new ArrayList<>();
 	}
 
+	// TODO
+	// the inventory controller should be the one to create the inventory
+	// that means that the inventory initializer should store the items in tis inventory attribute
+	// like in the videoshop example
+
 
 		@Override
 		public void initialize() {
