@@ -5,41 +5,55 @@ import java.util.HashSet;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 
-// TODO Should this class have the Singleton template method?
 // this @Embeddable is used because is a part of the Book entity
 @Embeddable
 public class Genre {
 	// used to store a list of simple values inside an entity/embeddable
 	// STATIC attributes only exist once per class!!!
-	// TODO should this Set be of Strings or of Genres
 	@ElementCollection
-	private static Set<String> genres = new HashSet<>();
+	private static Set<Genre> genres = new HashSet<>();
 
 	private String genre;
 
 	// default constructor for JPA
 	protected Genre() {}
-	public Genre(String genre) {
-		if (genre == null) {
-			throw new NullPointerException("Genre Constructor - Genre cannot be empty");
-		}
-		if(genre.isBlank()){
-			throw new IllegalArgumentException("Genre Constructor - Genre cannot be empty");
-		}
+	private Genre(String genre) {
 		this.genre = genre;
-		genres.add(genre.trim().toLowerCase());
 	}
+
+
+	// this method should be helpful to create a Set of Genres and not Strings
+	// it kinda follows the Singleton pattern
+	// however we still have multiple instances of Genre TODO is this correct?
+	public static Genre createGenre(String name){
+		if (name == null) {
+			throw new NullPointerException("Genre creator - Genre cannot be null");
+		}
+		if(name.isBlank()){
+			throw new IllegalArgumentException("Genre creator - Genre cannot be empty");
+		}
+
+		for(Genre genre: genres){
+			if(genre.getGenre().equals(name)){
+				// if the genre already exists, return it ?
+				return genre;
+			}
+		}
+
+		Genre newGenre = new Genre(name);
+		genres.add(newGenre);
+		return newGenre;
+	}
+
 
 
 	// Setters
 
-	public void deleteGenre(String genre) {
+	public static void deleteGenre(Genre genre) {
 		if (genre == null) {
 			throw new NullPointerException("Genre deleter - Genre cannot be null");
 		}
-		if(genre.isBlank()){
-			throw new IllegalArgumentException("Genre deleter - Genre cannot be empty");
-		}
+
 		if (!genres.contains(genre)) {
 			throw new IllegalArgumentException("Genre does not exist");
 		}
@@ -50,12 +64,13 @@ public class Genre {
 	// Getters
 
 	// this must be static for it to be reached from the whole system
-	// this does not quite feel good, for it to be a Set of Strings
-	// should it be a Set of Genres?
-	public static Set<String> getAllGenres() {
+	public static Set<Genre> getAllGenres() {
 		return genres;
 	}
 
+	public String getGenre() {
+		return genre;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -72,15 +87,5 @@ public class Genre {
 	public int hashCode() {
 		return genre.hashCode();
 	}
-
-	// it does not feel right that the return type is a String and not a Genre
-	public Set<String> getGenresSet() {
-		return genres;
-	}
-
-	public String getGenre() {
-		return genre;
-	}
-
 
 }

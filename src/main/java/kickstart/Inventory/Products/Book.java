@@ -4,6 +4,8 @@ import org.javamoney.moneta.Money;
 
 import java.util.Set;
 
+import static kickstart.Inventory.Products.Genre.getAllGenres;
+
 // TODO check for @Embeddable and @Embedded
 public class Book extends ShopProduct {
 	@Embedded
@@ -51,8 +53,8 @@ public class Book extends ShopProduct {
 		if (genre == null) {
 			throw new NullPointerException("Setter Book Genre cannot be null");
 		}
-		Set<String> allGenres = genre.getGenresSet();
-		if (!allGenres.contains(genre.toString())) {
+		Set<Genre> allGenres = getAllGenres();
+		if (!allGenres.contains(genre)) {
 			throw new IllegalArgumentException("Setter Book Genre does not exist");
 			// return or Exception?
 		}
@@ -73,6 +75,11 @@ public class Book extends ShopProduct {
 		if (genre == null) {
 			throw new NullPointerException("Setter Book Genre cannot be null");
 		}
+		// TODO should it throw an Exception or create automatically the genre?
+		if(!getAllGenres().contains(genre)){
+			throw new IllegalArgumentException("Setter Book Genre does not exist");
+		}
+
 		this.genre = genre;
 	}
 

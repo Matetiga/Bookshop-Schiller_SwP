@@ -7,15 +7,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static kickstart.Inventory.Products.Genre.createGenre;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class BookTest {
 
 	Genre genre;
 	private Book book;
 	@BeforeEach
 	public void setUp(){
-		this.genre = new Genre("Science Fiction");
+		this.genre = createGenre("Science Fiction");
 		this.book = new Book("Test", "imageURL", Money.of(10, "EUR"),
-			1, "description", new Genre("Science Fiction"),
+			1, "description", createGenre("Science Fiction"),
 			"Author", "ISBN", "Publisher");
 
 	}
@@ -37,14 +40,14 @@ public class BookTest {
 		// Test for a invalid parameters
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
-				new Genre("Science Fiction"), null, "ISBN", "Publisher");
+				createGenre("Science Fiction"), null, "ISBN", "Publisher");
 		} catch (NullPointerException e) {
 			Assertions.assertEquals("Book Author cannot be null", e.getMessage());
 		}
 
 		try{
 			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
-				new Genre("Science Fiction"), "", "ISBN", "Publisher");
+				createGenre("Science Fiction"), "", "ISBN", "Publisher");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book Author cannot be empty", e.getMessage());
 		}
@@ -58,28 +61,28 @@ public class BookTest {
 
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
-				new Genre("Science Fiction"), "Broski", null, "Publisher");
+				createGenre("Science Fiction"), "Broski", null, "Publisher");
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book ISBN cannot be null", e.getMessage());
 		}
 
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
-				new Genre("Science Fiction"), "Broski", "", "Publisher");
+				createGenre("Science Fiction"), "Broski", "", "Publisher");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book ISBN cannot be empty", e.getMessage());
 		}
 
 		try{
 			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
-				new Genre("Science Fiction"), "Broski", "ISBN", null);
+				createGenre("Science Fiction"), "Broski", "ISBN", null);
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book Publisher cannot be null", e.getMessage());
 		}
 
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
-				new Genre("Science Fiction"), "Broski", "ISBN", "");
+				createGenre("Science Fiction"), "Broski", "ISBN", "");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book Publisher cannot be empty", e.getMessage());
 		}
@@ -88,25 +91,59 @@ public class BookTest {
 	// Setters Tests
 	@Test
 	public void testBookValidGenre(){
-		Genre sus = new Genre("Suspense");
+		Genre sus = createGenre("Suspense");
 		book.setBookGenre(sus);
 		Assertions.assertEquals(sus, book.getGenre());
 	}
 
 	@Test
-	public void testBookInvalidGenre(){
+	public void testBookInvalidGenre() {
 		try {
 			book.setBookGenre(null);
 		} catch (NullPointerException e) {
 			Assertions.assertEquals("Setter Book Genre cannot be null", e.getMessage());
 		}
 
-		try{ // try to set a genre that does not exist
-			genre.deleteGenre("Science Fiction");
+		try { // try to set a genre that does not exist
+
+			// this forces the deleteGenre method to be static
+			// TODO: is this the best way to test this?
+			Genre.deleteGenre(genre);
 			book.setBookGenre(genre);
-		}catch (IllegalArgumentException e){
+		} catch (IllegalArgumentException e) {
 			Assertions.assertEquals("Setter Book Genre does not exist", e.getMessage());
 		}
 	}
 
+	@Test
+	public void testBookSetAuthor(){
+		book.setAuthor("New Author");
+		Assertions.assertEquals("New Author", book.getAuthor());
+		try{
+			book.setAuthor("");
+		}catch (IllegalArgumentException e){
+			Assertions.assertEquals("Setter Book Author cannot be empty", e.getMessage());
+		}
+		try{
+			book.setAuthor(null);
+		}catch (NullPointerException e){
+			Assertions.assertEquals("Setter Book Author cannot be null", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testBookSetGenre(){
+		Genre sus = createGenre("Suspense");
+		book.setGenre(sus);
+		Assertions.assertEquals(sus, book.getGenre());
+
+		// This reduces the amount of code needed to test, but no feedback regarding the message?
+		assertThrows(NullPointerException.class, () -> book.setGenre(null));
+
+		// Test for invalid Genre (genre does not exist)
+		Genre.deleteGenre(sus);
+		assertThrows(IllegalArgumentException.class, () -> book.setGenre(sus));
+	}
 }
+
+
