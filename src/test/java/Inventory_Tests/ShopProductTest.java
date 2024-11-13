@@ -15,10 +15,10 @@ public class ShopProductTest {
 	@BeforeEach
 	public void setUp() {
 
-		Genre genre = new Genre("Science Fiction");
+		Genre genre = Genre.createGenre("Science Fiction");
 
 		this.product = new ShopProduct("Test", "imageURL",
-			Money.of(10, "EUR"), 1, "description");
+			Money.of(10, "EUR"),  "description");
 	}
 
 	@Test
@@ -28,31 +28,30 @@ public class ShopProductTest {
 		Assertions.assertEquals("Test", product.getName());
 		Assertions.assertEquals("imageURL", product.getImage());
 		Assertions.assertEquals(Money.of(10, "EUR"), product.getPrice());
-		Assertions.assertEquals(1, product.getProductId());
 
 		// Test for a invalid parameters
 		// TODO Figure out a Test for the ID, there should not be two IDs with the same value
 		// No tests for name and Price as they are tested in the Product class
 		try {
-			new ShopProduct("Title", "", Money.of(10, "EUR"), 1, "descritpion");
+			new ShopProduct("Title", "", Money.of(10, "EUR"),  "description");
 		} catch (IllegalArgumentException e) {
 			Assertions.assertEquals("ShopProduct image cannot be blank", e.getMessage());
 		}
 
 		try {
-			new ShopProduct("Title", "null", Money.of(10, "EUR"), 1, "descritpion");
+			new ShopProduct("Title", "null", Money.of(10, "EUR"),  "description");
 		} catch(NullPointerException e){
 			Assertions.assertEquals("ShopProduct Image cannot be null", e.getMessage());
 		}
 
 		try{
-			new ShopProduct("Title", "imageURL", Money.of(10, "EUR"), 1, "");
+			new ShopProduct("Title", "imageURL", Money.of(10, "EUR"), "");
 		} catch(IllegalArgumentException e){
 			Assertions.assertEquals("ShopProduct Description cannot be blank", e.getMessage());
 		}
 
 		try{
-			new ShopProduct("Title", "imageURL", Money.of(10, "EUR"), 1, null);
+			new ShopProduct("Title", "imageURL", Money.of(10, "EUR"),  null);
 		} catch(NullPointerException e){
 			Assertions.assertEquals("ShopProduct Description cannot be null", e.getMessage());
 		}

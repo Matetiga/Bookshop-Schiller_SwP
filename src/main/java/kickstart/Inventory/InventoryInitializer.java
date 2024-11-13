@@ -1,7 +1,6 @@
 package  kickstart.Inventory;
 
-import kickstart.Inventory.Products.Genre;
-import kickstart.Inventory.Products.ShopProduct;
+import kickstart.Inventory.Products.*;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
 import org.salespointframework.inventory.UniqueInventory;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static kickstart.Inventory.Products.Genre.createGenre;
 
 @Component
 public class InventoryInitializer implements DataInitializer {
@@ -38,44 +39,33 @@ public class InventoryInitializer implements DataInitializer {
 		public void initialize() {
 			// this should be for calendars and merch, but is this the way
 			// or should the be left empty?
-			Genre general = new Genre("General");
-			Genre scienceFiction = new Genre("Science Fiction");
+			Genre general = createGenre("General");
+			Genre scienceFiction = createGenre("Science Fiction");
 			genres.add(general);
-			Genre adventure = new Genre("Adventure");
-			Genre fiction = new Genre("Fiction");
-			Genre cooking = new Genre("Cooking");
-			Genre history = new Genre("History");
-			Genre mystery = new Genre("Mystery");
+			Genre adventure = createGenre("Adventure");
+			Genre fiction = createGenre("Fiction");
+			Genre cooking = createGenre("Cooking");
+			Genre history = createGenre("History");
+			Genre mystery = createGenre("Mystery");
 
 			if (bookCatalog.findAll().iterator().hasNext()){
 				return;
 			}
-				bookCatalog.save((new ShopProduct("Calendar 2024", "calendar2024.jpg",
-				Money.of(12.99, "USD"), general, ShopProduct.ProductType.CALENDER, 1)));
+				bookCatalog.save((new Calendar("Calendar 2024", "calendar2024.jpg",
+				Money.of(12.99, "USD"),  "Hola")));
 
-			bookCatalog.save(new ShopProduct("Science Fiction Book", "scifi_book.jpg",
-				Money.of(9.99, "USD"), scienceFiction, ShopProduct.ProductType.BOOK, 2));
+			bookCatalog.save(new Book("Science Fiction Book", "scifi_book.jpg",
+				Money.of(9.99, "USD"),  "des", scienceFiction,"Una vieja", "123", "GANDALF!?"));
 
-			bookCatalog.save(new ShopProduct("Novel", "novel.jpg",
-				Money.of(14.99, "USD"), fiction, ShopProduct.ProductType.BOOK, 3));
+			bookCatalog.save(new Book("Novel", "novel.jpg",
+				Money.of(14.99, "USD"), "des", scienceFiction,"Dos viejas", "123", "Terminator"));
 
-			bookCatalog.save(new ShopProduct("Adventure Calendar", "adventure_calendar.jpg",
-				Money.of(15.00, "USD"), adventure, ShopProduct.ProductType.CALENDER, 4));
+			bookCatalog.save(new Calendar("Adventure Calendar", "adventure_calendar.jpg",
+				Money.of(15.00, "USD"), "Chao"));
 
-			bookCatalog.save(new ShopProduct("Mystery Book", "mystery_book.jpg",
-				Money.of(10.99, "USD"), mystery, ShopProduct.ProductType.BOOK, 5));
+			bookCatalog.save(new Merch("Band T-Shirt", "band_tshirt.jpg",
+				Money.of(20.00, "USD"),  "Hola"));
 
-			bookCatalog.save(new ShopProduct("Band T-Shirt", "band_tshirt.jpg",
-				Money.of(20.00, "USD"), general, ShopProduct.ProductType.MERCH, 6));
-
-			bookCatalog.save(new ShopProduct("Cooking Book", "cooking_book.jpg",
-				Money.of(18.00, "USD"), cooking, ShopProduct.ProductType.BOOK, 7));
-
-			bookCatalog.save(new ShopProduct("Pop Star Poster", "pop_poster.jpg",
-				Money.of(5.99, "USD"), general, ShopProduct.ProductType.MERCH, 8));
-
-			bookCatalog.save(new ShopProduct("History Calendar", "history_calendar.jpg",
-				Money.of(11.50, "USD"), history, ShopProduct.ProductType.CALENDER, 9));
 			//All products added to a catalog
 
 			bookCatalog.findAll().forEach(ShopProduct -> {

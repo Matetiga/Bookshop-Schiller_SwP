@@ -4,7 +4,7 @@ import org.javamoney.moneta.Money;
 
 public class Merch extends ShopProduct {
 
-	public Merch(String name, String image, Money price, int id, String description) {
-		super(name, image, price, id, description);
+	public Merch(String name, String image, Money price, String description) {
+		super(name, image, price, description);
 	}
 }

@@ -80,7 +80,7 @@ public class Genre {
 		if (!(obj instanceof Genre)) {
 			return false;
 		}
-		return genre.equals(this.getGenre());
+		return genre.trim().toLowerCase().equals(this.getGenre().trim().toLowerCase());
 	}
 
 	@Override

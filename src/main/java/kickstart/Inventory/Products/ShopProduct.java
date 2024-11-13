@@ -14,12 +14,11 @@ public class ShopProduct extends Product {
 	private String name;
 	private Money price;
 	private String image;
-	private int id;
 	private String description;
 
 	@SuppressWarnings({"deprecation"})
 	protected ShopProduct() {}
-	public ShopProduct(String name, String image, Money price, int id, String description) {
+	public ShopProduct(String name, String image, Money price, String description) {
 		// TODO is this the most optimal way or is it better to replace it for a factory method?
 		// TODO should it be possible to create a Product or ONLY a BOOK, CALENDAR OR MERCH?
 
@@ -42,7 +41,6 @@ public class ShopProduct extends Product {
 		this.name = name;
 		this.price = price;
 		this.image = image;
-		this.id = id;
 		this.description = description;
 
 	}
@@ -70,19 +68,6 @@ public class ShopProduct extends Product {
 		this.image = image;
 	}
 
-	// TODO
-	// how should the ID system be handled
-	// maybe should be done with InventoryItemIdentifier
-	// but then how managed (how to change it? how to get it? is it part of the Product?)
-	public void setProductId(int id) {
-		if (id < 0){
-			throw new IllegalArgumentException("Product ID cannot be negative");
-		}
-		this.id = id;
-	}
-
-
-
 
 	// Getters
 	// getters for name and price are already given by the Product class (getName() and getPrice())
@@ -91,8 +76,8 @@ public class ShopProduct extends Product {
 		return image;
 	}
 
-	public int getProductId() {
-		return id;
+	public ProductIdentifier getProductId() {
+		return this.getId();
 	}
 
 	public String getDescription() {

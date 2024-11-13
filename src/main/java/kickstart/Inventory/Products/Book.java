@@ -7,6 +7,10 @@ import java.util.Set;
 import static kickstart.Inventory.Products.Genre.getAllGenres;
 
 // TODO check for @Embeddable and @Embedded
+// TODO Add a Valid ISBN check
+// IMPORTANT: ISBN management should be the same as the Genre Management
+// that would mean another class, which should have a static Set of all ISBNs, ASK!!!!!
+// or is there a better way to manage every ID, ISBN, Genre, Book collection...
 public class Book extends ShopProduct {
 	@Embedded
 	private Genre genre;
@@ -14,9 +18,9 @@ public class Book extends ShopProduct {
 	private String ISBN;
 	private String publisher;
 
-	public Book(String name, String image, Money price, int id, String description,
+	public Book(String name, String image, Money price, String description,
 				Genre genre, String author, String ISBN, String publisher) {
-		super(name, image, price, id, description);
+		super(name, image, price, description);
 		if (genre == null) {
 			throw new NullPointerException("Book Genre cannot be null");
 		}

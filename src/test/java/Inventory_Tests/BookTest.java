@@ -18,7 +18,7 @@ public class BookTest {
 	public void setUp(){
 		this.genre = createGenre("Science Fiction");
 		this.book = new Book("Test", "imageURL", Money.of(10, "EUR"),
-			1, "description", createGenre("Science Fiction"),
+			"description", createGenre("Science Fiction"),
 			"Author", "ISBN", "Publisher");
 
 	}
@@ -39,49 +39,49 @@ public class BookTest {
 
 		// Test for a invalid parameters
 		try {
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"), "description",
 				createGenre("Science Fiction"), null, "ISBN", "Publisher");
 		} catch (NullPointerException e) {
 			Assertions.assertEquals("Book Author cannot be null", e.getMessage());
 		}
 
 		try{
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
 				createGenre("Science Fiction"), "", "ISBN", "Publisher");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book Author cannot be empty", e.getMessage());
 		}
 
 		try{
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
 				null, "Author", "Hola", "Publisher");
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book Genre cannot be null", e.getMessage());
 		}
 
 		try {
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
 				createGenre("Science Fiction"), "Broski", null, "Publisher");
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book ISBN cannot be null", e.getMessage());
 		}
 
 		try {
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
 				createGenre("Science Fiction"), "Broski", "", "Publisher");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book ISBN cannot be empty", e.getMessage());
 		}
 
 		try{
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
 				createGenre("Science Fiction"), "Broski", "ISBN", null);
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book Publisher cannot be null", e.getMessage());
 		}
 
 		try {
-			new Book("Title", "imageURL", Money.of(10, "EUR"), 1, "description",
+			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
 				createGenre("Science Fiction"), "Broski", "ISBN", "");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book Publisher cannot be empty", e.getMessage());
