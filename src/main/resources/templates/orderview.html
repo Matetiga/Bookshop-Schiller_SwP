@@ -21,8 +21,8 @@
         </thead>
         <tbody>
         <tr th:each="order : ${orderList} ">
-            <td th:text="${order.orderIdentifier}">j</td>
-            <td th:text="${order.orderStatus}">h</td>
+            <td th:text="${order.getId()}"></td>
+            <td th:text="${order.getOrderStatus()}"></td>
         </tr>
         </tbody>
     </table>

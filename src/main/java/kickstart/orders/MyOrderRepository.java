@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface MyOrderRepository extends CrudRepository<MyOrder, Order.OrderIdentifier> {
+public interface MyOrderRepository extends CrudRepository<MyOrder, MyOrder.OrderIdentifier> {
 }

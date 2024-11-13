@@ -17,6 +17,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,27 +25,33 @@ import java.util.EventListener;
 import java.util.stream.Stream;
 
 @Controller
-@SessionAttributes("orderList")
+//@SessionAttributes("orderList")
 public class OrderViewController {
 
 	private final MyOrderRepository myOrderRepository;
-
+	//private ArrayList<MyOrder> orderList;
 	public OrderViewController(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
+		//this.orderList = new ArrayList<>();
 	}
-
+/*
 	@ModelAttribute("orderList")
 	ArrayList<MyOrder> initializeCart() {
 		return  new ArrayList<>();
 	}
-
+*/
 	@GetMapping("/orderview")
-	public String addOrders(@ModelAttribute ArrayList<MyOrder> orderList){
+	String addOrders(Model model){
+		/*
 		for(MyOrder myOrder : myOrderRepository.findAll()){
 			orderList.add(myOrder);
 		}
 		System.out.println("orderList:");
 		System.out.println(orderList);
+		 */
+		System.out.println("orderList:");
+		System.out.println(myOrderRepository.findAll());
+		model.addAttribute("orderList", myOrderRepository.findAll());
 		return "orderview";
 	}
 
