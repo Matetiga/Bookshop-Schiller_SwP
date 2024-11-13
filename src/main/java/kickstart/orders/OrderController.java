@@ -18,12 +18,10 @@ import java.util.UUID;
 @SessionAttributes("cart")
 public class OrderController {
 	private UserAccount.UserAccountIdentifier userId;
-	//private final OrderViewController orderViewController;
 	private final MyOrderRepository myOrderRepository;
-	//private PaymentMethod paymentMethod;
+
 
 	OrderController(MyOrderRepository myOrderRepository){
-		//this.orderViewController = orderViewController;
 		this.myOrderRepository = myOrderRepository;
 		this.userId = UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString());
 	}
@@ -40,7 +38,6 @@ public class OrderController {
 
 	@PostMapping("/cartAdd")
 	String addProduct(@ModelAttribute Cart cart) {
-		//@RequestParam("product") Product product,
 		Product product = new Book("geiles Buch", Money.of(100, "EUR"), Book.Genre.Fantasy, "Jesus");
 		Product product2 = new Book("schlechtes Buch", Money.of(200, "EUR"), Book.Genre.Fantasy, "Arno Dübel");
 		cart.addOrUpdateItem(product, 1);

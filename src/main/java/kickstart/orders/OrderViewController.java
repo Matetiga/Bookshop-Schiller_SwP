@@ -15,27 +15,27 @@ import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.stream.Stream;
 
 @Controller
 @SessionAttributes("orderList")
 public class OrderViewController {
 
-	private final OrderManagement<MyOrder> orderManagement;
 	private final MyOrderRepository myOrderRepository;
 
-	public OrderViewController(OrderManagement<MyOrder> orderManagement, MyOrderRepository myOrderRepository){
-		this.orderManagement = orderManagement;
+	public OrderViewController(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
 	}
 
 	@ModelAttribute("orderList")
 	ArrayList<MyOrder> initializeCart() {
-		return new ArrayList<>();
+		return  new ArrayList<>();
 	}
 
 	@PostMapping("/orderview")
@@ -52,7 +52,8 @@ public class OrderViewController {
 	}
 
 	@GetMapping("/orderview")
-	private String orders(){
+	private String orders(@ModelAttribute ArrayList<MyOrder> orderList){
+		System.out.println(orderList);
 		return "orderview";
 	}
 }
