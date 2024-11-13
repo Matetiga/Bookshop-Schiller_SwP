@@ -36,18 +36,24 @@ public class OrderController {
 		return "cart";
 	}
 
+	//actual Method for adding products to the cart
+	//"/cartAdd" isn't currently used in html for the purpose of demonstration, instead "/cardAddExample1/2"
 	@PostMapping("/cartAdd")
-	String addProduct(@ModelAttribute Cart cart, @RequestParam(value = "product", required = false) Product product, @RequestParam(value = "amount", required = false) long amount) {
+	String addProduct(@ModelAttribute Cart cart, @RequestParam("product")Product product, @RequestParam("amount") long amount) {
 		cart.addOrUpdateItem(product, amount);
 		return "cart";
 	}
 
+	//Test-Method for adding products to the cart
+	//mapped to the temporary buttons in cart.html
 	@PostMapping("/cartAddExample1")
 	String addProductExample1(@ModelAttribute Cart cart) {
 		cart.addOrUpdateItem(exampleProduct1, 1);
 		return "cart";
 	}
 
+	//Test-Method for adding products to the cart
+	//mapped to the temporary buttons in cart.html
 	@PostMapping("/cartAddExample2")
 	String addProductExample2(@ModelAttribute Cart cart) {
 		cart.addOrUpdateItem(exampleProduct2, 1);

@@ -24,4 +24,8 @@ public class Book extends Product {
 	public String getName(){
 		return super.getName();
 	}
+
+	public String getAuthor(){
+		return this.author;
+	}
 }
