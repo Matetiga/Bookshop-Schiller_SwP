@@ -21,8 +21,9 @@ public class OrderViewController {
 	}
 
 	@PostMapping("/deleteOrder")
-	private String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId){
+	private String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 		myOrderRepository.deleteById(orderId);
+		model.addAttribute("orderList", myOrderRepository.findAll());
 		return "orderview";
 	}
 }
