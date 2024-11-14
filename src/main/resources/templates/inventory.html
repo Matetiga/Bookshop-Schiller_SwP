@@ -1,59 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Shop Inventory</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        img {
-            max-width: 100px;
-            height: auto;
-        }
-    </style>
-</head>
-<body>
-<h1>Shop Inventory</h1>
-
-<table>
-    <thead>
-    <tr>
-        <th>Image</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Genre</th>
-        <th>Type</th>
-        <th>Inventory</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product : ${products}">
-        <td>
-            <img th:src="@{'/images/' + ${product.image}}" alt="Product Image"/>
-        </td>
-        <td th:text="${product.name}">Product Name</td>
-        <td th:text="${product.price}">Price</td>
-        <td th:text="${product.genre.name}">Genre</td>
-        <td th:text="${product.productType}">Type</td>
-        <td>
-            <a th:href="@{/inventory/edit/{id}(id=${product.id})}">Edit</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-</body>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <title>Inventory List</title>
+    </head>
+    <body>
+        <p>Hola</p>
+        <ul>
+            <li th:each="item : ${test}">
+                Hello <span th:text="${item}"></span>!
+            </li>
+        </ul>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+            <tr th:each="item : ${merch}">
+                <td th:text="${item.product.name}">Name</td>
+                <td th:text="${item.quantity}">Name</td>
+                <td th:text="${item.product.price}">Price</td>
+                <td th:text="${item.product.description}">Description</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Genre</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Publisher</th>
+                <th>Stock</th>
+            </tr>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.product.name}"></td>
+                <td th:text="${book.quantity}"></td>
+                <td th:text="${book.product.image}"></td>
+                <td th:text="${book.product.price}"></td>
+                <td th:text="${book.product.description}"></td>
+<!--                <td th:text="${book.product.book.genre}"></td>-->
+<!--                <td th:text="${book.product.author}"></td>-->
+<!--                <td th:text="${book.product.ISBN}"></td>-->
+<!--                <td th:text="${book.product.publisher}"></td>-->
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+            <tr th:each="item : ${calendars}">
+                <td th:text="${item.product.name}">Name</td>
+                <td th:text="${item.quantity}">Stock</td>
+                <td th:text="${item.product.price}">Price</td>
+                <td th:text="${item.product.description}">Description</td>
+            </tr>
+        </table>
+    </body>
 </html>
 
-<!--/*titulo, agregar - quitar, tipo de producto, editar toda la info.
+
+

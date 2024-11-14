@@ -2,6 +2,9 @@ package kickstart.Inventory.Products;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+
+import jakarta.persistence.InheritanceType;
 import org.javamoney.moneta.Money;
 import org.jetbrains.annotations.NotNull;
 import org.salespointframework.catalog.Product;
@@ -9,12 +12,14 @@ import org.salespointframework.catalog.Product;
 import java.util.List;
 
 @Entity
-public class ShopProduct extends Product {
+
+public class ShopProduct extends Product{
 
 	private String name;
 	private Money price;
 	private String image;
 	private String description;
+
 
 	@SuppressWarnings({"deprecation"})
 	protected ShopProduct() {}
@@ -42,6 +47,7 @@ public class ShopProduct extends Product {
 		this.price = price;
 		this.image = image;
 		this.description = description;
+
 
 	}
 

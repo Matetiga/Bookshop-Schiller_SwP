@@ -1,5 +1,6 @@
 package kickstart.Inventory.Products;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 
 import java.util.Set;
@@ -11,6 +12,7 @@ import static kickstart.Inventory.Products.Genre.getAllGenres;
 // IMPORTANT: ISBN management should be the same as the Genre Management
 // that would mean another class, which should have a static Set of all ISBNs, ASK!!!!!
 // or is there a better way to manage every ID, ISBN, Genre, Book collection...
+@Entity
 public class Book extends ShopProduct {
 	@Embedded
 	private Genre genre;
@@ -18,6 +20,7 @@ public class Book extends ShopProduct {
 	private String ISBN;
 	private String publisher;
 
+	public Book(){}
 	public Book(String name, String image, Money price, String description,
 				Genre genre, String author, String ISBN, String publisher) {
 		super(name, image, price, description);
@@ -53,17 +56,17 @@ public class Book extends ShopProduct {
 	}
 
 	// Setters
-	public void setBookGenre(Genre genre) {
-		if (genre == null) {
-			throw new NullPointerException("Setter Book Genre cannot be null");
-		}
-		Set<Genre> allGenres = getAllGenres();
-		if (!allGenres.contains(genre)) {
-			throw new IllegalArgumentException("Setter Book Genre does not exist");
-			// return or Exception?
-		}
-		this.genre = genre;
-	}
+//	public void setBookGenre(Genre genre) {
+//		if (genre == null) {
+//			throw new NullPointerException("Setter Book Genre cannot be null");
+//		}
+//		Set<Genre> allGenres = getAllGenres();
+//		if (!allGenres.contains(genre)) {
+//			throw new IllegalArgumentException("Setter Book Genre does not exist");
+//			// return or Exception?
+//		}
+//		this.genre = genre;
+//	}
 
 	public void setAuthor(String author) {
 		if (author == null) {
