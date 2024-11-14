@@ -9,10 +9,11 @@
 
     <section layout:fragment="content">
         <h1> Ihr Warenkorb</h1> <br>
-            <form class="ui form" method="post" th:action="@{/cartAdd}">
-                <input type="hidden" name="product" th:value="null"/>
-                <input type="hidden" name="amount" th:value="1"/>
-                <button type="submit" class="ui button" th:text="#{cart.add}">Produkt hinzufügen</button>
+            <form class="ui form" method="post" th:action="@{/cartAddExample1}">
+                <button type="submit" class="ui button">BeispielProdukt1 hinzufügen</button>
+            </form>
+            <form class="ui form" method="post" th:action="@{/cartAddExample2}">
+                <button type="submit" class="ui button">BeispielProdukt2 hinzufügen</button>
             </form>
         <div th:unless="${cart.empty}">
             <table class="ui celled table">

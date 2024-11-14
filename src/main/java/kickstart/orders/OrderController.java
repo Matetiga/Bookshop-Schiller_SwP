@@ -18,9 +18,8 @@ public class OrderController {
 	private final MyOrderRepository myOrderRepository;
 
 	//for testing:
-	private static final Product exampleProduct = new Book("geiles Buch", Money.of(100, "EUR"), Book.Genre.Fantasy, "Jesus");
+	private static final Product exampleProduct1 = new Book("geiles Buch", Money.of(100, "EUR"), Book.Genre.Fantasy, "Jesus");
 	private final Product exampleProduct2 = new Book("schlechtes Buch", Money.of(200, "EUR"), Book.Genre.Fantasy, "Arno Dübel");
-	private final long exampleAmount = 1;
 
 	OrderController(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
@@ -39,7 +38,19 @@ public class OrderController {
 
 	@PostMapping("/cartAdd")
 	String addProduct(@ModelAttribute Cart cart, @RequestParam(value = "product", required = false) Product product, @RequestParam(value = "amount", required = false) long amount) {
-		cart.addOrUpdateItem(exampleProduct, exampleAmount);
+		cart.addOrUpdateItem(product, amount);
+		return "cart";
+	}
+
+	@PostMapping("/cartAddExample1")
+	String addProductExample1(@ModelAttribute Cart cart) {
+		cart.addOrUpdateItem(exampleProduct1, 1);
+		return "cart";
+	}
+
+	@PostMapping("/cartAddExample2")
+	String addProductExample2(@ModelAttribute Cart cart) {
+		cart.addOrUpdateItem(exampleProduct2, 1);
 		return "cart";
 	}
 
