@@ -60,7 +60,7 @@ class UserController {
 	@PreAuthorize("hasRole('ADMIN')")
 	String Users(Model model) {
 
-		model.addAttribute("UserList", userManagement.findAll());
+		model.addAttribute("customers", userManagement.findAll());
 
 		return "Users";
 	}

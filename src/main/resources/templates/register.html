@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="#{register.title}">Registration</title>
+        <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    </head>
+    <body>
+
+        <header>
+            <h1> Registration </h1>
+        </header>
+
+        <section>
+            <form method="post" role="form" class="ui form" id="form" th:action="@{/register}" th:object="${registrationForm}">
+
+                <h3 class="ui dividing header" th:text="#{register.userdata}">Userdata</h3>
+
+                <div class="field">
+                    <label th:text="#{register.name}" for="name">Username</label>
+                    <input id="name" name="name" th:field="*{name}" th:errorclass="fieldError" type="text" required="required"/><br/>
+                    <div class="ui negative message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        <p>The Username cannot be empty.</p>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label th:text="#{register.password}" for="password">Password</label>
+                    <input id="password" name="password" th:field="*{password}" th:errorclass="fieldError" type="password"
+                           required="required"/><br/>
+                </div>
+
+                <div class="field">
+                    <label th:text="#{register.confirmPassword}" for="confirmPassword">confirmPassword</label>
+                    <input id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" th:errorclass="fieldError" type="password"
+                           required="required"/><br/>
+                    <p class="ui negative message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">ConfirmPassword must be equal.</p>
+                </div>
+
+                <div class="field">
+                    <label th:text="#{register.address}" for="address">Straße</label>
+                    <input id="address" name="address" th:field="*{address}" th:errorclass="fieldError" type="text"
+                           required="required"/><br/>
+                    <p class="ui negative message" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">The address cannot be empty.</p>
+                </div>
+
+                <button type="submit" class="ui button" th:text="#{register.submit}">Registration</button>
+
+                <div class="ui negative message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                    Password must be at least 8 characters
+                </div>
+            </form>
+        </section>
+    </body>
+</html>
