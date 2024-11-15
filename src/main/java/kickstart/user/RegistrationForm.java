@@ -3,24 +3,23 @@ package kickstart.user;
 import jakarta.validation.constraints.NotEmpty;
 
 import jakarta.validation.constraints.Size;
-import org.springframework.validation.Errors;
 
 class RegistrationForm {
 
-	private final @NotEmpty String name;
+	private final @NotEmpty(message = "The Username cannot be empty") String username;
 	private final @Size(min = 8, message = "Password must be at least 8 characters") String password;
-	private final @NotEmpty String address;
+	private final @NotEmpty(message = "The address cannot be empty") String address;
 	private final String confirmPassword;
 
-	public RegistrationForm(String name, String password, String confirmPassword, String address) {
-		this.name = name;
+	public RegistrationForm(String username, String password, String confirmPassword, String address) {
+		this.username = username;
 		this.password = password;
 		this.confirmPassword = confirmPassword;
 		this.address = address;
 	}
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
 	public String getPassword() {
@@ -33,11 +32,5 @@ class RegistrationForm {
 
 	public String getAddress() {
 		return address;
-	}
-
-	public void validate(Errors errors) {
-		if (!password.equals(confirmPassword)) {
-			errors.rejectValue("confirmPassword", "Passwords do not match");
-		}
 	}
 }

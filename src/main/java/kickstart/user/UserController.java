@@ -23,6 +23,7 @@ class UserController {
 		this.userManagement = userManagement;
 	}
 	
+		// until yet not perfect style 
 		@PostMapping("/register")
 		String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
 
@@ -30,10 +31,15 @@ class UserController {
 				return "register";
 			}
 
-			try {
-				userManagement.createCustomer(form);
-			} catch (IllegalArgumentException e) {
-				model.addAttribute("usernameError", "Username "+ form.getName() + " already taken");
+			if (!form.getPassword().equals(form.getConfirmPassword())) {
+				result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match"); 
+			}
+			
+			if (userManagement.findByUsername(form.getUsername())) {
+				result.rejectValue("usernameExistedError", "error.usernameExisted", "Username already taken");
+			}
+
+			if (result.hasErrors()) {
 				return "register";
 			}
 

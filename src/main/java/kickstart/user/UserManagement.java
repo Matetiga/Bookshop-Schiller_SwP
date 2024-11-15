@@ -24,6 +24,7 @@ public class UserManagement {
     private final UserRepository users;
     private final UserAccountManagement userAccounts;
 
+    // warum @Qualifier("persistentUserAccountManagement")
     UserManagement(UserRepository users, @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
 
         Assert.notNull(users, "UserRepository must not be null!");
@@ -52,17 +53,17 @@ public class UserManagement {
 
         Assert.notNull(form, "Registration form must not be null!");
 
-        if (userAccounts.findByUsername(form.getName()).isPresent()) {
-            throw new IllegalArgumentException("Username already taken");
-        }
-
         var password = UnencryptedPassword.of(form.getPassword());
-        return userAccounts.create(form.getName(), password, role);
+        return userAccounts.create(form.getUsername(), password, role);
 
     }
 
     public Streamable<User> findAll() {
         return users.findAll();
+    }
+
+    public boolean findByUsername(String username) {
+        return userAccounts.findByUsername(username).isPresent();
     }
 
 	@Transactional

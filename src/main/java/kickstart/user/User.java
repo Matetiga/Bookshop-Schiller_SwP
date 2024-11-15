@@ -14,8 +14,8 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	private @EmbeddedId UserIdentifier id = new UserIdentifier();
 	private String address;
 
-	@OneToOne//
-	private UserAccount userAccount;
+	private @OneToOne UserAccount userAccount;
+	
 
 	public String getRole(){
 		return "User";
