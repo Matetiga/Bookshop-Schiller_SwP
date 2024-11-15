@@ -29,7 +29,7 @@ class UserControllerIntegrationTests extends AbstractIntegrationTests {
 	void rejectsUnauthenticatedAccessToController() {
 
 		assertThatExceptionOfType(AuthenticationException.class) 
-				.isThrownBy(() -> controller.customers(new ExtendedModelMap()));
+				.isThrownBy(() -> controller.customerOverview(new ExtendedModelMap()));
 	}
 
 	@Test
@@ -38,7 +38,7 @@ class UserControllerIntegrationTests extends AbstractIntegrationTests {
 
 		ExtendedModelMap model = new ExtendedModelMap();
 
-		controller.customers(model);
+		controller.customerOverview(model);
 
 		assertThat(model.get("customers")).isNotNull();
 	}
