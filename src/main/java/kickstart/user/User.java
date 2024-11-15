@@ -1,9 +1,6 @@
 package kickstart.user;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import kickstart.user.User.UserIdentifier;
 import java.io.Serializable;
 import java.util.UUID;
@@ -17,8 +14,12 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	private @EmbeddedId UserIdentifier id = new UserIdentifier();
 	private String address;
 
-	@OneToOne //
+	@OneToOne//
 	private UserAccount userAccount;
+
+	public String getRole(){
+		return "User";
+	}
 
 	@SuppressWarnings("unused")
 	private User() {}
@@ -42,8 +43,17 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 
 	@Override
 	public UserIdentifier getId() {
-		return null;
+		return id;
 	}
+
+	public Role getHighestRole(){
+		if (this.getUserAccount().hasRole(Role.of("ADMIN"))) return Role.of("ADMIN");
+		if (this.getUserAccount().hasRole((Role.of("EMPLOYEE")))) return Role.of("EMPLOYEE");
+
+		return Role.of("CUSTOMER");
+	}
+
+
 
 	@Embeddable
 	public static final class UserIdentifier implements Identifier, Serializable {
@@ -84,6 +94,5 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 
 			return this.identifier.equals(that.identifier);
 		}
-
 	}
 }

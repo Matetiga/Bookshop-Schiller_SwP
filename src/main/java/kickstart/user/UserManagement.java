@@ -6,9 +6,13 @@ import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManagement;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.util.HashSet;
+import java.util.UUID;
 
 
 @Service
@@ -29,19 +33,19 @@ public class UserManagement {
         this.userAccounts = userAccounts;
     }
 
-	public Customer createCustomer(RegistrationForm form) {
+	public User createCustomer(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("CUSTOMER"));
-		return users.save(new Customer(userAccount, form.getAddress()));
+		return users.save(new User(userAccount, form.getAddress()));
 	}
 
-	public Employee createEmployee(RegistrationForm form) {
+	public User createEmployee(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("EMPLOYEE"));
-		return users.save(new Employee(userAccount, form.getAddress()));
+		return users.save(new User(userAccount, form.getAddress()));
 	}
 
-	public Admin createAdmin(RegistrationForm form) {
+	public User createAdmin(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("ADMIN"));
-		return users.save(new Admin(userAccount, form.getAddress()));
+		return users.save(new User(userAccount, form.getAddress()));
 	}
 
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
@@ -57,8 +61,63 @@ public class UserManagement {
 
     }
 
-
     public Streamable<User> findAll() {
         return users.findAll();
     }
+
+	@Transactional
+	public User findByID(UUID id) {
+		for (var user : users.findAll()) {
+			if (user.getUserAccount().getId().toString().equals(id.toString())) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+
+	@Transactional
+	public void promoteAccountById(UUID id) {
+		User user = this.findByID(id);
+
+		if (user == null) {
+			throw new IllegalArgumentException("User not found");
+		}
+
+		if (user.getUserAccount().hasRole(Role.of("ADMIN"))) return;
+
+		if (user.getUserAccount().hasRole((Role.of("EMPLOYEE")))){
+			user.getUserAccount().add(Role.of("ADMIN"));
+			user.getUserAccount().remove(Role.of("EMPLOYEE"));
+			return;
+		}
+		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))){
+			user.getUserAccount().add(Role.of("EMPLOYEE"));
+			user.getUserAccount().remove(Role.of("CUSTOMER"));
+		}
+
+	}
+
+	@Transactional
+	public void degradeAccountById(UUID id) {
+		User user = this.findByID(id);
+
+		if (user == null) {
+			throw new IllegalArgumentException("User not found");
+		}
+
+		if (user.getUserAccount().hasRole(Role.of("ADMIN"))){
+			user.getUserAccount().remove(Role.of("ADMIN"));
+			user.getUserAccount().add(Role.of("EMPLOYEE"));
+			return;
+		}
+
+		if (user.getUserAccount().hasRole((Role.of("EMPLOYEE")))){
+			user.getUserAccount().add(Role.of("CUSTOMER"));
+			user.getUserAccount().remove(Role.of("EMPLOYEE"));
+			return;
+		}
+
+		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))) users.delete(user);
+	}
 }

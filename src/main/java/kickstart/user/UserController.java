@@ -1,18 +1,3 @@
-/*
- * Copyright 2013-2017 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package kickstart.user;
 
 import jakarta.validation.Valid;
@@ -23,6 +8,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.UUID;
+
 
 @Controller
 class UserController {
@@ -34,34 +23,51 @@ class UserController {
 		this.userManagement = userManagement;
 	}
 	
-	@PostMapping("/register")
-	String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
+		@PostMapping("/register")
+		String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
 
-		if (result.hasErrors()) {
-			return "register";
-		}
-		
-		try {
-			userManagement.createCustomer(form);
-		} catch (IllegalArgumentException e) {
-			model.addAttribute("usernameError", "Username already taken");
-			return "register";
-		}
+			if (result.hasErrors()) {
+				return "register";
+			}
 
-		return "redirect:/";
-	}
+			try {
+				userManagement.createCustomer(form);
+			} catch (IllegalArgumentException e) {
+				model.addAttribute("usernameError", "Username "+ form.getName() + " already taken");
+				return "register";
+			}
+
+			return "redirect:/";
+		}
 
 	@GetMapping("/register")
 	String register(Model model, RegistrationForm form) {
 		return "register";
 	}
 
-	@GetMapping("/Users")
+	@GetMapping("/customers")
 	@PreAuthorize("hasRole('ADMIN')")
 	String Users(Model model) {
 
 		model.addAttribute("customers", userManagement.findAll());
 
-		return "Users";
+		return "user-overview";
 	}
+
+	@PostMapping("/promote/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String promoteUser(@PathVariable("id") UUID id) {
+		userManagement.promoteAccountById(id);
+
+		return "redirect:/user-overview";
+	}
+
+	@PostMapping("/degrade/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String degradeUser(@PathVariable("id") UUID id) {
+		userManagement.degradeAccountById(id);
+
+		return "redirect:/user-overview";
+	}
+
 }

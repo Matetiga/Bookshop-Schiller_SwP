@@ -1,57 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title th:text="#{register.title}">Registration</title>
-        <link rel="stylesheet" th:href="@{/resources/css/style.css}">
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{register.title}">Registration</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
 
-        <header>
-            <h1> Registration </h1>
-        </header>
+<div class="container mt-5">
+    <header class="mb-4">
+        <h1 class="text-center">Registration</h1>
+    </header>
 
-        <section>
-            <form method="post" role="form" class="ui form" id="form" th:action="@{/register}" th:object="${registrationForm}">
+    <section>
+        <form method="post" role="form" id="form" th:action="@{/register}" th:object="${registrationForm}" class="needs-validation" novalidate>
 
-                <h3 class="ui dividing header" th:text="#{register.userdata}">Userdata</h3>
+            <h3 class="border-bottom pb-2 mb-4" th:text="#{register.userdata}">Userdata</h3>
 
-                <div class="field">
-                    <label th:text="#{register.name}" for="name">Username</label>
-                    <input id="name" name="name" th:field="*{name}" th:errorclass="fieldError" type="text" required="required"/><br/>
-                    <div class="ui negative message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
-                        <p>The Username cannot be empty.</p>
-                    </div>
+            <div class="form-group">
+                <label th:text="#{register.name}" for="name">Username</label>
+                <input id="name" name="name" th:field="*{name}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                    The Username cannot be empty.
+                </div>
+                <div style="color: red;" th:if="${usernameError}" th:text="${usernameError}">
+                    Username already taken.
                 </div>
 
-                <div class="field">
-                    <label th:text="#{register.password}" for="password">Password</label>
-                    <input id="password" name="password" th:field="*{password}" th:errorclass="fieldError" type="password"
-                           required="required"/><br/>
-                </div>
+            </div>
 
-                <div class="field">
-                    <label th:text="#{register.confirmPassword}" for="confirmPassword">confirmPassword</label>
-                    <input id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" th:errorclass="fieldError" type="password"
-                           required="required"/><br/>
-                    <p class="ui negative message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">ConfirmPassword must be equal.</p>
+            <div class="form-group">
+                <label th:text="#{register.password}" for="password">Password</label>
+                <input id="password" name="password" th:field="*{password}" type="password" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                    Password must be at least 8 characters.
                 </div>
+            </div>
 
-                <div class="field">
-                    <label th:text="#{register.address}" for="address">Straße</label>
-                    <input id="address" name="address" th:field="*{address}" th:errorclass="fieldError" type="text"
-                           required="required"/><br/>
-                    <p class="ui negative message" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">The address cannot be empty.</p>
+
+            <div class="form-group">
+                <label th:text="#{register.confirmPassword}" for="confirmPassword">Confirm Password</label>
+                <input id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" type="password" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
+                    Confirm Password must match the password.
                 </div>
+            </div>
 
-                <button type="submit" class="ui button" th:text="#{register.submit}">Registration</button>
-
-                <div class="ui negative message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-                    Password must be at least 8 characters
+            <div class="form-group">
+                <label th:text="#{register.address}" for="address">Address</label>
+                <input id="address" name="address" th:field="*{address}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+                    The address cannot be empty.
                 </div>
-            </form>
-        </section>
-    </body>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" th:text="#{register.submit}">Register</button>
+            <button type="button" class="btn btn-primary btn-block mt-3" onclick="window.location.href='/login'" th:text="#{login.goToButtonText}">Go to Login</button>
+
+
+        </form>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </html>
