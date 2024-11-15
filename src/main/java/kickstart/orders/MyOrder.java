@@ -11,9 +11,9 @@ import java.io.Serializable;
 public class MyOrder extends Order {
 	private String stringPaymentMethod;
 
-	public MyOrder(UserAccount.UserAccountIdentifier userId, String stringPaymentMethod){
+	public MyOrder(UserAccount.UserAccountIdentifier userId, String paymentMethod){
 		super(userId);
-		this.stringPaymentMethod = stringPaymentMethod;
+		this.stringPaymentMethod = paymentMethod;
 
 	}
 
