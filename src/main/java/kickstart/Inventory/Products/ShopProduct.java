@@ -1,15 +1,8 @@
 package kickstart.Inventory.Products;
-
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-
-import jakarta.persistence.InheritanceType;
 import org.javamoney.moneta.Money;
-import org.jetbrains.annotations.NotNull;
 import org.salespointframework.catalog.Product;
-
-import java.util.List;
 
 @Entity
 
@@ -89,5 +82,6 @@ public class ShopProduct extends Product{
 	public String getDescription() {
 		return description;
 	}
+
 
 }

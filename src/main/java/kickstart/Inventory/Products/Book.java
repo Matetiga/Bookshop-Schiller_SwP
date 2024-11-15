@@ -56,17 +56,17 @@ public class Book extends ShopProduct {
 	}
 
 	// Setters
-//	public void setBookGenre(Genre genre) {
-//		if (genre == null) {
-//			throw new NullPointerException("Setter Book Genre cannot be null");
-//		}
-//		Set<Genre> allGenres = getAllGenres();
-//		if (!allGenres.contains(genre)) {
-//			throw new IllegalArgumentException("Setter Book Genre does not exist");
-//			// return or Exception?
-//		}
-//		this.genre = genre;
-//	}
+	public void setBookGenre(Genre genre) {
+		if (genre == null) {
+			throw new NullPointerException("Setter Book Genre cannot be null");
+		}
+		Set<Genre> allGenres = getAllGenres();
+		if (!allGenres.contains(genre)) {
+			throw new IllegalArgumentException("Setter Book Genre does not exist");
+			// return or Exception?
+		}
+		this.genre = genre;
+	}
 
 	public void setAuthor(String author) {
 		if (author == null) {
@@ -91,8 +91,8 @@ public class Book extends ShopProduct {
 	}
 
 	// Getters
-	public Genre getGenre() {
-		return genre;
+	public String getBookGenre() {
+		return genre.getGenre();
 	}
 	public String getAuthor() {
 		return author;

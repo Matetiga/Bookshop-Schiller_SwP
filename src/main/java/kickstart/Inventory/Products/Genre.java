@@ -21,10 +21,7 @@ public class Genre {
 		this.genre = genre;
 	}
 
-
-	// this method should be helpful to create a Set of Genres and not Strings
 	// it kinda follows the Singleton pattern
-	// however we still have multiple instances of Genre TODO is this correct?
 	public static Genre createGenre(String name){
 		if (name == null) {
 			throw new NullPointerException("Genre creator - Genre cannot be null");

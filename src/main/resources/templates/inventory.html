@@ -4,26 +4,14 @@
         <title>Inventory List</title>
     </head>
     <body>
-        <p>Hola</p>
+        <h1>Inventory Lists</h1>
         <ul>
-            <li th:each="item : ${test}">
-                Hello <span th:text="${item}"></span>!
-            </li>
+            <li><button th:onclick="|location.href='@{/inventory}'|">Book List</button></li>
+            <li><button th:onclick="|location.href='@{/merch_inventory}'|">Merch List</button></li>
+            <li><button th:onclick="|location.href='@{/calendar_inventory}'|">Calendar List</button></li>
+
         </ul>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Description</th>
-            </tr>
-            <tr th:each="item : ${merch}">
-                <td th:text="${item.product.name}">Name</td>
-                <td th:text="${item.quantity}">Name</td>
-                <td th:text="${item.product.price}">Price</td>
-                <td th:text="${item.product.description}">Description</td>
-            </tr>
-        </table>
+
         <table>
             <tr>
                 <th>Name</th>
@@ -35,32 +23,36 @@
                 <th>Author</th>
                 <th>ISBN</th>
                 <th>Publisher</th>
-                <th>Stock</th>
             </tr>
             <tr th:each="book : ${books}">
-                <td th:text="${book.product.name}"></td>
-                <td th:text="${book.quantity}"></td>
-                <td th:text="${book.product.image}"></td>
-                <td th:text="${book.product.price}"></td>
-                <td th:text="${book.product.description}"></td>
-<!--                <td th:text="${book.product.book.genre}"></td>-->
-<!--                <td th:text="${book.product.author}"></td>-->
-<!--                <td th:text="${book.product.ISBN}"></td>-->
-<!--                <td th:text="${book.product.publisher}"></td>-->
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Description</th>
-            </tr>
-            <tr th:each="item : ${calendars}">
-                <td th:text="${item.product.name}">Name</td>
-                <td th:text="${item.quantity}">Stock</td>
-                <td th:text="${item.product.price}">Price</td>
-                <td th:text="${item.product.description}">Description</td>
+                <td th:text="${book.getKey().name}"></td>
+                <td th:text="${book.getValue()}"></td>
+                <td th:text="${book.getKey().image}"></td>
+                <td th:text="${book.getKey().price}"></td>
+                <td th:text="${book.getKey().description}"></td>
+                <td th:text="${book.getKey().getBookGenre()}"></td>
+                <td th:text="${book.getKey().author}"></td>
+                <td th:text="${book.getKey().ISBN}"></td>
+                <td th:text="${book.getKey().publisher}"></td>
+                <td>
+                    <form th:action="@{/inventory/update}" method="post">
+                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <button type="submit">Update Quantity</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/edit}" method="post">
+                        <label for="newName"></label><input type="text" id="newName" name="newName" placeholder="Enter Name" />
+                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <button type="submit">Change name</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/delete}" method="post">
+                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <button type="submit">Delete Item :(</button>
+                    </form>
+                </td>
             </tr>
         </table>
     </body>
