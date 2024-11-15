@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 import org.salespointframework.useraccount.Password.UnencryptedPassword;
 import org.salespointframework.useraccount.Role;
@@ -30,12 +32,12 @@ class UserManagementUnitTests {
 		UserManagement customerManagement = new UserManagement(repository, userAccountManager);
 
 		// create RegistrationForm and submit
-		RegistrationForm form = new RegistrationForm("name", "password", "password", "address");
+		RegistrationForm form = new RegistrationForm("john.doe@example.com", "password", "password", "address", "name", "last_name", "2022-2-2");
 		User customer = customerManagement.createCustomer(form);
 
 		// so a user account creation has been triggered with the proper data and role
 		verify(userAccountManager, times(1))
-				.create(eq(form.getUsername()), //
+				.create(eq(form.getEmail()), //
 						eq(UnencryptedPassword.of(form.getPassword())), 
 						eq(UserManagement.CUSTOMER_ROLE));
 

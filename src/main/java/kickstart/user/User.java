@@ -13,6 +13,10 @@ import org.salespointframework.useraccount.UserAccount;
 public class User extends AbstractAggregateRoot<UserIdentifier> {
 	private @EmbeddedId UserIdentifier id = new UserIdentifier();
 	private String address;
+	private String name;
+	private String last_name;
+    private String birthDate;
+
 
 	private @OneToOne UserAccount userAccount;
 	
@@ -24,9 +28,13 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	@SuppressWarnings("unused")
 	private User() {}
 
-	public User(UserAccount userAccount, String address) {
+	public User(UserAccount userAccount, String address, String name, String last_name,
+				 String birthDate) {
 		this.userAccount = userAccount;
 		this.address = address;
+		this.name = name;
+		this.last_name = last_name;
+		this.birthDate = birthDate;
 	}
 
 	public String getAddress() {
@@ -36,6 +44,30 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}	
 
 	public UserAccount getUserAccount() {
 		return userAccount;

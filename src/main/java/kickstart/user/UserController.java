@@ -31,17 +31,21 @@ class UserController {
 				return "register";
 			}
 
+			if (userManagement.findByEmail(form.getEmail())) {
+				result.rejectValue("email", "error.emailExisted", "Email already taken");
+			}
+
 			if (!form.getPassword().equals(form.getConfirmPassword())) {
 				result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match"); 
-			}
-			
-			if (userManagement.findByUsername(form.getUsername())) {
-				result.rejectValue("usernameExistedError", "error.usernameExisted", "Username already taken");
 			}
 
 			if (result.hasErrors()) {
 				return "register";
 			}
+			else {
+				
+			}
+			userManagement.createCustomer(form);
 
 			return "redirect:/";
 		}

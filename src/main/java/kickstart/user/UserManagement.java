@@ -36,17 +36,17 @@ public class UserManagement {
 
 	public User createCustomer(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("CUSTOMER"));
-		return users.save(new User(userAccount, form.getAddress()));
+		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
 	public User createEmployee(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("EMPLOYEE"));
-		return users.save(new User(userAccount, form.getAddress()));
+		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
 	public User createAdmin(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("ADMIN"));
-		return users.save(new User(userAccount, form.getAddress()));
+		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
@@ -54,7 +54,7 @@ public class UserManagement {
         Assert.notNull(form, "Registration form must not be null!");
 
         var password = UnencryptedPassword.of(form.getPassword());
-        return userAccounts.create(form.getUsername(), password, role);
+        return userAccounts.create(form.getEmail(), password, role);
 
     }
 
@@ -62,8 +62,8 @@ public class UserManagement {
         return users.findAll();
     }
 
-    public boolean findByUsername(String username) {
-        return userAccounts.findByUsername(username).isPresent();
+    public boolean findByEmail(String email) {
+        return userAccounts.findByUsername(email).isPresent();
     }
 
 	@Transactional

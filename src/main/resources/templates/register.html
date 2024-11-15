@@ -21,15 +21,35 @@
             <h3 class="border-bottom pb-2 mb-4" th:text="#{register.userdata}">Userdata</h3>
 
             <div class="form-group">
-                <label th:text="#{register.username}" for="username">Username</label>
-                <input id="username" name="username" th:field="*{username}" type="text" class="form-control" th:errorclass="is-invalid" required/>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
-                    The Username cannot be empty.
+                <label th:text="#{register.email}" for="email">Email</label>
+                <input id="email" name="email" th:field="*{email}" type="email" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                    It has to be a valid unemail.
                 </div>
-                <div style="color: red;" th:if="${usernameExistedError}" th:text="${usernameExistedError}">
-                    Username already taken.
-                </div>
+            </div>
 
+            <div class="form-group">
+                <label th:text="#{register.name}" for="name">Name</label>
+                <input id="name" name="name" th:field="*{name}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                    The Name cannot be empty.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.last_name}" for="last_name">Last Name</label>
+                <input id="last_name" name="last_name" th:field="*{last_name}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}">
+                    The Last Name cannot be empty.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.birthDate}" for="birthDate">Birth Date</label>
+                <input id="birthDate" name="birthDate" th:field="*{birthDate}" type="date" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">
+                    It has to be a date in the past.
+                </div>
             </div>
 
             <div class="form-group">
