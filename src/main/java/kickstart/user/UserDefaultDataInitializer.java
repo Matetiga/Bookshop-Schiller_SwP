@@ -43,7 +43,7 @@ class UserDefaultDataInitializer implements DataInitializer {
 		var password = "test";
 
 		List.of(//
-			new RegistrationForm("admin@example.com", password,password, "admins cave", "a", "s", "2022-4-4")
+			new RegistrationForm("admin", password,password, "admins cave", "a", "s", "2022-4-4")
 		).forEach(userManagement::createAdmin);
 
 		List.of(//

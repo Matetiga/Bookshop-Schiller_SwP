@@ -3,6 +3,8 @@ package kickstart.user;
 import jakarta.persistence.*;
 import kickstart.user.User.UserIdentifier;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.jmolecules.ddd.types.Identifier;
 import org.salespointframework.core.AbstractAggregateRoot;
@@ -16,14 +18,11 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	private String name;
 	private String last_name;
     private String birthDate;
+	private LocalDateTime registrationDate;
 
 
 	private @OneToOne UserAccount userAccount;
 	
-
-	public String getRole(){
-		return "User";
-	}
 
 	@SuppressWarnings("unused")
 	private User() {}
@@ -35,6 +34,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 		this.name = name;
 		this.last_name = last_name;
 		this.birthDate = birthDate;
+		this.registrationDate = LocalDateTime.now();
 	}
 
 	public String getAddress() {
@@ -73,9 +73,22 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 		return userAccount;
 	}
 
+	public String getFullName() {
+		return name + " " + last_name;
+	}
+	public String getEmail(){
+		return userAccount.getUsername();
+	}
+
 	@Override
 	public UserIdentifier getId() {
 		return id;
+	}
+
+	public String getRegistrationDate() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy 'at' HH:mm");
+
+		return this.registrationDate.format(formatter).toString();
 	}
 
 	public Role getHighestRole(){

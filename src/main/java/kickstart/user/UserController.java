@@ -1,6 +1,8 @@
 package kickstart.user;
 
 import jakarta.validation.Valid;
+import org.salespointframework.useraccount.Role;
+import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +11,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 
@@ -55,29 +59,74 @@ class UserController {
 		return "register";
 	}
 
-	@GetMapping("/customers")
+	@GetMapping("/customer-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String Users(Model model) {
+	String customers(Model model) {
+		HashSet<User> customers =  new HashSet<>();
+		//only customers should be displayed
+		for (User user: userManagement.findAll()){
+			if (user.getHighestRole().equals(Role.of("CUSTOMER")))
+				customers.add(user);
+		}
+		model.addAttribute("customers", customers);
 
-		model.addAttribute("customers", userManagement.findAll());
+		return "customer-overview";
+	}
 
-		return "user-overview";
+	@GetMapping("/employee-overview")
+	@PreAuthorize("hasRole('ADMIN')")
+	String Employees(Model model) {
+		HashSet<User> employees =  new HashSet<>();
+		//only employees should be displayed
+		for (User user: userManagement.findAll()){
+			if (user.getHighestRole().equals(Role.of("EMPLOYEE")))
+				employees.add(user);
+		}
+		model.addAttribute("employees", employees);
+
+		return "employee-overview";
+	}
+
+	@GetMapping("/finance-overview")
+	@PreAuthorize("hasRole('ADMIN')")
+	String Finances(Model model) {
+		return "finance-overview";
+	}
+
+	@GetMapping("/order-overview")
+	@PreAuthorize("hasRole('ADMIN')")
+	String Orders(Model model) {
+		return "order-overview";
+	}
+
+	@GetMapping("/admin-overview")
+	@PreAuthorize("hasRole('ADMIN')")
+	String Admins(Model model) {
+		HashSet<User> admins =  new HashSet<>();
+		//only admins should be displayed
+		for (User user: userManagement.findAll()){
+			if (user.getHighestRole().equals(Role.of("ADMIN")))
+				admins.add(user);
+		}
+		model.addAttribute("admins", admins);
+
+		return "admin-overview";
 	}
 
 	@PostMapping("/promote/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String promoteUser(@PathVariable("id") UUID id) {
+	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source) {
 		userManagement.promoteAccountById(id);
 
-		return "redirect:/user-overview";
+		return "redirect:/" + source;
 	}
 
 	@PostMapping("/degrade/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String degradeUser(@PathVariable("id") UUID id) {
+	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source) {
 		userManagement.degradeAccountById(id);
 
-		return "redirect:/user-overview";
+		return "redirect:/" + source;
 	}
 
 }

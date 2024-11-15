@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{admin.overview}">Finance overview</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center mb-4" th:text="#{admin.overview}">Employee overview</h2>
+
+    <section>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                <tr>
+
+                    <th scope="col" th:text="#{admin.id}">ID</th>
+                    <th scope="col" th:text="#{admin.fullName}">Full Name</th>
+                    <th scope="col" th:text="#{admin.email}">E-Mail</th>
+                    <th scope="col" th:text="#{admin.role}">Role</th>
+                    <th scope="col" th:text="#{admin.address}">Address</th>
+                    <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
+                    <th scope="col" th:text="#{user.edit}">Edit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="admin : ${admins}">
+                    <td th:text="${admin.userAccount.id}">Cannot load ID</td>
+                    <td th:text="${admin.fullName}">Cannot load Name</td>
+                    <td th:text="${admin.email}">Cannot load E-mail</td>
+                    <td th:text="${admin.highestRole}">Cannot load name</td>
+                    <td th:text="${admin.address}">Cannot load address!</td>
+                    <td th:text="${admin.registrationDate}">Cannot load date!</td>
+                    <td>
+                        <form th:action="@{/promote/{id}(id=${admin.userAccount.id})}" method="post">
+                            <button type="submit" class="btn btn-primary" th:text="#{button.promote}">Promote</button>
+                            <input type="hidden" name="source" th:value="'admin-overview'" />
+                        </form>
+
+                        <form th:action="@{/degrade/{id}(id=${admin.userAccount.id})}" method="post">
+                            <button type="submit" class="btn btn-danger" th:text="#{button.degrade}">Degrade</button>
+                            <input type="hidden" name="source" th:value="'admin-overview'" />
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Admin Navigator -->
+            <a th:href="@{/admin-overview}" class="btn btn-primary" th:text="#{admin.overview}">Admin Overview</a>
+            <a th:href="@{/employee-overview}" class="btn btn-primary" th:text="#{employee.overview}">Employee Overview</a>
+            <a th:href="@{/customer-overview}" class="btn btn-primary" th:text="#{customer.overview}">Customer Overview</a>
+            <a th:href="@{/finance-overview}" class="btn btn-primary" th:text="#{finance.overview}">Fincance Overview</a>
+            <a th:href="@{/order-overview}" class="btn btn-primary" th:text="#{order.overview}">Order Overview</a>
+
+
+
+        </div>
+    </section>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
