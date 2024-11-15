@@ -145,4 +145,9 @@ class UserController {
 		return "redirect:/login";  
 	}	
 
+
+	public UserManagement getUserManagement() {
+		return userManagement;
+	}
+
 }
