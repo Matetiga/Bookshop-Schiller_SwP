@@ -62,7 +62,7 @@ class UserController {
 
 	@GetMapping("/customer-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String customers(Model model) {
+	String customerOverview(Model model) {
 		HashSet<User> customers =  new HashSet<>();
 		//only customers should be displayed
 		for (User user: userManagement.findAll()){
@@ -76,7 +76,7 @@ class UserController {
 
 	@GetMapping("/employee-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String Employees(Model model) {
+	String employeeOverview(Model model) {
 		HashSet<User> employees =  new HashSet<>();
 		//only employees should be displayed
 		for (User user: userManagement.findAll()){
@@ -90,13 +90,13 @@ class UserController {
 
 	@GetMapping("/finance-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String Finances(Model model) {
+	String financeOverview(Model model) {
 		return "finance-overview";
 	}
 
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String Orders(Model model) {
+	String orderOverview(Model model) {
 		return "order-overview";
 	}
 
