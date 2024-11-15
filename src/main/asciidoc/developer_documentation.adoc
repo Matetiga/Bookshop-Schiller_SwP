@@ -1,70 +1,294 @@
-= Entwicklerdokumentation
-:project_name: name-des-projekts
+= Developer Documentation
+:project_name: Buchhandlung Schiller
+:company_name: "Buchhandlung SCHILLER"
 :toc: left
 :numbered:
+:icons: font
+:spring-modulith-docs: ../../../target/spring-modulith-docs
 
 [options="header"]
 [cols="1, 3, 3"]
 |===
-|Version | Bearbeitungsdatum   | Autor 
-|...	| ... | ...
+|Version
+|Processing Date
+|Author
+
+|1.0
+|November 15th 2024
+|Willi Richter, Vincent Richter, Martin Najera, Linus Leuner, Marco Hernandez, Emilio Leuoth, Erion Leka, Kevin Grandl
 |===
 
+== Introduction
+=== Task Definition
 
-== Einführung
-* Aufgabenstellung
+The Bookstore {company_name} is seeking a web application to expand its business model,
+allowing for efficient sales and management of books as well as potential non-book items.
+The application will support user, item, and order management to streamline operations for
+employees while enhancing the shopping experience for customers.
 
-== Randbedingungen
-* Hardware-Vorgaben
-* Software-Vorgaben
-* Vorgaben zum Betrieb der Software
+The application will support multiple roles: Customers, Employees, and Admins. Each user
+can create an account, view and edit personal data, and delete their account if desired.
+Customers will be able to browse the catalog without logging in but must log in to access
+the shopping cart and place orders. In addition, employees and Admins can also be customers
+and enjoy similar functionality. Employee permissions include managing the inventory, such
+as adding, editing and removing books and other items, viewing customer and order
+lists, confirming payments, and canceling orders. Admins, in addition to all employee
+permissions, have full system access, including adding or removing employees. It is
+required that there must always be at least one active Admin in the system.
 
-== Kontextabgrenzung
-* Kontextdiagramm
+The Item Management system will include books and other potential items like merchandise
+or calendars. Each book entry must include fields for the author, publisher, ISBN, a brief
+description, and a cover image, with books classified into at least one of the following
+genres: Fiction, Non-Fiction, Entertainment, or Guide with the possibility to add or edit
+genres later on. Employees and Admins should have the ability to edit and add both books
+and genres, ensuring that each book belongs to at least one genre. Non-book items, such as
+merchandise, will have fields for name, description, price, and stock, and all items will
+receive unique identifiers, Stock management is essential: items should not decrease in
+stock unless purchased, and any item that runs out of stock must display as such to customers.
 
-== Lösungsstrategie
-=== Erfüllung der Qualitätsziele
+The Order Management system will allow customers to order items with payment options of
+either invoice or cash on pickup. The order date will automatically record on the day the
+order is placed, and the expected delivery date is set to three days after this order date.
+Employees will handle shipments manually once payment is confirmed, with system-generated
+updates on order and delivery statuses as they progress. The inventory is only adjusted when
+the payment process is initiated, ensuring stock is correctly accounted for.
+
+A Financial Overview feature, available only to Admins, will provide a monthly revenue
+summary without a breakdown by category. This overview will include a simple chart
+displaying monthly revenue trends over time, with historical data accessible as well.
+Revenue should be calculated upon order payment confirmation (immediate for cash orders)
+and will appear in the financial overview as earnings for the respective order month.
+
+The User Interface (UI) will feature a navigational bar with different options depending on
+permissions set according to each user's role. The login screen will be universal across
+roles. The application will support search and filter options, enabling users to search
+by genre, author, and title and sort results by author, title, price, and release date.
+Stock availability will also be displayed in real-time, providing visibility for any
+items that are out of stock.
+
+== Constraints
+=== Hardware Specifications
+
+* Server (Company)
+* Computer with internet connection (End-User)
+* Keyboard (End-User)
+* Mouse (End-User)
+
+
+=== Software Specifications
+The following (or newer) Java version is necessary to run the application:
+
+* Java 21
+
+The following (or newer) browser versions are necessary to use the application:
+
+* Google Chrome 131.0.0
+* Firefox 130.0.0
+* Opera 114.0.0
+* Chromium based browsers 130.0.0
+* Safari 18.0
+
+
+=== Product Usage
+
+The system will serve as a web shop for {company_name} to sell books, calendars,
+and merchandise. The software will be hosted on a server and made accessible to customers
+via the internet through standard web browsers.
+
+The platform will be compatible with and visually optimized for all major web browsers to
+ensure a seamless user experience.
+
+The main users will be customers, familiar with standard website navigation, along with
+administrators and employees, who may not have technical expertise.
+
+The system is designed to operate without the need for technical maintenance. All data
+will be stored persistently in a database and accessible directly through the application.
+
+== Context and Scope
+=== Context Diagram
+
+[[context_diagram_d_c4]]
+image::./diagrams/images/videoshop_d_context_c4_c1.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Context diagram in C4 notation (Level 1: System Context)", align=center]
+
+== Solution Strategy
+=== Quality Demand Fulfillment
+NOTE: The following table shows the previous defined quality demands and solution approaches to fulfill them.
+
 [options="header"]
-|=== 
-|Qualitätsziel |Lösungsansatz
-|... |...
+|===
+|Quality Demand |Solution approach
+|Quality Demand |
+|Maintainability|
+|Navigability   |
+|Ease of use    |
+|Security        |
+|Design          |
+|Accessibility|
 |===
 
-=== Softwarearchitektur
-* Beschreibung der Architektur anhand der Top-Level-Architektur oder eines Client-Server-Diagramms
+=== Software Architecture
 
-=== Entwurfsentscheidungen
-* Verwendete Muster
-* Persistenz
-* Benutzeroberfläche
-* Verwendung externer Frameworks
+NOTE: First, you want to give an overview of the container/components of your whole system. For this purpose you could use the *Container diagram* of C4, a more informal *Client-Server diagram*, or both._
 
-[options="header", cols="1,2,3"]
-|===
-|Externes Package |Verwendet von |Warum
-|... |... |...
-|===
+[[container_diagram_d_c4]]
+image::./diagrams/images/videoshop_d_context_c4_c2.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Container diagram in C4 notation (Level 2: Container)", align=center]
 
-== Bausteinsicht
-* Package-Diagramm
-* Entwurfsklassendiagramme der einzelnen Packages
+[[client_server_diagram]]
+image::./diagrams/images/videoshop_client_server.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Client Server Model of the application. The client only contains HTML and CSS files. The application logic is implemented on the server", align=center]
+
+*Explanation:* HTML-Templates are rendered on the server and displayed by the client with their corresponding CSS-Stylesheets. The data shown in the templates is provided by Thymeleaf. Thymeleaf receives the requested data by the controller classes, which are implemented in the backend. These controller classes on the other hand use instances and methods of the model classes. By default, an underlying H2 database saves data persistently.
+
+NOTE: Optional JavaScript code is part of the client. *You can use JavaScript in your application but make sure that you don't use it to implement any of the application logic*!
+
+
+[[component_diagram_d_c4]]
+//plantuml::{spring-modulith-docs}/components.puml[format=svg,title="Top-level application architecture"]
+//auto-build by spring-modulith
+
+NOTE: The Top Level Architecture gives an overview of the components in your system (here the Web Application) and their relationships (here only to the database, but relationships between the components are possible, too).
+For this purpose you could use the *Component diagram* of C4, the *Top Level Architecture diagram* from the course Softwaretechnologie 1, or both.
+The components are described in detail in the chapter: 5. Building Block View.
+
+
+=== Architecture decisions
+
+==== Design Patterns
+* Spring MVC
+
+==== Persistence
+The application uses *Hibernate annotation based mapping* to map Java classes to database tables. As a database, *H2* is used.
+The persistence is deactivated by default. To activate persistence storage, the following two lines in the file _application.properties_ have to be uncommented:
+....
+# spring.datasource.url=jdbc:h2:./db/videoshop
+# spring.jpa.hibernate.ddl-auto=update
+....
+
+==== User Interface
+
+[[user-interface]]
+image::./diagrams/images/dialogue_map.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the Videoshop", align=center]
+
+NOTE: The blue boxes display a HTML-Template. The white boxes within the templates represent buttons, which redirect to the templates, their outgoing arrows point to._
+
+=== Use of external frameworks
+
+NOTE: Name the used external frameworks, in which packages you used them, and why you used them in your application. You only need to describe the high level artifact.
+
 
 [options="header"]
-|=== 
-|Klasse/Enumeration |Description
-|... |...
+|===
+|External library|Category|Description
+|Spring Boot|General purpose|…
+|Spring Data JPA|Persistence|…
+|Spring Security|Security|…
+|Semantic UI|UI|…
+|jQuery|UI|…
+NOTE: If you use JavaScript frameworks like Bootstrap, HTMX, etc. you have to add them to the list. The category is
+mostly _UI_ and/or _Communication_.
 |===
 
-=== Rückverfolgbarkeit zwischen Analyse- und Entwurfsmodell
-_Die folgende Tabelle zeigt die Rückverfolgbarkeit zwischen Entwurfs- und Analysemodell._
+== Building block view
+
+=== Package diagram
+
+NOTE: If your package structure is more nested as in this example, add an *UML package diagram* to this document.
+This diagram only shows the packages of the application, their containment structure, and \<<use>>-relationships between them. The goal is to give an overview of the detailed architecture.
+
+_Example: https://www.uml-diagrams.org/multi-layered-web-architecture-uml-package-diagram-example.html_
+
+[[package_diagram]]
+image::./diagrams/images/videoshop_d_package.svg[package diagram]
+
+
+NOTE: In the following sections, you will find the detailed class diagrams of the packages shown in the package diagram.
+You can add some short descriptions of the classes below but the general description of the classes should be in
+Java-Doc. The Java-Doc is the primary source of information for the classes. You can add a link to the doc, if it's
+on a permanent location.
+
+=== Videoshop
+
+image:diagrams/images/videoshop.svg[class design diagram - videoshop]
+
+=== Catalog
+
+//plantuml::{spring-modulith-docs}/module-videoshop.catalog.puml[format=svg, title="The catalog component"]
+//include::{spring-modulith-docs}/module-videoshop.catalog.adoc[]
+//auto-build by spring-modulith
+
+image:diagrams/images/catalog.svg[class design diagram - catalog]
+
+=== Customer
+
+//plantuml::{spring-modulith-docs}/module-videoshop.customer.puml[format=svg,title="The customer component"]
+//include::{spring-modulith-docs}/module-videoshop.customer.adoc[]
+//auto-build by spring-modulith
+
+image:diagrams/images/customer.svg[class design diagram - customer]
+
+
+=== Inventory
+
+//plantuml::{spring-modulith-docs}/module-videoshop.inventory.puml[format=svg,title="The inventory component"]
+//include::{spring-modulith-docs}/module-videoshop.inventory.adoc[]
+//auto-build by spring-modulith
+
+image:diagrams/images/inventory.svg[class design diagram - inventory]
+
+=== Order
+
+//plantuml::{spring-modulith-docs}/module-videoshop.order.puml[format=svg,title="The order component"]
+//include::{spring-modulith-docs}/module-videoshop.order.adoc[]
+//auto-build by spring-modulith
+
+
+image:diagrams/images/order.svg[class design diagram - order]
+
+
+=== Traceability between Analysis- and Design Model
+NOTE: The following table shows the Forward- and Backward Traceability from the Analysis Model to the Design Model
+and vice versa. Use it as a checklist to check that you did not forgot a domain concept.
 
 [options="header"]
 |===
-|Klasse/Enumeration (Analysemodell) |Klasse/Enumeration (Entwurfsmodell)
-|... |...
+|Class/Enumeration (Analysis Model) |Class/Enumeration (Design Model)
+
+|BluRay                 |videoshop.catalog.DiscType
+|Boss        		   a|
+* salespointframework.Role
+* salespointframework.UserAccount
+|Cart                   |salespointframework.Cart
+|Item                   |salespointframework.CartItem (via Salespoint.Cart)
+|Comment                |videoshop.catalog.Comment
+|Customer   		   a|
+* salespointframework.Role
+* videoshop.customer.Customer
+|Disc             		|videoshop.catalog.Disc
+|Dvd                    |videoshop.catalog.DiscType
+|Image					|String
+|Inventory              |salespointframework.UniqueInventory
+|InventoryItem          |salespointframework.UniqueInventoryItem
+|Order                  |salespointframework.Order
+|Status                 |salespointframework.OrderStatus
+|User/Registered User  a|
+* salespointframework.UserAccount
+|VideoCatalog           |salespointframework.catalog
+|Videoshop              |videoshop.Videoshop
 |===
 
-== Laufzeitsicht
-* Darstellung der Komponenteninteraktion anhand eines Sequenzdiagramms, welches die relevantesten Interaktionen darstellt.
+== Runtime view
+
+NOTE: For your developer documentation you only have to create a diagram of one component, which shows the most relevant interactions.
+
+=== Catalog
+image:diagrams/images/seq_catalog.svg[sequence diagram - catalog]
+
+=== Customer
+image:diagrams/images/seq_customer.svg[sequence diagram - customer]
+
+=== Inventory
+image:diagrams/images/seq_inventory.svg[sequence diagram - inventory]
+
+=== Order
+image:diagrams/images/seq_order.svg[sequence diagram - order]
 
 
