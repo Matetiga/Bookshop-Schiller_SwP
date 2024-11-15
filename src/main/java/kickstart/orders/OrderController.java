@@ -73,7 +73,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/checkout")
-	String checkOut(@ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
+	String buy(@ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
 		MyOrder order = new MyOrder(userId, paymentMethod);
 		for(CartItem item : cart.stream().toList()){
 			order.addOrderLine(item.getProduct(), item.getQuantity());
@@ -81,10 +81,5 @@ public class OrderController {
 		myOrderRepository.save(order);
 		cart.clear();
 		return "cart";
-	}
-
-	@PostMapping("/welcome")
-	String welcome(){
-		return "welcome";
 	}
 }

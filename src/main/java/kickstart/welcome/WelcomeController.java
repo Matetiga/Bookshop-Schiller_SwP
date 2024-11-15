@@ -33,6 +33,10 @@ public class WelcomeController {
 		return "welcome";
 	}
 
+	@PostMapping("/welcome")
+	String welcome(){
+		return "welcome";
+	}
 
 	@PostMapping("/cart")
 	public String redirectCart() {
