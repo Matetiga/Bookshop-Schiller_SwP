@@ -2,8 +2,8 @@ package kickstart.user;
 
 import jakarta.validation.Valid;
 import org.salespointframework.useraccount.Role;
-import org.springframework.data.util.Streamable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.userdetails.*;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -27,32 +28,32 @@ class UserController {
 		this.userManagement = userManagement;
 	}
 	
-		// until yet not perfect style 
-		@PostMapping("/register")
-		String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
+	// until yet not perfect style 
+	@PostMapping("/register")
+	String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
 
-			if (result.hasErrors()) {
-				return "register";
-			}
-
-			if (userManagement.findByEmail(form.getEmail())) {
-				result.rejectValue("email", "error.emailExisted", "Email already taken");
-			}
-
-			if (!form.getPassword().equals(form.getConfirmPassword())) {
-				result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match"); 
-			}
-
-			if (result.hasErrors()) {
-				return "register";
-			}
-			else {
-				
-			}
-			userManagement.createCustomer(form);
-
-			return "redirect:/";
+		if (result.hasErrors()) {
+			return "register";
 		}
+
+		if (userManagement.findByEmail(form.getEmail())) {
+			result.rejectValue("email", "error.emailExisted", "Email already taken");
+		}
+
+		if (!form.getPassword().equals(form.getConfirmPassword())) {
+			result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match"); 
+		}
+
+		if (result.hasErrors()) {
+			return "register";
+		}
+		else {
+			
+		}
+		userManagement.createCustomer(form);
+
+		return "redirect:/";
+	}
 
 	@GetMapping("/register")
 	String register(Model model, RegistrationForm form) {
@@ -128,5 +129,20 @@ class UserController {
 
 		return "redirect:/" + source;
 	}
+
+	@GetMapping("/account")
+	public String accountOverview(@AuthenticationPrincipal UserDetails UserDetails, Model model) {
+
+		if (UserDetails == null) return "redirect:/login";
+
+
+		for (User user : userManagement.findAll()) {
+			if (user.getUserAccount().getUsername().equals(UserDetails.getUsername())) {
+				model.addAttribute("user", user);  
+				return "account";
+			}
+		}
+		return "redirect:/login";  
+	}	
 
 }
