@@ -38,6 +38,7 @@
                     <table class="ui celled table">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Name</th>
                                 <th>Anzahl</th>
                                 <th>Preis</th>
@@ -45,6 +46,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="orderLine : ${order.getOrderLines().toList()}">
+                                <td></td>
                                 <td th:text="${orderLine.getProductName()}"></td>
                                 <td th:text="${orderLine.getQuantity()}"></td>
                                 <td th:text="${orderLine.getPrice()}"></td>
