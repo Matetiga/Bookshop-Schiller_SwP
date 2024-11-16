@@ -61,7 +61,6 @@ public class Genre {
 
 
 	// Getters
-
 	// this must be static for it to be reached from the whole system
 	public static Set<Genre> getAllGenres() {
 		return genres;

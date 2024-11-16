@@ -12,6 +12,7 @@ import static kickstart.Inventory.Products.Genre.getAllGenres;
 // IMPORTANT: ISBN management should be the same as the Genre Management
 // that would mean another class, which should have a static Set of all ISBNs, ASK!!!!!
 // or is there a better way to manage every ID, ISBN, Genre, Book collection...
+//TODO should a book have more genres? -> Then a HashSet of Genres should be added
 @Entity
 public class Book extends ShopProduct {
 	@Embedded
@@ -88,6 +89,29 @@ public class Book extends ShopProduct {
 		}
 
 		this.genre = genre;
+	}
+
+	public void setPublisher(String publisher) {
+		if (publisher == null) {
+			throw new NullPointerException("Setter Book Publisher cannot be null");
+		}
+		if(publisher.isBlank()){
+			throw new IllegalArgumentException("Setter Book Publisher cannot be empty");
+		}
+		this.publisher = publisher;
+	}
+
+	//TODO check for a valid ISBN
+	// IMPORTANT!!!!!!!!!!
+	// ASK if it must be 13 or 10 digits (there are more questions above)
+	public void setISBN(String ISBN) {
+		if (ISBN == null) {
+			throw new NullPointerException("Setter Book ISBN cannot be null");
+		}
+		if(ISBN.isBlank()){
+			throw new IllegalArgumentException("Setter Book ISBN cannot be empty");
+		}
+		this.ISBN = ISBN;
 	}
 
 	// Getters

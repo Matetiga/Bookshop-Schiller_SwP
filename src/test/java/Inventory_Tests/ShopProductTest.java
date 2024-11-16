@@ -94,6 +94,5 @@ public class ShopProductTest {
 		}
 	}
 
-	// TODO Test for the ID
 }
 
