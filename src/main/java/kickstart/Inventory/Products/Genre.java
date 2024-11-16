@@ -30,8 +30,10 @@ public class Genre {
 			throw new IllegalArgumentException("Genre creator - Genre cannot be empty");
 		}
 
+		String norm_name = name.replaceAll("\\s", "").toLowerCase();
 		for(Genre genre: genres){
-			if(genre.getGenre().equals(name)){
+			String norm_genre = genre.getGenre().replaceAll("\\s", "").toLowerCase();
+			if(norm_genre.equals(norm_name)){
 				// if the genre already exists, return it ?
 				return genre;
 			}
@@ -74,10 +76,12 @@ public class Genre {
 		if (obj == this) {
 			return true;
 		}
-		if (!(obj instanceof Genre)) {
+		if (!(obj instanceof Genre obj_genre)) {
 			return false;
 		}
-		return genre.trim().toLowerCase().equals(this.getGenre().trim().toLowerCase());
+		String normalized_genre = genre.replaceAll("\\s", "").toLowerCase();
+		String normalized_obj_genre = obj_genre.getGenre().replaceAll("\\s", "").toLowerCase();
+		return normalized_obj_genre.equals(normalized_genre);
 	}
 
 	@Override

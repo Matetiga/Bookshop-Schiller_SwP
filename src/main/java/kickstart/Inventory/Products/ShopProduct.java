@@ -49,10 +49,10 @@ public class ShopProduct extends Product{
 
 	public void setDescription(String description) {
 		if (description == null){
-			throw new NullPointerException("Product Description cannot be null");
+			throw new NullPointerException("ShopProduct Description cannot be null");
 		}
 		if(description.isBlank()){
-			throw new IllegalArgumentException("Product Description cannot be blank");
+			throw new IllegalArgumentException("ShopProduct Description cannot be blank");
 		}
 		this.description = description;
 	}
