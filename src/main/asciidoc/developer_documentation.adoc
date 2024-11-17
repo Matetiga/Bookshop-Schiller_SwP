@@ -241,8 +241,7 @@ image:diagrams/images/inventory.svg[class design diagram - inventory]
 //auto-build by spring-modulith
 
 
-image:diagrams/images/order.svg[class design diagram - order]
-
+image:models/design/ClassDiagramOrder.png[class design diagram - order]
 
 === Traceability between Analysis- and Design Model
 NOTE: The following table shows the Forward- and Backward Traceability from the Analysis Model to the Design Model
