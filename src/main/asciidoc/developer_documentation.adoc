@@ -193,67 +193,66 @@ image::./models/design/General/packageDiagram.svg[Package Diagram, 100%, 100%, p
 
 === Bookshop
 
-image::./models/design/General/bookshop.svg[class design diagram - bookshop]
+image::./models/design/General/bookshop.svg[title = class design diagram - bookshop]
 
 === Catalog
 
 
-image::models/design/Catalog/juml_catalog.svg[class design diagram - catalog]
+image::models/design/Catalog/juml_catalog.svg[title = class design diagram - catalog]
 
 === User
 
-image::models/design/User/jUML_User.png[class design diagram - User]
+image::models/design/User/jUML_User.png[title = class design diagram - User]
 
 
 === Inventory
 
-image::models/design/Inventory/inventory_jUML.png[class design diagram - inventory]
+image::models/design/Inventory/inventory_jUML.png[title = class design diagram - inventory]
 
 === Order
 
-image:models/design/Order/ClassDiagramOrder.png[class design diagram - order]
+image:models/design/Order/ClassDiagramOrder.png[title = class design diagram - order]
 
 === Traceability between Analysis- and Design Model
 
 [options="header"]
 |===
 |Class/Enumeration (Analysis Model) |Class/Enumeration (Design Model)
-
-|BluRay                 |videoshop.catalog.DiscType
-|Boss        		   a|
-* salespointframework.Role
+|User   		       a|
 * salespointframework.UserAccount
-|Cart                   |salespointframework.Cart
-|Item                   |salespointframework.CartItem (via Salespoint.Cart)
-|Comment                |videoshop.catalog.Comment
-|Customer   		   a|
+* bookshop.user.User
+|Customer a|
 * salespointframework.Role
-* videoshop.customer.Customer
-|Disc             		|videoshop.catalog.Disc
-|Dvd                    |videoshop.catalog.DiscType
+* bookshop.user.Customer
+|Admin      		   a|
+* salespointframework.Role
+* bookshop.user.Admin
+|Product             	|bookshop.inventory.ShopProduct
+|Book                   |bookshop.inventory.book
+|Merch                  |bookshop.inventory.merch
+|Calender               |bookshop.inventory.calender
 |Image					|String
 |Inventory              |salespointframework.UniqueInventory
 |InventoryItem          |salespointframework.UniqueInventoryItem
 |Order                  |salespointframework.Order
 |Status                 |salespointframework.OrderStatus
-|User/Registered User  a|
-* salespointframework.UserAccount
-|VideoCatalog           |salespointframework.catalog
-|Videoshop              |videoshop.Videoshop
+|Cart                   |salespointframework.Cart
+|Item                   |salespointframework.CartItem
+|Catalog                |salespointframework.catalog
+|Bookshop               |bookshop.Bookshop
 |===
 
 == Runtime view
 
 === Catalog
-image::models/design/Catalog/catalog_sequenceDiagram.svg[sequence diagram - catalog]
+image::models/design/Catalog/catalog_sequenceDiagram.svg[title = sequence diagram - catalog]
 
 === User
-image::models/design/User/SequenceDiagram_CustomerRegistration.png[sequence diagram - User]
+image::models/design/User/SequenceDiagram_CustomerRegistration.png[title = sequence diagram - User]
 
 === Inventory
-image::models/design/Inventory/inventory_SeqDiagram.png[sequence diagram - inventory]
+image::models/design/Inventory/inventory_SeqDiagram.png[title = sequence diagram - inventory]
 
 === Order
-image:models/design/Order/SequenceOrder.png[sequence diagram - order]
-
+image:models/design/Order/SequenceOrder.png[title = sequence diagram - order]
 
