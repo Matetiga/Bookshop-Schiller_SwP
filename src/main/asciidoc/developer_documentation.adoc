@@ -180,14 +180,15 @@ image::./diagrams/images/dialogue_map.svg[context diagram c4, 100%, 100%, pdfwid
 
 [options="header"]
 |===
-|External library|Category|Description
-|Spring Boot|General purpose|…
-|Spring Data JPA|Persistence|…
-|Spring Security|Security|…
-|Semantic UI|UI|…
-|jQuery|UI|…
-NOTE: If you use JavaScript frameworks like Bootstrap, HTMX, etc. you have to add them to the list. The category is
-mostly _UI_ and/or _Communication_.
+|External library|Category
+|Spring Boot|General purpose
+|Spring Data JPA|Persistence
+|Spring Security|Security
+|Salespoint|Business Logic
+|Semantic UI|UI
+|jQuery|UI
+|Bootstrap|UI and Appearance
+
 |===
 
 == Building block view
