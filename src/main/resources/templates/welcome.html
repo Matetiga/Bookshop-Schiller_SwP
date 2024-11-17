@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" th:href="@{/resources/css/style.css}">
@@ -8,5 +10,12 @@
 	<body>
 		<h1 th:text="#{welcome.title}">Welcome!</h1>
 		<p th:text="#{welcome.text}"></p>
+
+        <form class="ui form" method="post" th:action="@{/cart}">
+            <button type="submit" class="ui button">zum Warenkorb</button>
+        </form>
+        <form class="ui form" method="post" th:action="@{/orders}">
+            <button type="submit" class="ui button">zu den Bestellungen</button>
+        </form>
 	</body>
 </html>
