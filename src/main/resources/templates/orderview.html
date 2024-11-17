@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h2 th:text="#{orders.header}">Bestellungen</h2>
+    <div th:unless="${orderList.isEmpty()}">
+        <table class="ui celled table">
+            <thead>
+            <tr>
+                <th th:text="#{orders.date}">Datum</th>
+                <th th:text="#{orders.customerId}">Kunde</th>
+                <th th:text="#{orders.price}">Bestellwert</th>
+                <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
+                <th th:text="#{orders.state}">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order : ${orderList}">
+                    <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
+                    <td th:text="${order.getUserAccountIdentifier()}"></td>
+                    <td th:text="${order.getTotal()}"></td>
+                    <td th:text="${order.getStringPaymentMethod()}"></td>
+                    <td th:text="${order.getOrderStatus()}"></td>
+                    <td>
+                        <form class="ui form" method="post" th:action="@{/deleteOrder}">
+                            <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                            <button type="submit" class="ui button">Bestellung entfernen</button>
+                        </form>
+                    </td>
+                    <table class="ui celled table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Anzahl</th>
+                                <th>Preis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="orderLine : ${order.getOrderLines().toList()}">
+                                <td th:text="${orderLine.getProductName()}"></td>
+                                <td th:text="${orderLine.getQuantity()}"></td>
+                                <td th:text="${orderLine.getPrice()}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2 th:if="${orderList.isEmpty()}" th:text="#{orders.empty}">Derzeit keine Bestellungen</h2>
+</section>
+
+<form class="ui form" method="post" th:action="@{/welcome}">
+    <button type="submit" class="ui button" th:text="#{cart.welcome}">Zur Homepage</button>
+</form>
+</body>
+</html>
