@@ -28,18 +28,21 @@ import java.util.Optional;
 @Controller
 public class WelcomeController {
 
-// <<<<<<< prototype_catalog
-// 	@GetMapping("/welcome")
-// =======
+ 	@GetMapping("/")
 // 	@GetMapping("/ignore")
-// >>>>>>> main
-// 	public String index() {
+ 	public String index() {
+		 return "homeProvisorisch";
 // 		return "catalog_books";
-// 	}
+ 	}
 
 	@PostMapping("/welcome")
 	String welcome(){
-		return "welcome";
+		return "homeProvisorisch";
+	}
+
+	@PostMapping("/login")
+	public String redirectLogin() {
+		return ("redirect:/login");
 	}
 
 	@PostMapping("/cart")

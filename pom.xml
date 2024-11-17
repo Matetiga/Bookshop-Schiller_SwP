@@ -26,7 +26,6 @@
 	</properties>
 
 	<dependencies>
-
 		<!--
 			Additional project dependencies go here.
 
@@ -41,11 +40,10 @@
 			Use Maven Central for package search (https://search.maven.org/).
 		-->
 
-		<dependency>
 			<groupId>de.tudresden.inf.st</groupId>
 			<artifactId>salespoint-framework</artifactId>
 			<version>10.0.0</version>
-		</dependency>
+
 	</dependencies>
 
 	<repositories>
