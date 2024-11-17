@@ -37,21 +37,31 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-// 	@Configuration
-// <<<<<<< prototype_user
-// 	static class WebSecurityhomeProvisorischConfiguration {
-// =======
-	static class VideoShopWebConfiguration implements WebMvcConfigurer {
-		@Override
-		public void addViewControllers(ViewControllerRegistry registry) {
-			registry.addViewController(LOGIN_ROUTE).setViewName("login");
-			registry.addViewController("/").setViewName("index");
-		}
-	}
+//	static class VideoShopWebConfiguration implements WebMvcConfigurer {
+//		@Override
+//		public void addViewControllers(ViewControllerRegistry registry) {
+//			registry.addViewController(LOGIN_ROUTE).setViewName("login");
+//			registry.addViewController("/").setViewName("index");
+//		}
+//	}
+//
+//	@Configuration
+//	static class WebSecurityConfiguration {
+//
+//
+//		@Bean
+//		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {
+//
+//			return http
+//				.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
+//				.csrf(csrf -> csrf.disable())
+//				.formLogin(login -> login.loginPage(LOGIN_ROUTE).loginProcessingUrl(LOGIN_ROUTE))
+//				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/")).build();
+//		}
+//	}
 
 	@Configuration
-	static class WebSecurityConfiguration {
-
+	static class WebSecurityhomeProvisorischConfiguration {
 
 		@Bean
 		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {
@@ -59,8 +69,9 @@ public class Application {
 			return http
 				.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
 				.csrf(csrf -> csrf.disable())
-				.formLogin(login -> login.loginPage(LOGIN_ROUTE).loginProcessingUrl(LOGIN_ROUTE))
-				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/")).build();
+				.formLogin(login -> login.loginProcessingUrl("/login"))
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
+				.build();
 		}
 	}
 }

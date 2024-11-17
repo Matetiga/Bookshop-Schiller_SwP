@@ -35,14 +35,13 @@
             <div class="image">
                 <a th:href="@{/calender/{id}(id=${shopProduct.id})}">
                     <img class="thumbnail"
-                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
+                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.getImage()})}"
                          src="../static/resources/img/cover/stephen.jpg"/>
                 </a>
             </div>
             <div class="product-catalog-item-info">
                 <a class="h3" th:href="@{/calender/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Calender
                     Title</a>
-                <div class="text-base" th:text="${shopProduct.genre}">History</div>
                 <div class="price text-medium-bold" th:text="${shopProduct.price}">9.99 €</div>
             </div>
         </div>

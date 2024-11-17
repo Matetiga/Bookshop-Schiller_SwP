@@ -1,4 +1,9 @@
 package kickstart.catalog;
+import kickstart.Inventory.Products.Book;
+import kickstart.Inventory.Products.Calendar;
+import kickstart.Inventory.Products.Merch;
+import kickstart.Inventory.Products.ShopProduct;
+import kickstart.Inventory.ShopProductCatalog;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
@@ -9,26 +14,35 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class CatalogController {
 	private static final Quantity NONE = Quantity.of(0);
 
-	private final ProductCatalog catalog;
+	private final ShopProductCatalog catalog;
 	private final UniqueInventory<UniqueInventoryItem> inventory;
-	private final BusinessTime businessTime;
 
-	CatalogController(ProductCatalog productCatalog, UniqueInventory<UniqueInventoryItem> inventory,
-					  BusinessTime businessTime) {
+
+	CatalogController(ShopProductCatalog productCatalog, UniqueInventory<UniqueInventoryItem> inventory) {
 
 		this.catalog = productCatalog;
 		this.inventory = inventory;
-		this.businessTime = businessTime;
 	}
 
 	@GetMapping("/books")
 	String bookCatalog(Model model) {
 
-		model.addAttribute("catalog", catalog.findByType(ShopProduct.ProductType.BOOK));
+		List<Book> catalog = new ArrayList<>();
+		for(UniqueInventoryItem item : inventory.findAll()){
+			if(item.getProduct() instanceof Book){
+				catalog.add((Book) item.getProduct());
+			}
+		}
+		model.addAttribute("catalog", catalog);
 		model.addAttribute("title", "catalog.book.title");
 
 		return "catalog_books";
@@ -37,7 +51,14 @@ public class CatalogController {
 	@GetMapping("/merch")
 	String merchCatalog(Model model) {
 
-		model.addAttribute("catalog", catalog.findByType(ShopProduct.ProductType.MERCH));
+		List<Merch> catalog = new ArrayList<>();
+		for(UniqueInventoryItem item : inventory.findAll()){
+			if(item.getProduct() instanceof Merch){
+				catalog.add((Merch) item.getProduct());
+			}
+		}
+
+		model.addAttribute("catalog", catalog);
 		model.addAttribute("title", "catalog.merch.title");
 
 		return "catalog_merch";
@@ -46,7 +67,14 @@ public class CatalogController {
 	@GetMapping("/calenders")
 	String calenderCatalog(Model model) {
 
-		model.addAttribute("catalog", catalog.findByType(ShopProduct.ProductType.CALENDER));
+		List<Calendar> catalog = new ArrayList<>();
+		for(UniqueInventoryItem item : inventory.findAll()){
+			if(item.getProduct() instanceof Calendar){
+				catalog.add((Calendar) item.getProduct());
+			}
+		}
+
+		model.addAttribute("catalog", catalog);
 		model.addAttribute("title", "catalog.calender.title");
 
 		return "catalog_calender";

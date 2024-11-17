@@ -42,7 +42,7 @@
     <section class="product-catalog panel-effect">
         <div class="product-catalog-item" th:each="shopProduct : ${catalog}">
             <div class="image">
-                <a th:href="@{/book/{id}(id=${shopProduct.id})}">
+                <a th:href="@{/book/{id}(id=${shopProduct.getId()})}">
                     <img class="thumbnail"
                          th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
                          src="../static/resources/img/cover/stephen.jpg"/>
@@ -51,7 +51,7 @@
             <div class="product-catalog-item-info">
                 <a class="h3" th:href="@{/book/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Book
                     Title</a>
-                <div class="text-base" th:text="${shopProduct.genre}">History</div>
+                <div class="text-base" th:text="${shopProduct.getBookGenre()}">History</div>
                 <div class="price text-medium-bold" th:text="${shopProduct.price}">9.99 €</div>
             </div>
         </div>

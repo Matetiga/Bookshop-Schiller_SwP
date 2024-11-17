@@ -1,5 +1,6 @@
 package kickstart.catalog;
 
+import kickstart.Inventory.ShopProductCatalog;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.accountancy.Accountancy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ApplicationModuleTest(mode = ApplicationModuleTest.BootstrapMode.DIRECT_DEPENDENCIES)
 public class CatalogModuleTests {
-	@Autowired ProductCatalog catalog;
+	@Autowired
+	ShopProductCatalog catalog;
 	@Autowired ConfigurableApplicationContext context;
 
 	@Test

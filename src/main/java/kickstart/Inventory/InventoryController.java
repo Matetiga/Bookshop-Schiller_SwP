@@ -23,10 +23,10 @@ public class InventoryController {
 		this.shopProductInventory = shopProductInventory;
 	}
 
-	@GetMapping("/")
-	public String showWelcomePage() {
-		return "basicWelcome"; // this refers to the 'welcome' Thymeleaf template
-	}
+//	@GetMapping("/")
+//	public String showWelcomePage() {
+//		return "basicWelcome"; // this refers to the 'welcome' Thymeleaf template
+//	}
 
 
 	@GetMapping("/inventory")
