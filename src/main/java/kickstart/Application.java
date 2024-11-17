@@ -37,7 +37,10 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@Configuration
+// 	@Configuration
+// <<<<<<< prototype_user
+// 	static class WebSecurityhomeProvisorischConfiguration {
+// =======
 	static class VideoShopWebConfiguration implements WebMvcConfigurer {
 		@Override
 		public void addViewControllers(ViewControllerRegistry registry) {
@@ -48,6 +51,7 @@ public class Application {
 
 	@Configuration
 	static class WebSecurityConfiguration {
+
 
 		@Bean
 		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {

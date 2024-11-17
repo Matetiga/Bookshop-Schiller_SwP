@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{register.title}">Registration</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+
+<div class="container mt-5">
+    <header class="mb-4">
+        <h1 class="text-center" th:text="#{register.title}">Registration</h1>
+    </header>
+
+    <section>
+        <form method="post" role="form" id="form" th:action="@{/register}" th:object="${registrationForm}" class="needs-validation" novalidate>
+
+            <h3 class="border-bottom pb-2 mb-4" th:text="#{register.userdata}">Userdata</h3>
+
+            <div class="form-group">
+                <label th:text="#{register.email}" for="email">Email</label>
+                <input id="email" name="email" th:field="*{email}" type="email" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                    It has to be a valid unemail.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.name}" for="name">Name</label>
+                <input id="name" name="name" th:field="*{name}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                    The Name cannot be empty.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.last_name}" for="last_name">Last Name</label>
+                <input id="last_name" name="last_name" th:field="*{last_name}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}">
+                    The Last Name cannot be empty.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.birthDate}" for="birthDate">Birth Date</label>
+                <input id="birthDate" name="birthDate" th:field="*{birthDate}" type="date" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">
+                    It has to be a date in the past.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.password}" for="password">Password</label>
+                <input id="password" name="password" th:field="*{password}" type="password" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                    Password must be at least 8 characters.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.confirmPassword}" for="confirmPassword">Confirm Password</label>
+                <input id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" type="password" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
+                    Confirm Password must match the password.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{register.address}" for="address">Address</label>
+                <input id="address" name="address" th:field="*{address}" type="text" class="form-control" th:errorclass="is-invalid" required/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">
+                    The address cannot be empty.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" th:text="#{register.submit}">Register</button>
+            <button type="button" class="btn btn-primary btn-block mt-3" onclick="window.location.href='/login'" th:text="#{login.goToButtonText}">Go to Login</button>
+
+
+        </form>
+    </section>
+</div>
+
+<!-- Warum der Code -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
