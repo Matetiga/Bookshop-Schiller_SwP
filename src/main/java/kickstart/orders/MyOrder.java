@@ -19,6 +19,8 @@ public class MyOrder extends Order {
 	}
 
 	public String getStringPaymentMethod(){
-		return this.stringPaymentMethod;
+		return stringPaymentMethod;
 	}
+
+	
 }

@@ -1,5 +1,7 @@
 package kickstart.orders;
 
+import kickstart.Inventory.Products.Book;
+import kickstart.Inventory.Products.Genre;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static kickstart.Inventory.Products.Genre.createGenre;
+
 
 @Controller
 @SessionAttributes("cart")
@@ -17,9 +21,15 @@ public class OrderController {
 	private UserAccount.UserAccountIdentifier userId;
 	private final MyOrderRepository myOrderRepository;
 
+	static Genre fiction = createGenre("Fiction");
+	static Genre history = createGenre("Cooking");
 	//for testing:
-	private static final Product exampleProduct1 = new Book("geiles Buch", Money.of(100, "EUR"), Book.Genre.Fantasy, "Jesus");
-	private final Product exampleProduct2 = new Book("schlechtes Buch", Money.of(200, "EUR"), Book.Genre.Fantasy, "Arno Dübel");
+	private static final Product exampleProduct1 = new Book("The Great Gatsby", "gatsby.jpg", Money.of(10 ,"USD"),
+		"A novel set in the 1920s about the American Dream", fiction, "F. Scott Fitzgerald",
+		"9780743273565", "Scribner");
+	private final Product exampleProduct2 = new Book("Sapiens: A Brief History of Humankind", "sapiens.jpg", Money.of(15, "USD"),
+		"Explores the history of humankind", history, "Yuval Noah Harari",
+		"9780062316110", "Harper");
 
 	OrderController(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
