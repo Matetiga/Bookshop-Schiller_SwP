@@ -236,10 +236,6 @@ image:diagrams/images/inventory.svg[class design diagram - inventory]
 
 === Order
 
-//plantuml::{spring-modulith-docs}/module-videoshop.order.puml[format=svg,title="The order component"]
-//include::{spring-modulith-docs}/module-videoshop.order.adoc[]
-//auto-build by spring-modulith
-
 
 image:models/design/ClassDiagramOrder.png[class design diagram - order]
 
@@ -276,8 +272,6 @@ and vice versa. Use it as a checklist to check that you did not forgot a domain 
 
 == Runtime view
 
-NOTE: For your developer documentation you only have to create a diagram of one component, which shows the most relevant interactions.
-
 === Catalog
 image:diagrams/images/seq_catalog.svg[sequence diagram - catalog]
 
@@ -288,6 +282,6 @@ image:diagrams/images/seq_customer.svg[sequence diagram - customer]
 image:diagrams/images/seq_inventory.svg[sequence diagram - inventory]
 
 === Order
-image:diagrams/images/seq_order.svg[sequence diagram - order]
+image:models/design/SequenceOrder.png[sequence diagram - order]
 
 
