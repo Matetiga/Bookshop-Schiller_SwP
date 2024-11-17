@@ -28,10 +28,14 @@ import java.util.Optional;
 @Controller
 public class WelcomeController {
 
-	@GetMapping("/ignore")
-	public String index() {
-		return "welcome";
-	}
+// <<<<<<< prototype_catalog
+// 	@GetMapping("/welcome")
+// =======
+// 	@GetMapping("/ignore")
+// >>>>>>> main
+// 	public String index() {
+// 		return "catalog_books";
+// 	}
 
 	@PostMapping("/welcome")
 	String welcome(){

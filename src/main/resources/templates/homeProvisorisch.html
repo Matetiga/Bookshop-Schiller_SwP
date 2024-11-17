@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title th:text="#{homeP.title}">Welcome2!</title>
+</head>
+<body>
+<header>
+    <h1 th:text="#{homeP.title}">Welcome!</h1>
+</header>
+
+<div class="container">
+    <!-- Sidebar for filters -->
+    <aside class="sidebar panel-effect">
+        <h2>Provisorische NAV</h2>
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
+            <li><button class="small-nav-tab-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button></li>
+            <li>
+                <div>
+                    <form  class="small-nav-tab-button" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                        <button class="small-nav-tab-button" type="submit" th:text="#{login.logout}">Logout</button>
+                    </form>
+                </div>
+
+            </li>
+            <li><button class="small-nav-tab-button">Register</button></li>
+        </ul>
+
+    </aside>
+
+    <!-- Book List -->
+    <section class="product-catalog panel-effect">
+        <h3 sec:authorize="isAuthenticated()" th:text="${'Hallo ' + #authentication?.name}">Hallo Nutzer</h3>
+    </section>
+</div>
+</body>
+</html>

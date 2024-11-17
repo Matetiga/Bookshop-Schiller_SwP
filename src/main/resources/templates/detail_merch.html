@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${merch.name}">Merch Title</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>Merch</h1>
+</header>
+<div class="container">
+    <div class="panel-effect">
+        <div class="two-column-container">
+            <!-- Image Section -->
+            <div class="left-column paddingContainer">
+                <div class="product-details-image left-column">
+                    <img th:src="@{/resources/img/cover/{image}.jpg(image=${merch.image})}" alt="Merch Cover">
+                </div>
+            </div>
+
+
+            <!-- Book Information Section -->
+            <div class="right-column paddingContainer product-details-info ">
+                <h2 th:text="${merch.name}">Book Title</h2>
+                <p class="price" th:text="${merch.price}">9.99 €</p>
+
+                <!-- Add to Cart Button -->
+                <div class="actions">
+                    <button class="my-cool-button">In den Warenkorb</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>
