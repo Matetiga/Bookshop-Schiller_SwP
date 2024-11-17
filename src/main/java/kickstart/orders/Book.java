@@ -4,6 +4,7 @@ import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import jakarta.persistence.Entity;
 
+//class is only for demonstration and testing, can be deleted after demonstration of the prototype
 @Entity
 public class Book extends Product {
 	private String author;
