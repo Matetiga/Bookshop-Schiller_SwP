@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookInventory</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+<body>
+<p>
+    List Of Books
+</p>
+<div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Stock</th>
+            <th>Image</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Genre</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Publisher</th>
+        </tr>
+        <tr th:each="books : ${stock}">
+            <td th:text="${books.product.name}"></td>
+            <td th:text="${books.quantity}"></td>
+            <td th:text="${books.product}"></td>
+            <td th:text="${books.product.price}"></td>
+<!--            <td th:text="${book.description}"></td>-->
+<!--            <td th:text="${book.genre}"></td>-->
+<!--            <td th:text="${book.author}"></td>-->
+<!--            <td th:text="${book.ISBN}"></td>-->
+<!--            <td th:text="${book.publisher}"></td>-->
+        </tr>
+    </table>
+</div>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar Inventory</title>
+</head>
+<body>
+<h1>Inventory Lists</h1>
+<ul>
+    <li><button th:onclick="|location.href='@{/inventory}'|">Book List</button></li>
+    <li><button th:onclick="|location.href='@{/merch_inventory}'|">Merch List</button></li>
+    <li><button th:onclick="|location.href='@{/calendar_inventory}'|">Calendar List</button></li>
+
+</ul>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Stock</th>
+    </tr>
+    <tr th:each="calendar : ${calendars}">
+        <td th:text="${calendar.getKey().name}">Name</td>
+        <td th:text="${calendar.getKey().price}">Price</td>
+        <td th:text="${calendar.getKey().description}">Description</td>
+        <td th:text="${calendar.getKey().image}">Image</td>
+        <td th:text="${calendar.getValue()}">Stock</td>
+        <td>
+            <form th:action="@{/inventory/update}" method="post">
+                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                <button type="submit">Update Quantity</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
