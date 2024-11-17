@@ -28,10 +28,17 @@
     box-sizing: border-box;
 }
 body {
+
     margin: 0 auto;
     font: var(--font-size-base) / 22px var(--font-family);
     background: var(--background-color);
     color: var(--text-color);
+
+/* 	margin: 0 auto;
+	width: 940px;
+	font: 13px/22px Helvetica, Arial, sans-serif;
+	background: #D3D3D3; */
+
 }
 .panel-effect { /* The cool panel effect with the drop shadow */
     border-radius: 8px;
