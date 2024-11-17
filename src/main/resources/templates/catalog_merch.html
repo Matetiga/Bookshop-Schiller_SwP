@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <title th:text="#{catalog.title}">Welcome2!</title>
+</head>
+<body>
+<header>
+    <h1 th:text="#{catalog.title}">Welcome!</h1>
+</header>
+
+<div class="container">
+    <!-- Sidebar for filters -->
+    <aside class="sidebar panel-effect">
+        <h2>Provisorische NAV</h2>
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
+        </ul>
+        <h2>Kategorien</h2>
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+        </ul>
+    </aside>
+
+    <!-- Merch List -->
+    <section class="product-catalog panel-effect">
+        <div class="product-catalog-item" th:each="shopProduct : ${catalog}">
+            <div class="image">
+                <a th:href="@{/merch/{id}(id=${shopProduct.id})}">
+                    <img class="thumbnail"
+                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
+                         src="../static/resources/img/cover/stephen.jpg"/>
+                </a>
+            </div>
+            <div class="product-catalog-item-info">
+                <a class="h3" th:href="@{/merch/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Merch
+                    Title</a>
+                <div class="text-base" th:text="${shopProduct.genre}">History</div>
+                <div class="price text-medium-bold" th:text="${shopProduct.price}">9.99 €</div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
