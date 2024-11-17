@@ -22,6 +22,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * The main application class.
@@ -29,13 +31,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableSalespoint
 public class Application {
 
-	/**
-	 * The main application method
-	 * 
-	 * @param args application arguments
-	 */
+	private static final String LOGIN_ROUTE = "/login";
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+	}
+
+	@Configuration
+	static class VideoShopWebConfiguration implements WebMvcConfigurer {
+		@Override
+		public void addViewControllers(ViewControllerRegistry registry) {
+			registry.addViewController(LOGIN_ROUTE).setViewName("login");
+			registry.addViewController("/").setViewName("index");
+		}
 	}
 
 	@Configuration
@@ -45,11 +53,10 @@ public class Application {
 		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {
 
 			return http
-					.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
-					.csrf(csrf -> csrf.disable())
-					.formLogin(login -> login.loginProcessingUrl("/login"))
-					.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/"))
-					.build();
+				.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
+				.csrf(csrf -> csrf.disable())
+				.formLogin(login -> login.loginPage(LOGIN_ROUTE).loginProcessingUrl(LOGIN_ROUTE))
+				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/")).build();
 		}
 	}
 }
