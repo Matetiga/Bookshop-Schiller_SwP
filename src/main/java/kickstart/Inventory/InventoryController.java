@@ -29,7 +29,7 @@ public class InventoryController {
 //	}
 
 
-	@GetMapping("/inventory")
+	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {
 		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();
 		for(UniqueInventoryItem item : shopProductInventory.findAll()){
@@ -39,10 +39,10 @@ public class InventoryController {
 		}
 
 		model.addAttribute("books", books);
-		return "inventory";
+		return "inventory_book";
 	}
 
-	@GetMapping("/merch_inventory")
+	@GetMapping("/inventory_merch")
 	public String showMerchInventory(Model model) {
 		List<Map.Entry<Merch, Quantity>> merch = new ArrayList<>();
 		for(UniqueInventoryItem item : shopProductInventory.findAll()){
@@ -52,10 +52,10 @@ public class InventoryController {
 		}
 
 		model.addAttribute("merch", merch);
-		return "merch_inventory";
+		return "inventory_merch";
 	}
 
-	@GetMapping("/calendar_inventory")
+	@GetMapping("/inventory_calendar")
 	public String showCalendarInventory(Model model) {
 		List<Map.Entry<Calendar, Quantity>> calendars = new ArrayList<>();
 		for(UniqueInventoryItem item : shopProductInventory.findAll()){
@@ -65,7 +65,7 @@ public class InventoryController {
 		}
 
 		model.addAttribute("calendars", calendars);
-		return "calendar_inventory";
+		return "inventory_calendar";
 	}
 
 	//TODO ASK IF THERE IS A BETTER WAY TO DO THIS
@@ -79,7 +79,7 @@ public class InventoryController {
 			shopProductInventory.save(item);
 		});
 		showInventory(model);
-		return "inventory";
+		return "inventory_book";
 
 	}
 
@@ -90,7 +90,7 @@ public class InventoryController {
 			shopProductInventory.save(item);
 		});
 		showInventory(model);
-		return "inventory";
+		return "inventory_book";
 	}
 
 	@PostMapping("/inventory/delete")
@@ -99,7 +99,7 @@ public class InventoryController {
 			shopProductInventory.delete(item);
 		});
 		showInventory(model);
-		return "inventory";
+		return "inventory_book";
 	}
 
 }

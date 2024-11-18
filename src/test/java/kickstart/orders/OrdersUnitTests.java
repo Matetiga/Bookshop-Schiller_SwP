@@ -1,4 +1,4 @@
-package orders;
+package kickstart.orders;
 
 import kickstart.orders.MyOrder;
 
