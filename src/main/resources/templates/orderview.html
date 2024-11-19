@@ -17,7 +17,7 @@
             <tr>
                 <th th:text="#{orders.date}">Datum</th>
                 <th th:text="#{orders.customerId}">Kunde</th>
-<!--                <th th:text="#{orders.price}">Bestellwert</th>-->
+                <th th:text="#{orders.price}">Bestellwert</th>
                 <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
                 <th th:text="#{orders.state}">Status</th>
             </tr>
@@ -26,7 +26,7 @@
                 <tr th:each="order : ${orderList}">
                     <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
                     <td th:text="${order.getUserAccountIdentifier()}"></td>
-<!--                    <td th:text="${order.getTotal()}"></td> gives an error-->
+                    <td th:text="${order.getTotal()}"></td>
                     <td th:text="${order.getStringPaymentMethod()}"></td>
                     <td th:text="${order.getOrderStatus()}"></td>
                     <td>
