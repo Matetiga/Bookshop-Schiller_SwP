@@ -1,6 +1,6 @@
 = Protokoll Gruppe XX
 
-Treffen am XX.XX.20XX
+Treffen am 19.11.2024
 Ort:      Ort des Treffens APB + E005
 Beginn:   13:00 Uhr +
 Ende:     13:45 Uhr
@@ -8,7 +8,7 @@ Ende:     13:45 Uhr
 __Schriftführer:__ Kevin Grandl
 
 *Nächstes Treffen:* +
-XX.XX.20XX, xx:xx Uhr, Ort des nächsten Treffens
+26.11.2024, 13:00 Uhr, APB
 
 __Teilnehmer:__
 //Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
