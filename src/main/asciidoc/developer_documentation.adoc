@@ -108,7 +108,7 @@ will be stored persistently in a database and accessible directly through the ap
 === Context Diagram
 
 [[context_diagram_d_c4]]
-image::./diagrams/images/videoshop_d_context_c4_c1.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Context diagram in C4 notation (Level 1: System Context)", align=center]
+image::./models/analysis/ContextDiagramm/ContextDiagramm.png[context diagram, 100%, 100%, pdfwidth=100%, title= "Context diagram in UML (Level 1: System Context)", align=center]
 
 == Solution Strategy
 === Quality Demand Fulfillment
@@ -142,18 +142,10 @@ Ensure that the application is accessible for as many people as possible, by mak
 === Software Architecture
 
 [[container_diagram_d_c4]]
-image::./diagrams/images/videoshop_d_context_c4_c2.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Container diagram in C4 notation (Level 2: Container)", align=center]
+image::./models/design/General/ContainerDiagram(C4).png[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Container diagram in C4 notation (Level 2: Container)", align=center]
 
 [[client_server_diagram]]
-image::./diagrams/images/videoshop_client_server.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Client Server Model of the application. The client only contains HTML and CSS files. The application logic is implemented on the server", align=center]
-
-
-
-
-[[component_diagram_d_c4]]
-//plantuml::{spring-modulith-docs}/components.puml[format=svg,title="Top-level application architecture"]
-//auto-build by spring-modulith
-
+image::./models/design/General/ClientServerModel.png[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Client Server Model of the application, align=center]
 
 
 === Architecture decisions
@@ -172,8 +164,7 @@ The persistence is deactivated by default. To activate persistence storage, the 
 ==== User Interface
 
 [[user-interface]]
-image::./diagrams/images/dialogue_map.svg[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the Videoshop", align=center]
-
+image::./models/design/General/DialogMap.png[dialoque_map, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the application", align=center]
 
 === Use of external frameworks
 
@@ -196,85 +187,72 @@ image::./diagrams/images/dialogue_map.svg[context diagram c4, 100%, 100%, pdfwid
 === Package diagram
 
 [[package_diagram]]
-image::./diagrams/images/videoshop_d_package.svg[package diagram]
+image::./models/design/General/packageDiagram.svg[Package Diagram, 100%, 100%, pdfwidth=100%, title= "Package diagram of the application", align=center]
 
 
 
-=== Videoshop
+=== Bookshop
 
-image:diagrams/images/videoshop.svg[class design diagram - videoshop]
+image::./models/design/General/bookshop.svg[title = class design diagram - bookshop]
 
 === Catalog
 
-//plantuml::{spring-modulith-docs}/module-videoshop.catalog.puml[format=svg, title="The catalog component"]
-//include::{spring-modulith-docs}/module-videoshop.catalog.adoc[]
-//auto-build by spring-modulith
 
-image:diagrams/images/catalog.svg[class design diagram - catalog]
+image::models/design/Catalog/juml_catalog.svg[title = class design diagram - catalog]
 
-=== Customer
+=== User
 
-//plantuml::{spring-modulith-docs}/module-videoshop.customer.puml[format=svg,title="The customer component"]
-//include::{spring-modulith-docs}/module-videoshop.customer.adoc[]
-//auto-build by spring-modulith
-
-image:diagrams/images/customer.svg[class design diagram - customer]
+image::models/design/User/jUML_User.png[title = class design diagram - User]
 
 
 === Inventory
 
-//plantuml::{spring-modulith-docs}/module-videoshop.inventory.puml[format=svg,title="The inventory component"]
-//include::{spring-modulith-docs}/module-videoshop.inventory.adoc[]
-//auto-build by spring-modulith
-
-image:diagrams/images/inventory.svg[class design diagram - inventory]
+image::models/design/Inventory/inventory_jUML.png[title = class design diagram - inventory]
 
 === Order
 
-
-image:models/design/ClassDiagramOrder.png[class design diagram - order]
+image:models/design/Order/ClassDiagramOrder.png[title = class design diagram - order]
 
 === Traceability between Analysis- and Design Model
 
 [options="header"]
 |===
 |Class/Enumeration (Analysis Model) |Class/Enumeration (Design Model)
-
-|BluRay                 |videoshop.catalog.DiscType
-|Boss        		   a|
-* salespointframework.Role
+|User   		       a|
 * salespointframework.UserAccount
-|Cart                   |salespointframework.Cart
-|Item                   |salespointframework.CartItem (via Salespoint.Cart)
-|Comment                |videoshop.catalog.Comment
-|Customer   		   a|
+* bookshop.user.User
+|Customer a|
 * salespointframework.Role
-* videoshop.customer.Customer
-|Disc             		|videoshop.catalog.Disc
-|Dvd                    |videoshop.catalog.DiscType
+* bookshop.user.Customer
+|Admin      		   a|
+* salespointframework.Role
+* bookshop.user.Admin
+|Product             	|bookshop.inventory.ShopProduct
+|Book                   |bookshop.inventory.book
+|Merch                  |bookshop.inventory.merch
+|Calender               |bookshop.inventory.calender
 |Image					|String
 |Inventory              |salespointframework.UniqueInventory
 |InventoryItem          |salespointframework.UniqueInventoryItem
 |Order                  |salespointframework.Order
 |Status                 |salespointframework.OrderStatus
-|User/Registered User  a|
-* salespointframework.UserAccount
-|VideoCatalog           |salespointframework.catalog
-|Videoshop              |videoshop.Videoshop
+|Cart                   |salespointframework.Cart
+|Item                   |salespointframework.CartItem
+|Catalog                |salespointframework.catalog
+|Bookshop               |bookshop.Bookshop
 |===
 
 == Runtime view
 
 === Catalog
-image:diagrams/images/seq_catalog.svg[sequence diagram - catalog]
+image::models/design/Catalog/catalog_sequenceDiagram.svg[title = sequence diagram - catalog]
 
-=== Customer
-image:diagrams/images/seq_customer.svg[sequence diagram - customer]
+=== User
+image::models/design/User/SequenceDiagram_CustomerRegistration.png[title = sequence diagram - User]
 
 === Inventory
-image:diagrams/images/seq_inventory.svg[sequence diagram - inventory]
+image::models/design/Inventory/inventory_SeqDiagram.png[title = sequence diagram - inventory]
 
 === Order
-image:models/design/SequenceOrder.png[sequence diagram - order]
-
+image:models/design/Order/SequenceOrder.png[title = sequence diagram - order]
 

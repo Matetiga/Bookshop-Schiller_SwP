@@ -13,6 +13,7 @@ import static kickstart.Inventory.Products.Genre.getAllGenres;
 // that would mean another class, which should have a static Set of all ISBNs, ASK!!!!!
 // or is there a better way to manage every ID, ISBN, Genre, Book collection...
 //TODO should a book have more genres? -> Then a HashSet of Genres should be added
+// ISBN should be of 12 digits (including the -)
 @Entity
 public class Book extends ShopProduct {
 	@Embedded

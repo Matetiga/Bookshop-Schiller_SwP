@@ -6,10 +6,11 @@
 </head>
 <body>
   <h1>Inventory Lists</h1>
+  <button th:onclick="|location.href='@{/}'|">Back to Welcome</button>
   <ul>
-    <li><button th:onclick="|location.href='@{/inventory}'|">Book List</button></li>
-    <li><button th:onclick="|location.href='@{/merch_inventory}'|">Merch List</button></li>
-    <li><button th:onclick="|location.href='@{/calendar_inventory}'|">Calendar List</button></li>
+    <li><button th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
+    <li><button th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
+    <li><button th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
 
   </ul>
           <table>

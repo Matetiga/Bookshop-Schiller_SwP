@@ -6,7 +6,10 @@ import org.salespointframework.catalog.Product;
 
 @Entity
 
-public class ShopProduct extends Product{
+// TODO this class can be abstract, so it cannot be initialized directly
+// otherwise it is possible to create a ShopProduct that is not a Book, Calendar or Merch
+// just by adding books, calendars and merch
+public  class ShopProduct extends Product{
 
 	private String name;
 	private Money price;
@@ -17,8 +20,6 @@ public class ShopProduct extends Product{
 	@SuppressWarnings({"deprecation"})
 	protected ShopProduct() {}
 	public ShopProduct(String name, String image, Money price, String description) {
-		// TODO is this the most optimal way or is it better to replace it for a factory method?
-		// TODO should it be possible to create a Product or ONLY a BOOK, CALENDAR OR MERCH?
 
 		super(name, price);
 		if (image == null) {

@@ -34,7 +34,7 @@ public class Genre {
 		for(Genre genre: genres){
 			String norm_genre = genre.getGenre().replaceAll("\\s", "").toLowerCase();
 			if(norm_genre.equals(norm_name)){
-				// if the genre already exists, return it ?
+				// if the genre already exists, return it
 				return genre;
 			}
 		}

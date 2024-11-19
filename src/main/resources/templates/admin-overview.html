@@ -9,9 +9,9 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+<button th:onclick="|location.href='@{/}'|">Back to Welcome</button>
 <div class="container mt-5">
     <h2 class="text-center mb-4" th:text="#{admin.overview}">Employee overview</h2>
-
     <section>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">

@@ -1,4 +1,4 @@
-package Inventory_Tests;
+package kickstart.Inventory_Tests;
 
 import kickstart.Inventory.Products.Genre;
 import kickstart.Inventory.Products.ShopProduct;
