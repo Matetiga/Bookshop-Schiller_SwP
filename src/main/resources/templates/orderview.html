@@ -61,5 +61,16 @@
 <form class="ui form" method="post" th:action="@{/welcome}">
     <button type="submit" class="ui button" th:text="#{cart.welcome}">Zur Homepage</button>
 </form>
+<form class="ui form" method="post" th:action="@{/orderview}">
+    <label for="dropdown_status">Status:</label>
+    <select id="dropdown_status" name="valueStatus">
+        <option value="ALL">alle</option>
+        <option value="OPEN">offen</option>
+        <option value="PAID">bezahlt</option>
+        <option value="COMPLETED">abgeschlossen</option>
+    </select>
+    <br>
+    <button type="submit" class="ui button">Filtern</button>
+</form>
 </body>
 </html>

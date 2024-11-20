@@ -1,6 +1,7 @@
 package kickstart.orders;
 
 import org.salespointframework.order.Order;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,18 @@ public class OrderViewController {
 	}
 
 	@GetMapping("/orderview")
-	String addOrders(Model model){
-		model.addAttribute("orderList", myOrderRepository.findAll());
+	String addOrders(Model model, @RequestParam(value = "valueStatus", required = false) String status){
+		Iterable<MyOrder> orderList;
+		if(status == null){
+			orderList = myOrderRepository.findAll();
+		}
+		else{
+			switch (status){
+				case "OPEN":
+					myOrderRepository.fin
+			}
+		}
+		model.addAttribute("orderList", orderList);
 		return "orderview";
 	}
 
