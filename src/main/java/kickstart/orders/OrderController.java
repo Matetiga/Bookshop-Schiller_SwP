@@ -24,10 +24,10 @@ public class OrderController {
 	static Genre fiction = createGenre("Fiction");
 	static Genre history = createGenre("Cooking");
 	//for testing:
-	private static final Product exampleProduct1 = new Book("The Great Gatsby", "gatsby.jpg", Money.of(10 ,"USD"),
+	private static final Product exampleProduct1 = new Book("The Great Gatsby", "gatsby.jpg", Money.of(10 ,"EUR"),
 		"A novel set in the 1920s about the American Dream", fiction, "F. Scott Fitzgerald",
 		"9780743273565", "Scribner");
-	private final Product exampleProduct2 = new Book("Sapiens: A Brief History of Humankind", "sapiens.jpg", Money.of(15, "USD"),
+	private final Product exampleProduct2 = new Book("Sapiens: A Brief History of Humankind", "sapiens.jpg", Money.of(15, "EUR"),
 		"Explores the history of humankind", history, "Yuval Noah Harari",
 		"9780062316110", "Harper");
 
