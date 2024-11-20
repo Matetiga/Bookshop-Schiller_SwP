@@ -142,7 +142,7 @@ Ensure that the application is accessible for as many people as possible, by mak
 === Software Architecture
 
 [[container_diagram_d_c4]]
-image::./models/design/General/ContainerDiagram(C4).png[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Container diagram in C4 notation (Level 2: Container)", align=center]
+image::./models/design/General/ContainerDiagram(C4)(black_white).png[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Container diagram in C4 notation (Level 2: Container)", align=center]
 
 [[client_server_diagram]]
 image::./models/design/General/ClientServerModel.png[context diagram c4, 100%, 100%, pdfwidth=100%, title= "Client Server Model of the application, align=center]
@@ -164,7 +164,7 @@ The persistence is deactivated by default. To activate persistence storage, the 
 ==== User Interface
 
 [[user-interface]]
-image::./models/design/General/DialogMap.png[dialoque_map, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the application", align=center]
+image::./models/design/General/DialogMap(black_white).png[dialoque_map, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the application", align=center]
 
 === Use of external frameworks
 
@@ -193,12 +193,12 @@ image::./models/design/General/packageDiagram.svg[Package Diagram, 100%, 100%, p
 
 === Bookshop
 
-image::./models/design/General/bookshop.svg[title = class design diagram - bookshop]
+image::./models/design/General/bookshop(black_white).svg[title = class design diagram - bookshop]
 
 === Catalog
 
 
-image::models/design/Catalog/juml_catalog.svg[title = class design diagram - catalog]
+image::models/design/Catalog/juml_catalog(black_white).svg[title = class design diagram - catalog]
 
 === User
 
@@ -245,7 +245,7 @@ image:models/design/Order/ClassDiagramOrder.png[title = class design diagram - o
 == Runtime view
 
 === Catalog
-image::models/design/Catalog/catalog_sequenceDiagram.svg[title = sequence diagram - catalog]
+image::models/design/Catalog/catalog_sequenceDiagram(black_white).svg[title = sequence diagram - catalog]
 
 === User
 image::models/design/User/SequenceDiagram_CustomerRegistration.png[title = sequence diagram - User]
