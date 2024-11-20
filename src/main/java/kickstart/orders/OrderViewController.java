@@ -1,7 +1,7 @@
 package kickstart.orders;
 
 import org.salespointframework.order.Order;
-import org.springframework.data.util.Streamable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,26 +15,16 @@ public class OrderViewController {
 		this.myOrderRepository = myOrderRepository;
 	}
 
-	@GetMapping("/orderview")
-	String addOrders(Model model, @RequestParam(value = "valueStatus", required = false) String status){
-		Iterable<MyOrder> orderList;
-		if(status == null){
-			orderList = myOrderRepository.findAll();
-		}
-		else{
-			switch (status){
-				case "OPEN":
-					myOrderRepository.fin
-			}
-		}
-		model.addAttribute("orderList", orderList);
-		return "orderview";
+	@GetMapping("/order-overview")
+	String addOrders(Model model){
+		model.addAttribute("orderList", myOrderRepository.findAll());
+		return "order-overview";
 	}
 
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 		myOrderRepository.deleteById(orderId);
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		return "orderview";
+		return "order-overview";
 	}
 }

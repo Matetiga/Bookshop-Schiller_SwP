@@ -52,6 +52,6 @@ public class WelcomeController {
 
 	@PostMapping("/orders")
 	public String redirectOrders() {
-		return ("redirect:/orderview");
+		return ("redirect:/order-overview");
 	}
 }
