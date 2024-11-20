@@ -14,16 +14,16 @@ public class OrderViewController {
 		this.myOrderRepository = myOrderRepository;
 	}
 
-	@GetMapping("/orderview")
+	@GetMapping("/order-overview")
 	String addOrders(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		return "orderview";
+		return "order-overview";
 	}
 
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 		myOrderRepository.deleteById(orderId);
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		return "orderview";
+		return "order-overview";
 	}
 }

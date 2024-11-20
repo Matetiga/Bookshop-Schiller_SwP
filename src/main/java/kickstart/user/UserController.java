@@ -94,11 +94,11 @@ class UserController {
 		return "finance-overview";
 	}
 
-	@GetMapping("/order-overview")
-	@PreAuthorize("hasRole('ADMIN')")
-	String orderOverview(Model model) {
-		return "order-overview";
-	}
+//	@GetMapping("/order-overview")
+//	@PreAuthorize("hasRole('ADMIN')")
+//	String orderOverview(Model model) {
+//		return "order-overview";
+//	}
 
 	@GetMapping("/admin-overview")
 	@PreAuthorize("hasRole('ADMIN')")

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +16,37 @@
 
     <section>
         <div class="table-responsive">
-
-            <h3>Imagine fancy order table here</h3>
+            <section layout:fragment="content">
+                <div th:unless="${orderList.isEmpty()}">
+                    <table class="ui celled table">
+                        <thead>
+                        <tr>
+                            <th th:text="#{orders.date}">Datum</th>
+                            <th th:text="#{orders.customerId}">Kunde</th>
+                            <th th:text="#{orders.price}">Bestellwert</th>
+                            <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
+                            <th th:text="#{orders.state}">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orderList}">
+                            <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td th:text="${order.getUserAccountIdentifier()}"></td>
+                            <td th:text="${order.getTotal()}"></td>
+                            <td th:text="${order.getStringPaymentMethod()}"></td>
+                            <td th:text="${order.getOrderStatus()}"></td>
+                            <td>
+                                <form class="ui form" method="post" th:action="@{/deleteOrder}">
+                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                                    <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h2 th:if="${orderList.isEmpty()}" th:text="#{orders.empty}">Derzeit keine Bestellungen</h2>
+            </section>
 
             <!-- Admin Navigator -->
             <a th:href="@{/admin-overview}" class="btn btn-primary" th:text="#{admin.overview}">Admin Overview</a>
@@ -23,7 +54,6 @@
             <a th:href="@{/customer-overview}" class="btn btn-primary" th:text="#{customer.overview}">Customer Overview</a>
             <a th:href="@{/finance-overview}" class="btn btn-primary" th:text="#{finance.overview}">Fincance Overview</a>
             <a th:href="@{/order-overview}" class="btn btn-primary" th:text="#{order.overview}">Order Overview</a>
-
         </div>
     </section>
 </div>
