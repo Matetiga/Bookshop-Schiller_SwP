@@ -2,11 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{order.overview}">Order overview</title>
+    <form class="ui form" method="post" th:action="@{/order-overview}">
+        <label for="dropdown_status">Status:</label>
+        <select id="dropdown_status" name="valueStatus">
+            <option value="ALL">alle</option>
+            <option value="OPEN">offen</option>
+            <option value="PAID">bezahlt</option>
+            <option value="COMPLETED">abgeschlossen</option>
+        </select>
+        <br>
+        <button type="submit" class="ui button">Filtern</button>
+    </form>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>

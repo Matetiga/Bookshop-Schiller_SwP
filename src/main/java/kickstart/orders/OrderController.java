@@ -92,29 +92,4 @@ public class OrderController {
 		cart.clear();
 		return "cart";
 	}
-
-	/*
-	<form class="ui form" method="post" th:action="@{/orderview}">
-    <label for="dropdown_status">Status:</label>
-    <select id="dropdown_status" name="valueStatus">
-        <option value="ALL">alle</option>
-        <option value="OPEN">offen</option>
-        <option value="PAID">bezahlt</option>
-        <option value="COMPLETED">abgeschlossen</option>
-    </select>
-    <br>
-    <button type="submit" class="ui button">Filtern</button>
-</form>
-Iterable<MyOrder> orderList;
-		if(status == null){
-			orderList = myOrderRepository.findAll();
-		}
-		else{
-			switch (status){
-				case "OPEN":
-					myOrderRepository.fin
-			}
-		}
-		model.addAttribute("orderList", orderList);
-	 */
 }
