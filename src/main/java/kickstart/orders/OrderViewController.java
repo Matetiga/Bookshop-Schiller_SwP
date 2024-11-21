@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 public class OrderViewController {
 
 	private final MyOrderRepository myOrderRepository;
-	private final OrderManagement orderManagement;
+	private final MyOrderManagement myOrderManagement;
 
-	public OrderViewController(MyOrderRepository myOrderRepository, OrderManagement orderManagement){
+	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
-		this.orderManagement = orderManagement;
+		this.myOrderManagement = myOrderManagement;
 	}
 
 	@GetMapping("/order-overview")
@@ -31,16 +31,25 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
-	@PostMapping("/order-overview")
+	@PostMapping("/filterByStatus")
 	String filterStatus(Model model, @RequestParam(value = "valueStatus", required = false) String status){
 		Iterable<MyOrder> orderList;
 		if(status == null || status.equals("ALL")){
 			orderList = myOrderRepository.findAll();
 		}
 		else{
-			orderList = orderManagement.findByStatus(OrderStatus.valueOf(status));
+			orderList = myOrderManagement.findByStatus(OrderStatus.valueOf(status));
 		}
 		model.addAttribute("orderList", orderList);
+		return "order-overview";
+	}
+
+	@PostMapping("/changeStatus")
+	String changeStatus(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
+		MyOrder order = myOrderRepository.findById(orderId).get();
+		order.changeStatus();
+		myOrderRepository.save(order);
+		model.addAttribute("orderList", myOrderRepository.findAll());
 		return "order-overview";
 	}
 }

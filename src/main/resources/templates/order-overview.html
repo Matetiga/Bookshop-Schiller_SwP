@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{order.overview}">Order overview</title>
-    <form class="ui form" method="post" th:action="@{/order-overview}">
+    <form class="ui form" method="post" th:action="@{/filterByStatus}">
         <label for="dropdown_status">Status:</label>
         <select id="dropdown_status" name="valueStatus">
             <option value="ALL">alle</option>
@@ -44,7 +44,13 @@
                             <td th:text="${order.getUserAccountIdentifier()}"></td>
                             <td th:text="${order.getTotal()}"></td>
                             <td th:text="${order.getStringPaymentMethod()}"></td>
-                            <td th:text="${order.getOrderStatus()}"></td>
+                            <td th:text="${order.getMyOrderStatus()}"></td>
+                            <td>
+                                <form class="ui form" method="post" th:action="@{/changeStatus}">
+                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                                    <button type="submit" class="btn btn-danger">Status ändern</button>
+                                </form>
+                            </td>
                             <td>
                                 <form class="ui form" method="post" th:action="@{/deleteOrder}">
                                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
