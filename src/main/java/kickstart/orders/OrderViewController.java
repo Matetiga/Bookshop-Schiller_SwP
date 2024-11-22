@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@SessionAttributes("selectedStatus")
 public class OrderViewController {
 
 	private final MyOrderRepository myOrderRepository;
@@ -19,6 +20,7 @@ public class OrderViewController {
 	}
 
 	@GetMapping("/order-overview")
+	@PreAuthorize("hasRole('ADMIN')")
 	String orderOverview(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
 		return "order-overview";

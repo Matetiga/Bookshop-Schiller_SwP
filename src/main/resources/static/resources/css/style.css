@@ -307,3 +307,26 @@ h1 {
     border-color: var(--secondary-color);
     outline: none;
 }
+
+
+/* Container für das Dropdown in order-overview*/
+.form-container {
+    display: flex;
+    flex-direction: column; /* Elemente untereinander anordnen */
+    align-items: flex-start; /* Links ausrichten */
+    gap: 10px; /* Abstand zwischen Dropdown und Button */
+}
+
+/* Formular-Komponenten */
+.form-group {
+    width: 100%; /* Volle Breite */
+    margin-bottom: 15px; /* Abstand zwischen Elementen */
+}
+
+form select.form-control {
+    width: 100%; /* Dropdown nimmt die gesamte Breite ein */
+}
+
+form button {
+    align-self: flex-start; /* Button bleibt linksbündig */
+}

@@ -6,25 +6,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{order.overview}">Order overview</title>
-    <form class="ui form" method="post" th:action="@{/filterByStatus}">
-        <label for="dropdown_status">Status:</label>
-        <select id="dropdown_status" name="valueStatus">
-            <option value="ALL">alle</option>
-            <option value="OPEN">offen</option>
-            <option value="PAID">bezahlt</option>
-            <option value="COMPLETED">abgeschlossen</option>
-        </select>
-        <br>
-        <button type="submit" class="ui button">Filtern</button>
-    </form>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="text-center mb-4" th:text="#{order.overview}">Order overview</h2>
+    <h2 class="text-center mb-4">Order overview
+        <!-- Block-Container für Formular -->
+        <div class="form-container my-4">
+            <form class="ui form" method="post" th:action="@{/filterByStatus}">
+                <div class="form-group">
+                    <label for="dropdown_status">Status:</label>
+                    <select id="dropdown_status" name="valueStatus" class="form-control">
+                        <option value="ALL">alle</option>
+                        <option value="OPEN">offen</option>
+                        <option value="PAID">bezahlt</option>
+                        <option value="COMPLETED">abgeschlossen</option>
+                    </select>
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Filtern</button>
+                </div>
+            </form>
+        </div>
+    </h2><br>
 
-    <section>
+        <section>
         <div class="table-responsive">
             <section layout:fragment="content">
                 <div th:unless="${orderList.isEmpty()}">
@@ -48,7 +55,7 @@
                             <td>
                                 <form class="ui form" method="post" th:action="@{/changeStatus}">
                                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                    <button type="submit" class="btn btn-danger">Status ändern</button>
+                                    <button type="submit" class="btn btn-primary">Status ändern</button>
                                 </form>
                             </td>
                             <td>
