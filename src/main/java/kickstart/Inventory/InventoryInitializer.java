@@ -1,6 +1,5 @@
 package  kickstart.Inventory;
 
-import kickstart.Inventory.Products.*;
 import org.javamoney.moneta.Money;
 import org.salespointframework.core.DataInitializer;
 import org.salespointframework.inventory.UniqueInventory;
@@ -8,7 +7,7 @@ import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Component;
 
-import static kickstart.Inventory.Products.Genre.createGenre;
+import static kickstart.Inventory.Genre.createGenre;
 
 @Component
 public class InventoryInitializer implements DataInitializer {

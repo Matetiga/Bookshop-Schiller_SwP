@@ -1,13 +1,13 @@
 package kickstart.Inventory_Tests;
 
-import kickstart.Inventory.Products.Book;
-import kickstart.Inventory.Products.Genre;
+import kickstart.Inventory.Book;
+import kickstart.Inventory.Genre;
 import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static kickstart.Inventory.Products.Genre.createGenre;
+import static kickstart.Inventory.Genre.createGenre;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BookTest {

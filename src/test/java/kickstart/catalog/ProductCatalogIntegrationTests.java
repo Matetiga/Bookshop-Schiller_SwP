@@ -1,9 +1,10 @@
 package kickstart.catalog;
 
 import kickstart.AbstractIntegrationTests;
-import kickstart.Inventory.Products.*;
+import kickstart.Inventory.Book;
+import kickstart.Inventory.Calendar;
+import kickstart.Inventory.Merch;
 import kickstart.Inventory.ShopProductCatalog;
-import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;

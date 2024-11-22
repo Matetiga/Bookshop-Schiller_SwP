@@ -1,23 +1,20 @@
 package kickstart.catalog;
-import kickstart.Inventory.Products.Book;
-import kickstart.Inventory.Products.Calendar;
-import kickstart.Inventory.Products.Merch;
-import kickstart.Inventory.Products.ShopProduct;
+import kickstart.Inventory.Book;
+import kickstart.Inventory.Calendar;
+import kickstart.Inventory.Merch;
+import kickstart.Inventory.ShopProduct;
 import kickstart.Inventory.ShopProductCatalog;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
-import org.salespointframework.time.BusinessTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class CatalogController {

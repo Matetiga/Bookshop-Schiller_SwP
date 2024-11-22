@@ -1,15 +1,10 @@
-package kickstart.Inventory.Products;
-import jakarta.persistence.Embedded;
+package kickstart.Inventory;
 import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 
 @Entity
-
-// TODO this class can be abstract, so it cannot be initialized directly
-// otherwise it is possible to create a ShopProduct that is not a Book, Calendar or Merch
-// just by adding books, calendars and merch
-public  class ShopProduct extends Product{
+public abstract class ShopProduct extends Product{
 
 	private String name;
 	private Money price;

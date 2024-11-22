@@ -1,4 +1,4 @@
-package kickstart.Inventory.Products;
+package kickstart.Inventory;
 import java.util.Set;
 import java.util.HashSet;
 
