@@ -1,6 +1,6 @@
 package kickstart.Inventory_Tests;
 
-import kickstart.Inventory.Products.Genre;
+import kickstart.Inventory.Genre;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package kickstart.orders;
 
-import kickstart.Inventory.Products.Book;
-import kickstart.Inventory.Products.Genre;
+import kickstart.Inventory.Book;
+import kickstart.Inventory.Genre;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-import static kickstart.Inventory.Products.Genre.createGenre;
+import static kickstart.Inventory.Genre.createGenre;
 
 
 @Controller
@@ -21,10 +21,10 @@ public class OrderController {
 	private UserAccount.UserAccountIdentifier userId;
 	private final MyOrderRepository myOrderRepository;
 
-	static Genre fiction = createGenre("Fiction");
-	static Genre history = createGenre("Cooking");
+	Genre fiction = createGenre("Fiction");
+	Genre history = createGenre("Cooking");
 	//for testing:
-	private static final Product exampleProduct1 = new Book("The Great Gatsby", "gatsby.jpg", Money.of(10 ,"EUR"),
+	private final Product exampleProduct1 = new Book("The Great Gatsby", "gatsby.jpg", Money.of(10 ,"EUR"),
 		"A novel set in the 1920s about the American Dream", fiction, "F. Scott Fitzgerald",
 		"9780743273565", "Scribner");
 	private final Product exampleProduct2 = new Book("Sapiens: A Brief History of Humankind", "sapiens.jpg", Money.of(15, "EUR"),

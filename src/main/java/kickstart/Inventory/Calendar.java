@@ -1,4 +1,4 @@
-package kickstart.Inventory.Products;
+package kickstart.Inventory;
 
 import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;

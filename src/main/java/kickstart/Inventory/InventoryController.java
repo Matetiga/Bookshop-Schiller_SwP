@@ -1,8 +1,5 @@
 package kickstart.Inventory;
 
-import kickstart.Inventory.Products.Book;
-import kickstart.Inventory.Products.Calendar;
-import kickstart.Inventory.Products.Merch;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;

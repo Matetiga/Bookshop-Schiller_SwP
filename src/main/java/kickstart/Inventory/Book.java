@@ -1,11 +1,11 @@
-package kickstart.Inventory.Products;
+package kickstart.Inventory;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 
 import java.util.Set;
 
-import static kickstart.Inventory.Products.Genre.getAllGenres;
+import static kickstart.Inventory.Genre.getAllGenres;
 
 // TODO check for @Embeddable and @Embedded
 // TODO Add a Valid ISBN check
