@@ -11,37 +11,39 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Order overview
-        <div class="form-container my-4">
-            <form class="ui form" method="post" th:action="@{/filterByStatus}">
-                <div class="form-group">
-                    <label for="dropdown_status">Status:</label>
-                    <select id="dropdown_status" name="valueStatus" class="form-control">
-                        <option value="ALL">alle</option>
-                        <option value="OPEN">offen</option>
-                        <option value="PAID">bezahlt</option>
-                        <option value="COMPLETED">abgeschlossen</option>
-                    </select>
-                </div>
-                <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Filtern</button>
-                </div>
-            </form>
-        </div>
-    </h2><br>
+    <h2 class="text-center mb-4" th:text="#{order.overview}">Order Overview</h2>
 
-        <section>
+    <div class="form-container my-4">
+        <form class="ui form" method="post" th:action="@{/filterByStatus}">
+            <div class="form-group">
+                <label for="dropdown_status">Status:</label>
+                <select id="dropdown_status" name="valueStatus" class="form-control">
+                    <option value="ALL">alle</option>
+                    <option value="OPEN">offen</option>
+                    <option value="PAID">bezahlt</option>
+                    <option value="COMPLETED">abgeschlossen</option>
+                </select>
+            </div>
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Filtern</button>
+            </div>
+        </form>
+    </div>
+
+    <section>
         <div class="table-responsive">
             <section layout:fragment="content">
                 <div th:unless="${orderList.isEmpty()}">
-                    <table class="ui celled table" th:each="order : ${orderList}">
-                        <thead>
+                    <table class="table table-bordered table-hover" th:each="order : ${orderList}">
+                        <thead class="thead-dark">
                         <tr>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
                             <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
                             <th th:text="#{orders.state}">Status</th>
+                            <th scope="col" colspan="3" th:text="#{user.edit}">Aktionen</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -69,39 +71,35 @@
                                     <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
                                 </form>
                             </td>
-                            <table class="ui celled table">
-                                <thead>
-                                <tr>
-                                    <td></td>
-                                    <th>Produkte</th>
-                                    <th>Anzahl</th>
-                                    <th>Preis</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="orderLine : ${order.getOrderLines().toList()}">
-                                    <td></td>
-                                    <td th:text="${orderLine.getProductName()}"></td>
-                                    <td th:text="${orderLine.getQuantity()}"></td>
-                                    <td th:text="${orderLine.getPrice()}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>Produkte</th>
+                                        <th>Anzahl</th>
+                                        <th>Preis</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="orderLine : ${order.getOrderLines().toList()}">
+                                        <td th:text="${orderLine.getProductName()}"></td>
+                                        <td th:text="${orderLine.getQuantity()}"></td>
+                                        <td th:text="${orderLine.getPrice()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <h2 th:if="${orderList.isEmpty()}" th:text="#{orders.empty}">Derzeit keine Bestellungen</h2>
             </section>
-
-            <!-- Admin Navigator -->
-            <a th:href="@{/admin-overview}" class="btn btn-primary" th:text="#{admin.overview}">Admin Overview</a>
-            <a th:href="@{/employee-overview}" class="btn btn-primary" th:text="#{employee.overview}">Employee Overview</a>
-            <a th:href="@{/customer-overview}" class="btn btn-primary" th:text="#{customer.overview}">Customer Overview</a>
-            <a th:href="@{/finance-overview}" class="btn btn-primary" th:text="#{finance.overview}">Fincance Overview</a>
-            <a th:href="@{/order-overview}" class="btn btn-primary" th:text="#{order.overview}">Order Overview</a>
         </div>
     </section>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
