@@ -58,6 +58,12 @@
                                 </form>
                             </td>
                             <td>
+                                <form class="ui form" method="post" th:action="@{/showProducts}">
+                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                                    <button type="submit" class="btn btn-danger">Produkte anzeigen</button>
+                                </form>
+                            </td>
+                            <td>
                                 <form class="ui form" method="post" th:action="@{/deleteOrder}">
                                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
                                     <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
