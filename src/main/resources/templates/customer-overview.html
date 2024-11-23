@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="#{customer.overview}">Customer Overview</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <style>
+        body {
+            padding-top: 60px;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="text-center mb-4" th:text="#{customer.overview}">Kundenübersicht</h2>
 
+<div th:replace="fragments/admin_navbar :: navbar"></div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4" th:text="#{customer.overview}">Customer Overview</h2>
+
+    <!-- Your page content goes here -->
     <section>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
@@ -24,7 +32,6 @@
                     <th scope="col" th:text="#{customers.address}">Address</th>
                     <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
                     <th scope="col" th:text="#{user.edit}">Edit</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -32,31 +39,20 @@
                     <td th:text="${customer.userAccount.id}">Cannot load ID!</td>
                     <td th:text="${customer.fullName}">Cannot load full name!</td>
                     <td th:text="${customer.email}">Cannot load email!</td>
-                    <td th:text="${customer.highestRole}">Cannot load name!</td>
+                    <td th:text="${customer.highestRole}">Cannot load role!</td>
                     <td th:text="${customer.address}">Cannot load address!</td>
                     <td th:text="${customer.registrationDate}">Cannot load date!</td>
                     <td>
                         <form th:action="@{/promote/{id}(id=${customer.userAccount.id})}" method="post">
                             <button type="submit" class="btn btn-primary" th:text="#{button.promote}">Promote</button>
-                            <input type="hidden" name="source" th:value="'customer-overview'" />
                         </form>
-
                         <form th:action="@{/degrade/{id}(id=${customer.userAccount.id})}" method="post">
-                            <button type="submit" class="btn " th:text="#{button.degrade}">Degrade</button>
-                            <input type="hidden" name="source" th:value="'customer-overview'" />
+                            <button type="submit" class="btn btn-secondary" th:text="#{button.degrade}">Degrade</button>
                         </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
-
-            <<!-- Admin Navigator -->
-            <a th:href="@{/admin-overview}" class="btn btn-primary" th:text="#{admin.overview}">Admin Overview</a>
-            <a th:href="@{/employee-overview}" class="btn btn-primary" th:text="#{employee.overview}">Employee Overview</a>
-            <a th:href="@{/customer-overview}" class="btn btn-primary" th:text="#{customer.overview}">Customer Overview</a>
-            <a th:href="@{/finance-overview}" class="btn btn-primary" th:text="#{finance.overview}">Fincance Overview</a>
-            <a th:href="@{/order-overview}" class="btn btn-primary" th:text="#{order.overview}">Order Overview</a>
-
         </div>
     </section>
 </div>

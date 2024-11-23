@@ -9,6 +9,9 @@
   <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+
+<div th:replace="fragments/admin_navbar :: navbar"></div>
+
 <div class="container mt-5">
   <h2 class="text-center mb-4" th:text="#{finance.overview}">Fincance overview</h2>
 
@@ -16,13 +19,6 @@
     <div class="table-responsive">
 
       <h3>Imagine fancy financial graph here</h3>
-
-      <!-- Admin Navigator -->
-      <a th:href="@{/admin-overview}" class="btn btn-primary" th:text="#{admin.overview}">Admin Overview</a>
-      <a th:href="@{/employee-overview}" class="btn btn-primary" th:text="#{employee.overview}">Employee Overview</a>
-      <a th:href="@{/customer-overview}" class="btn btn-primary" th:text="#{customer.overview}">Customer Overview</a>
-      <a th:href="@{/finance-overview}" class="btn btn-primary" th:text="#{finance.overview}">Fincance Overview</a>
-      <a th:href="@{/order-overview}" class="btn btn-primary" th:text="#{order.overview}">Order Overview</a>
 
     </div>
   </section>
