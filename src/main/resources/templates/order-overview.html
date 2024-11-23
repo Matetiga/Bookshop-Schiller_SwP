@@ -12,7 +12,6 @@
 <body>
 <div class="container mt-5">
     <h2 class="text-center mb-4">Order overview
-        <!-- Block-Container für Formular -->
         <div class="form-container my-4">
             <form class="ui form" method="post" th:action="@{/filterByStatus}">
                 <div class="form-group">
@@ -35,7 +34,7 @@
         <div class="table-responsive">
             <section layout:fragment="content">
                 <div th:unless="${orderList.isEmpty()}">
-                    <table class="ui celled table">
+                    <table class="ui celled table" th:each="order : ${orderList}">
                         <thead>
                         <tr>
                             <th th:text="#{orders.date}">Datum</th>
@@ -46,7 +45,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="order : ${orderList}">
+                        <tr>
                             <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
                             <td th:text="${order.getUserAccountIdentifier()}"></td>
                             <td th:text="${order.getTotal()}"></td>
@@ -64,6 +63,24 @@
                                     <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
                                 </form>
                             </td>
+                            <table class="ui celled table">
+                                <thead>
+                                <tr>
+                                    <td></td>
+                                    <th>Produkte</th>
+                                    <th>Anzahl</th>
+                                    <th>Preis</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="orderLine : ${order.getOrderLines().toList()}">
+                                    <td></td>
+                                    <td th:text="${orderLine.getProductName()}"></td>
+                                    <td th:text="${orderLine.getQuantity()}"></td>
+                                    <td th:text="${orderLine.getPrice()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </tr>
                         </tbody>
                     </table>
