@@ -1,5 +1,6 @@
 package kickstart.Inventory;
 
+import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
@@ -90,6 +91,19 @@ public class InventoryController {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			shopProductInventory.delete(item);
 		});
+		showInventory(model);
+		return "inventory_book";
+	}
+
+	@PostMapping("/inventory/add_book")
+	public String addProduct(@RequestParam("name") String name, @RequestParam("stock") int stock,
+							 @RequestParam("image") String image, @RequestParam("price") double price,
+							 @RequestParam("description") String description, @RequestParam("genre") String genre,
+							 @RequestParam("author") String author, @RequestParam("ISBN") String ISBN,
+							 @RequestParam("publisher") String publisher, Model model){
+
+		Book book = new Book(name, image, Money.of(price, "EUR"), description, Genre.createGenre(genre), author, ISBN, publisher);
+		shopProductInventory.save(new UniqueInventoryItem(book, Quantity.of(stock)));
 		showInventory(model);
 		return "inventory_book";
 	}

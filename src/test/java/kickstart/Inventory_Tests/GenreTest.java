@@ -42,18 +42,21 @@ public class GenreTest {
 		Genre genre = Genre.createGenre("Science Fiction");
 		Genre genre2 = Genre.createGenre("sCieNceFiction");
 
-		for (Genre g: Genre.getAllGenres()){
-			System.out.println(g.getGenre());
-		}
 		Assertions.assertEquals(1, Genre.getAllGenres().size());
 	}
 
+	//TODO: there is a build problem (only when code pushed to github)
+	// this test is throwing an error, (that there are 7 genres in the list and not 3)
+	// but when I run the test locally, it passes
 	@Test
 	public void testDeleteGenre(){
 		Genre genre = Genre.createGenre("Science Fiction");
 		Genre genre2 = Genre.createGenre("Fantasy");
 		Genre genre3 = Genre.createGenre("Horror");
-		Assertions.assertEquals(3, Genre.getAllGenres().size());
+		Assertions.assertEquals(3, Genre.getAllGenres().size(), "Genres not added to the list");
+		for (Genre g: Genre.getAllGenres()){
+			System.out.println(g.getGenre());
+		}
 		Genre.deleteGenre(genre);
 
 		Assertions.assertEquals(2, Genre.getAllGenres().size());
