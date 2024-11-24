@@ -1,5 +1,7 @@
 package kickstart.orders;
 
+import org.jetbrains.annotations.NotNull;
+import org.salespointframework.order.Cart;
 import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderStatus;
 import org.springframework.data.domain.Sort;
@@ -9,30 +11,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 @Controller
-@SessionAttributes("selectedStatus")
+@SessionAttributes("orderStates")
 public class OrderViewController {
 
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
+	private final String[] orderStates = {"ALL", "OPEN", "PAID", "COMPLETED"};
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.myOrderManagement = myOrderManagement;
 	}
 
+	@ModelAttribute("orderStates")
+	String[] initalizeOrderStates() {
+		return this.orderStates;
+	}
+
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN')")
 	String orderOverview(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
+		model.addAttribute("selectedState", "ALL");
 		return "order-overview";
 	}
 
 	@PostMapping("/showProducts")
 	String showProducts(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 		//model.addAttribute("show", true);
+		//model.addAttribute("orderList", myOrderRepository.findAll());
 		return "order-overview";
 	}
 
@@ -52,19 +63,8 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
-	@PostMapping("/sortByDate")
-	String sortByDate(Model model){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		Iterator<MyOrder> iterator = myOrderRepository.findAll().iterator();
-		while (iterator.hasNext()) {
-			orderList.add(iterator.next());
-		}
-		model.addAttribute("orderList", orderList);
-		return "order-overview";
-	}
-
 	@PostMapping("/filterByStatus")
-	String filterStatus(Model model, @RequestParam(value = "valueStatus", required = false) String status){
+	String filterStatus(Model model, @RequestParam("valueStatus") String status){
 		Iterable<MyOrder> orderList;
 		if(status == null || status.equals("ALL")){
 			orderList = myOrderRepository.findAll();
@@ -73,6 +73,19 @@ public class OrderViewController {
 			orderList = myOrderManagement.findByStatus(OrderStatus.valueOf(status));
 		}
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("selectedState", status);
+		return "order-overview";
+	}
+
+
+	@PostMapping("/sortByDate")
+	String sortByDate(Model model){
+		ArrayList<MyOrder> orderList = new ArrayList<>();
+		Iterator<MyOrder> iterator = myOrderRepository.findAll().iterator();
+		while (iterator.hasNext()) {
+			orderList.add(iterator.next());
+		}
+		//model.addAttribute("orderList", orderList);
 		return "order-overview";
 	}
 

@@ -17,10 +17,11 @@
                 <div class="form-group">
                     <label for="dropdown_status">Status:</label>
                     <select id="dropdown_status" name="valueStatus" class="form-control">
-                        <option value="ALL">alle</option>
-                        <option value="OPEN">offen</option>
-                        <option value="PAID">bezahlt</option>
-                        <option value="COMPLETED">abgeschlossen</option>
+                        <option th:each="state : ${orderStates}"
+                                th:value="${state}"
+                                th:text="${state}"
+                                th:selected="${state == selectedState}">
+                        </option>
                     </select>
                 </div>
                 <div class="form-group mt-3">
