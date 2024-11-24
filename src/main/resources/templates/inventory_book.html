@@ -72,16 +72,32 @@
                 <form th:action="@{/inventory/add_book}" method="post">
                     <label for="name"></label>
                     <input type="text" id="name" name="name" placeholder="Enter Name" required/>
-<!--                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
                         <span th:if="${blankName_error}" th:text="${blankName_error}">Name can not be blank</span>
-                    <label for="stock"></label><input type="text" id="stock" name="stock" placeholder="Enter Stock" required/>
-<!--                    <label for="image"></label><input type="text" id="image" name="image" placeholder="Enter Image" required/>-->
-<!--                    <label for="price"></label><input type="text" id="price" name="price" placeholder="Enter Price" required/>-->
-<!--                    <label for="description"></label><input type="text" id="description" name="description" placeholder="Enter Description" required/>-->
-<!--                    <label for="genre"></label><input type="text" id="genre" name="genre" placeholder="Enter Genre" required/>-->
-<!--                    <label for="author"></label><input type="text" id="author" name="author" placeholder="Enter Author" required/>-->
-<!--                    <label for="ISBN"></label><input type="text" id="ISBN" name="ISBN" placeholder="Enter ISBN" required/>-->
-<!--                    <label for="publisher"></label><input type="text" id="publisher" name="publisher" placeholder="Enter Publisher" required/>-->
+
+                    <label for="stock"></label><input type="number" id="stock" name="stock" placeholder="Enter Stock" required/>
+                        <span th:if="${negativeStock_error}" th:text="${negativeStock_error}">Stock can not be blank</span>
+
+                    <label for="image"></label><input type="text" id="image" name="image" placeholder="Enter Image" required/>
+                    <span th:if="${blankImage_error}" th:text="${blankImage_error}">Image can not be blank</span>
+
+                    <label for="price"></label><input type="number" id="price" name="price" placeholder="Enter Price" required/>
+                    <span th:if="${negativePrice_error}" th:text="${negativePrice_error}">Price can not be blank</span>
+
+                    <label for="description"></label><input type="text" id="description" name="description" placeholder="Enter Description" required/>
+                    <span th:if="${blankDescription_error}" th:text="${blankDescription_error}">Description can not be blank</span>
+
+
+                    <label for="author"></label><input type="text" id="author" name="author" placeholder="Enter Author" required/>
+                    <span th:if="${blankAuthor_error}" th:text="${blankAuthor_error}">Author can not be blank</span>
+
+<!--                    TODO: add the checker for the genre -->
+                    <label for="genre"></label><input type="text" id="genre" name="genre" placeholder="Enter Genre" required/>
+
+                    <label for="ISBN"></label><input type="text" id="ISBN" name="ISBN" placeholder="Enter ISBN" required/>
+                    <span th:if="${blankISBN_error}" th:text="${blankISBN_error}">ISBN can not be blank</span>
+
+                    <label for="publisher"></label><input type="text" id="publisher" name="publisher" placeholder="Enter Publisher" required/>
+                    <span th:if="${blankPublisher_error}" th:text="${blankPublisher_error}">Publisher can not be blank</span>
 
                     <div class="modal-footer">
                         <button class="add-book_button" type="submit">Add Book</button>
@@ -91,7 +107,7 @@
 
         </div>
 
-    <script>
+    <script th:inline="javascript">
         const modal = document.getElementById('addNewBook');
         const open = document.getElementById('openForm');
         const close = document.getElementById('close');
@@ -103,17 +119,12 @@
         close.onclick = function (){
             modal.style.display = 'none';
         }
-        // this should open the table if there are any errors while adding a new Book
-        // document.addEventListener("DOMContentLoaded", function() {
-        //     if ([[${showModal}]] == true) {
-        //         // Code to re-open the modal
-        //         document.getElementById("addBookModal").style.display = 'block';
-        //     }
-        // });
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     if ([[${showModal}]]) {
-        //         modal.style.display = "block"; // Keep the modal open
-        //     }});
+
+        document.addEventListener("DOMContentLoaded", function (){
+            if([[${showModal}]]) {
+                modal.style.display = 'block';
+            }
+        });
     </script>
     </body>
 </html>

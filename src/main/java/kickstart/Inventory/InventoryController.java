@@ -109,28 +109,56 @@ public class InventoryController {
 	}
 
 	@PostMapping("/inventory/add_book")
-	public String addProduct(@RequestParam("name") String name,@RequestParam("stock") int stock, Model model){
-//		@RequestParam("name") String name, @RequestParam("stock") int stock,
-//							 @RequestParam("image") String image, @RequestParam("price") double price,
-//							 @RequestParam("description") String description, @RequestParam("genre") String genre,
-//							 @RequestParam("author") String author, @RequestParam("ISBN") String ISBN,
-//							 @RequestParam("publisher") String publisher, Model model, Errors error){
+	public String addProduct(@RequestParam("name") String name,@RequestParam("stock") int stock, Model model,
+							 @RequestParam("image") String image, @RequestParam("price") double price,
+							 @RequestParam("description") String description, @RequestParam("author") String author,
+							 @RequestParam("genre") String genre,
+							 @RequestParam("ISBN") String ISBN,
+							 @RequestParam("publisher") String publisher
+	){
+		boolean error = false;
 		if (name.isBlank()){
 			model.addAttribute("blankName_error", "Name cannot be blank");
-			model.addAttribute("showModal", true);
-			return "inventory_book";
+			error = true;
 		}
 		if (stock <= 0){
 			model.addAttribute("negativeStock_error", "Stock cannot be negative");
+			error =true;
+		}
+		if(image.isBlank()){
+			model.addAttribute("blankImage_error", "Image cannot be blank");
+			error = true;
+		}
+		if(price <= 0){
+			model.addAttribute("negativePrice_error", "Price cannot be negative");
+			error = true;
+		}
+		if(description.isBlank()){
+			model.addAttribute("blankDescription_error", "Description cannot be blank");
+			error =true;
+		}
+		if(author.isBlank()){
+			model.addAttribute("blankAuthor_error", "Author cannot be blank");
+			error = true;
+		}
+		if(ISBN.isBlank()){
+			model.addAttribute("blankISBN_error", "ISBN cannot be blank");
+			error = true;
+		}
+
+		if(publisher.isBlank()){
+			model.addAttribute("blankPublisher_error", "Publisher cannot be blank");
+			error = true;
+		}
+		if(error){
+			model.addAttribute("showModal", true);
+			showInventory(model);
 			return "inventory_book";
 		}
 
 
-
-
-		Book book = new Book(name, "stephen", Money.of(10.99, "EUR"),
-				"A novel set in the 1920s about the American Dream", Genre.createGenre("Fiction"), "F. Scott Fitzgerald",
-				"9780743273565", "Scribner");
+		Book book = new Book(name, image, Money.of(price, "EUR"),
+			description, Genre.createGenre(genre), author, ISBN, publisher);
 		shopProductCatalog.save(book);
 		shopProductInventory.save(new UniqueInventoryItem( book, Quantity.of(stock)));
 		showInventory(model);
