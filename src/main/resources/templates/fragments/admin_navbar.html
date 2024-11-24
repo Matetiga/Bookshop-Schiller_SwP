@@ -1,0 +1,30 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" th:fragment="navbar">
+        <a class="navbar-brand" href="#"> My Admin Panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}" th:text="#{admin.goBackToMainSite}">Back to main site</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin-overview}" th:text="#{admin.overview}">Admin Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/employee-overview}" th:text="#{employee.overview}">Employee Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customer-overview}" th:text="#{customer.overview}">Customer Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/finance-overview}" th:text="#{finance.overview}">Finance Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/order-overview}" th:text="#{order.overview}">Order Overview</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

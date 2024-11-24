@@ -1,5 +1,6 @@
 package kickstart.orders;
 
+import org.salespointframework.order.Order;
 
 //import kickstart.user.UserRepository;
 import kickstart.Inventory.Book;
@@ -80,5 +81,11 @@ public class MyOrderManagement {
 		}
 		return orderList;
 	}
+
 	 */
+
+	public MyOrder findByID(Order.OrderIdentifier id) {
+		return myOrderRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + id));
+	}
 }

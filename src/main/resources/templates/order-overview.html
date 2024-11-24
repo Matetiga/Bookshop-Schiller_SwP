@@ -10,6 +10,11 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <div th:replace="fragments/admin_navbar :: navbar"></div>
+</div>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Order overview
         <div class="form-container my-4">
@@ -31,22 +36,28 @@
         </div>
     </h2><br>
 
-        <section>
+    <section>
         <div class="table-responsive">
             <section layout:fragment="content">
                 <div th:unless="${orderList.isEmpty()}">
-                    <table class="ui celled table" th:each="order : ${orderList}">
-                        <thead>
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
                         <tr>
+                            <th th:text="#{order.id}">Order ID</th>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
                             <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
                             <th th:text="#{orders.state}">Status</th>
+                            <th scope="col" colspan="2" th:text="#{user.edit}">Aktionen</th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each="order : ${orderList}">
+                            <td>
+                                <a th:href="@{'/order/' + ${order.id}}" class="text-primary" th:text="${order.id}">ID</a>
+                            </td>
                             <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
                             <td th:text="${order.getUserAccountIdentifier()}"></td>
                             <td th:text="${order.getTotal()}"></td>
@@ -70,39 +81,15 @@
                                     <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
                                 </form>
                             </td>
-                            <table class="ui celled table">
-                                <thead>
-                                <tr>
-                                    <td></td>
-                                    <th>Produkte</th>
-                                    <th>Anzahl</th>
-                                    <th>Preis</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="orderLine : ${order.getOrderLines().toList()}">
-                                    <td></td>
-                                    <td th:text="${orderLine.getProductName()}"></td>
-                                    <td th:text="${orderLine.getQuantity()}"></td>
-                                    <td th:text="${orderLine.getPrice()}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <h2 th:if="${orderList.isEmpty()}" th:text="#{orders.empty}">Derzeit keine Bestellungen</h2>
             </section>
-
-            <!-- Admin Navigator -->
-            <a th:href="@{/admin-overview}" class="btn btn-primary" th:text="#{admin.overview}">Admin Overview</a>
-            <a th:href="@{/employee-overview}" class="btn btn-primary" th:text="#{employee.overview}">Employee Overview</a>
-            <a th:href="@{/customer-overview}" class="btn btn-primary" th:text="#{customer.overview}">Customer Overview</a>
-            <a th:href="@{/finance-overview}" class="btn btn-primary" th:text="#{finance.overview}">Fincance Overview</a>
-            <a th:href="@{/order-overview}" class="btn btn-primary" th:text="#{order.overview}">Order Overview</a>
         </div>
     </section>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

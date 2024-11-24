@@ -89,4 +89,12 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
+	@GetMapping("/order/{orderID}")
+	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		MyOrder order = myOrderManagement.findByID(orderId);
+
+		model.addAttribute("order", order);
+
+		return "order-details";
+	}
 }

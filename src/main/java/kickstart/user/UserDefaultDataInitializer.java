@@ -47,7 +47,7 @@ class UserDefaultDataInitializer implements DataInitializer {
 		).forEach(userManagement::createAdmin);
 
 		List.of(//
-			new RegistrationForm("employee1@example.com", password,password, "employees avenue 1", "a", "s", "2022-4-4"),
+			new RegistrationForm("employee1", password,password, "employees avenue 1", "a", "s", "2022-4-4"),
 			new RegistrationForm("employee2@example.com", password,password, "employees avenue 2", "a", "s", "2022-4-4")
 		).forEach(userManagement::createEmployee);
 
