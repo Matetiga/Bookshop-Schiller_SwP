@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{order.detail} + ' - ' + ${order.getId()}">Order Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <div th:replace="fragments/admin_navbar :: navbar"></div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3" sec:authorize="hasRole('ADMIN')">
+            <div class="btn-group-vertical w-100" role="group" aria-label="Admin actions">
+                <form method="post" th:action="@{/changeStatus}" class="mb-2">
+                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                    <button type="submit" class="btn btn-primary w-100">Status ändern</button>
+                </form>
+                <form method="post" th:action="@{/deleteOrder}" class="mb-2">
+                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
+                    <button type="submit" class="btn btn-danger w-100">Bestellung entfernen</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <h2 class="text-center mb-4" th:text="#{order.detail} + ' - ' + ${order.getId()}">
+                Order Details - [Order ID]
+            </h2>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Order Overview</h5>
+                    <p class="card-text">
+                        <strong th:text="#{order.id} + ':'"></strong>
+                        <span th:text="${order.getId()}">12345</span><br>
+                        <strong th:text="#{orders.date} + ':'"></strong>
+                        <span th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}">2024-11-24</span><br>
+                        <strong th:text="#{orders.customerId} + ':'"></strong>
+                        <span th:text="${order.getUserAccountIdentifier()}">Customer123</span><br>
+                        <strong th:text="#{orders.paymentMethod} + ':'"></strong>
+                        <span th:text="${order.getStringPaymentMethod()}">Payment Method</span><br>
+                        <strong th:text="#{orders.state} + ':'"></strong>
+                        <span th:text="${order.getMyOrderStatus()}">Status</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" th:text="#{product.title}">Product</th>
+                        <th scope="col" th:text="#{product.quantity}">Quantity</th>
+                        <th scope="col" th:text="#{product.price}">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderLine : ${order.getOrderLines().toList()}">
+                        <td th:text="${orderLine.getProductName()}">Sample Product</td>
+                        <td th:text="${orderLine.getQuantity()}">1</td>
+                        <td th:text="${orderLine.getPrice()}">10.00</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr class="font-weight-bold">
+                        <td colspan="2" class="text-right" th:text="#{order.total}">Total</td>
+                        <td th:text="${order.getTotal()}">Not available</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

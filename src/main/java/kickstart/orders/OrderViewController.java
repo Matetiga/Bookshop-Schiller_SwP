@@ -2,14 +2,10 @@ package kickstart.orders;
 
 import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderStatus;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 
 @Controller
 @SessionAttributes("selectedStatus")
@@ -73,4 +69,12 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
+	@GetMapping("/order/{orderID}")
+	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		MyOrder order = myOrderManagement.findByID(orderId);
+
+		model.addAttribute("order", order);
+
+		return "order-details";
+	}
 }
