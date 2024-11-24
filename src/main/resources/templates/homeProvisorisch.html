@@ -19,8 +19,8 @@
     <aside class="sidebar panel-effect">
         <h2>Provisorische NAV</h2>
         <ul class="small-nav">
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
-            <li><button class="small-nav-tab-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/}'|" >Home</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
             <li>
                 <div>
                     <form  class="small-nav-tab-button" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
@@ -29,12 +29,13 @@
                 </div>
 
             </li>
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_book}'|" >Inventory</button></li>
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/cart}'|" >Cart</button></li>
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/account}'|" >Account</button></li>
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/admin-overview}'|" >Admin Overview</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|" >Inventory</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/cart}'|" >Cart</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" >Account</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/admin-overview}'|" >Admin Overview</button></li>
 
-            <li><button class="small-nav-tab-button">Register</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/register}'|">Register</button></li>
+            <li><button class="small-nav-tab-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button></li>
         </ul>
 
     </aside>
