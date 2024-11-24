@@ -46,6 +46,7 @@
                     <form th:action="@{/inventory/edit}" method="post">
                         <label for="newName"></label><input type="text" id="newName" name="newName" placeholder="Enter Name" />
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <span th:if="${edit_error}" th:text="${edit_error}">Name can not be blank</span>
                         <button type="submit">Change name</button>
                     </form>
                 </td>
@@ -54,6 +55,9 @@
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
                         <button type="submit">Delete Item :(</button>
                     </form>
+                </td>
+                <td>
+                    <button th:onclick="|location.href='@{/inventory_editable}'|">Edit</button>
                 </td>
             </tr>
         </table>
@@ -96,6 +100,13 @@
         close.onclick = function (){
             modal.style.display = 'none';
         }
+        // this should open the table if there are any errors while adding a new Book
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     if ([[${showModal}]] == true) {
+        //         // Code to re-open the modal
+        //         document.getElementById("addBookModal").style.display = 'block';
+        //     }
+        // });
     </script>
     </body>
 </html>

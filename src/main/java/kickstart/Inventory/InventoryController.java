@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -84,10 +85,15 @@ public class InventoryController {
 
 	@PostMapping("/inventory/edit")
 	public String editProductName(@RequestParam("itemId") Product.ProductIdentifier id, @RequestParam("newName") String newName, Model model){
+		if (newName.isBlank()){
+			model.addAttribute("edit_error", "Error while editing a book name");
+			return "inventory_book";
+		}
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.getProduct().setName(newName);
 			shopProductInventory.save(item);
 		});
+
 		showInventory(model);
 		return "inventory_book";
 	}
@@ -110,12 +116,17 @@ public class InventoryController {
 //							 @RequestParam("publisher") String publisher, Model model, Errors error){
 		if (name.isBlank()){
 			model.addAttribute("blankName_error", "Name cannot be blank");
+			model.addAttribute("showModal", true);
 			return "inventory_book";
 		}
 		if (stock <= 0){
 			model.addAttribute("negativeStock_error", "Stock cannot be negative");
 			return "inventory_book";
 		}
+
+
+
+
 		Book book = new Book(name, "stephen", Money.of(10.99, "EUR"),
 				"A novel set in the 1920s about the American Dream", Genre.createGenre("Fiction"), "F. Scott Fitzgerald",
 				"9780743273565", "Scribner");
@@ -123,6 +134,21 @@ public class InventoryController {
 		shopProductInventory.save(new UniqueInventoryItem( book, Quantity.of(stock)));
 		showInventory(model);
 		return "inventory_book";
+	}
+
+	@PostMapping("inventory/getDetail")
+	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model ){
+		UniqueInventoryItem ShopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		if(ShopProduct.getProduct() instanceof  Book){
+			model.addAttribute("book", model);
+		}
+		if(ShopProduct.getProduct() instanceof Calendar){
+			model.addAttribute("calendar", model);
+		}
+		if(ShopProduct.getProduct() instanceof Merch){
+			model.addAttribute("merch", model);
+		}
+		return "inventory_editable";
 	}
 
 }
