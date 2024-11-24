@@ -63,15 +63,18 @@
                 <span id="close" class="close">&times;</span>
                 <h1>Add New Book</h1>
                 <form th:action="@{/inventory/add_book}" method="post">
-                    <label for="name"></label><input type="text" id="name" name="name" placeholder="Enter Name" required/>
+                    <label for="name"></label>
+                    <input type="text" id="name" name="name" placeholder="Enter Name" required/>
+<!--                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+                    <span th:if="${blankName_error}" th:text="${blankName_error}">Name can not be blank</span>
                     <label for="stock"></label><input type="text" id="stock" name="stock" placeholder="Enter Stock" required/>
-                    <label for="image"></label><input type="text" id="image" name="image" placeholder="Enter Image" required/>
-                    <label for="price"></label><input type="text" id="price" name="price" placeholder="Enter Price" required/>
-                    <label for="description"></label><input type="text" id="description" name="description" placeholder="Enter Description" required/>
-                    <label for="genre"></label><input type="text" id="genre" name="genre" placeholder="Enter Genre" required/>
-                    <label for="author"></label><input type="text" id="author" name="author" placeholder="Enter Author" required/>
-                    <label for="ISBN"></label><input type="text" id="ISBN" name="ISBN" placeholder="Enter ISBN" required/>
-                    <label for="publisher"></label><input type="text" id="publisher" name="publisher" placeholder="Enter Publisher" required/>
+<!--                    <label for="image"></label><input type="text" id="image" name="image" placeholder="Enter Image" required/>-->
+<!--                    <label for="price"></label><input type="text" id="price" name="price" placeholder="Enter Price" required/>-->
+<!--                    <label for="description"></label><input type="text" id="description" name="description" placeholder="Enter Description" required/>-->
+<!--                    <label for="genre"></label><input type="text" id="genre" name="genre" placeholder="Enter Genre" required/>-->
+<!--                    <label for="author"></label><input type="text" id="author" name="author" placeholder="Enter Author" required/>-->
+<!--                    <label for="ISBN"></label><input type="text" id="ISBN" name="ISBN" placeholder="Enter ISBN" required/>-->
+<!--                    <label for="publisher"></label><input type="text" id="publisher" name="publisher" placeholder="Enter Publisher" required/>-->
 
                     <div class="modal-footer">
                         <button class="add-book_button" type="submit">Add Book</button>

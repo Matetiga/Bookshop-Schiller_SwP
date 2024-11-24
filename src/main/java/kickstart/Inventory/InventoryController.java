@@ -1,5 +1,6 @@
 package kickstart.Inventory;
 
+import jakarta.persistence.ManyToOne;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
@@ -7,6 +8,7 @@ import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,10 +17,14 @@ import java.util.*;
 
 @Controller
 public class InventoryController {
+	@ManyToOne
 	private final UniqueInventory<UniqueInventoryItem> shopProductInventory;
+	private final ShopProductCatalog shopProductCatalog;
 
-	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory) {
+
+	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog) {
 		this.shopProductInventory = shopProductInventory;
+		this.shopProductCatalog = shopProductCatalog;
 	}
 
 
@@ -96,14 +102,25 @@ public class InventoryController {
 	}
 
 	@PostMapping("/inventory/add_book")
-	public String addProduct(@RequestParam("name") String name, @RequestParam("stock") int stock,
-							 @RequestParam("image") String image, @RequestParam("price") double price,
-							 @RequestParam("description") String description, @RequestParam("genre") String genre,
-							 @RequestParam("author") String author, @RequestParam("ISBN") String ISBN,
-							 @RequestParam("publisher") String publisher, Model model){
-
-		Book book = new Book(name, image, Money.of(price, "EUR"), description, Genre.createGenre(genre), author, ISBN, publisher);
-		shopProductInventory.save(new UniqueInventoryItem(book, Quantity.of(stock)));
+	public String addProduct(@RequestParam("name") String name,@RequestParam("stock") int stock, Model model){
+//		@RequestParam("name") String name, @RequestParam("stock") int stock,
+//							 @RequestParam("image") String image, @RequestParam("price") double price,
+//							 @RequestParam("description") String description, @RequestParam("genre") String genre,
+//							 @RequestParam("author") String author, @RequestParam("ISBN") String ISBN,
+//							 @RequestParam("publisher") String publisher, Model model, Errors error){
+		if (name.isBlank()){
+			model.addAttribute("blankName_error", "Name cannot be blank");
+			return "inventory_book";
+		}
+		if (stock <= 0){
+			model.addAttribute("negativeStock_error", "Stock cannot be negative");
+			return "inventory_book";
+		}
+		Book book = new Book(name, "stephen", Money.of(10.99, "EUR"),
+				"A novel set in the 1920s about the American Dream", Genre.createGenre("Fiction"), "F. Scott Fitzgerald",
+				"9780743273565", "Scribner");
+		shopProductCatalog.save(book);
+		shopProductInventory.save(new UniqueInventoryItem( book, Quantity.of(stock)));
 		showInventory(model);
 		return "inventory_book";
 	}
