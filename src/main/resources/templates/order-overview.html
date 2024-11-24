@@ -40,6 +40,7 @@
                     <table class="table table-bordered table-hover" th:each="order : ${orderList}">
                         <thead class="thead-dark">
                         <tr>
+                            <th th:text="#{order.id}">Order ID</th>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
@@ -51,6 +52,7 @@
                         </thead>
                         <tbody>
                         <tr>
+                            <td th:text="${order.id}">ID</td>
                             <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
                             <td th:text="${order.getUserAccountIdentifier()}"></td>
                             <td th:text="${order.getTotal()}"></td>

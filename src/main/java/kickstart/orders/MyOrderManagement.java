@@ -1,5 +1,6 @@
 package kickstart.orders;
 
+import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderStatus;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,10 @@ public class MyOrderManagement {
 			}
 		}
 		return orderList;
+	}
+
+	public MyOrder findByID(Order.OrderIdentifier id) {
+		return myOrderRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + id));
 	}
 }
