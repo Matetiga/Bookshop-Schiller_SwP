@@ -1,5 +1,7 @@
 package kickstart.orders;
 
+
+//import kickstart.user.UserRepository;
 import org.salespointframework.order.OrderStatus;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Service;
@@ -11,12 +13,17 @@ import java.util.ArrayList;
 @Transactional
 public class MyOrderManagement {
 	private final MyOrderRepository myOrderRepository;
+	//private final UserRepository userRepository;
 
 
 	MyOrderManagement(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
+		//this.userRepository = userRepository;
 	}
 
+	public void initalizeTestOrders(){
+		//myOrderRepository.save(new MyOrder
+	}
 	Iterable<MyOrder> findByStatus(OrderStatus filterStatus){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : myOrderRepository.findAll()){
@@ -27,14 +34,15 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	//in Arbeit:
-	Iterable<MyOrder> findByUser(UserAccount userAccount){
+	/*
+	Iterable<MyOrder> findByCustomersName(String firstname, String lastname){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : myOrderRepository.findAll()){
-			if(order.getUserAccountIdentifier() == userAccount.getId()){
+			if(userRepository.findById(order.getUserAccountIdentifier())){
 				orderList.add(order);
 			}
 		}
 		return orderList;
 	}
+	 */
 }

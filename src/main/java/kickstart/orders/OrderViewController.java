@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Iterator;
 
 @Controller
 @SessionAttributes("selectedStatus")
@@ -54,9 +54,12 @@ public class OrderViewController {
 
 	@PostMapping("/sortByDate")
 	String sortByDate(Model model){
-		//ArrayList<MyOrder> orderList = myOrderRepository.findAll().iterator();
-		//orderList.sort(Comparator);
-		model.addAttribute("orderList", myOrderRepository.findAll());
+		ArrayList<MyOrder> orderList = new ArrayList<>();
+		Iterator<MyOrder> iterator = myOrderRepository.findAll().iterator();
+		while (iterator.hasNext()) {
+			orderList.add(iterator.next());
+		}
+		model.addAttribute("orderList", orderList);
 		return "order-overview";
 	}
 
