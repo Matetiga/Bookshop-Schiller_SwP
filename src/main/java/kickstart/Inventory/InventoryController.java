@@ -87,6 +87,7 @@ public class InventoryController {
 	public String editProductName(@RequestParam("itemId") Product.ProductIdentifier id, @RequestParam("newName") String newName, Model model){
 		if (newName.isBlank()){
 			model.addAttribute("edit_error", "Error while editing a book name");
+			showInventory(model);
 			return "inventory_book";
 		}
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
@@ -136,7 +137,7 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
-	@PostMapping("inventory/getDetail")
+	@PostMapping("/inventory/editable")
 	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model ){
 		UniqueInventoryItem ShopProduct = shopProductInventory.findByProductIdentifier(id).get();
 		if(ShopProduct.getProduct() instanceof  Book){
@@ -150,6 +151,8 @@ public class InventoryController {
 		}
 		return "inventory_editable";
 	}
+
+
 
 }
 

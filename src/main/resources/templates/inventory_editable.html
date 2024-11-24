@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <title>Details</title>
 </head>
-<body>
-Hola
-</body>
+    <body>
+        <div th:if="${book != null}">
+            <h2>Editing Book</h2>
+            <form method="post" >
+
+            </form>
+        </div>
+
+        <div th:if="${calendar != null}">
+            <h2>Editing Calendar</h2>
+        </div>
+
+        <div th:if="${merch != null}">
+            <h2>Editing Merchandise</h2>
+        </div>
+    </body>
 </html>

@@ -34,7 +34,10 @@
             </form>
         </td>
         <td>
-            <button th:onclick="|location.href='@{/inventory_editable}'|">Edit</button>
+            <form th:action="@{/inventory/editable}" method="post">
+                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                <button type="submit">EDIT</button>
+            </form>
         </td>
     </tr>
 </table>

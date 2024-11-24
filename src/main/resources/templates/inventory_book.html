@@ -57,7 +57,10 @@
                     </form>
                 </td>
                 <td>
-                    <button th:onclick="|location.href='@{/inventory_editable}'|">Edit</button>
+                    <form th:action="@{/inventory/editable}" method="post">
+                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <button type="submit">EDIT</button>
+                    </form>
                 </td>
             </tr>
         </table>
@@ -70,7 +73,7 @@
                     <label for="name"></label>
                     <input type="text" id="name" name="name" placeholder="Enter Name" required/>
 <!--                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
-                    <span th:if="${blankName_error}" th:text="${blankName_error}">Name can not be blank</span>
+                        <span th:if="${blankName_error}" th:text="${blankName_error}">Name can not be blank</span>
                     <label for="stock"></label><input type="text" id="stock" name="stock" placeholder="Enter Stock" required/>
 <!--                    <label for="image"></label><input type="text" id="image" name="image" placeholder="Enter Image" required/>-->
 <!--                    <label for="price"></label><input type="text" id="price" name="price" placeholder="Enter Price" required/>-->
@@ -107,6 +110,10 @@
         //         document.getElementById("addBookModal").style.display = 'block';
         //     }
         // });
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     if ([[${showModal}]]) {
+        //         modal.style.display = "block"; // Keep the modal open
+        //     }});
     </script>
     </body>
 </html>
