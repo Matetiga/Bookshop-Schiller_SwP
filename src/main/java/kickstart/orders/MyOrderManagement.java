@@ -2,7 +2,6 @@ package kickstart.orders;
 
 import org.salespointframework.order.Order;
 
-//import kickstart.user.UserRepository;
 import kickstart.Inventory.Book;
 import kickstart.Inventory.Genre;
 import org.javamoney.moneta.Money;
