@@ -36,7 +36,10 @@ public class InventoryController {
 				books.add(new AbstractMap.SimpleEntry<Book, Quantity>((Book) item.getProduct(), item.getQuantity()));
 			}
 		}
-		model.addAttribute("bookForm", new AddBookForm());
+		// this prevents the form from being overwritten when the page is reloaded
+		if (!model.containsAttribute("bookForm")) {
+			model.addAttribute("bookForm", new AddBookForm());
+		}
 		model.addAttribute("books", books);
 		return "inventory_book";
 	}
@@ -50,6 +53,10 @@ public class InventoryController {
 			}
 		}
 
+		if (!model.containsAttribute("merchForm")) {
+			model.addAttribute("merchForm", new AddMerchCalendarForm());
+		}
+
 		model.addAttribute("merch", merch);
 		return "inventory_merch";
 	}
@@ -61,6 +68,10 @@ public class InventoryController {
 			if(item.getProduct() instanceof Calendar){
 				calendars.add(new AbstractMap.SimpleEntry<Calendar, Quantity>((Calendar) item.getProduct(), item.getQuantity()));
 			}
+		}
+
+		if (!model.containsAttribute("calendarForm")) {
+			model.addAttribute("calendarForm", new AddMerchCalendarForm());
 		}
 
 		model.addAttribute("calendars", calendars);
@@ -109,7 +120,7 @@ public class InventoryController {
 
 
 	@PostMapping("/inventory/add_book")
-	public String addProduct(@Valid @ModelAttribute("bookForm") AddBookForm bookForm, Model model, BindingResult result){
+	public String addProduct(@Valid @ModelAttribute("bookForm") AddBookForm bookForm,  BindingResult result, Model model){
 
 		if(result.hasErrors()){
 			showInventory(model);
@@ -130,6 +141,43 @@ public class InventoryController {
 		showInventory(model);
 		return "inventory_book";
 	}
+
+	@PostMapping("/inventory/add_merch")
+	public String addMerch(@Valid @ModelAttribute("merchForm") AddMerchCalendarForm merchForm, BindingResult result, Model model){
+		if(result.hasErrors()){
+			showMerchInventory(model);
+			model.addAttribute("showModal", true);
+			return "inventory_merch";
+		}
+		Merch merch = new Merch(merchForm.getName(),
+			merchForm.getImage(),
+			Money.of(merchForm.getPrice(), "EUR"),
+			merchForm.getDescription());
+		shopProductCatalog.save(merch);
+		shopProductInventory.save(new UniqueInventoryItem( merch, Quantity.of(merchForm.getStock())));
+		showMerchInventory(model);
+		return "inventory_merch";
+	}
+
+	@PostMapping("/inventory/add_calendar")
+	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm, BindingResult result, Model model){
+		if(result.hasErrors()){
+			showCalendarInventory(model);
+			model.addAttribute("showModal", true);
+			return "inventory_calendar";
+		}
+		Calendar calendar = new Calendar(calendarForm.getName(),
+			calendarForm.getImage(),
+			Money.of(calendarForm.getPrice(), "EUR"),
+			calendarForm.getDescription());
+
+		shopProductCatalog.save(calendar);
+		shopProductInventory.save(new UniqueInventoryItem( calendar, Quantity.of(calendarForm.getStock())));
+		showCalendarInventory(model);
+		return "inventory_calendar";
+	}
+
+
 
 	@PostMapping("/inventory/editable")
 	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model ){

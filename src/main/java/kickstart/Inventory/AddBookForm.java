@@ -13,7 +13,7 @@ public class AddBookForm {
 	@NotBlank(message = "Image is required")
 	private String image;
 
-	@Min(value = 0, message = "Price must be greater than 0")
+	@Min(value = 0, message = "Price can not be negative")
 	private double price;
 
 	@NotBlank(message = "Description is required")
@@ -31,7 +31,7 @@ public class AddBookForm {
 	@NotBlank(message = "Publisher is required")
 	private String publisher;
 
-	@Min(value = 0, message = "Stock must be greater than 0")
+	@Min(value = 1, message = "Stock must be greater than 0")
 	private int stock;
 
 	public AddBookForm() {}
