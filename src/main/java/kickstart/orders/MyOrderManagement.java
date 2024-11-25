@@ -6,6 +6,7 @@ import kickstart.Inventory.Book;
 import kickstart.Inventory.Genre;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
+import org.salespointframework.order.OrderLine;
 import org.salespointframework.order.OrderStatus;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
@@ -33,6 +34,30 @@ public class MyOrderManagement {
 		for(MyOrder order : myOrderRepository.findAll()){
 			if(order.getMyOrderStatus() == filterStatus){
 				orderList.add(order);
+			}
+		}
+		return orderList;
+	}
+
+	public Iterable<MyOrder> findByProductName(String productName){
+		ArrayList<MyOrder> orderList = new ArrayList<>();
+		for(MyOrder order : myOrderRepository.findAll()){
+			for(OrderLine orderLine : order.getOrderLines()){
+				if(orderLine.getProductName().equals(productName)){
+					orderList.add(order);
+				}
+			}
+		}
+		return orderList;
+	}
+
+	public Iterable<MyOrder> findByProductId(Product.ProductIdentifier productId){
+		ArrayList<MyOrder> orderList = new ArrayList<>();
+		for(MyOrder order : myOrderRepository.findAll()){
+			for(OrderLine orderLine : order.getOrderLines()){
+				if(orderLine.getProductIdentifier().equals(productId)){
+					orderList.add(order);
+				}
 			}
 		}
 		return orderList;
