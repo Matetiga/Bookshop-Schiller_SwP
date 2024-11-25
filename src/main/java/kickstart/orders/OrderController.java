@@ -1,5 +1,6 @@
 package kickstart.orders;
 
+import jakarta.servlet.http.HttpServletRequest;
 import kickstart.Inventory.Book;
 import kickstart.Inventory.Genre;
 import org.javamoney.moneta.Money;
@@ -52,11 +53,13 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartAdd")
-	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, Model model){
+	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, Model model, HttpServletRequest request){
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
 		model.addAttribute("message", "Produkt wurde erfolgreich zum Warenkorb hinzugefügt!");
 
-		return "cart";
+		String referer = request.getHeader("Referer");
+
+		return "redirect:" + referer;
 	}
 	//Test-Method for adding products to the cart
 	//mapped to the temporary buttons in cart.html
