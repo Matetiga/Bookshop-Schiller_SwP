@@ -3,17 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Calendar Inventory</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+<header>
   <h1>Inventory Lists</h1>
-  <button th:onclick="|location.href='@{/}'|">Back to Welcome</button>
-  <ul>
-    <li><button th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
-    <li><button th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
-    <li><button th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
-
-  </ul>
-          <table>
+</header>
+<div class="container">
+    <aside class="sidebar panel-effect">
+        <button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
+            <ul class="small-nav">
+                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
+                <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
+                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
+            </ul>
+    </aside>
+          <table class="product-catalog panel-effect">
               <tr>
                 <th>Name</th>
                 <th>Price</th>
@@ -35,5 +40,6 @@
                 </td>
               </tr>
           </table>
+</div>
 </body>
 </html>
