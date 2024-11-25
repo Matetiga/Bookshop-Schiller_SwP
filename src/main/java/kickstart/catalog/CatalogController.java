@@ -12,9 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class CatalogController {
@@ -31,15 +36,27 @@ public class CatalogController {
 	}
 
 	@GetMapping("/books")
-	String bookCatalog(Model model) {
+	String bookCatalog(Model model, @RequestParam(value = "genres", required = false) List<String> selectedGenres) {
 
-		List<Book> catalog = new ArrayList<>();
-		for(UniqueInventoryItem item : inventory.findAll()){
-			if(item.getProduct() instanceof Book){
-				catalog.add((Book) item.getProduct());
-			}
-		}
-		model.addAttribute("catalog", catalog);
+		List<Book> allBooks = inventory.findAll().stream()
+			.map(UniqueInventoryItem::getProduct)
+			.filter(product -> product instanceof Book)
+			.map(product -> (Book) product)
+			.toList();
+
+		Set<String> allGenres = allBooks.stream()
+			.map(Book::getBookGenre)
+			.collect(Collectors.toSet());
+
+		List<Book> filteredBooks = selectedGenres == null || selectedGenres.isEmpty()
+			? allBooks
+			: allBooks.stream()
+			.filter(book -> selectedGenres.contains(book.getBookGenre()))
+			.toList();
+
+		model.addAttribute("catalog", filteredBooks);
+		model.addAttribute("genres", allGenres);
+		model.addAttribute("selectedGenres", selectedGenres);
 		model.addAttribute("title", "catalog.book.title");
 
 		return "catalog_books";

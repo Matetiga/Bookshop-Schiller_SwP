@@ -28,34 +28,39 @@
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
         </ul>
 
-        <h2>Filter nach Genre</h2>
-        <ul class="checkbox-list">
-            <li><label><input type="checkbox" name="genre" value="Geschichte"> Geschichte</label></li>
-            <li><label><input type="checkbox" name="genre" value="Populärwissenschaft"> Populärwissenschaft</label></li>
-            <li><label><input type="checkbox" name="genre" value="Action"> Action</label></li>
-            <li><label><input type="checkbox" name="genre" value="Manga"> Manga</label></li>
-            <li><label><input type="checkbox" name="genre" value="Horror"> Horror</label></li>
-        </ul>
+        <form method="get" th:action="@{/books}">
+            <h2>Filter nach Genre</h2>
+            <ul class="checkbox-list">
+                <li th:each="genre : ${genres}">
+                    <label>
+                        <input type="checkbox" name="genres" th:value="${genre}"
+                               th:checked="${selectedGenres != null and selectedGenres.contains(genre)}">
+                        <span th:text="${genre}">Genre Name</span>
+                    </label>
+                </li>
+            </ul>
+            <button type="submit">Filter</button>
+        </form>
+
     </aside>
 
     <!-- Book List -->
     <section class="product-catalog panel-effect">
         <div class="product-catalog-item" th:each="shopProduct : ${catalog}">
             <div class="image">
-                <a th:href="@{/book/{id}(id=${shopProduct.getId()})}">
+                <a th:href="@{/book/{id}(id=${shopProduct.productId})}">
                     <img class="thumbnail"
-                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
-                         src="../static/resources/img/cover/stephen.jpg"/>
+                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image ?: 'default'})}" />
                 </a>
             </div>
             <div class="product-catalog-item-info">
-                <a class="h3" th:href="@{/book/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Book
-                    Title</a>
-                <div class="text-base" th:text="${shopProduct.getBookGenre()}">History</div>
+                <a class="h3" th:href="@{/book/{id}(id=${shopProduct.productId})}" th:text="${shopProduct.name}">Book Title</a>
+                <div class="text-base" th:text="${shopProduct.getBookGenre()} ?: 'Unknown Genre'">Unknown Genre</div>
                 <div class="price text-medium-bold" th:text="${shopProduct.price}">9.99 €</div>
             </div>
         </div>
     </section>
+
 </div>
 </body>
 </html>
