@@ -83,6 +83,13 @@ h1 {
     padding: 20px;
     gap: 20px;
 }
+.container-large {
+    display: flex;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+}
 .alignContainer {
     margin: 0 10%;
     display: flex;
@@ -110,6 +117,26 @@ h1 {
     align-content: flex-start;
     padding: 20px;
     text-align: left;
+}
+
+/* Kompakte Tabelle */
+.compact-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-small);
+    table-layout: auto;
+}
+
+.compact-table th, .compact-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.compact-table th {
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-weight: var(--font-weight-bold);
 }
 
 
