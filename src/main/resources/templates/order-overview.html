@@ -33,6 +33,15 @@
                     <button type="submit" class="btn btn-primary">Filtern</button>
                 </div>
             </form>
+            <form class="ui form" method="post" th:action="@{/filterByProduct}">
+                <div class="form-group mt-3">
+                    Produktname:
+                    <input type="text" name="productName"/>
+                    ProduktID:
+                    <input type="text" name="productId"/>
+                    <button type="submit" class="btn btn-primary">Filtern</button>
+                </div>
+            </form>
         </div>
     </h2><br>
 

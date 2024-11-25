@@ -76,16 +76,18 @@ public class OrderViewController {
 	}
 
 	@PostMapping("/filterByProduct")
-	String filterByProduct(@RequestParam(value = "productName", required = false) String productName, @RequestParam(value = "productId", required = false) Product.ProductIdentifier productId, Model model){
+	String filterByProduct(@RequestParam(value = "productName", required = true) String productName, @RequestParam(value = "productId", required = true) Product.ProductIdentifier productId, Model model){
 		Iterable<MyOrder> orderList;
-		if(productId != null){
+		if(productId != null && !productId.toString().isEmpty()){
 			orderList = myOrderManagement.findByProductId(productId);
-		}else if(productName != null){
+		}else if(productName != null && !productName.isEmpty()){
 			orderList = myOrderManagement.findByProductName(productName);
 		}else{
 			orderList = myOrderRepository.findAll();
 		}
 		model.addAttribute("orderList", orderList);
+		System.out.println(productName);
+		System.out.println(productId);
 		return "order-overview";
 	}
 
