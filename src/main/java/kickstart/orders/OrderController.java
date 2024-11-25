@@ -10,6 +10,7 @@ import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -51,8 +52,10 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartAdd")
-	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId){
+	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, Model model){
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
+		model.addAttribute("message", "Produkt wurde erfolgreich zum Warenkorb hinzugefügt!");
+
 		return "cart";
 	}
 	//Test-Method for adding products to the cart
