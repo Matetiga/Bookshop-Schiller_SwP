@@ -101,7 +101,8 @@ public class InventoryController {
 			return "inventory_book";
 		}
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.getProduct().setName(newName);
+			Book book = (Book) item.getProduct();
+			book.setDescription(newName);
 			shopProductInventory.save(item);
 		});
 

@@ -3,13 +3,14 @@ package kickstart.Inventory_Tests;
 import kickstart.Inventory.Genre;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GenreTest {
 
-	@AfterEach
+	@BeforeEach
 	public void clearGenreList(){
 		Genre.getAllGenres().clear();
 	}
@@ -45,9 +46,6 @@ public class GenreTest {
 		Assertions.assertEquals(1, Genre.getAllGenres().size());
 	}
 
-	//TODO: there is a build problem (only when code pushed to github)
-	// this test is throwing an error, (that there are 7 genres in the list and not 3)
-	// but when I run the test locally, it passes
 	@Test
 	public void testDeleteGenre(){
 		Genre genre = Genre.createGenre("Science Fiction");
