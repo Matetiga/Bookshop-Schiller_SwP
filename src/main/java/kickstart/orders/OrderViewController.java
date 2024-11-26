@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 @Controller
-@SessionAttributes("orderStates")
+@SessionAttributes({"orderStates", "orderList", "selectedState"})
 public class OrderViewController {
 
 	private final MyOrderRepository myOrderRepository;
@@ -68,7 +68,7 @@ public class OrderViewController {
 			orderList = myOrderRepository.findAll();
 		}
 		else{
-			orderList = myOrderManagement.findByStatus(OrderStatus.valueOf(status));
+			orderList = myOrderManagement.findByStatus(OrderStatus.valueOf(status), myOrderRepository.findAll());
 		}
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("selectedState", status);
@@ -79,9 +79,9 @@ public class OrderViewController {
 	String filterByProduct(@RequestParam(value = "productName", required = true) String productName, @RequestParam(value = "productId", required = true) Product.ProductIdentifier productId, Model model){
 		Iterable<MyOrder> orderList;
 		if(productId != null && !productId.toString().isEmpty()){
-			orderList = myOrderManagement.findByProductId(productId);
+			orderList = myOrderManagement.findByProductId(productId, (Iterable<MyOrder>) model.getAttribute("orderList"));
 		}else if(productName != null && !productName.isEmpty()){
-			orderList = myOrderManagement.findByProductName(productName);
+			orderList = myOrderManagement.findByProductName(productName, (Iterable<MyOrder>) model.getAttribute("orderList"));
 		}else{
 			orderList = myOrderRepository.findAll();
 		}
