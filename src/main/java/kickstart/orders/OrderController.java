@@ -3,13 +3,18 @@ package kickstart.orders;
 import jakarta.servlet.http.HttpServletRequest;
 import kickstart.Inventory.Book;
 import kickstart.Inventory.Genre;
+import kickstart.user.User;
+import kickstart.user.UserManagement;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
+import org.salespointframework.order.OrderLine;
 import org.salespointframework.useraccount.UserAccount;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +30,12 @@ public class OrderController {
 	private UserAccount.UserAccountIdentifier userId;
 	private final MyOrderRepository myOrderRepository;
 	private final UniqueInventory<UniqueInventoryItem> inventory;
+	private final UserManagement userManagement;
 
 
-	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory){
+	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement){
 		this.myOrderRepository = myOrderRepository;
+		this.userManagement = userManagement;
 		this.userId = UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString());
 		this.inventory = inventory;
 	}
@@ -66,13 +73,22 @@ public class OrderController {
 	}
 
 	@PostMapping("/checkout")
-	String buy(@ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
-		MyOrder order = new MyOrder(userId, paymentMethod);
-		for(CartItem item : cart.stream().toList()){
-			order.addOrderLine(item.getProduct(), item.getQuantity());
+	String buy(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
+		MyOrder order = null;
+		for (User user : userManagement.findAll()) {
+			if (user.getUserAccount().getUsername().equals(userDetails.getUsername())) {
+				order = new MyOrder(user.getUserAccount().getId(), paymentMethod);
+
+			}
 		}
-		myOrderRepository.save(order);
-		cart.clear();
+		if(order != null){
+			for(CartItem item : cart.stream().toList()){
+				order.addOrderLine(item.getProduct(), item.getQuantity());
+			}
+			deleteProductsFromStock(order);
+			myOrderRepository.save(order);
+			cart.clear();
+		}
 		return "cart";
 	}
 
@@ -87,4 +103,14 @@ public class OrderController {
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), -1);
 		return "redirect:/cart";
 	}
+
+	private void deleteProductsFromStock(MyOrder order){
+		for(OrderLine orderLine : order.getOrderLines()){
+			//orderLine.getProductName()
+			//orderLine.getId()
+			//orderLine.getQuantity()
+		}
+	}
+
+
 }
