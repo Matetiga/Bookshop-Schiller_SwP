@@ -29,7 +29,7 @@
                 <p class="price" th:text="${merch.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
-                <form class="ui form" method="post" th:action="@{/cartAdd}">
+                <form class="ui form" method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
                     <input type="hidden" name="productId" th:value="${merch.getId()}"/>
                     <button type="submit" class="my-cool-button">In den Warenkorb</button>
                 </form>
@@ -38,6 +38,11 @@
     </div>
 </div>
 
+<script>
+    function showMessage() {
+        alert("Merch Artikel zum Warenkorb hinzugefügt!");
+    }
+</script>
 
 
 </body>
