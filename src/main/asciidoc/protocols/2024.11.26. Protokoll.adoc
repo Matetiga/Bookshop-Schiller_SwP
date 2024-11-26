@@ -1,0 +1,78 @@
+= Protokoll Gruppe 16
+
+Treffen am 26.11.2024
+Ort:      Ort des Treffens APB + E005
+Beginn:   13:00 Uhr +
+Ende:     13:20 Uhr
+
+__Schriftführer:__ Willi Richter
+
+*Nächstes Treffen:* +
+03.12.2024, 13:00 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Martin
+- Linus
+- Vincent
+- Willi
+- Marco
+- Kevin
+- Fabian
+
+
+== Bemerkungen
+
+Weiter Issues erstellen, im Dev. Documentation schreiben, auf Testabdeckung achten.
+Ablauf der Zwischenpräsentation
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|49     |siehe GitHub       |abgeschlossen |…
+|48     |…       |abgeschlossen |…
+|49     |…       |abgeschlossen |…
+|43     |…       |abgeschlossen |…
+|42     |…       |abgeschlossen |…
+|41     |…       |abgeschlossen |…
+|40     |…       |abgeschlossen |…
+|35     |…       |abgeschlossen |…
+|34     |…       |abgeschlossen |…
+|33     |…       |abgeschlossen |…
+|31     |…       |abgeschlossen |…
+|25     |…       |abgeschlossen |…
+|23     |…       |abgeschlossen |…
+|21     |…       |abgeschlossen |…
+|20     |…       |abgeschlossen |…
+|17     |…       |abgeschlossen |…
+|14     |…       |abgeschlossen |…
+|8      |…       |abgeschlossen |…
+|7      |…       |abgeschlossen |…
+|6      |…       |abgeschlossen |…
+|5      |…       |abgeschlossen |…
+|===
+
+
+== Aktueller Stand
+
+Gute Fortschritte im Vergleich zu letzter Woche.
+Weiter Issues erstellen, Dev. Documentation weiter schreiben, weitere Tests schreiben, besonders getter und setter.
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+einfach weiter machen
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|… |… |… |… |…
+
+
+|===
