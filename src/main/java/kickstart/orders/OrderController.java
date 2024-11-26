@@ -26,15 +26,6 @@ public class OrderController {
 	private final MyOrderRepository myOrderRepository;
 	private final UniqueInventory<UniqueInventoryItem> inventory;
 
-	Genre fiction = createGenre("Fiction");
-	Genre history = createGenre("Cooking");
-	//for testing:
-	private final Product exampleProduct1 = new Book("The Great Gatsby", "gatsby.jpg", Money.of(10 ,"EUR"),
-		"A novel set in the 1920s about the American Dream", fiction, "F. Scott Fitzgerald",
-		"9780743273565", "Scribner");
-	private final Product exampleProduct2 = new Book("Sapiens: A Brief History of Humankind", "sapiens.jpg", Money.of(15, "EUR"),
-		"Explores the history of humankind", history, "Yuval Noah Harari",
-		"9780062316110", "Harper");
 
 	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory){
 		this.myOrderRepository = myOrderRepository;
@@ -53,29 +44,14 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartAdd")
-	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, Model model, HttpServletRequest request){
+	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, HttpServletRequest request){
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
-		model.addAttribute("message", "Produkt wurde erfolgreich zum Warenkorb hinzugefügt!");
 
 		String referer = request.getHeader("Referer");
 
 		return "redirect:" + referer;
 	}
-	//Test-Method for adding products to the cart
-	//mapped to the temporary buttons in cart.html
-	@PostMapping("/cartAddExample1")
-	String addProductExample1(@ModelAttribute Cart cart) {
-		cart.addOrUpdateItem(exampleProduct1, 1);
-		return "cart";
-	}
 
-	//Test-Method for adding products to the cart
-	//mapped to the temporary buttons in cart.html
-	@PostMapping("/cartAddExample2")
-	String addProductExample2(@ModelAttribute Cart cart) {
-		cart.addOrUpdateItem(exampleProduct2, 1);
-		return "cart";
-	}
 
 	@PostMapping("/cartDelete")
 	String deleteProduct(@RequestParam("productId") String productId, @ModelAttribute Cart cart) {
@@ -98,5 +74,17 @@ public class OrderController {
 		myOrderRepository.save(order);
 		cart.clear();
 		return "cart";
+	}
+
+	@PostMapping ("/cartIncrease")
+	String increaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId, @ModelAttribute Cart cart){
+		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
+		return "redirect:/cart";
+	}
+
+	@PostMapping ("/cartDecrease")
+	String decreaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId, @ModelAttribute Cart cart) {
+		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), -1);
+		return "redirect:/cart";
 	}
 }
