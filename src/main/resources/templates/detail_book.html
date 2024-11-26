@@ -29,15 +29,23 @@
                 <p class="price" th:text="${book.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
-                <div class="actions">
-                    <button class="my-cool-button">In den Warenkorb</button>
+                <form class="ui form" method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
+                    <input type="hidden" name="productId" th:value="${book.getId()}"/>
+                    <button type="submit" class="my-cool-button">In den Warenkorb</button>
+                </form>
+                <div th:if="${message}" class="alert alert-success">
+                    <p th:text="${message}"></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<script>
+    function showMessage() {
+        alert("Buch zum Warenkorb hinzugefügt!");
+    }
+</script>
 
 </body>
 </html>
