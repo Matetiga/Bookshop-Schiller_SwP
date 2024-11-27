@@ -3,6 +3,7 @@
     <head>
         <title>Inventory List</title>
         <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+        <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
     </head>
     <body>
     <header>
@@ -99,9 +100,14 @@
 
 
                     <!--                    TODO: add the checker for the genre -->
-                    <label for="genre"></label>
-                    <input type="text" id="genre" name="genre" th:field="*{genre}" placeholder="Enter Genre" required/>
-                    <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
+<!--                    <label for="genre"></label>-->
+                    <label>
+                        <select name="genre">
+                            <option th:each="genre : ${bookGenres_addBook}" th:value="${genre.genre}" th:text="${genre.genre}">
+                            </option>
+                        </select>
+                    </label>
+
 
                     <label for="ISBN"></label>
                     <input type="text" id="ISBN" name="ISBN" th:field="*{ISBN}" placeholder="Enter ISBN" required/>

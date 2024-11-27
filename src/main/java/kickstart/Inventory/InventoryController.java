@@ -125,6 +125,7 @@ public class InventoryController {
 		shopProductCatalog.save(book);
 		shopProductInventory.save(new UniqueInventoryItem( book, Quantity.of(bookForm.getStock())));
 		showInventory(model);
+		model.addAttribute("bookGenres_addBook", Genre.getAllGenres());
 		return "inventory_book";
 	}
 

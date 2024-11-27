@@ -94,6 +94,11 @@ class OrderControllerTest {
 		uniqueInventoryItem = new UniqueInventoryItem(exampleProduct1, Quantity.of(10));
 		shopProductInventory.save(uniqueInventoryItem);
 
+		//TODO (inside deleteProductsFronStock() method)
+		// inventory.findByProductIdentifier(orderLine.getProductIdentifier()).ifPresent(item -> {
+		// there should be a when().thenReturn(), otherwise should throw an exception
+		// but that exception is not being thrown
+
 	}
 
 
@@ -109,6 +114,7 @@ class OrderControllerTest {
 
 		// test for item purchase with enough stock in inventory
 		shopProductInventory.findByProductIdentifier(exampleProduct1.getId()).ifPresent(item -> {
+			// TODO this should fail
 			assertEquals(Quantity.of(645), item.getQuantity()); // Initial quantity (10) - purchased quantity (4) = 6
 		});
 

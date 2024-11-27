@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Calendar Inventory</title>
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
 </head>
 <body>
 <header>
@@ -91,22 +92,22 @@
 </div>
 </body>
 <script th:inline="javascript">
-    // const modal = document.getElementById('addNewCalendar');
-    // const open = document.getElementById('openForm');
-    // const close = document.getElementById('close');
-    //
-    // open.onclick = function (){
-    //     modal.style.display = 'block';
-    // }
-    //
-    // close.onclick = function (){
-    //     modal.style.display = 'none';
-    // }
-    //
-    // document.addEventListener("DOMContentLoaded", function (){
-    //     if([[${showModal}]]) {
-    //         modal.style.display = 'block';
-    //     }
-    // });
+    const modal = document.getElementById('addNewCalendar');
+    const open = document.getElementById('openForm');
+    const close = document.getElementById('close');
+
+    open.onclick = function (){
+        modal.style.display = 'block';
+    }
+
+    close.onclick = function (){
+        modal.style.display = 'none';
+    }
+
+    document.addEventListener("DOMContentLoaded", function (){
+        if([[${showModal}]]) {
+            modal.style.display = 'block';
+        }
+    });
 </script>
 </html>

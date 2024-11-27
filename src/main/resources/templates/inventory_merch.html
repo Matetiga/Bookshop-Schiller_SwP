@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Calendar Inventory</title>
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
 </head>
 <body>
 <header>
@@ -17,6 +18,7 @@
             <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
             <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
         </ul>
+        <button id="openForm">Add New Merch</button>
     </aside>
           <table class="compact-table product-catalog panel-effect">
               <tr>
