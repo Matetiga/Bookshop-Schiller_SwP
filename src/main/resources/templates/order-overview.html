@@ -23,14 +23,14 @@
             <div class="form-group">
                 <label for="dropdown_status">Status:</label>
                 <select id="dropdown_status" name="valueStatus" class="form-control">
-                    <option value="ALL">alle</option>
-                    <option value="OPEN">offen</option>
-                    <option value="PAID">bezahlt</option>
-                    <option value="COMPLETED">abgeschlossen</option>
+                    <option value="ALL" th:text="#{order.all}">alle</option>
+                    <option value="OPEN" th:text="#{order.open}">offen</option>
+                    <option value="PAID" th:text="#{order.paid}">bezahlt</option>
+                    <option value="COMPLETED" th:text="#{order.completed}">abgeschlossen</option>
                 </select>
             </div>
             <div class="form-group mt-3">
-                <button type="submit" class="btn btn-primary">Filtern</button>
+                <button type="submit" class="btn btn-primary" th:text="#{order.filter}">Filtern</button>
             </div>
         </form>
     </div>
