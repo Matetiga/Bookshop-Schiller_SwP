@@ -1,5 +1,6 @@
 package kickstart.orders;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderStatus;
@@ -35,14 +36,20 @@ public class OrderViewController {
 	String orderOverview(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
 		model.addAttribute("selectedState", "ALL");
+
 		return "order-overview";
 	}
 
 
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
+		//"Bist du sicher?"-Message einbauen
+
 		myOrderRepository.deleteById(orderId);
+
 		model.addAttribute("orderList", myOrderRepository.findAll());
+		model.addAttribute("selectedState", "ALL");
+
 		return "order-overview";
 	}
 
@@ -51,21 +58,17 @@ public class OrderViewController {
 		MyOrder order = myOrderRepository.findById(orderId).get();
 		order.changeStatus();
 		myOrderRepository.save(order);
-		model.addAttribute("orderList", myOrderRepository.findAll());
-		return "order-overview";
+
+		model.addAttribute("order", order);
+
+		return "order-details";
 	}
 
 	@PostMapping("/filterByStatus")
-	String filterStatus(Model model, @RequestParam("valueStatus") String status){
-		Iterable<MyOrder> orderList;
-		if(status == null || status.equals("ALL")){
-			orderList = myOrderRepository.findAll();
-		}
-		else{
-			orderList = myOrderManagement.findByStatus(status, myOrderRepository.findAll());
-		}
-		model.addAttribute("orderList", orderList);
-		model.addAttribute("selectedState", status);
+	String filterStatus(Model model, @RequestParam("valueStatus") String state){
+		model.addAttribute("orderList", myOrderManagement.findByStatus(state, myOrderRepository.findAll()));
+		model.addAttribute("selectedState", state);
+
 		return "order-overview";
 	}
 
@@ -79,19 +82,27 @@ public class OrderViewController {
 		}else{
 			orderList = myOrderRepository.findAll();
 		}
+
 		model.addAttribute("orderList", orderList);
-		System.out.println(productName);
-		System.out.println(productId);
+
 		return "order-overview";
 	}
 
+	//currently not used
 	@PostMapping("/sortByDate")
 	String sortByDate(Model model){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		myOrderRepository.findAll().forEach(orderList::add);
 		Collections.sort(orderList, Comparator.comparing(Order::getDateCreated));
+
 		model.addAttribute("orderList", orderList);
+
 		return "order-overview";
+	}
+
+	@GetMapping("/order-details")
+	String orderDetails(){
+		return "order-details";
 	}
 
 	@PostMapping("/order/{orderID}")

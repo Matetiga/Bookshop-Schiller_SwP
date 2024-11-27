@@ -52,7 +52,6 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                         <tr>
-                            <th th:text="#{order.id}">Order ID</th>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
@@ -70,21 +69,9 @@
                             <td th:text="${order.getStringPaymentMethod()}"></td>
                             <td th:text="${order.getMyOrderStatus()}"></td>
                             <td>
-                                <form class="ui form" method="post" th:action="@{/changeStatus}">
-                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                    <button type="submit" class="btn btn-primary">Status ändern</button>
-                                </form>
-                            </td>
-                            <td>
                                 <form class="ui form" method="post" th:action="@{'/order/' + ${order.id}}">
                                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
                                     <button type="submit" class="btn btn-primary">Details</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form class="ui form" method="post" th:action="@{/deleteOrder}">
-                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                    <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
                                 </form>
                             </td>
                         </tr>

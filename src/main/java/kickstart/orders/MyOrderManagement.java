@@ -26,7 +26,6 @@ public class MyOrderManagement {
 	MyOrderManagement(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
 		initalizeDemoOrders();
-
 	}
 
 	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
