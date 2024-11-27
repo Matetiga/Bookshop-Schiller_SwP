@@ -9,9 +9,17 @@
 </head>
 <body>
 <header>
-    <h1>Book</h1>
+    <h1 th:text="#{book.title}">Book</h1>
 </header>
 <div class="container">
+    <aside class="sidebar panel-effect">
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+        </ul>
+    </aside>
     <div class="panel-effect">
         <div class="two-column-container">
             <!-- Image Section -->
@@ -25,16 +33,15 @@
             <!-- Book Information Section -->
             <div class="right-column paddingContainer product-details-info ">
                 <h2 th:text="${book.name}">Book Title</h2>
+                <p class="genre" th:text="'Author: ' + ${book.getAuthor()}">Author</p>
+                <p class="genre" th:text="'ISBN: ' + ${book.getISBN}">Isbn</p>
                 <p class="genre" th:text="'Genre: ' + ${book.getBookGenre()}">Genre: Genre Name</p>
+                <p class="genre" th:text="${book.description}">Description</p>
                 <p class="price" th:text="${book.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
-                <form class="ui form" method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
-                    <input type="hidden" name="productId" th:value="${book.getId()}"/>
-                    <button type="submit" class="my-cool-button">In den Warenkorb</button>
-                </form>
-                <div th:if="${message}" class="alert alert-success">
-                    <p th:text="${message}"></p>
+                <div class="actions">
+                    <button class="my-cool-button" th:text="#{book.addToCart}" >In den Warenkorb</button>
                 </div>
             </div>
         </div>

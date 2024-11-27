@@ -1,23 +1,31 @@
 package kickstart.Inventory;
 
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.Valid;
+import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
 public class InventoryController {
+	@ManyToOne
 	private final UniqueInventory<UniqueInventoryItem> shopProductInventory;
+	private final ShopProductCatalog shopProductCatalog;
 
-	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory) {
+
+	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog) {
 		this.shopProductInventory = shopProductInventory;
+		this.shopProductCatalog = shopProductCatalog;
 	}
 
 
@@ -29,7 +37,10 @@ public class InventoryController {
 				books.add(new AbstractMap.SimpleEntry<Book, Quantity>((Book) item.getProduct(), item.getQuantity()));
 			}
 		}
-
+		// this prevents the form from being overwritten when the page is reloaded
+		if (!model.containsAttribute("bookForm")) {
+			model.addAttribute("bookForm", new AddBookForm());
+		}
 		model.addAttribute("books", books);
 		return "inventory_book";
 	}
@@ -43,6 +54,10 @@ public class InventoryController {
 			}
 		}
 
+		if (!model.containsAttribute("merchForm")) {
+			model.addAttribute("merchForm", new AddMerchCalendarForm());
+		}
+
 		model.addAttribute("merch", merch);
 		return "inventory_merch";
 	}
@@ -54,6 +69,10 @@ public class InventoryController {
 			if(item.getProduct() instanceof Calendar){
 				calendars.add(new AbstractMap.SimpleEntry<Calendar, Quantity>((Calendar) item.getProduct(), item.getQuantity()));
 			}
+		}
+
+		if (!model.containsAttribute("calendarForm")) {
+			model.addAttribute("calendarForm", new AddMerchCalendarForm());
 		}
 
 		model.addAttribute("calendars", calendars);
@@ -75,15 +94,6 @@ public class InventoryController {
 
 	}
 
-	@PostMapping("/inventory/edit")
-	public String editProductName(@RequestParam("itemId") Product.ProductIdentifier id, @RequestParam("newName") String newName, Model model){
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.getProduct().setName(newName);
-			shopProductInventory.save(item);
-		});
-		showInventory(model);
-		return "inventory_book";
-	}
 
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model){
@@ -92,6 +102,156 @@ public class InventoryController {
 		});
 		showInventory(model);
 		return "inventory_book";
+	}
+
+
+	@PostMapping("/inventory/add_book")
+	public String addProduct(@Valid @ModelAttribute("bookForm") AddBookForm bookForm,  BindingResult result, Model model){
+
+		if(result.hasErrors()){
+			showInventory(model);
+			model.addAttribute("showModal", true);
+			return "inventory_book";
+		}
+
+		Book book = new Book(bookForm.getName(),
+			bookForm.getImage(),
+			Money.of(bookForm.getPrice(), "EUR"),
+			bookForm.getDescription(),
+			Genre.createGenre(bookForm.getGenre()),
+			bookForm.getAuthor(),
+			bookForm.getISBN(),
+			bookForm.getPublisher());
+		shopProductCatalog.save(book);
+		shopProductInventory.save(new UniqueInventoryItem( book, Quantity.of(bookForm.getStock())));
+		showInventory(model);
+		model.addAttribute("bookGenres_addBook", Genre.getAllGenres());
+		return "inventory_book";
+	}
+
+	@PostMapping("/inventory/add_merch")
+	public String addMerch(@Valid @ModelAttribute("merchForm") AddMerchCalendarForm merchForm, BindingResult result, Model model){
+		if(result.hasErrors()){
+			showMerchInventory(model);
+			model.addAttribute("showModal", true);
+			return "inventory_merch";
+		}
+		Merch merch = new Merch(merchForm.getName(),
+			merchForm.getImage(),
+			Money.of(merchForm.getPrice(), "EUR"),
+			merchForm.getDescription());
+		shopProductCatalog.save(merch);
+		shopProductInventory.save(new UniqueInventoryItem( merch, Quantity.of(merchForm.getStock())));
+		showMerchInventory(model);
+		return "inventory_merch";
+	}
+
+	@PostMapping("/inventory/add_calendar")
+	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm, BindingResult result, Model model){
+		if(result.hasErrors()){
+			showCalendarInventory(model);
+			model.addAttribute("showModal", true);
+			return "inventory_calendar";
+		}
+		Calendar calendar = new Calendar(calendarForm.getName(),
+			calendarForm.getImage(),
+			Money.of(calendarForm.getPrice(), "EUR"),
+			calendarForm.getDescription());
+
+		shopProductCatalog.save(calendar);
+		shopProductInventory.save(new UniqueInventoryItem( calendar, Quantity.of(calendarForm.getStock())));
+		showCalendarInventory(model);
+		return "inventory_calendar";
+	}
+
+
+
+	@PostMapping("/inventory/editable")
+	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		if (shopProduct.getProduct() instanceof Book) {
+			model.addAttribute("book", shopProduct.getProduct() );
+			model.addAttribute("bookGenres", Genre.getAllGenres());
+		}
+		if (shopProduct.getProduct() instanceof Calendar) {
+			model.addAttribute("calendar", shopProduct.getProduct());
+		}
+		if (shopProduct.getProduct() instanceof Merch) {
+			model.addAttribute("merch", shopProduct.getProduct());
+		}
+
+		return "inventory_editable";
+	}
+
+	@PostMapping("/inventory/save_book")
+	public String saveBook(
+		@RequestParam("itemId") Product.ProductIdentifier id,
+		@RequestParam("name") String name,
+		@RequestParam("description") String desc,
+		@RequestParam("price") BigDecimal price,
+		@RequestParam("genre")String genreName,
+		@RequestParam("author")String author,
+		@RequestParam("ISBN") String isbn,
+		@RequestParam("publisher")String publisher) {
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.getProduct().setName(name);
+
+			Money moneyPrice = Money.of(price, "EUR");
+			item.getProduct().setPrice(moneyPrice);
+
+			((Book) item.getProduct()).setDescription(desc);
+
+			((Book) item.getProduct()).setAuthor(author);
+			((Book) item.getProduct()).setISBN(isbn);
+			((Book) item.getProduct()).setPublisher(publisher);
+
+			Genre genre = Genre.createGenre(genreName);
+			((Book) item.getProduct()).setGenre(genre);
+
+			shopProductInventory.save(item);
+		});
+		return "redirect:/inventory_book";
+
+	}
+
+	@PostMapping("/inventory/save_calendar")
+	public String saveCalendar(
+		@RequestParam("itemId") Product.ProductIdentifier id,
+		@RequestParam("name") String name,
+		@RequestParam("description") String desc,
+		@RequestParam("price") BigDecimal price) {//Averiguar como conseguir el la descripcion y poner el request param
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.getProduct().setName(name);
+
+			Money moneyPrice = Money.of(price, "EUR");
+			item.getProduct().setPrice(moneyPrice);
+
+			((Calendar) item.getProduct()).setDescription(desc);
+
+			shopProductInventory.save(item);
+		});
+		return "redirect:/inventory_calendar";
+
+	}
+
+	@PostMapping("/inventory/save_merch")
+	public String saveMerch(
+		@RequestParam("itemId") Product.ProductIdentifier id,
+		@RequestParam("name") String name,
+		@RequestParam("description") String desc,
+		@RequestParam("price") BigDecimal price) { //Averiguar como conseguir el la descripcion y poner el request param
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.getProduct().setName(name);
+
+			Money moneyPrice = Money.of(price, "EUR");
+			item.getProduct().setPrice(moneyPrice);
+
+			((Merch) item.getProduct()).setDescription(desc);
+
+			shopProductInventory.save(item);
+		});
+
+		return "redirect:/inventory_merch";
 	}
 
 }

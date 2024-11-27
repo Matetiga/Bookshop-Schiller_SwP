@@ -3,23 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Calendar Inventory</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
 </head>
 <body>
-  <h1>Inventory Lists</h1>
-  <button th:onclick="|location.href='@{/}'|">Back to Welcome</button>
-  <ul>
-    <li><button th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
-    <li><button th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
-    <li><button th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
-
-  </ul>
-          <table>
+<header>
+    <h1 th:text="#{inventory.title}">Inventory Lists</h1>
+</header>
+<div class="container-large">
+    <aside class="sidebar panel-effect">
+        <button th:text="#{inventory.backToHome}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
+        <ul class="small-nav">
+            <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
+            <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
+            <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
+        </ul>
+        <button id="openForm">Add New Merch</button>
+    </aside>
+          <table class="compact-table product-catalog panel-effect">
               <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Stock</th>
+                  <th th:text="#{inventory.name}">Name</th>
+                  <th th:text="#{inventory.price}">Price</th>
+                  <th th:text="#{inventory.desc}">Description</th>
+                  <th th:text="#{inventory.img}">Image</th>
+                  <th th:text="#{inventory.stock}">Stock</th>
               </tr>
               <tr th:each="item : ${merch}">
                 <td th:text="${item.getKey().name}">Name</td>
@@ -30,10 +37,75 @@
                 <td>
                   <form th:action="@{/inventory/update}" method="post">
                     <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                    <button type="submit">Update Quantity</button>
+                      <button type="submit" th:text="#{inventory.updateQuantity}">Update Quantity</button>
                   </form>
                 </td>
+                  <td>
+                      <form th:action="@{/inventory/delete}" method="post">
+                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                          <button type="submit">Delete Item :(</button>
+                      </form>
+                  </td>
+                  <td>
+                      <form th:action="@{/inventory/editable}" method="post">
+                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                          <button type="submit">EDIT</button>
+                      </form>
+                  </td>
               </tr>
           </table>
+</div>
+  <!-- Adding a table to insert new Merch-->
+  <div id="addNewMerch" class="modal">
+      <div class="modal-content">
+          <span id="close" class="close">&times;</span>
+          <h1>Add New Merch</h1>
+          <form th:action="@{/inventory/add_merch}" method="post" th:object="${merchForm}">
+              <label for="name"></label>
+              <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter Name" required/>
+              <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+              <label for="stock"></label>
+              <input type="number" id="stock"  th:field="*{stock}" name="stock" placeholder="Enter Stock" required/>
+              <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
+
+              <label for="image"></label>
+              <input type="text" id="image" name="image" th:field="*{image}" placeholder="Enter Image" required/>
+              <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+
+              <label for="price"></label>
+              <input type="number" id="price" name="price" th:field="*{price}" placeholder="Enter Price" required/>
+              <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+
+              <label for="description"></label>
+              <input type="text" id="description" name="description" th:field="*{description}" placeholder="Enter Description" required/>
+              <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+
+              <div class="modal-footer">
+                  <button class="add-book_button" type="submit">Add Merch</button>
+              </div>
+          </form>
+      </div>
+
+  </div>
 </body>
+<script th:inline="javascript">
+    const modal = document.getElementById('addNewMerch');
+    const open = document.getElementById('openForm');
+    const close = document.getElementById('close');
+
+    open.onclick = function (){
+        modal.style.display = 'block';
+    }
+
+    close.onclick = function (){
+        modal.style.display = 'none';
+    }
+
+    document.addEventListener("DOMContentLoaded", function (){
+        if([[${showModal}]]) {
+            modal.style.display = 'block';
+        }
+    });
+</script>
 </html>

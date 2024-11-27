@@ -37,7 +37,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-//	static class VideoShopWebConfiguration implements WebMvcConfigurer {
+//	static class bookShopWebConfiguration implements WebMvcConfigurer {
 //		@Override
 //		public void addViewControllers(ViewControllerRegistry registry) {
 //			registry.addViewController(LOGIN_ROUTE).setViewName("login");
@@ -50,7 +50,7 @@ public class Application {
 //
 //
 //		@Bean
-//		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {
+//		SecurityFilterChain bookShopSecurity(HttpSecurity http) throws Exception {
 //
 //			return http
 //				.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
@@ -64,7 +64,7 @@ public class Application {
 	static class WebSecurityhomeProvisorischConfiguration {
 
 		@Bean
-		SecurityFilterChain videoShopSecurity(HttpSecurity http) throws Exception {
+		SecurityFilterChain bookShopSecurity(HttpSecurity http) throws Exception {
 
 			return http
 				.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))

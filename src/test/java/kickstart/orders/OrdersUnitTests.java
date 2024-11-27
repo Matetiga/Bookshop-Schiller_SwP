@@ -1,13 +1,20 @@
 package kickstart.orders;
 
+import kickstart.Inventory.Book;
 import kickstart.orders.MyOrder;
 
 import kickstart.orders.MyOrderRepository;
+import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.catalog.Product;
+import org.salespointframework.inventory.UniqueInventory;
+import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.order.Cart;
+import org.salespointframework.order.OrderStatus;
+import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 
+import static kickstart.Inventory.Genre.createGenre;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -46,5 +53,6 @@ public class OrdersUnitTests {
 
 		assertNull(order.getStringPaymentMethod());
 	}
+
 
 }

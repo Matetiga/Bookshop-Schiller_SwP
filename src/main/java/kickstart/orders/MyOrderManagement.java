@@ -29,19 +29,25 @@ public class MyOrderManagement {
 
 	}
 
-	public Iterable<MyOrder> findByStatus(OrderStatus filterStatus){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : myOrderRepository.findAll()){
-			if(order.getMyOrderStatus() == filterStatus){
-				orderList.add(order);
+	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
+		if(state == null || state.equals("ALL")){
+			return filteredList;
+		}else{
+			ArrayList<MyOrder> orderList = new ArrayList<>();
+			for(MyOrder order : filteredList){
+				if(order.getMyOrderStatus().equals(state)){
+					orderList.add(order);
+				}
 			}
+			return orderList;
 		}
-		return orderList;
+
+
 	}
 
-	public Iterable<MyOrder> findByProductName(String productName){
+	public Iterable<MyOrder> findByProductName(String productName, Iterable<MyOrder> filteredList){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : myOrderRepository.findAll()){
+		for(MyOrder order : filteredList){
 			for(OrderLine orderLine : order.getOrderLines()){
 				if(orderLine.getProductName().equals(productName)){
 					orderList.add(order);
@@ -51,9 +57,9 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	public Iterable<MyOrder> findByProductId(Product.ProductIdentifier productId){
+	public Iterable<MyOrder> findByProductId(Product.ProductIdentifier productId, Iterable<MyOrder> filteredList){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : myOrderRepository.findAll()){
+		for(MyOrder order : filteredList){
 			for(OrderLine orderLine : order.getOrderLines()){
 				if(orderLine.getProductIdentifier().equals(productId)){
 					orderList.add(order);
