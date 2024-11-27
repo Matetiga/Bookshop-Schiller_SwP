@@ -21,11 +21,11 @@
             <div class="btn-group-vertical w-100" role="group" aria-label="Admin actions">
                 <form method="post" th:action="@{/changeStatus}" class="mb-2">
                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                    <button type="submit" class="btn btn-primary w-100">Status ändern</button>
+                    <button th:text="#{order.updateStatus}" type="submit" class="btn btn-primary w-100">Status ändern</button>
                 </form>
                 <form method="post" th:action="@{/deleteOrder}" class="mb-2">
                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                    <button type="submit" class="btn btn-danger w-100">Bestellung entfernen</button>
+                    <button th:text="#{order.removeOrder}" type="submit" class="btn btn-danger w-100">Bestellung entfernen</button>
                 </form>
             </div>
         </div>
@@ -37,7 +37,7 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Order Overview</h5>
+                    <h5 class="card-title" th:text="#{order.OrderOverview}">Order Overview</h5>
                     <p class="card-text">
                         <strong th:text="#{order.id} + ':'"></strong>
                         <span th:text="${order.getId()}">12345</span><br>

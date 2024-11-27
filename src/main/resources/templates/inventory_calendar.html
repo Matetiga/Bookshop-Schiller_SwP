@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Calendar Inventory</title>
-    <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
-<h1>Inventory Lists</h1>
-<button th:onclick="|location.href='@{/}'|">Back to Welcome</button>
-<ul>
-    <li><button th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
-    <li><button th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
-    <li><button th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
+<header>
+    <h1 th:text="#{inventory.title}">Inventory Lists</h1>
+</header>
+<div class="container-large">
+    <aside class="sidebar panel-effect">
+        <button th:text="#{inventory.backToHome}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
+        <ul class="small-nav">
+            <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
+            <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
+            <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
 
 </ul>
 <button id="openForm">Add New Calendar</button>
-<table>
+    </aside>
+<table class="compact-table product-catalog panel-effect">
     <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Description</th>
-        <th>Image</th>
-        <th>Stock</th>
+        <th th:text="#{inventory.name}">Name</th>
+        <th th:text="#{inventory.price}">Price</th>
+        <th th:text="#{inventory.desc}">Description</th>
+        <th th:text="#{inventory.img}">Image</th>
+        <th th:text="#{inventory.stock}">Stock</th>
     </tr>
     <tr th:each="calendar : ${calendars}">
         <td th:text="${calendar.getKey().name}">Name</td>
@@ -32,7 +37,7 @@
         <td>
             <form th:action="@{/inventory/update}" method="post">
                 <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
-                <button type="submit">Update Quantity</button>
+                <button type="submit" th:text="#{inventory.updateQuantity}">Update Quantity</button>
             </form>
         </td>
         <td>
@@ -50,6 +55,7 @@
 
     </tr>
 </table>
+</div>
 <!-- Adding a table to insert new Calendars-->
 <div id="addNewCalendar" class="modal">
     <div class="modal-content">

@@ -29,14 +29,20 @@ public class MyOrderManagement {
 
 	}
 
-	public Iterable<MyOrder> findByStatus(OrderStatus filterStatus, Iterable<MyOrder> filteredList){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : filteredList){
-			if(order.getMyOrderStatus() == filterStatus){
-				orderList.add(order);
+	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
+		if(state == null || state.equals("ALL")){
+			return filteredList;
+		}else{
+			ArrayList<MyOrder> orderList = new ArrayList<>();
+			for(MyOrder order : filteredList){
+				if(order.getMyOrderStatus().equals(state)){
+					orderList.add(order);
+				}
 			}
+			return orderList;
 		}
-		return orderList;
+
+
 	}
 
 	public Iterable<MyOrder> findByProductName(String productName, Iterable<MyOrder> filteredList){

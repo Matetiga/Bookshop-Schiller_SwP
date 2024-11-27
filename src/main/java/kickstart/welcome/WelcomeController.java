@@ -15,29 +15,21 @@
  */
 package kickstart.welcome;
 
-import org.salespointframework.order.Cart;
-import org.salespointframework.useraccount.UserAccount;
-import org.salespointframework.useraccount.web.LoggedIn;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Optional;
 
 @Controller
 public class WelcomeController {
 
  	@GetMapping("/")
-// 	@GetMapping("/ignore")
  	public String index() {
-		 return "homeProvisorisch";
-// 		return "catalog_books";
+		 return "home";
  	}
 
 	@PostMapping("/welcome")
 	String welcome(){
-		return "homeProvisorisch";
+		return "home";
 	}
 
 	@PostMapping("/login")

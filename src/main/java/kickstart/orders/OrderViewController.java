@@ -38,12 +38,6 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
-	@PostMapping("/showProducts")
-	String showProducts(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
-		//model.addAttribute("show", true);
-		//model.addAttribute("orderList", myOrderRepository.findAll());
-		return "order-overview";
-	}
 
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
@@ -68,7 +62,7 @@ public class OrderViewController {
 			orderList = myOrderRepository.findAll();
 		}
 		else{
-			orderList = myOrderManagement.findByStatus(OrderStatus.valueOf(status), myOrderRepository.findAll());
+			orderList = myOrderManagement.findByStatus(status, myOrderRepository.findAll());
 		}
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("selectedState", status);
@@ -100,7 +94,7 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
-	@GetMapping("/order/{orderID}")
+	@PostMapping("/order/{orderID}")
 	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
 		MyOrder order = myOrderManagement.findByID(orderId);
 
