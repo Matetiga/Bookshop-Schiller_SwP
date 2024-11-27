@@ -6,6 +6,7 @@
 >
 <head>
     <meta charset="utf-8">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
     <title th:text="#{home.title}">Welcome2!</title>
 </head>
@@ -34,13 +35,21 @@
                 </form>
             </li>
         </ul>
-
     </aside>
 
     <!-- Book List -->
     <section class="product-catalog panel-effect">
         <h3 sec:authorize="isAuthenticated()" th:text="${'Hallo ' + #authentication?.name}">Hallo Nutzer</h3>
+        <img   id="random-meme" class="img-fluid rounded" src="">
     </section>
 </div>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const memeCount = 5; // Anzahl der verfügbaren Meme-Bilder
+        const randomNumber = Math.floor(Math.random() * memeCount) + 1;
+        const memePath = `/resources/img/memes/meme${randomNumber}.jpg`;
+        document.getElementById("random-meme").src = memePath;
+    });
+</script>
 </html>
