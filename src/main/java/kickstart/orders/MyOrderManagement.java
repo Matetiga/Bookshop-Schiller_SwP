@@ -35,7 +35,7 @@ public class MyOrderManagement {
 		}else{
 			ArrayList<MyOrder> orderList = new ArrayList<>();
 			for(MyOrder order : filteredList){
-				if(order.getMyOrderStatus() == OrderStatus.valueOf(state)){
+				if(order.getMyOrderStatus().equals(state)){
 					orderList.add(order);
 				}
 			}

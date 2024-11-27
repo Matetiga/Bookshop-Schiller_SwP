@@ -62,7 +62,7 @@ public class OrderViewController {
 			orderList = myOrderRepository.findAll();
 		}
 		else{
-			orderList = myOrderManagement.findByStatus(OrderStatus.valueOf(status), myOrderRepository.findAll());
+			orderList = myOrderManagement.findByStatus(status, myOrderRepository.findAll());
 		}
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("selectedState", status);
