@@ -52,7 +52,6 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                         <tr>
-                            <th th:text="#{order.id}">Order ID</th>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
@@ -64,9 +63,6 @@
                         </thead>
                         <tbody>
                         <tr th:each="order : ${orderList}">
-                            <td>
-                                <a th:href="@{'/order/' + ${order.id}}" class="text-primary" th:text="${order.id}">ID</a>
-                            </td>
                             <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
                             <td th:text="${order.getUserAccountIdentifier()}"></td>
                             <td th:text="${order.getTotal()}"></td>
@@ -79,9 +75,9 @@
                                 </form>
                             </td>
                             <td>
-                                <form class="ui form" method="post" th:action="@{/showProducts}">
+                                <form class="ui form" method="post" th:action="@{'/order/' + ${order.id}}">
                                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                    <button type="submit" class="btn btn-danger">Produkte anzeigen</button>
+                                    <button type="submit" class="btn btn-primary">Details</button>
                                 </form>
                             </td>
                             <td>
