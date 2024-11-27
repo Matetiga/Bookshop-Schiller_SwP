@@ -9,8 +9,7 @@
 <header>
     <h1 th:text="#{inventory.title}">Inventory Lists</h1>
 </header>
-<div class="container">
-
+<div class="container-large">
     <aside class="sidebar panel-effect">
         <button th:text="#{inventory.backToHome}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
         <ul class="small-nav">
@@ -19,7 +18,7 @@
             <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
         </ul>
     </aside>
-          <table class="product-catalog panel-effect">
+          <table class="compact-table product-catalog panel-effect">
               <tr>
                   <th th:text="#{inventory.name}">Name</th>
                   <th th:text="#{inventory.price}">Price</th>
