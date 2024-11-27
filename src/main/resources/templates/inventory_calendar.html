@@ -36,11 +36,18 @@
             </form>
         </td>
         <td>
+            <form th:action="@{/inventory/delete}" method="post">
+                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                <button type="submit">Delete Item :(</button>
+            </form>
+        </td>
+        <td>
             <form th:action="@{/inventory/editable}" method="post">
                 <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
                 <button type="submit">EDIT</button>
             </form>
         </td>
+
     </tr>
 </table>
 <!-- Adding a table to insert new Calendars-->

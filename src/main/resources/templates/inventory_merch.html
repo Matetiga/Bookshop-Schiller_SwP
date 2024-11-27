@@ -36,6 +36,12 @@
                   </form>
                 </td>
                   <td>
+                      <form th:action="@{/inventory/delete}" method="post">
+                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                          <button type="submit">Delete Item :(</button>
+                      </form>
+                  </td>
+                  <td>
                       <form th:action="@{/inventory/editable}" method="post">
                           <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
                           <button type="submit">EDIT</button>

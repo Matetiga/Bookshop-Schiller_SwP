@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -93,22 +94,6 @@ public class InventoryController {
 
 	}
 
-	@PostMapping("/inventory/edit")
-	public String editProductName(@RequestParam("itemId") Product.ProductIdentifier id, @RequestParam("newName") String newName, Model model){
-		if (newName.isBlank()){
-			model.addAttribute("edit_error", "Error while editing a book name");
-			showInventory(model);
-			return "inventory_book";
-		}
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			Book book = (Book) item.getProduct();
-			book.setDescription(newName);
-			shopProductInventory.save(item);
-		});
-
-		showInventory(model);
-		return "inventory_book";
-	}
 
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model){
@@ -181,21 +166,92 @@ public class InventoryController {
 
 
 	@PostMapping("/inventory/editable")
-	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model ){
-		UniqueInventoryItem ShopProduct = shopProductInventory.findByProductIdentifier(id).get();
-		if(ShopProduct.getProduct() instanceof  Book){
-			model.addAttribute("book", model);
+	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		if (shopProduct.getProduct() instanceof Book) {
+			model.addAttribute("book", shopProduct.getProduct() );
+			model.addAttribute("bookGenres", Genre.getAllGenres());
 		}
-		if(ShopProduct.getProduct() instanceof Calendar){
-			model.addAttribute("calendar", model);
+		if (shopProduct.getProduct() instanceof Calendar) {
+			model.addAttribute("calendar", shopProduct.getProduct());
 		}
-		if(ShopProduct.getProduct() instanceof Merch){
-			model.addAttribute("merch", model);
+		if (shopProduct.getProduct() instanceof Merch) {
+			model.addAttribute("merch", shopProduct.getProduct());
 		}
+
 		return "inventory_editable";
 	}
 
+	@PostMapping("/inventory/save_book")
+	public String saveBook(
+		@RequestParam("itemId") Product.ProductIdentifier id,
+		@RequestParam("name") String name,
+		@RequestParam("description") String desc,
+		@RequestParam("price") BigDecimal price,
+		@RequestParam("genre")String genreName,
+		@RequestParam("author")String author,
+		@RequestParam("ISBN") String isbn,
+		@RequestParam("publisher")String publisher) {
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.getProduct().setName(name);
 
+			Money moneyPrice = Money.of(price, "EUR");
+			item.getProduct().setPrice(moneyPrice);
+
+			((Book) item.getProduct()).setDescription(desc);
+
+			((Book) item.getProduct()).setAuthor(author);
+			((Book) item.getProduct()).setISBN(isbn);
+			((Book) item.getProduct()).setPublisher(publisher);
+
+			Genre genre = Genre.createGenre(genreName);
+			((Book) item.getProduct()).setGenre(genre);
+
+			shopProductInventory.save(item);
+		});
+		return "redirect:/inventory_book";
+
+	}
+
+	@PostMapping("/inventory/save_calendar")
+	public String saveCalendar(
+		@RequestParam("itemId") Product.ProductIdentifier id,
+		@RequestParam("name") String name,
+		@RequestParam("description") String desc,
+		@RequestParam("price") BigDecimal price) {//Averiguar como conseguir el la descripcion y poner el request param
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.getProduct().setName(name);
+
+			Money moneyPrice = Money.of(price, "EUR");
+			item.getProduct().setPrice(moneyPrice);
+
+			((Calendar) item.getProduct()).setDescription(desc);
+
+			shopProductInventory.save(item);
+		});
+		return "redirect:/inventory_calendar";
+
+	}
+
+	@PostMapping("/inventory/save_merch")
+	public String saveMerch(
+		@RequestParam("itemId") Product.ProductIdentifier id,
+		@RequestParam("name") String name,
+		@RequestParam("description") String desc,
+		@RequestParam("price") BigDecimal price) { //Averiguar como conseguir el la descripcion y poner el request param
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.getProduct().setName(name);
+
+			Money moneyPrice = Money.of(price, "EUR");
+			item.getProduct().setPrice(moneyPrice);
+
+			((Merch) item.getProduct()).setDescription(desc);
+
+			shopProductInventory.save(item);
+		});
+
+		return "redirect:/inventory_merch";
+	}
 
 }
 

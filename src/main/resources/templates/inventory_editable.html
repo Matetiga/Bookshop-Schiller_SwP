@@ -4,20 +4,190 @@
     <meta charset="UTF-8">
     <title>Details</title>
 </head>
-    <body>
-        <div th:if="${book != null}">
-            <h2>Editing Book</h2>
-            <form method="post" >
+<body>
+<div th:if="${book != null}">
+    <h2>Editing Book</h2>
+    <form action="/inventory/save_book" method="post">
+        <input type="hidden" name="itemId" th:value="${book.id}" />
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.name}"></td>
+                <td>
+                    <input type="text" name="name" th:value="${book.name}" placeholder="Enter new name" />
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Price</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.price}"></td>
+                <td>
+                    <input type="text" name="price" th:value="${book.price.number}" placeholder="Enter new price"/>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.description}"></td>
+                <td>
+                    <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${book.description}"></textarea>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Genre</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.getBookGenre()}"></td>
+                <td>
+                    <label>
+                        <select name="genre">
+                            <option th:each="genre : ${bookGenres}" th:value="${genre.genre}" th:text="${genre.genre}" th:selected="${genre.genre == book.getBookGenre()}">
+                            </option>
+                        </select>
+                    </label>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Author</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.author}"></td>
+                <td>
+                    <input type="text" name="author" th:value="${book.author}" placeholder="Enter new author"/>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>ISBN</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.ISBN}"></td>
+                <td>
+                    <input type="text" name="ISBN" th:value="${book.ISBN}" placeholder="Enter new ISBN" />
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Publisher</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${book.publisher}"></td>
+                <td>
+                    <input type="text" name="publisher" th:value="${book.publisher}" placeholder="Enter new publisher"/>
+                </td>
+            </tr>
+        </table>
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
 
-            </form>
-        </div>
+<div class="shadowbox" th:if="${calendar != null}">
+    <h2>Editing Calendar</h2>
+    <form action="/inventory/save_calendar" method="post">
+        <input type="hidden" name="itemId" th:value="${calendar.id}" />
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${calendar.name}"></td>
+                <td>
+                    <input type="text" name="name" th:value="${calendar.name}" placeholder="Enter new name" />
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Price</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${calendar.price}"></td>
+                <td>
+                    <input type="text" name="price" th:value="${calendar.price.number}" placeholder="Enter new price"/>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${calendar.description}"></td>
+                <td>
+                    <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${calendar.description}"></textarea>
+                </td>
+            </tr>
+        </table>
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
 
-        <div th:if="${calendar != null}">
-            <h2>Editing Calendar</h2>
-        </div>
-
-        <div th:if="${merch != null}">
-            <h2>Editing Merchandise</h2>
-        </div>
-    </body>
+<div th:if="${merch != null}">
+    <h2>Editing Merchandise</h2>
+    <form action="/inventory/save_merch" method="post">
+        <input type="hidden" name="itemId" th:value="${merch.id}" />
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${merch.name}"></td>
+                <td>
+                    <input type="text" name="name" th:value="${merch.name}" placeholder="Enter new name" />
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Price</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${merch.price}"></td>
+                <td>
+                    <input type="text" name="price" th:value="${merch.price.number}" placeholder="Enter new price" />
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Edit</th>
+            </tr>
+            <tr>
+                <td th:text="${merch.description}"></td>
+                <td>
+                    <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${merch.description}"></textarea>
+                </td>
+            </tr>
+        </table>
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+</body>
 </html>

@@ -43,14 +43,6 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{/inventory/edit}" method="post">
-                        <label for="newName"></label><input type="text" id="newName" name="newName" placeholder="Enter Name" />
-                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <span th:if="${edit_error}" th:text="${edit_error}">Name can not be blank</span>
-                        <button type="submit">Change name</button>
-                    </form>
-                </td>
-                <td>
                     <form th:action="@{/inventory/delete}" method="post">
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
                         <button type="submit">Delete Item :(</button>
