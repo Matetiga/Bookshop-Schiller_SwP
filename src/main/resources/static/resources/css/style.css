@@ -83,6 +83,9 @@ h1 {
     padding: 20px;
     gap: 20px;
 }
+.mt-6 {
+    margin-top: 4rem;
+}
 .alignContainer {
     margin: 0 10%;
     display: flex;
