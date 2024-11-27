@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <title>Inventory List</title>
+        <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
     </head>
     <body>
         <h1>Inventory Lists</h1>
@@ -12,7 +13,7 @@
             <li><button th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
 
         </ul>
-
+        <button id="openForm">Add New Book</button>
         <table>
             <tr>
                 <th>Name</th>
@@ -42,20 +43,95 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{/inventory/edit}" method="post">
-                        <label for="newName"></label><input type="text" id="newName" name="newName" placeholder="Enter Name" />
-                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit">Change name</button>
-                    </form>
-                </td>
-                <td>
                     <form th:action="@{/inventory/delete}" method="post">
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
                         <button type="submit">Delete Item :(</button>
                     </form>
                 </td>
+                <td>
+                    <form th:action="@{/inventory/editable}" method="post">
+                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <button type="submit">EDIT</button>
+                    </form>
+                </td>
             </tr>
         </table>
+        <!-- Adding a table to insert new Books-->
+        <div id="addNewBook" class="modal">
+            <div class="modal-content">
+                <span id="close" class="close">&times;</span>
+                <h1>Add New Book</h1>
+                <form th:action="@{/inventory/add_book}" method="post" th:object="${bookForm}">
+                    <label for="name"></label>
+                    <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter Name" required/>
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+                    <label for="stock"></label>
+                    <input type="number" id="stock"  th:field="*{stock}" name="stock" placeholder="Enter Stock" required/>
+                    <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
+
+
+                    <label for="image"></label>
+                    <input type="text" id="image" name="image" th:field="*{image}" placeholder="Enter Image" required/>
+                    <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
+
+
+                    <label for="price"></label>
+                    <input type="number" id="price" name="price" th:field="*{price}" placeholder="Enter Price" required/>
+                    <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+
+                    <label for="description"></label>
+                    <input type="text" id="description" name="description" th:field="*{description}" placeholder="Enter Description" required/>
+                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+
+
+                    <label for="author"></label>
+                    <input type="text" id="author" name="author" th:field="*{author}" placeholder="Enter Author" required/>
+                    <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
+
+
+                    <!--                    TODO: add the checker for the genre -->
+                    <label for="genre"></label>
+                    <input type="text" id="genre" name="genre" th:field="*{genre}" placeholder="Enter Genre" required/>
+                    <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
+
+                    <label for="ISBN"></label>
+                    <input type="text" id="ISBN" name="ISBN" th:field="*{ISBN}" placeholder="Enter ISBN" required/>
+                    <span th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}"></span>
+
+
+                    <label for="publisher"></label>
+                    <input type="text" id="publisher" name="publisher" th:field="*{publisher}" placeholder="Enter Publisher" required/>
+                    <span th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"></span>
+
+
+                    <div class="modal-footer">
+                        <button class="add-book_button" type="submit">Add Book</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    <script th:inline="javascript">
+        const modal = document.getElementById('addNewBook');
+        const open = document.getElementById('openForm');
+        const close = document.getElementById('close');
+
+        open.onclick = function (){
+            modal.style.display = 'block';
+        }
+
+        close.onclick = function (){
+            modal.style.display = 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", function (){
+            if([[${showModal}]]) {
+                modal.style.display = 'block';
+            }
+        });
+    </script>
     </body>
 </html>
 
