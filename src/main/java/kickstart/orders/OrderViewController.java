@@ -19,7 +19,7 @@ public class OrderViewController {
 
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
-	private final String[] orderStates = {"ALL", "OPEN", "PAID", "COMPLETED"};
+	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
@@ -35,7 +35,7 @@ public class OrderViewController {
 	@PreAuthorize("hasRole('ADMIN')")
 	String orderOverview(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		model.addAttribute("selectedState", "ALL");
+		model.addAttribute("selectedState", "Alle");
 
 		return "order-overview";
 	}
@@ -48,7 +48,7 @@ public class OrderViewController {
 		myOrderRepository.deleteById(orderId);
 
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		model.addAttribute("selectedState", "ALL");
+		model.addAttribute("selectedState", "Alle");
 
 		return "order-overview";
 	}
