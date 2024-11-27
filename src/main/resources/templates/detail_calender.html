@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-    <h1>Calender</h1>
+    <h1 th:text="#{calender.title}">Book</h1>
 </header>
 <div class="container">
     <div class="panel-effect">
@@ -29,7 +29,7 @@
 
                 <!-- Add to Cart Button -->
                 <div class="actions">
-                    <button class="my-cool-button">In den Warenkorb</button>
+                    <button class="my-cool-button" th:text="#{calender.addToCart}">In den Warenkorb</button>
                 </div>
             </div>
         </div>

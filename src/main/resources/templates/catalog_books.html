@@ -17,18 +17,18 @@
 <div class="container">
     <!-- Sidebar for filters -->
     <aside class="sidebar panel-effect">
-        <h2>Navigation</h2>
+        <h2 th:text="#{catalog.navigation}">Navigation</h2>
         <ul class="small-nav">
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
         </ul>
-        <h2>Kategorien</h2>
+        <h2 th:text="#{catalog.categories}">Kategorien</h2>
         <ul class="small-nav">
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|" th:text="#{catalog.books}" >Bücher</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|" th:text="#{catalog.calender}">Kalender</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|" th:text="#{catalog.merch}">Merch</button></li>
         </ul>
 
-        <h2>Filter nach Genre</h2>
+        <h2 th:text="#{catalog.sentences.filterGenre}">Filter nach Genre</h2>
         <ul class="checkbox-list">
             <li><label><input type="checkbox" name="genre" value="Geschichte"> Geschichte</label></li>
             <li><label><input type="checkbox" name="genre" value="Populärwissenschaft"> Populärwissenschaft</label></li>

@@ -4,14 +4,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-  <title>Warenkorb</title>
+  <title th:text="#{cart.tabTitle}">Warenkorb</title>
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
 
     <section layout:fragment="content">
         <header>
-            <h1> Ihr Warenkorb</h1> <br>
+            <h1 th:text="#{cart.title}"> Ihr Warenkorb</h1> <br>
         </header>
         <div class="container">
 
@@ -32,9 +32,9 @@
                 <table class="ui celled table">
                     <thead>
                     <tr>
-                        <th>Titel</th>
-                        <th>Anzahl</th>
-                        <th>Preis</th>
+                        <th th:text="#{cart.table.title}">Titel</th>
+                        <th th:text="#{cart.table.quantity}">Anzahl</th>
+                        <th th:text="#{cart.table.price}">Preis</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -56,10 +56,10 @@
             </form><br>
             <div>
                 <form class="ui form" method="post" th:action="@{/checkout}">
-                    <label for="dropdown_payment">Wählen Sie eine Bezahlmethode:</label>
+                    <label for="dropdown_payment" th:text="#{cart.sentence.paymentMethod}">Wählen Sie eine Bezahlmethode:</label>
                     <select id="dropdown_payment" name="paymentMethod">
-                        <option value="cash">Bar</option>
-                        <option value="invoice">Rechnung</option>
+                        <option value="cash" th:text="#{cart.cash}">Bar</option>
+                        <option value="invoice" th:text="#{cart.invoice}">Rechnung</option>
                     </select>
                         <br>
                         <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>

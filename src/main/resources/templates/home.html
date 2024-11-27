@@ -17,20 +17,20 @@
 <div class="container">
     <!-- Sidebar for filters -->
     <aside class="sidebar panel-effect">
-        <h2>Navigation</h2>
+        <h2 th:text="#{home.nav}">Navigation</h2>
         <ul class="small-nav">
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/}'|" >Home</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|" >Inventory</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/cart}'|" >Cart</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" >Account</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/admin-overview}'|" >Admin Overview</button></li>
+            <li><button th:text="#{home.nav.home}" class="small-nav-tab-button active" th:onclick="|location.href='@{/}'|" >Home</button></li>
+            <li><button th:text="#{home.nav.catalog}" class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
+            <li><button th:text="#{home.nav.inventory}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|" >Inventory</button></li>
+            <li><button th:text="#{home.nav.cart}" class="small-nav-tab-button" th:onclick="|location.href='@{/cart}'|" >Cart</button></li>
+            <li><button th:text="#{home.nav.account}" class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" >Account</button></li>
+            <li><button th:text="#{home.nav.adminOverview}" class="small-nav-tab-button" th:onclick="|location.href='@{/admin-overview}'|" >Admin Overview</button></li>
 
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/register}'|">Register</button></li>
-            <li><button class="small-nav-tab-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button></li>
+            <li><button th:text="#{home.nav.register}" class="small-nav-tab-button" th:onclick="|location.href='@{/register}'|">Register</button></li>
+            <li><button th:text="#{home.nav.login}" class="small-nav-tab-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button></li>
             <li>
                 <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-                    <button class="small-nav-tab-button" type="submit" th:text="#{login.logout}">Logout</button>
+                    <button class="small-nav-tab-button" type="submit" th:text="#{home.nav.logout}">Logout</button>
                 </form>
             </li>
         </ul>

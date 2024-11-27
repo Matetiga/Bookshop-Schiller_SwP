@@ -7,24 +7,25 @@
 </head>
 <body>
 <header>
-  <h1>Inventory Lists</h1>
+    <h1 th:text="#{inventory.title}">Inventory Lists</h1>
 </header>
 <div class="container">
+
     <aside class="sidebar panel-effect">
-        <button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
-            <ul class="small-nav">
-                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
-                <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
-                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
-            </ul>
+        <button th:text="#{inventory.backToHome}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
+        <ul class="small-nav">
+            <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
+            <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
+            <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
+        </ul>
     </aside>
           <table class="product-catalog panel-effect">
               <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Stock</th>
+                  <th th:text="#{inventory.name}">Name</th>
+                  <th th:text="#{inventory.price}">Price</th>
+                  <th th:text="#{inventory.desc}">Description</th>
+                  <th th:text="#{inventory.img}">Image</th>
+                  <th th:text="#{inventory.stock}">Stock</th>
               </tr>
               <tr th:each="item : ${merch}">
                 <td th:text="${item.getKey().name}">Name</td>
@@ -35,7 +36,7 @@
                 <td>
                   <form th:action="@{/inventory/update}" method="post">
                     <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                    <button type="submit">Update Quantity</button>
+                      <button type="submit" th:text="#{inventory.updateQuantity}">Update Quantity</button>
                   </form>
                 </td>
               </tr>

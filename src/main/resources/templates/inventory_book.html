@@ -6,16 +6,16 @@
     </head>
     <body>
     <header>
-        <h1>Inventory Lists</h1>
+        <h1 th:text="#{inventory.title}">Inventory Lists</h1>
     </header>
     <div class="container">
 
         <aside class="sidebar panel-effect">
-            <button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
+            <button th:text="#{inventory.backToHome}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
             <ul class="small-nav">
-                <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
-                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
-                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
+                <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
+                <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
+                <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
 
             </ul>
         </aside>
@@ -23,15 +23,15 @@
 <section class="product-catalog panel-effect">
         <table>
             <tr>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Genre</th>
-                <th>Author</th>
-                <th>ISBN</th>
-                <th>Publisher</th>
+                <th th:text="#{inventory.name}">Name</th>
+                <th th:text="#{inventory.stock}">Stock</th>
+                <th th:text="#{inventory.img}">Image</th>
+                <th th:text="#{inventory.price}">Price</th>
+                <th th:text="#{inventory.desc}">Description</th>
+                <th th:text="#{inventory.genre}">Genre</th>
+                <th th:text="#{inventory.author}">Author</th>
+                <th th:text="#{inventory.isbn}">ISBN</th>
+                <th th:text="#{inventory.publisher}">Publisher</th>
             </tr>
             <tr th:each="book : ${books}">
                 <td th:text="${book.getKey().name}"></td>
@@ -46,20 +46,20 @@
                 <td>
                     <form th:action="@{/inventory/update}" method="post">
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit">Update Quantity</button>
+                        <button type="submit" th:text="#{inventory.updateQuantity}">Update Quantity</button>
                     </form>
                 </td>
                 <td>
                     <form th:action="@{/inventory/edit}" method="post">
                         <label for="newName"></label><input type="text" id="newName" name="newName" placeholder="Enter Name" />
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit">Change name</button>
+                        <button type="submit" th:text="#{inventory.changeName}">Change name</button>
                     </form>
                 </td>
                 <td>
                     <form th:action="@{/inventory/delete}" method="post">
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit">Delete Item :(</button>
+                        <button type="submit" th:text="#{inventory.deleteItem}">Delete Item :(</button>
                     </form>
                 </td>
             </tr>
