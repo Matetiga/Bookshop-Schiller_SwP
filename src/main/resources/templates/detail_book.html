@@ -12,6 +12,14 @@
     <h1>Book</h1>
 </header>
 <div class="container">
+    <aside class="sidebar panel-effect">
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+        </ul>
+    </aside>
     <div class="panel-effect">
         <div class="two-column-container">
             <!-- Image Section -->
@@ -25,9 +33,11 @@
             <!-- Book Information Section -->
             <div class="right-column paddingContainer product-details-info ">
                 <h2 th:text="${book.name}">Book Title</h2>
+                <p class="genre" th:text="'Author: ' + ${book.getAuthor()}">Author</p>
+                <p class="genre" th:text="'ISBN: ' + ${book.getISBN}">Isbn</p>
                 <p class="genre" th:text="'Genre: ' + ${book.getBookGenre()}">Genre: Genre Name</p>
+                <p class="genre" th:text="${book.description}">Description</p>
                 <p class="price" th:text="${book.price}">9.99 €</p>
-
                 <!-- Add to Cart Button -->
                 <div class="actions">
                     <button class="my-cool-button">In den Warenkorb</button>
