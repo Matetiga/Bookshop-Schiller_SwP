@@ -7,17 +7,17 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
-    <title th:text="#{homeP.title}">Welcome2!</title>
+    <title th:text="#{home.title}">Welcome2!</title>
 </head>
 <body>
 <header>
-    <h1 th:text="#{homeP.title}">Welcome!</h1>
+    <h1 th:text="#{home.title}">Welcome!</h1>
 </header>
 
 <div class="container">
     <!-- Sidebar for filters -->
     <aside class="sidebar panel-effect">
-        <h2>Provisorische NAV</h2>
+        <h2>Navigation</h2>
         <ul class="small-nav">
             <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/}'|" >Home</button></li>
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
