@@ -8,6 +8,7 @@
 </head>
 <body>
 
+
     <section layout:fragment="content">
         <h1> Ihr Warenkorb</h1> <br>
         <div th:unless="${cart.empty}">
@@ -54,6 +55,7 @@
                     </select>
                     <br>
                     <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
+                    <span th:if="${error_NotEnoughStock}" th:text="${error_NotEnoughStock}">Not enough stock</span>
                 </form>
             </div>
         </div>
@@ -64,5 +66,6 @@
     <form class="ui form" method="post" th:action="@{/welcome}">
         <button type="submit" class="ui button" th:text="#{cart.welcome}">Zur Homepage</button>
     </form>
+
 </body>
 </html>

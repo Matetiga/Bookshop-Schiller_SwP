@@ -73,7 +73,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/checkout")
-	String buy(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod) {
+	String buy(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod, Model model) {
 		MyOrder order = null;
 		for (User user : userManagement.findAll()) {
 			if (user.getUserAccount().getUsername().equals(userDetails.getUsername())) {
@@ -85,7 +85,17 @@ public class OrderController {
 			for(CartItem item : cart.stream().toList()){
 				order.addOrderLine(item.getProduct(), item.getQuantity());
 			}
-			deleteProductsFromStock(order);
+
+			// if there are not enough items in stock
+			try{
+				deleteProductsFromStock(order);
+
+			}catch(IllegalArgumentException e){
+				System.out.println("error catched");
+				model.addAttribute("error_NotEnoughStock", e.getMessage());
+				return "cart";
+			}
+
 			myOrderRepository.save(order);
 			cart.clear();
 		}
@@ -104,11 +114,15 @@ public class OrderController {
 		return "redirect:/cart";
 	}
 
-	private void deleteProductsFromStock(MyOrder order){
+	public void deleteProductsFromStock(MyOrder order){
 		for(OrderLine orderLine : order.getOrderLines()){
-			//orderLine.getProductName()
-			//orderLine.getId()
-			//orderLine.getQuantity()
+			inventory.findByProductIdentifier(orderLine.getProductIdentifier()).ifPresent(item -> {
+				if(item.getQuantity().isLessThan(orderLine.getQuantity())){
+					throw new IllegalArgumentException("Not enough items in stock");
+				}
+				item.decreaseQuantity(orderLine.getQuantity());
+				inventory.save(item);
+			});
 		}
 	}
 
