@@ -17,25 +17,31 @@
 <div class="container">
     <!-- Sidebar for filters -->
     <aside class="sidebar panel-effect">
-        <h2>Provisorische NAV</h2>
+        <h2 th:text="#{catalog.navigation}">Navigation</h2>
         <ul class="small-nav">
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
         </ul>
-        <h2>Kategorien</h2>
+        <h2 th:text="#{catalog.categories}">Kategorien</h2>
         <ul class="small-nav">
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|" th:text="#{catalog.books}" >Bücher</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|" th:text="#{catalog.calender}">Kalender</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|" th:text="#{catalog.merch}">Merch</button></li>
         </ul>
 
-        <h2>Filter nach Genre</h2>
-        <ul class="checkbox-list">
-            <li><label><input type="checkbox" name="genre" value="Geschichte"> Geschichte</label></li>
-            <li><label><input type="checkbox" name="genre" value="Populärwissenschaft"> Populärwissenschaft</label></li>
-            <li><label><input type="checkbox" name="genre" value="Action"> Action</label></li>
-            <li><label><input type="checkbox" name="genre" value="Manga"> Manga</label></li>
-            <li><label><input type="checkbox" name="genre" value="Horror"> Horror</label></li>
-        </ul>
+        <form method="get" th:action="@{/books}">
+            <h2>Filter nach Genre</h2>
+            <ul class="checkbox-list">
+                <li th:each="genre : ${genres}">
+                    <label>
+                        <input type="checkbox" name="genres" th:value="${genre}"
+                               th:checked="${selectedGenres != null and selectedGenres.contains(genre)}">
+                        <span th:text="${genre}">Genre Name</span>
+                    </label>
+                </li>
+            </ul>
+            <button type="submit">Filter</button>
+        </form>
+
     </aside>
 
     <!-- Book List -->
@@ -49,13 +55,13 @@
                 </a>
             </div>
             <div class="product-catalog-item-info">
-                <a class="h3" th:href="@{/book/{id}(id=${shopProduct.id})}" th:text="${shopProduct.name}">Book
-                    Title</a>
-                <div class="text-base" th:text="${shopProduct.getBookGenre()}">History</div>
+                <a class="h3" th:href="@{/book/{id}(id=${shopProduct.productId})}" th:text="${shopProduct.name}">Book Title</a>
+                <div class="text-base" th:text="${shopProduct.getBookGenre()} ?: 'Unknown Genre'">Unknown Genre</div>
                 <div class="price text-medium-bold" th:text="${shopProduct.price}">9.99 €</div>
             </div>
         </div>
     </section>
+
 </div>
 </body>
 </html>

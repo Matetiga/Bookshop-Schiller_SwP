@@ -19,7 +19,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 		Model model = new ExtendedModelMap();
 
-		String returnedView = controller.bookCatalog(model);
+		String returnedView = controller.bookCatalog(model, null);
 
 		assertThat(returnedView).isEqualTo("catalog_books");
 

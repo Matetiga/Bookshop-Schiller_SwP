@@ -9,9 +9,17 @@
 </head>
 <body>
 <header>
-    <h1>Calender</h1>
+    <h1 th:text="#{calender.title}">Book</h1>
 </header>
 <div class="container">
+    <aside class="sidebar panel-effect">
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+        </ul>
+    </aside>
     <div class="panel-effect">
         <div class="two-column-container">
             <!-- Image Section -->
@@ -25,6 +33,7 @@
             <!-- Book Information Section -->
             <div class="right-column paddingContainer product-details-info ">
                 <h2 th:text="${calender.name}">Book Title</h2>
+                <p class="genre" th:text="${calender.description}">Description</p>
                 <p class="price" th:text="${calender.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->

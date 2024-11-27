@@ -16,7 +16,7 @@
 </div>
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Order overview
+    <h2 class="text-center mb-4" th:text="#{order.overview}">Order overview
         <div class="form-container my-4">
             <form class="ui form" method="post" th:action="@{/filterByStatus}">
                 <div class="form-group">
@@ -52,6 +52,7 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                         <tr>
+                            <th th:text="#{order.id}">Order ID</th>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>

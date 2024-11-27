@@ -11,12 +11,15 @@
 
 <div class="container mt-5">
     <!-- Header -->
-    <header class="text-center mb-4">
-        <h1 th:text="#{account.title}">Account</h1>
-    </header>
+    <aside class="sidebar panel-effect">
+        <h2 th:text="#{account.title}">Account</h2>
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|" >Home</button></li>
+        </ul>
+    </aside>
 
     <!-- Profile Section -->
-    <div class="card">
+    <div class="panel-effect container">
         <div class="card-body">
             <!-- Profile Header -->
             <div class="profile-header text-center mb-4">
