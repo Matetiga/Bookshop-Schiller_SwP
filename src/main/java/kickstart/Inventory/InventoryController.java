@@ -10,7 +10,6 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -79,10 +78,7 @@ public class InventoryController {
 		return "inventory_calendar";
 	}
 
-	//TODO ASK IF THERE IS A BETTER WAY TO DO THIS
-	// should a class like this be created for every inventory item? (merch_inventory, calendar_inventory)
-	// now it redirects to the main inventory page
-	// can this class be used for the three with a parameter?
+
 	@PostMapping("/inventory/increase")
 	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
@@ -297,7 +293,7 @@ public class InventoryController {
 		@RequestParam("itemId") Product.ProductIdentifier id,
 		@RequestParam("name") String name,
 		@RequestParam("description") String desc,
-		@RequestParam("price") BigDecimal price) {//Averiguar como conseguir el la descripcion y poner el request param
+		@RequestParam("price") BigDecimal price) {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.getProduct().setName(name);
 
@@ -317,7 +313,7 @@ public class InventoryController {
 		@RequestParam("itemId") Product.ProductIdentifier id,
 		@RequestParam("name") String name,
 		@RequestParam("description") String desc,
-		@RequestParam("price") BigDecimal price) { //Averiguar como conseguir el la descripcion y poner el request param
+		@RequestParam("price") BigDecimal price) {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.getProduct().setName(name);
 
