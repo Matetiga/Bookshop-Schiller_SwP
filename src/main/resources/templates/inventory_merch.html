@@ -35,11 +35,17 @@
                 <td th:text="${item.getKey().image}">Image</td>
                 <td th:text="${item.getValue()}">Stock</td>
                 <td>
-                  <form th:action="@{/inventory/update}" method="post">
+                  <form th:action="@{/inventory/increase}" method="post">
                     <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                      <button type="submit" th:text="#{inventory.updateQuantity}">Update Quantity</button>
+                      <button type="submit" >+</button>
                   </form>
                 </td>
+                  <td>
+                      <form th:action="@{/inventory/decrease}" method="post">
+                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                          <button type="submit" >-</button>
+                      </form>
+                  </td>
                   <td>
                       <form th:action="@{/inventory/delete}" method="post">
                           <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
