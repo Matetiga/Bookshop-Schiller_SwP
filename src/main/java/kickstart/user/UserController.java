@@ -8,13 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.*;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -86,6 +85,20 @@ class UserController {
 		model.addAttribute("employees", employees);
 
 		return "employee-overview";
+	}
+
+	@GetMapping("/finance-data")
+	@ResponseBody
+	public Map<String, Double> getMonthlyRevenueData() {
+
+		// Einnahmen nach Monaten
+		Map<String, Double> revenueData = new LinkedHashMap<>();
+		revenueData.put("August", 420.75);
+		revenueData.put("September", 344.87);
+		revenueData.put("Oktober", 556.98);
+		revenueData.put("November", 690.56);
+
+		return revenueData;
 	}
 
 	@GetMapping("/finance-overview")

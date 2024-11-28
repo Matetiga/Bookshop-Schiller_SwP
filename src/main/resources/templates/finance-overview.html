@@ -2,27 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="#{finance.overview}">Finance overview</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div th:replace="fragments/admin_navbar :: navbar"></div>
 
-<div class="container mt-5">
-  <h2 class="text-center mb-4" th:text="#{finance.overview}">Fincance overview</h2>
-
-  <section>
+<section>
     <div class="table-responsive">
 
-      <h3 th:text="#{finance.fancy}">Imagine fancy financial graph here</h3>
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Einnahmen pro Monat</h2>
+            <canvas id="financeChart" width="800" height="400"></canvas>
+        </div>
 
     </div>
-  </section>
-</div>
+</section>
+
+<script>
+     // Daten abrufen
+        fetch('/finance-data')
+            .then(response => response.json())
+            .then(data => {
+                const labels = Object.keys(data); // Monate
+                const values = Object.values(data); // Einnahmen
+
+            // Chart.js Diagramm erstellen
+                const ctx = document.getElementById('financeChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Einnahmen (in €)',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading revenue data:', error));
+    </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
