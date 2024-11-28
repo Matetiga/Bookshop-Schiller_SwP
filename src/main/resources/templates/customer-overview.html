@@ -6,11 +6,6 @@
     <title th:text="#{customer.overview}">Customer Overview</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
-    <style>
-        body {
-            padding-top: 60px;
-        }
-    </style>
 </head>
 <body>
 
@@ -45,9 +40,11 @@
                     <td>
                         <form th:action="@{/promote/{id}(id=${customer.userAccount.id})}" method="post">
                             <button type="submit" class="btn btn-primary" th:text="#{button.promote}">Promote</button>
+                            <input type="hidden" name="source" th:value="'customer-overview'" />
                         </form>
                         <form th:action="@{/degrade/{id}(id=${customer.userAccount.id})}" method="post">
-                            <button type="submit" class="btn btn-secondary" th:text="#{button.degrade}">Degrade</button>
+                            <button type="submit" class="btn btn-danger" th:text="#{button.degrade}">Degrade</button>
+                            <input type="hidden" name="source" th:value="'customer-overview'" />
                         </form>
                     </td>
                 </tr>

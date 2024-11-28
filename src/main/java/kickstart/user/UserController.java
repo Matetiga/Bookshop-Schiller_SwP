@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.userdetails.*;
 
+
+
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -36,7 +38,7 @@ class UserController {
 			return "register";
 		}
 
-		if (userManagement.findByEmail(form.getEmail())) {
+		if (userManagement.emailExistsAlready(form.getEmail())) {
 			result.rejectValue("email", "error.emailExisted", "Email already taken");
 		}
 
@@ -120,6 +122,8 @@ class UserController {
 	@PostMapping("/degrade/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source) {
+
+
 		userManagement.degradeAccountById(id);
 
 		return "redirect:/" + source;
@@ -144,5 +148,4 @@ class UserController {
 	public UserManagement getUserManagement() {
 		return userManagement;
 	}
-
 }
