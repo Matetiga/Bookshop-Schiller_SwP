@@ -10,7 +10,12 @@
 </head>
 <body>
 
-<div th:replace="fragments/admin_navbar :: navbar"></div>
+<div sec:authorize="hasRole('ADMIN')">
+    <div th:replace="fragments/admin_navbar :: navbar"></div>
+</div>
+<div sec:authorize="hasRole('EMPLOYEE')">
+    <div th:replace="fragments/employee_navbar :: navbar"></div>
+</div>
 
 <div class="container mt-5">
   <h2 class="text-center mb-4" th:text="#{employee.overview}">Employee overview</h2>
@@ -27,7 +32,7 @@
           <th scope="col" th:text="#{employee.role}">Role</th>
           <th scope="col" th:text="#{employee.address}">Address</th>
           <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
-          <th scope="col" th:text="#{user.edit}">Edit</th>
+          <th sec:authorize="hasRole('ADMIN')" scope="col" th:text="#{user.edit}">Edit</th>
         </tr>
         </thead>
         <tbody>
@@ -38,7 +43,7 @@
           <td th:text="${employee.highestRole}">Cannot load name</td>
           <td th:text="${employee.address}">Cannot load address!</td>
           <td th:text="${employee.registrationDate}">Cannot load date!</td>
-          <td>
+          <td sec:authorize="hasRole('ADMIN')">
             <form th:action="@{/promote/{id}(id=${employee.userAccount.id})}" method="post">
               <button type="submit" class="btn btn-primary" th:text="#{button.promote}">Promote</button>
               <input type="hidden" name="source" th:value="'employee-overview'" />
