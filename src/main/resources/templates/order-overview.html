@@ -18,21 +18,6 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4" th:text="#{order.overview}">Order overview
         <div class="form-container my-4">
-            <form class="ui form" method="post" th:action="@{/filterByStatus}">
-                <div class="form-group">
-                    <label for="dropdown_status">Status:</label>
-                    <select id="dropdown_status" name="valueStatus" class="form-control">
-                        <option th:each="state : ${orderStates}"
-                                th:value="${state}"
-                                th:text="${state}"
-                                th:selected="${state == selectedState}">
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Filtern</button>
-                </div>
-            </form>
             <form class="ui form" method="post" th:action="@{/filterByProduct}">
                 <div class="form-group mt-3">
                     Produktname:
@@ -52,7 +37,6 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                         <tr>
-                            <th th:text="#{order.id}">Order ID</th>
                             <th th:text="#{orders.date}">Datum</th>
                             <th th:text="#{orders.customerId}">Kunde</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
@@ -70,21 +54,9 @@
                             <td th:text="${order.getStringPaymentMethod()}"></td>
                             <td th:text="${order.getMyOrderStatus()}"></td>
                             <td>
-                                <form class="ui form" method="post" th:action="@{/changeStatus}">
-                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                    <button type="submit" class="btn btn-primary">Status ändern</button>
-                                </form>
-                            </td>
-                            <td>
                                 <form class="ui form" method="post" th:action="@{'/order/' + ${order.id}}">
                                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
                                     <button type="submit" class="btn btn-primary">Details</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form class="ui form" method="post" th:action="@{/deleteOrder}">
-                                    <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                    <button type="submit" class="btn btn-danger">Bestellung entfernen</button>
                                 </form>
                             </td>
                         </tr>
@@ -97,7 +69,32 @@
     </section>
 
 </div>
-
+<div class="form-container my-4">
+    <form class="ui form" method="post" th:action="@{/filterByStatus}">
+        <div class="form-group">
+            <label for="dropdown_status">Status:</label>
+            <select id="dropdown_status" name="valueStatus" class="form-control">
+                <option th:each="state : ${orderStates}"
+                        th:value="${state}"
+                        th:text="${state}"
+                        th:selected="${state == selectedState}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <button type="submit" class="btn btn-primary">Filtern</button>
+        </div>
+    </form>
+    <form class="ui form" method="post" th:action="@{/filterByProduct}">
+        <div class="form-group mt-3">
+            Produktname:
+            <input type="text" name="productName"/>
+            ProduktID:
+            <input type="text" name="productId"/>
+            <button type="submit" class="btn btn-primary">Filtern</button>
+        </div>
+    </form>
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

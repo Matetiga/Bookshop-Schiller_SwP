@@ -51,8 +51,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartAdd")
-	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, HttpServletRequest request){
-		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
+	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, @RequestParam("amount") long amount, HttpServletRequest request){
+		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), amount);
 
 		String referer = request.getHeader("Referer");
 

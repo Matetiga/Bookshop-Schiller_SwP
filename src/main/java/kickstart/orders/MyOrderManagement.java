@@ -26,11 +26,10 @@ public class MyOrderManagement {
 	MyOrderManagement(MyOrderRepository myOrderRepository){
 		this.myOrderRepository = myOrderRepository;
 		initalizeDemoOrders();
-
 	}
 
 	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
-		if(state == null || state.equals("ALL")){
+		if(state == null || state.equals("Alle")){
 			return filteredList;
 		}else{
 			ArrayList<MyOrder> orderList = new ArrayList<>();

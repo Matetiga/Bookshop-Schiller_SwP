@@ -59,8 +59,8 @@
                 <form class="ui form" method="post" th:action="@{/checkout}">
                     <label for="dropdown_payment" th:text="#{cart.sentence.paymentMethod}">Wählen Sie eine Bezahlmethode:</label>
                     <select id="dropdown_payment" name="paymentMethod">
-                        <option value="cash" th:text="#{cart.cash}">Bar</option>
-                        <option value="invoice" th:text="#{cart.invoice}">Rechnung</option>
+                        <option value="Bar" th:text="#{cart.cash}">Bar</option>
+                        <option value="Rechnung" th:text="#{cart.invoice}">Rechnung</option>
                     </select>
                         <br>
                         <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
