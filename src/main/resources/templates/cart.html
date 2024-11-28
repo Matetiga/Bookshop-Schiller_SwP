@@ -41,7 +41,16 @@
                     <tbody>
                     <tr th:each=" item : ${cart}">
                         <td th:text="${item.productName}"></td>
-                        <td th:text="${item.quantity}"></td>
+                        <td>
+                            <form class="ui form" method="post" th:action="@{/cartIncrease}">
+                                <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
+                                <button type="submit" class="ui button">+</button>
+                             </form>
+                            <span th:text="${item.quantity}"> </span>
+                            <form class="ui form" method="post" th:action="@{/cartDecrease}">
+                                <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
+                                <button type="submit" class="ui button">-</button>
+                            </form></td></td>
                         <td th:text="${item.price}"></td>
                         <td>
                             <form class="ui form" method="post" th:action="@{/cartDelete}">
