@@ -91,7 +91,6 @@ public class OrderController {
 				deleteProductsFromStock(order);
 
 			}catch(IllegalArgumentException e){
-				System.out.println("error catched");
 				model.addAttribute("error_NotEnoughStock", e.getMessage());
 				return "cart";
 			}

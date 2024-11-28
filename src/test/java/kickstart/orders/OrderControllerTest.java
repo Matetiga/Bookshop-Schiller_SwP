@@ -1,18 +1,24 @@
 package kickstart.orders;
 
+import kickstart.AbstractIntegrationTests;
 import kickstart.Inventory.Book;
 import kickstart.Inventory.ShopProduct;
+import kickstart.Inventory.ShopProductCatalog;
 import kickstart.user.User;
 import org.javamoney.moneta.Money;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.MockitoAnnotations;
 import org.salespointframework.core.DataInitializer;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import kickstart.user.UserManagement;
 import org.junit.jupiter.api.Test;
@@ -27,6 +33,7 @@ import java.util.UUID;
 
 import static kickstart.Inventory.Genre.createGenre;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
@@ -37,99 +44,59 @@ import static org.mockito.Mockito.when;
 // ASK THE TUTOR!!!
 
 @ExtendWith(MockitoExtension.class)
-class OrderControllerTest {
+class OrderControllerTest extends AbstractIntegrationTests {
 
-	@InjectMocks
-	private OrderController orderController;
+	@Autowired private UniqueInventory<UniqueInventoryItem> shopProductInventory;
+	@Autowired private OrderController orderController;
+	@Autowired private ShopProductCatalog shopProductCatalog;
 
-	@Mock
-	private UserManagement userManagement;
+	private Model model = new ExtendedModelMap();
 
-	@Mock
-	private UserDetails userDetails;
+	OrderControllerTest(@Autowired UniqueInventory<UniqueInventoryItem> shopProductInventory,
+						@Autowired OrderController orderController,
+						@Autowired ShopProductCatalog shopProductCatalog){
+		this.shopProductInventory = shopProductInventory;
+		this.orderController = orderController;
+		this.shopProductCatalog = shopProductCatalog;
+	}
 
-	@Mock
-	private UserAccount userAccount;
+@Test
+@WithMockUser(username = "admin", roles = "ADMIN")
+public void testBuyWithEnoughStock(){
+	Book book = (Book) shopProductCatalog.findByName("The Great Gatsby").stream().findFirst().get();
 
-	@Mock
-	private User user;
+	UserDetails userDetails = mock(UserDetails.class);
+	when(userDetails.getUsername()).thenReturn("admin");
 
-	@Mock
-	private Model model;
+	Cart cart = new Cart();
+	cart.addOrUpdateItem(book, 4);
 
-	@Mock
-	private OrderLine orderLine;
+	// buy() method inside Order Controller must be tested
+	orderController.buy(userDetails, cart, "Bar", model);
 
-	private UserAccount.UserAccountIdentifier userId;
-	private Book exampleProduct1;
+	shopProductInventory.findByProductIdentifier(book.getId()).ifPresent(item -> {
+		assertEquals(Quantity.of(6), item.getQuantity());
+	});
 
-	@Mock
-	private UniqueInventory<UniqueInventoryItem> shopProductInventory;
+}
 
-	private UniqueInventoryItem uniqueInventoryItem;
+	@Test
+	public void testNotEnoughStock() {
+		Book book = (Book) shopProductCatalog.findByName("The Great Gatsby").stream().findFirst().get();
 
-	@Mock
-	private MyOrderRepository myOrderRepository;
-
-
-
-	@BeforeEach
-	void setUp() {
-		// Setting up the system for the test
-		Streamable<User> users = Streamable.of(user);
-		when(userManagement.findAll()).thenReturn(users);
-
-		when(user.getUserAccount()).thenReturn(userAccount);
-		when(user.getUserAccount().getUsername()).thenReturn("admin");
-		//when(userAccount.getUsername()).thenReturn("admin");
+		UserDetails userDetails = mock(UserDetails.class);
 		when(userDetails.getUsername()).thenReturn("admin");
 
-		userId = UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString());
-		when(user.getUserAccount().getId()).thenReturn(userId);
-
-		exampleProduct1 = new Book("Abarth", "gatsby.jpg", Money.of(10 ,"EUR"),
-			"Mir gehts Abartig schlecht", createGenre("fiction"), "Jemand mit einem schönen Nachnamen",
-			"9780743273565", "Scribner");
-
-		uniqueInventoryItem = new UniqueInventoryItem(exampleProduct1, Quantity.of(10));
-		shopProductInventory.save(uniqueInventoryItem);
-
-		//TODO (inside deleteProductsFronStock() method)
-		// inventory.findByProductIdentifier(orderLine.getProductIdentifier()).ifPresent(item -> {
-		// there should be a when().thenReturn(), otherwise should throw an exception
-		// but that exception is not being thrown
-
-	}
-
-
-	@Test
-	void testBuyWithEnoughStock() {
-		// Setting up the test
-
 		Cart cart = new Cart();
-		cart.addOrUpdateItem(exampleProduct1, 4);
+		cart.addOrUpdateItem(book, 123);
 
 		// buy() method inside Order Controller must be tested
-		String viewName = orderController.buy(userDetails, cart, "credit_card", model);
+		orderController.buy(userDetails, cart, "Bar", model);
 
-		// test for item purchase with enough stock in inventory
-		shopProductInventory.findByProductIdentifier(exampleProduct1.getId()).ifPresent(item -> {
-			// TODO this should fail
-			assertEquals(Quantity.of(645), item.getQuantity()); // Initial quantity (10) - purchased quantity (4) = 6
+		shopProductInventory.findByProductIdentifier(book.getId()).ifPresent(item -> {
+			assertEquals(Quantity.of(10), item.getQuantity());
 		});
 
 	}
-
-	@Test
-	void testBuyNotEnoughStock(){
-		Cart cart = new Cart();
-		cart.addOrUpdateItem(exampleProduct1, 11);
-
-		String viewName = orderController.buy(userDetails, cart, "credit_card", model);
-		shopProductInventory.findByProductIdentifier(exampleProduct1.getId()).ifPresent(item -> {
-			assertEquals(Quantity.of(104), item.getQuantity());
-		});
-	}
-
 }
 
