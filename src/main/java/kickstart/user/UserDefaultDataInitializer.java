@@ -53,10 +53,10 @@ class UserDefaultDataInitializer implements DataInitializer {
 
 
 		List.of(//
-			new RegistrationForm("test@example.com", password,password, "The test palace 34", "a", "s", "2022-4-4"),
-			new RegistrationForm("user1@example.com", password,password, "Streetstreet 1", "a", "s", "2022-4-4"),
-			new RegistrationForm("user2@example.com", password,password, "Streetstreet 2", "a", "s", "2022-4-4"),
-			new RegistrationForm("user3@example.com", password,password, "Streetstreet 3", "a", "s", "2022-4-4")
+			new RegistrationForm("customer", password,password, "The test palace 34", "a", "s", "2022-4-4"),
+			new RegistrationForm("customer1@example.com", password,password, "Streetstreet 1", "a", "s", "2022-4-4"),
+			new RegistrationForm("customer2@example.com", password,password, "Streetstreet 2", "a", "s", "2022-4-4"),
+			new RegistrationForm("customer3@example.com", password,password, "Streetstreet 3", "a", "s", "2022-4-4")
 			).forEach(userManagement::createCustomer);
 	}
 }

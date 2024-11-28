@@ -64,7 +64,6 @@
                     </select>
                         <br>
                         <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
-
                     </form>
                 </div>
             </div>
@@ -72,5 +71,10 @@
             </section>
         </div>
     </section>
+    <div th:if="${error_NotEnoughStock}">
+        <script>
+            alert("Nicht genügend Artikel im Lager!");
+        </script>
+    </div>
 </body>
 </html>

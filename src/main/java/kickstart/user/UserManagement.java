@@ -9,6 +9,9 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.util.UUID;
 
@@ -60,7 +63,7 @@ public class UserManagement {
         return users.findAll();
     }
 
-    public boolean findByEmail(String email) {
+    public boolean emailExistsAlready(String email) {
         return userAccounts.findByUsername(email).isPresent();
     }
 
@@ -74,14 +77,22 @@ public class UserManagement {
 		return null;
 	}
 
+	@Transactional
+	public User findByUsername(String username) {
+		for (var user : users.findAll()) {
+			if (user.getUserAccount().getUsername().equals(username)){
+				return user;
+			}
+		}
+		return null;
+	}
+
+
+
 
 	@Transactional
 	public void promoteAccountById(UUID id) {
-		User user = this.findByID(id);
-
-		if (user == null) {
-			throw new IllegalArgumentException("User not found");
-		}
+		User user = this.safeUserGetByID(id);
 
 		if (user.getUserAccount().hasRole(Role.of("ADMIN"))) return;
 
@@ -95,15 +106,16 @@ public class UserManagement {
 			user.getUserAccount().remove(Role.of("CUSTOMER"));
 		}
 
+
+
 	}
 
 	@Transactional
 	public void degradeAccountById(UUID id) {
-		User user = this.findByID(id);
+		User user = this.safeUserGetByID(id);
 
-		if (user == null) {
-			throw new IllegalArgumentException("User not found");
-		}
+		//This prevents admin1 for example to degrade himself
+		if (currentUserSameAsID(id)) return;
 
 		if (user.getUserAccount().hasRole(Role.of("ADMIN"))){
 			user.getUserAccount().remove(Role.of("ADMIN"));
@@ -118,5 +130,23 @@ public class UserManagement {
 		}
 
 		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))) users.delete(user);
+	}
+
+	public User safeUserGetByID(UUID id){
+		User user = this.findByID(id);
+
+		if (user == null) {
+			throw new IllegalArgumentException("User not found");
+		}
+		return user;
+	}
+
+	public boolean currentUserSameAsID(UUID id){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		User requestingUser = this.findByUsername(authentication.getName());
+		User requestedUser = this.findByID(id);
+		
+		return requestedUser.equals(requestingUser);
 	}
 }
