@@ -18,6 +18,7 @@
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
             <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+            <li><button sec:authorize="!isAuthenticated()" th:text="#{home.nav.register}" class="small-nav-tab-button" th:onclick="|location.href='@{/register}'|">Register</button></li>
         </ul>
     </aside>
     <div class="panel-effect">
@@ -32,17 +33,27 @@
 
             <!-- Book Information Section -->
             <div class="right-column paddingContainer product-details-info ">
-                <h2 th:text="${calender.name}">Book Title</h2>
+                <h2 th:text="${calender.name}">Calendar Title</h2>
                 <p class="genre" th:text="${calender.description}">Description</p>
                 <p class="price" th:text="${calender.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
-                <form class="ui form" method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
-                    <label for="amount" th:text="#{catalog.amount}">Menge:</label>
-                    <input type="number" id="amount" name="amount" min="1" max="10" step="1" value="1">
-                    <input type="hidden" name="productId" th:value="${calender.getId()}"/>
-                    <button type="submit" class="my-cool-button">In den Warenkorb</button>
-                </form>
+                <div class="actions">
+                <div sec:authorize="isAuthenticated()">
+                    <form method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
+                        <div class="genre">
+                            <label for="amount" th:text="#{catalog.amount}">Menge:</label>
+                            <input type="number" id="amount" name="amount" min="1" max="10" step="1" value="1">
+                        </div>
+
+                        <input type="hidden" name="productId" th:value="${calender.getId()}"/>
+                        <button type="submit" class="my-cool-button">In den Warenkorb</button>
+                    </form>
+                    </div>
+                    <div>
+                        <button th:text="#{home.nav.login}" class="my-cool-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

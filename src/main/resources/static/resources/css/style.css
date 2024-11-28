@@ -254,9 +254,10 @@ h1 {
     padding-bottom: 2em;
 }
 .product-details-info .price {
+    margin-bottom: 1rem;
     color: var(--primary-color);
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-xxlarge);
+    font-size: var(--font-size-xlarge);
 }
 .product-details-info {
     display: flex;

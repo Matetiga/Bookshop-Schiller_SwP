@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${book.name}">Book Title</title>
+
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
@@ -18,6 +19,7 @@
             <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
             <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+            <li><button sec:authorize="!isAuthenticated()" th:text="#{home.nav.register}" class="small-nav-tab-button" th:onclick="|location.href='@{/register}'|">Register</button></li>
         </ul>
     </aside>
     <div class="panel-effect">
@@ -40,12 +42,19 @@
                 <p class="price" th:text="${book.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
-                <form class="ui form" method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
-                    <label for="amount" th:text="#{catalog.amount}">Menge:</label>
-                    <input type="number" id="amount" name="amount" min="1" max="10" step="1" value="1">
-                    <input type="hidden" name="productId" th:value="${book.getId()}"/>
-                    <button type="submit" class="my-cool-button">In den Warenkorb</button>
-                </form>
+                <div sec:authorize="isAuthenticated()" class="actions">
+                    <form method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
+                        <div class="genre">
+                            <label for="amount" th:text="#{catalog.amount}">Menge:</label>
+                            <input type="number" id="amount" name="amount" min="1" max="10" step="1" value="1">
+                        </div>
+                            <input type="hidden" name="productId" th:value="${book.getId()}"/>
+                            <button type="submit" class="my-cool-button">In den Warenkorb</button>
+                    </form>
+                </div>
+                <div class="actions">
+                    <button th:text="#{home.nav.login}" class="my-cool-button" type="submit" sec:authorize="!isAuthenticated()" th:onclick="|location.href='@{/login}'|">Login</button>
+                </div>
             </div>
         </div>
     </div>
