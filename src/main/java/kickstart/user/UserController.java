@@ -75,7 +75,7 @@ class UserController {
 	}
 
 	@GetMapping("/employee-overview")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String employeeOverview(Model model) {
 		HashSet<User> employees =  new HashSet<>();
 		//only employees should be displayed

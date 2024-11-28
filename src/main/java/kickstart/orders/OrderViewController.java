@@ -32,7 +32,7 @@ public class OrderViewController {
 	}
 
 	@GetMapping("/order-overview")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
 		model.addAttribute("selectedState", "Alle");
@@ -100,17 +100,17 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
-	@GetMapping("/order-details")
-	String orderDetails(){
-		return "order-details";
-	}
-
 	@PostMapping("/order/{orderID}")
 	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
 		MyOrder order = myOrderManagement.findByID(orderId);
 
 		model.addAttribute("order", order);
 
+		return "order-details";
+	}
+
+	@GetMapping("/order-details")
+	String orderDetails(){
 		return "order-details";
 	}
 }

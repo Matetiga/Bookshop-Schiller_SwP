@@ -14,10 +14,13 @@
 <div sec:authorize="hasRole('ADMIN')">
     <div th:replace="fragments/admin_navbar :: navbar"></div>
 </div>
+<div sec:authorize="hasRole('EMPLOYEE')">
+    <div th:replace="fragments/employee_navbar :: navbar"></div>
+</div>
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-md-3" sec:authorize="hasRole('ADMIN')">
+        <div class="col-md-3" sec:authorize="hasRole('ADMIN') or hasRole('EMPLOYEE')">
             <div class="btn-group-vertical w-100" role="group" aria-label="Admin actions">
                 <form method="post" th:action="@{/changeStatus}" class="mb-2">
                     <input type="hidden" name="orderId" th:value="${order.getId()}"/>
