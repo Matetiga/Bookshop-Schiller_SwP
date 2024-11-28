@@ -91,10 +91,11 @@ public class OrderController {
 				deleteProductsFromStock(order);
 
 			}catch(IllegalArgumentException e){
-				model.addAttribute("error_NotEnoughStock", e.getMessage());
+				model.addAttribute("error_NotEnoughStock", true);
 				return "cart";
 			}
 
+			//model.addAttribute("error_NotEnoughStock", false);
 			myOrderRepository.save(order);
 			cart.clear();
 		}
@@ -118,9 +119,10 @@ public class OrderController {
 			inventory.findByProductIdentifier(orderLine.getProductIdentifier()).ifPresent(item -> {
 				if(item.getQuantity().isLessThan(orderLine.getQuantity())){
 					throw new IllegalArgumentException("Not enough items in stock");
+				}else{
+					item.decreaseQuantity(orderLine.getQuantity());
+					inventory.save(item);
 				}
-				item.decreaseQuantity(orderLine.getQuantity());
-				inventory.save(item);
 			});
 		}
 	}
