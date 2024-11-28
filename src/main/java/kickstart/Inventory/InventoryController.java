@@ -83,25 +83,103 @@ public class InventoryController {
 	// should a class like this be created for every inventory item? (merch_inventory, calendar_inventory)
 	// now it redirects to the main inventory page
 	// can this class be used for the three with a parameter?
-	@PostMapping("/inventory/update")
-	public String updateProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
+	@PostMapping("/inventory/increase")
+	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		if (shopProduct.getProduct() instanceof Book) {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(1));
 			shopProductInventory.save(item);
-		});
-		showInventory(model);
+			});
+			showInventory(model);
 		return "inventory_book";
+		}
+		if (shopProduct.getProduct() instanceof Calendar) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				item.increaseQuantity(Quantity.of(1));
+				shopProductInventory.save(item);
+
+			});
+			showInventory(model);
+			return "redirect:/inventory_calendar";
+		}
+		if (shopProduct.getProduct() instanceof Merch) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				item.increaseQuantity(Quantity.of(1));
+				shopProductInventory.save(item);
+
+			});
+			showInventory(model);
+			return "redirect:/inventory_merch";
+		}
+		else{
+			return "inventory_book";
+		}
+
+	}
+	@PostMapping("/inventory/decrease")
+	public String decreaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		if (shopProduct.getProduct() instanceof Book) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				item.increaseQuantity(Quantity.of(-1));
+				shopProductInventory.save(item);
+			});
+			showInventory(model);
+			return "inventory_book";
+		}
+		if (shopProduct.getProduct() instanceof Calendar) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				item.increaseQuantity(Quantity.of(-1));
+				shopProductInventory.save(item);
+
+			});
+			showInventory(model);
+			return "redirect:/inventory_calendar";
+		}
+		if (shopProduct.getProduct() instanceof Merch) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				item.increaseQuantity(Quantity.of(-1));
+				shopProductInventory.save(item);
+
+			});
+			showInventory(model);
+			return "redirect:/inventory_merch";
+		}
+		else{
+			return "inventory_book";
+		}
 
 	}
 
 
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model){
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			shopProductInventory.delete(item);
-		});
-		showInventory(model);
-		return "inventory_book";
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		if (shopProduct.getProduct() instanceof Book) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				shopProductInventory.delete(item);
+			});
+			showInventory(model);
+			return "inventory_book";
+		}
+		if (shopProduct.getProduct() instanceof Calendar) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				shopProductInventory.delete(item);
+			});
+			showInventory(model);
+			return "redirect:/inventory_calendar";
+		}
+		if (shopProduct.getProduct() instanceof Merch) {
+			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+				shopProductInventory.delete(item);
+			});
+			showInventory(model);
+			return "redirect:/inventory_merch";
+		}
+		else{
+			return "inventory_book";
+		}
 	}
 
 
