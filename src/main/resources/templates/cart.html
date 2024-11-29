@@ -18,19 +18,13 @@
 
         <aside class="sidebar panel-effect">
                 <button th:onclick="|location.href='@{/}'|" class="small-nav-tab-button" th:text="#{cart.welcome}">Zur Homepage</button>
+                <button th:onclick="|location.href='@{/books}'|" class="small-nav-tab-button" th:text="#{cart.catalog}">Katalog</button>
         </aside>
 
 
-            <section class="product-catalog panel-effect">
-                <!--<form class="ui form" method="post" th:action="@{/cartAddExample1}">
-                    <button type="submit" class="ui button">BeispielProdukt1 hinzufügen</button>
-                </form>
-                <form class="ui form" method="post" th:action="@{/cartAddExample2}">
-                    <button type="submit" class="ui button">BeispielProdukt2 hinzufügen</button>
-                </form>
-                -->
+            <section class="right-view panel-effect">
             <div th:unless="${cart.empty}">
-                <table class="ui celled table">
+                <table class="compact-table">
                     <thead>
                     <tr>
                         <th th:text="#{cart.table.title}">Titel</th>

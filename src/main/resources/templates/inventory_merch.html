@@ -20,46 +20,48 @@
         </ul>
         <button id="openForm">Add New Merch</button>
     </aside>
-          <table class="compact-table product-catalog panel-effect">
-              <tr>
-                  <th th:text="#{inventory.name}">Name</th>
-                  <th th:text="#{inventory.price}">Price</th>
-                  <th th:text="#{inventory.desc}">Description</th>
-                  <th th:text="#{inventory.img}">Image</th>
-                  <th th:text="#{inventory.stock}">Stock</th>
-              </tr>
-              <tr th:each="item : ${merch}">
+    <section class="right-view panel-effect">
+        <table class="compact-table">
+            <tr>
+                <th th:text="#{inventory.name}">Name</th>
+                <th th:text="#{inventory.price}">Price</th>
+                <th th:text="#{inventory.desc}">Description</th>
+                <th th:text="#{inventory.img}">Image</th>
+                <th th:text="#{inventory.stock}">Stock</th>
+            </tr>
+            <tr th:each="item : ${merch}">
                 <td th:text="${item.getKey().name}">Name</td>
                 <td th:text="${item.getKey().price}">Price</td>
                 <td th:text="${item.getKey().description}">Description</td>
                 <td th:text="${item.getKey().image}">Image</td>
                 <td th:text="${item.getValue()}">Stock</td>
                 <td>
-                  <form th:action="@{/inventory/increase}" method="post">
-                    <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                      <button type="submit" >+</button>
-                  </form>
+                    <form th:action="@{/inventory/increase}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit" >+</button>
+                    </form>
                 </td>
-                  <td>
-                      <form th:action="@{/inventory/decrease}" method="post">
-                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                          <button type="submit" >-</button>
-                      </form>
-                  </td>
-                  <td>
-                      <form th:action="@{/inventory/delete}" method="post">
-                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                          <button type="submit">Delete Item :(</button>
-                      </form>
-                  </td>
-                  <td>
-                      <form th:action="@{/inventory/editable}" method="post">
-                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                          <button type="submit">EDIT</button>
-                      </form>
-                  </td>
-              </tr>
-          </table>
+                <td>
+                    <form th:action="@{/inventory/decrease}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit" >-</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/delete}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit">Delete Item :(</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/editable}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit">EDIT</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </section>
 </div>
   <!-- Adding a table to insert new Merch-->
   <div id="addNewMerch" class="modal">

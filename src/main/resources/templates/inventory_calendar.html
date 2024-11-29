@@ -21,47 +21,49 @@
 </ul>
 <button id="openForm">Add New Calendar</button>
     </aside>
-<table class="compact-table product-catalog panel-effect">
-    <tr>
-        <th th:text="#{inventory.name}">Name</th>
-        <th th:text="#{inventory.price}">Price</th>
-        <th th:text="#{inventory.desc}">Description</th>
-        <th th:text="#{inventory.img}">Image</th>
-        <th th:text="#{inventory.stock}">Stock</th>
-    </tr>
-    <tr th:each="calendar : ${calendars}">
-        <td th:text="${calendar.getKey().name}">Name</td>
-        <td th:text="${calendar.getKey().price}">Price</td>
-        <td th:text="${calendar.getKey().description}">Description</td>
-        <td th:text="${calendar.getKey().image}">Image</td>
-        <td th:text="${calendar.getValue()}">Stock</td>
-        <td>
-            <form th:action="@{/inventory/increase}" method="post">
-                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
-                <button type="submit" >+</button>
-            </form>
-        </td>
-        <td>
-            <form th:action="@{/inventory/decrease}" method="post">
-                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
-                <button type="submit" >-</button>
-            </form>
-        </td>
-        <td>
-            <form th:action="@{/inventory/delete}" method="post">
-                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
-                <button type="submit">Delete Item :(</button>
-            </form>
-        </td>
-        <td>
-            <form th:action="@{/inventory/editable}" method="post">
-                <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
-                <button type="submit">EDIT</button>
-            </form>
-        </td>
+    <section class="right-view panel-effect">
+        <table class="compact-table">
+            <tr>
+                <th th:text="#{inventory.name}">Name</th>
+                <th th:text="#{inventory.price}">Price</th>
+                <th th:text="#{inventory.desc}">Description</th>
+                <th th:text="#{inventory.img}">Image</th>
+                <th th:text="#{inventory.stock}">Stock</th>
+            </tr>
+            <tr th:each="calendar : ${calendars}">
+                <td th:text="${calendar.getKey().name}">Name</td>
+                <td th:text="${calendar.getKey().price}">Price</td>
+                <td th:text="${calendar.getKey().description}">Description</td>
+                <td th:text="${calendar.getKey().image}">Image</td>
+                <td th:text="${calendar.getValue()}">Stock</td>
+                <td>
+                    <form th:action="@{/inventory/increase}" method="post">
+                        <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                        <button type="submit" >+</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/decrease}" method="post">
+                        <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                        <button type="submit" >-</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/delete}" method="post">
+                        <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                        <button type="submit">Delete Item :(</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/editable}" method="post">
+                        <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                        <button type="submit">EDIT</button>
+                    </form>
+                </td>
 
-    </tr>
-</table>
+            </tr>
+        </table>
+    </section>
 </div>
 <!-- Adding a table to insert new Calendars-->
 <div id="addNewCalendar" class="modal">
@@ -94,7 +96,6 @@
             </div>
         </form>
     </div>
-
 </div>
 </body>
 <script th:inline="javascript">

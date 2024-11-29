@@ -22,9 +22,10 @@
         <ul class="small-nav">
             <li><button th:text="#{home.nav.home}" class="small-nav-tab-button active" th:onclick="|location.href='@{/}'|" >Home</button></li>
             <li><button th:text="#{home.nav.catalog}" class="small-nav-tab-button" th:onclick="|location.href='@{/books}'|" >Katalog</button></li>
-            <li><button th:text="#{home.nav.inventory}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|" >Inventory</button></li>
             <li><button th:text="#{home.nav.cart}" class="small-nav-tab-button" th:onclick="|location.href='@{/cart}'|" >Cart</button></li>
             <li><button th:text="#{home.nav.account}" class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" >Account</button></li>
+            <li sec:authorize="hasAnyRole('ADMIN','EMPLOYEE')">
+                <button th:text="#{home.nav.inventory}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_book}'|" >Inventory</button></li>
             <li sec:authorize="hasRole('ADMIN')">
                 <button th:text="#{home.nav.adminOverview}"
                         class="small-nav-tab-button"

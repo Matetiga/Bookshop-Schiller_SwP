@@ -15,11 +15,12 @@
 <div class="container">
     <aside class="sidebar panel-effect">
         <ul class="small-nav">
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
-            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Bücher</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
-            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
+            <li><button th:text="#{home.nav.home}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
+            <li><button th:text="#{inventory.back}" class="small-nav-tab-button active" th:onclick="|location.href='@{/books}'|">Back</button></li>
+            <li><button th:text="#{catalog.calender}" class="small-nav-tab-button" th:onclick="|location.href='@{/calenders}'|">Kalender</button></li>
+            <li><button th:text="#{catalog.merch}" class="small-nav-tab-button" th:onclick="|location.href='@{/merch}'|">Merch</button></li>
             <li><button sec:authorize="!isAuthenticated()" th:text="#{home.nav.register}" class="small-nav-tab-button" th:onclick="|location.href='@{/register}'|">Register</button></li>
+            <li><button th:text="#{home.nav.cart}" class="small-nav-tab-button" th:onclick="|location.href='@{/cart}'|">Warenkorb</button></li>
         </ul>
     </aside>
     <div class="panel-effect">
