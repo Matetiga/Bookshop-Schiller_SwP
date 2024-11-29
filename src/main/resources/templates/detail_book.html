@@ -39,6 +39,7 @@
                 <p class="genre" th:text="'ISBN: ' + ${book.getISBN}">Isbn</p>
                 <p class="genre" th:text="'Genre: ' + ${book.getBookGenre()}">Genre: Genre Name</p>
                 <p class="genre" th:text="${book.description}">Description</p>
+                <p class="genre" th:text="'Current Stock: ' +${quantity}">Stock</p>
                 <p class="price" th:text="${book.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
@@ -46,7 +47,7 @@
                     <form method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
                         <div class="genre">
                             <label for="amount" th:text="#{catalog.amount}">Menge:</label>
-                            <input type="number" id="amount" name="amount" min="1" max="10" step="1" value="1">
+                            <input type="number" id="amount" name="amount" min="1" th:max="${quantity}" step="1" value="1">
                         </div>
                             <input type="hidden" name="productId" th:value="${book.getId()}"/>
                             <button type="submit" class="my-cool-button">In den Warenkorb</button>
@@ -62,7 +63,7 @@
 
 <script>
     function showMessage() {
-        alert("Buch zum Warenkorb hinzugefügt!");
+        alert("Book was added to the cart");
     }
 </script>
 

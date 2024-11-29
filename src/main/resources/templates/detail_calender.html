@@ -35,6 +35,7 @@
             <div class="right-column paddingContainer product-details-info ">
                 <h2 th:text="${calender.name}">Calendar Title</h2>
                 <p class="genre" th:text="${calender.description}">Description</p>
+                <p class="genre" th:text="'Current Stock: ' +${quantity}">Stock</p>
                 <p class="price" th:text="${calender.price}">9.99 €</p>
 
                 <!-- Add to Cart Button -->
@@ -43,7 +44,7 @@
                     <form method="post" th:action="@{/cartAdd}" onsubmit="showMessage()">
                         <div class="genre">
                             <label for="amount" th:text="#{catalog.amount}">Menge:</label>
-                            <input type="number" id="amount" name="amount" min="1" max="10" step="1" value="1">
+                            <input type="number" id="amount" name="amount" min="1" th:max="${quantity}" step="1" value="1">
                         </div>
 
                         <input type="hidden" name="productId" th:value="${calender.getId()}"/>
@@ -61,7 +62,7 @@
 
 <script>
     function showMessage() {
-        alert("Kalender zum Warenkorb hinzugefügt!");
+        alert("Calendar was added to the cart");
     }
 </script>
 

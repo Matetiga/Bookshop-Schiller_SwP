@@ -88,7 +88,7 @@ public class OrderController {
 
 			// if there are not enough items in stock
 			try{
-				deleteProductsFromStock(order);
+				deleteProductsFromStock(order, model);
 
 			}catch(IllegalArgumentException e){
 				model.addAttribute("error_NotEnoughStock", true);
@@ -114,10 +114,11 @@ public class OrderController {
 		return "redirect:/cart";
 	}
 
-	public void deleteProductsFromStock(MyOrder order){
+	public void deleteProductsFromStock(MyOrder order, Model model){
 		for(OrderLine orderLine : order.getOrderLines()){
 			inventory.findByProductIdentifier(orderLine.getProductIdentifier()).ifPresent(item -> {
 				if(item.getQuantity().isLessThan(orderLine.getQuantity())){
+					model.addAttribute("error_ArticleName", item.getProduct().getName());
 					throw new IllegalArgumentException("Not enough items in stock");
 				}else{
 					item.decreaseQuantity(orderLine.getQuantity());

@@ -11,7 +11,7 @@
     <h1 th:text="#{inventory.title}">Inventory Lists</h1>
 </header>
 <div class="container-large">
-    <aside class="sidebar panel-effect">
+    <aside class="sidebar panel-effect">`
         <button th:text="#{inventory.backToHome}" class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Back to Welcome</button>
         <ul class="small-nav">
             <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
@@ -111,7 +111,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function (){
-        if([[${showModal}]]) {
+        if(/*[[${showModal}]]*/ '') {
             modal.style.display = 'block';
         }
     });

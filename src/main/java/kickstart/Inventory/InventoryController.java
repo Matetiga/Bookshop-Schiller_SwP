@@ -96,7 +96,7 @@ public class InventoryController {
 				shopProductInventory.save(item);
 
 			});
-			showInventory(model);
+			showCalendarInventory(model);
 			return "redirect:/inventory_calendar";
 		}
 		if (shopProduct.getProduct() instanceof Merch) {
@@ -105,7 +105,7 @@ public class InventoryController {
 				shopProductInventory.save(item);
 
 			});
-			showInventory(model);
+			showMerchInventory(model);
 			return "redirect:/inventory_merch";
 		}
 		else{

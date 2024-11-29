@@ -81,8 +81,9 @@
         </div>
     </section>
     <div th:if="${error_NotEnoughStock}">
-        <script>
-            alert("Nicht genügend Artikel im Lager!");
+        <script th:inline="javascript">
+            let articleName = /*[[${error_ArticleName}]]*/ '';
+            alert("Not enough stock available for : " + articleName);
         </script>
     </div>
 </body>
