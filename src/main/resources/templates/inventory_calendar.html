@@ -38,6 +38,7 @@
         <td>
             <form th:action="@{/inventory/increase}" method="post">
                 <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                <input type="hidden" name="viewName" th:value="'inventory_calendar'" />
                 <button type="submit" >+</button>
             </form>
         </td>
