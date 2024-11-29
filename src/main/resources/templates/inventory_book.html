@@ -48,6 +48,7 @@
                 <td>
                     <form th:action="@{/inventory/increase}" method="post">
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <input type="hidden" name="viewName" th:value="'inventory_book'" />
                         <button type="submit" >+</button>
                     </form>
                 </td>
@@ -71,6 +72,7 @@
                 </td>
             </tr>
         </table>
+    </div>
         <!-- Adding a table to insert new Books-->
         <div id="addNewBook" class="modal">
             <div class="modal-content">
@@ -133,6 +135,7 @@
 
         </div>
 
+    </body>
     <script th:inline="javascript">
         const modal = document.getElementById('addNewBook');
         const open = document.getElementById('openForm');
@@ -147,7 +150,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", function (){
-            if([[${showModal}]]) {
+            if(/*[[${showModal}]]*/ '') {
                 modal.style.display = 'block';
             }
         });

@@ -36,10 +36,11 @@
                 <td th:text="${item.getKey().image}">Image</td>
                 <td th:text="${item.getValue()}">Stock</td>
                 <td>
-                    <form th:action="@{/inventory/increase}" method="post">
-                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                        <button type="submit" >+</button>
-                    </form>
+                  <form th:action="@{/inventory/increase}" method="post">
+                    <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                      <input type="hidden" name="viewName" th:value="'inventory_merch'" />
+                      <button type="submit" >+</button>
+                  </form>
                 </td>
                 <td>
                     <form th:action="@{/inventory/decrease}" method="post">
@@ -112,7 +113,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function (){
-        if([[${showModal}]]) {
+        if(/*[[${showModal}]]*/ '') {
             modal.style.display = 'block';
         }
     });

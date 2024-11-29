@@ -80,37 +80,23 @@ public class InventoryController {
 
 
 	@PostMapping("/inventory/increase")
-	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
+	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id ,
+										  @RequestParam("viewName") String viewName,  Model model){
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
-		if (shopProduct.getProduct() instanceof Book) {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(1));
 			shopProductInventory.save(item);
-			});
+		});
+		if (viewName.equals("inventory_book")) {
 			showInventory(model);
-		return "inventory_book";
 		}
-		if (shopProduct.getProduct() instanceof Calendar) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(1));
-				shopProductInventory.save(item);
-
-			});
-			showInventory(model);
-			return "redirect:/inventory_calendar";
+		if (viewName.equals("inventory_calendar")) {
+			showCalendarInventory(model);
 		}
-		if (shopProduct.getProduct() instanceof Merch) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(1));
-				shopProductInventory.save(item);
-
-			});
-			showInventory(model);
-			return "redirect:/inventory_merch";
+		if (viewName.equals("inventory_merch")) {
+			showMerchInventory(model);
 		}
-		else{
-			return "inventory_book";
-		}
+		return viewName;
 
 	}
 	@PostMapping("/inventory/decrease")
