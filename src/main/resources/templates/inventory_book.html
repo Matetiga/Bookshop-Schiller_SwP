@@ -22,7 +22,7 @@
         <button id="openForm">Add New Book</button>
         </aside>
 
-<section class="right-view panel-effect">
+    <section class="right-view panel-effect">
         <table class="compact-table">
             <tr>
                 <th th:text="#{inventory.name}">Name</th>
@@ -72,6 +72,7 @@
                 </td>
             </tr>
         </table>
+    </section>
     </div>
         <!-- Adding a table to insert new Books-->
         <div id="addNewBook" class="modal">
@@ -106,14 +107,13 @@
                     <input type="text" id="author" name="author" th:field="*{author}" placeholder="Enter Author" required/>
                     <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
 
-
-                    <!--                    TODO: add the checker for the genre -->
 <!--                    <label for="genre"></label>-->
                     <label>
                         <select name="genre">
-                            <option th:each="genre : ${bookGenres_addBook}" th:value="${genre.genre}" th:text="${genre.genre}">
-                            </option>
+                            <option value="" disabled selected>Select Genre</option>
+                            <option th:each="genre : ${bookGenres_addBook}" th:value="${genre.genre}" th:text="${genre.genre}"></option>
                         </select>
+                            <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
                     </label>
 
 

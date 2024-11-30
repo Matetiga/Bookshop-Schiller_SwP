@@ -10,9 +10,11 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
+import static org.mockito.Mockito.mock;
 
 
 public class InventoryControllerIntegrationTests extends AbstractIntegrationTests {
@@ -42,7 +44,10 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		String returnedView = controller.showInventory(model);
 
 		Iterable<Object> books = (Iterable<Object>) model.asMap().get("books");
+		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+
 		assertThat(books).hasSize(4);
+		assertThat(genres).hasSize(5);
 	}
 
 	@Test
@@ -115,7 +120,6 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertFalse(shopProductInventory.findByProductIdentifier(merch.getId()).isPresent());
 
 	}
-
 	//TODO this should test the Forms for the Book and the Calendar/Merch
 	// but how to "activate" the "BindingResult"?
 //
