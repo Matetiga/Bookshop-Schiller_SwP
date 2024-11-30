@@ -10,7 +10,6 @@
 <body>
 
 <div class="container mt-5">
-    <!-- Header -->
     <aside class="sidebar panel-effect">
         <h2 th:text="#{account.title}">Account</h2>
         <ul class="small-nav">
@@ -18,15 +17,12 @@
         </ul>
     </aside>
 
-    <!-- Profile Section -->
     <div class="panel-effect container">
         <div class="card-body">
-            <!-- Profile Header -->
             <div class="profile-header text-center mb-4">
                 <h2 class="card-title" th:text="${user.userAccount.username}">max.mustermann@gmail.com</h2>
             </div>
 
-            <!-- Contact Information Section -->
             <h5 class="card-subtitle mb-3 text-muted" th:text="#{account.contactInfo}">Contact Information</h5>
 
             <div class="row">
