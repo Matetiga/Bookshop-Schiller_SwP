@@ -14,6 +14,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
+
 public class InventoryControllerIntegrationTests extends AbstractIntegrationTests {
 
 	private Model model = new ExtendedModelMap();
@@ -60,6 +61,40 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertThat(calenders).hasSize(4);
 	}
 
+
+
+	@Test
+	public void testIncreaseProductQuantity(){
+		Book book = (Book) shopProductCatalog.findByName("Sapiens: A Brief History of Humankind").stream().findFirst().get();
+		controller.increaseProductQuantity(book.getId(), "inventory_book", model);
+
+		Calendar calendar = (Calendar) shopProductCatalog.findByName("Space Exploration 2024").stream().findFirst().get();
+		controller.increaseProductQuantity(calendar.getId(), "inventory_calendar", model);
+
+		Merch merch = (Merch) shopProductCatalog.findByName("Cap").stream().findFirst().get();
+		controller.increaseProductQuantity(merch.getId(),"inventory_merch", model);
+
+		assertThat(shopProductInventory.findByProductIdentifier(book.getId()).get().getQuantity()).isEqualTo(Quantity.of(11));
+		assertThat(shopProductInventory.findByProductIdentifier(calendar.getId()).get().getQuantity()).isEqualTo(Quantity.of(11));
+		assertThat(shopProductInventory.findByProductIdentifier(merch.getId()).get().getQuantity()).isEqualTo(Quantity.of(11));
+	}
+
+	@Test
+	public void testDecreaseProductQuantity(){
+		Book book = (Book) shopProductCatalog.findByName("The Great Gatsby").stream().findFirst().get();
+		controller.decreaseProductQuantity(book.getId(), model);
+//
+		Calendar calendar = (Calendar) shopProductCatalog.findByName("Historical Monuments 2024").stream().findFirst().get();
+		controller.decreaseProductQuantity(calendar.getId(),  model);
+//
+		Merch merch = (Merch) shopProductCatalog.findByName("Cap").stream().findFirst().get();
+		controller.decreaseProductQuantity(merch.getId(), model);
+
+		assertThat(shopProductInventory.findByProductIdentifier(book.getId()).get().getQuantity()).isEqualTo(Quantity.of(9));
+		assertThat(shopProductInventory.findByProductIdentifier(calendar.getId()).get().getQuantity()).isEqualTo(Quantity.of(9));
+		assertThat(shopProductInventory.findByProductIdentifier(merch.getId()).get().getQuantity()).isEqualTo(Quantity.of(9));
+	}
+
 	@Test
 	public void testInventoryDeleteProduct(){
 		Book book = new Book("name", "im", Money.of(10, "EUR"),
@@ -69,11 +104,20 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		shopProductInventory.save(new UniqueInventoryItem(book, Quantity.of(10)));
 		controller.deleteProduct(book.getId(), model);
 
+		Calendar calendar = (Calendar) shopProductCatalog.findByName("Nature 2024").stream().findFirst().get();
+		controller.deleteProduct(calendar.getId(), model);
+
+		Merch merch = (Merch) shopProductCatalog.findByName("T-Shirt").stream().findFirst().get();
+		controller.deleteProduct(merch.getId(), model);
+
 		assertFalse(shopProductInventory.findByProductIdentifier(book.getId()).isPresent());
+		assertFalse(shopProductInventory.findByProductIdentifier(calendar.getId()).isPresent());
+		assertFalse(shopProductInventory.findByProductIdentifier(merch.getId()).isPresent());
 
 	}
 
-//	//TODO: add test for increasing and decreasing quantity of product
+	//TODO this should test the Forms for the Book and the Calendar/Merch
+	// but how to "activate" the "BindingResult"?
 //
 //	@Test
 //	public void testInventoryAddNewBook(){

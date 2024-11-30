@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static kickstart.Inventory.Genre.deleteGenre;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GenreTest {
@@ -28,6 +29,12 @@ public class GenreTest {
 		Assertions.assertEquals(3, Genre.getAllGenres().size());
 		assertTrue(Genre.getAllGenres().contains(genre2), "Genre not added to the list");
 		assertTrue(Genre.getAllGenres().contains(genre3), "Genre not added to the list");
+	}
+
+	@Test
+	public void testInvalidGenre(){
+		assertThrows(IllegalArgumentException.class, () -> Genre.createGenre(""));
+		assertThrows(NullPointerException.class, () -> Genre.createGenre(null));
 	}
 
 	@Test
@@ -55,11 +62,29 @@ public class GenreTest {
 		for (Genre g: Genre.getAllGenres()){
 			System.out.println("testing inside testdeleteGenre" + g.getGenre());
 		}
-		Genre.deleteGenre(genre);
+		deleteGenre(genre);
 
 		Assertions.assertEquals(2, Genre.getAllGenres().size());
 		assertFalse(Genre.getAllGenres().contains(genre), "Genre not removed from the list");
 
+	}
+
+	@Test
+	public void testDeleteNonExistingGenre(){
+		assertThrows(NullPointerException.class, () -> deleteGenre(null));
+		Genre genre = Genre.createGenre("Science Fiction");
+		deleteGenre(genre);
+		assertThrows(IllegalArgumentException.class, () -> deleteGenre(genre));
+	}
+
+	@Test
+	public void testEqualGenres(){
+		Genre genre = Genre.createGenre("Science Fiction");
+		Genre genre2 = Genre.createGenre("scIence fiCtion");
+		Genre genre3 = Genre.createGenre("Fantasy");
+		assertTrue(genre.equals(genre2), "Genres are not equal");
+		assertFalse(genre.equals(genre3), "Genres are equal");
+		assertFalse(genre.equals("Science Fiction"), "Genres are equal");
 	}
 
 }
