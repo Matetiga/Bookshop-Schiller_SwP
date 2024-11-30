@@ -6,6 +6,7 @@ import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManagement;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -48,6 +49,12 @@ public class UserManagement {
 	public User createAdmin(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("ADMIN"));
 		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
+	}
+
+	public void editProfile(User user, UserAccount userAccount, EditUserProfilForm form) {
+		user.setName(form.getEdit_name());
+		user.setLast_name(form.getEdit_last_name());
+		user.setAddress(form.getEdit_address());
 	}
 
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
