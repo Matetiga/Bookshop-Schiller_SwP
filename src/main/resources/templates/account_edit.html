@@ -17,9 +17,9 @@
 
     <!-- Profile Section for Editing -->
     <div class="card">
-        <form method="POST" role="form" th:action="@{/account_edit}" th:object="${editUserProfileForm}" class="needs-validation" novalidate>
+        <form method="post" role="form" th:action="@{/account_edit}" th:object="${editUserProfileForm}" class="needs-validation" novalidate>
             <div class="card-body">
-                <h3 class="card-title text-center mb-4" th:text="#{edit.account}">Edit Account</h3>
+                <h3 class="card-title text-center mb-4" th:text="#{edit.account}">Editmodel Account</h3>
 
                 <div class="form-group">
                     <label for="edit_name" th:text="#{edit.name}">First Name</label>
@@ -42,6 +42,22 @@
                     <input type="text" id="edit_address" name="edit_address" class="form-control" th:field="*{edit_address}" th:errorclass="is-invalid" required />
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('edit_address')}" th:errors="*{edit_address}">
                         The Address cannot be empty.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_password" th:text="#{edit.password}">Password</label>
+                    <input type="password" id="edit_password" name="edit_password" class="form-control" th:field="*{edit_password}" th:errorclass="is-invalid" required />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('edit_password')}" th:errors="*{edit_password}">
+                        Password must be at least 8 characters.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_confirmPassword" th:text="#{edit.confirmPassword}">Confirm Password</label>
+                    <input type="password" id="edit_confirmPassword" name="edit_confirmPassword" class="form-control" th:field="*{edit_confirmPassword}" th:errorclass="is-invalid" required />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('edit_confirmPassword')}" th:errors="*{edit_confirmPassword}">
+                        Confirm Password must match the password.
                     </div>
                 </div>
 

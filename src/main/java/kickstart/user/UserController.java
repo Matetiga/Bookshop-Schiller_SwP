@@ -166,6 +166,8 @@ class UserController {
 					form.setEdit_name(user.getName());
 					form.setEdit_last_name(user.getLast_name());
 					form.setEdit_address(user.getAddress());
+					form.setEdit_password(""); // TODO: show right password in stars or add case of no password change
+					form.setEdit_confirmPassword("");
 					model.addAttribute("editUserProfileForm", form);
 					return "account_edit";
 				}
@@ -179,9 +181,13 @@ class UserController {
 
 		if (userDetails == null) throw new IllegalStateException("User have to exists, but does not.");
 
+		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
+			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match"); 
+		}
+
 		if (result.hasErrors()) {
     		model.addAttribute("editUserProfileForm", form);
-			model.addAttribute("errors", result);
+			model.addAttribute("errors", result); // TODO: errors still not occur into account_edit fornmular 
 			return "account_edit"; 
 		}
 

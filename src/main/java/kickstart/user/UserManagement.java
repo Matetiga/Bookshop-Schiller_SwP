@@ -6,7 +6,6 @@ import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManagement;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Streamable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -55,6 +54,7 @@ public class UserManagement {
 		user.setName(form.getEdit_name());
 		user.setLast_name(form.getEdit_last_name());
 		user.setAddress(form.getEdit_address());
+		userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
 	}
 
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
