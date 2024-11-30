@@ -1,23 +1,24 @@
 package kickstart.user;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
-import kickstart.AbstractIntegrationTests;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.ui.ExtendedModelMap;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.ExtendedModelMap;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import kickstart.AbstractIntegrationTests;
 
-import java.util.UUID;
 
 @AutoConfigureMockMvc
 class UserControllerIntegrationTests extends AbstractIntegrationTests {
@@ -154,5 +155,4 @@ class UserControllerIntegrationTests extends AbstractIntegrationTests {
                .andExpect(status().is3xxRedirection())  
                .andExpect(redirectedUrl("/login"));  
     }
-
 }

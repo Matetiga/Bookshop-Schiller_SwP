@@ -10,7 +10,6 @@
 <body>
 
 <div class="container mt-5">
-    <!-- Header -->
     <aside class="sidebar panel-effect">
         <h2 th:text="#{account.title}">Account</h2>
         <ul class="small-nav">
@@ -18,34 +17,38 @@
         </ul>
     </aside>
 
-    <!-- Profile Section -->
     <div class="panel-effect container">
         <div class="card-body">
-            <!-- Profile Header -->
             <div class="profile-header text-center mb-4">
-                <h2 class="card-title" th:text="${user.name} + ' ' + ${user.last_name}">Max Mustermann</h2>
+                <h2 class="card-title" th:text="${user.userAccount.username}">max.mustermann@gmail.com</h2>
             </div>
 
-            <!-- Contact Information Section -->
             <h5 class="card-subtitle mb-3 text-muted" th:text="#{account.contactInfo}">Contact Information</h5>
 
-            <!-- Contact Information Details -->
             <div class="row">
-                <!-- Address Field -->
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label th:text="#{account.email}" for="email" class="font-weight-bold mr-2">Email</label>
-                        <span id="email" class="font-weight-bold text-large" th:text="${user.userAccount.username}">test@example</span>
+                        <label th:text="#{account.name}" for="name">Name:</label>
+                        <span id="name" th:text="${user.name}">Max</span>
                     </div>
                     <div class="form-group">
-                        <label th:text="#{account.address}" for="address" class="font-weight-bold mr-2">Address</label>
-                        <span id="address" class="font-weight-bold text-large" th:text="${user.address}">Schillerstraße 2</span>
+                        <label th:text="#{account.last_name}" for="last_name">Last Name:</label>
+                        <span id="last_name" th:text="${user.last_name}">Mustermann</span>
                     </div>
                     <div class="form-group">
-                        <label th:text="#{account.birthDate}" for="birthDate" class="font-weight-bold mr-2">Birth Date</label>
-                        <span id="birthDate" class="font-weight-bold text-large" th:text="${user.birthDate}">1999-12-12</span>
+                        <label th:text="#{account.address}" for="address">Address:</label>
+                        <span id="address" th:text="${user.address}">Schillerstraße 2</span>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{account.birthDate}" for="birthDate">Birth Date:</label>
+                        <span id="birthDate" th:text="${user.birthDate}">1999-12-12</span>
+                    </div>
+                    <div class="form-group">
+                        <label th:text="#{account.password}" for="password">Password:</label>
+                        <span id="password" th:text="'* * * * * * *'">********</span>
                     </div>
                     <button type="button" class="btn btn-primary btn-block mt-3" onclick="window.location.href='/logout'" th:text="#{logout.Button}">Logout</button>
+                    <button type="button" class="btn btn-primary btn-block mt-3" onclick="window.location.href='/account_edit'" th:text="#{edit.Button}">Edit</button>
                 </div>
             </div>
         </div>

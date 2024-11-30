@@ -1,0 +1,15 @@
+<div xmlns:th="http://www.thymeleaf.org">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="/resources/img/bookshop/bookshop_logo.png" alt="Logo" width="80" height="80" class="d-inline-block align-text-top">
+            </a>
+
+            <span class="navbar-brand mx-auto brand-slogan" th:text="#{home.schiller}">SCHILLER</span>
+
+            <a href="/account" class="d-flex align-items-center ms-auto">
+                <i class="bi bi-person-circle account-icon"></i>
+            </a>
+        </div>
+    </nav>
+</div>
