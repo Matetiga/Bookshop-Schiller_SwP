@@ -10,11 +10,11 @@
 </head>
 <body>
 <div th:replace="fragments/admin_navbar :: navbar"></div>
-
-
-<div class="container panel-effect mt-6">
-    <h2 class="text-center mb-4" th:text="#{admin.overview}">Employee overview</h2>
-    <section>
+<header class="mt-6">
+    <h1 class="text-center mb-4" th:text="#{admin.overview}">Employee overview</h1>
+</header>
+<div class="container mt-5">
+    <section class="container panel-effect">
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
                 <thead class="thead-dark">

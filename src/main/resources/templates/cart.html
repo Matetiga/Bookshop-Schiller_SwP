@@ -5,10 +5,12 @@
 
 <head>
   <title th:text="#{cart.tabTitle}">Warenkorb</title>
-    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
-    <title>Warenkorb</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">    <title>Warenkorb</title>
 </head>
 <body>
+    <div th:replace="fragments/shop_navbar :: navbar"></div>
 
     <section layout:fragment="content">
         <header>
@@ -18,19 +20,13 @@
 
         <aside class="sidebar panel-effect">
                 <button th:onclick="|location.href='@{/}'|" class="small-nav-tab-button" th:text="#{cart.welcome}">Zur Homepage</button>
+                <button th:onclick="|location.href='@{/books}'|" class="small-nav-tab-button" th:text="#{cart.catalog}">Katalog</button>
         </aside>
 
 
-            <section class="product-catalog panel-effect">
-                <!--<form class="ui form" method="post" th:action="@{/cartAddExample1}">
-                    <button type="submit" class="ui button">BeispielProdukt1 hinzufügen</button>
-                </form>
-                <form class="ui form" method="post" th:action="@{/cartAddExample2}">
-                    <button type="submit" class="ui button">BeispielProdukt2 hinzufügen</button>
-                </form>
-                -->
+            <section class="right-view panel-effect">
             <div th:unless="${cart.empty}">
-                <table class="ui celled table">
+                <table class="compact-table">
                     <thead>
                     <tr>
                         <th th:text="#{cart.table.title}">Titel</th>
@@ -81,8 +77,9 @@
         </div>
     </section>
     <div th:if="${error_NotEnoughStock}">
-        <script>
-            alert("Nicht genügend Artikel im Lager!");
+        <script th:inline="javascript">
+            let articleName = /*[[${error_ArticleName}]]*/ '';
+            alert("Not enough stock available for : " + articleName);
         </script>
     </div>
 </body>

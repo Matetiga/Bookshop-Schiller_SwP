@@ -42,21 +42,22 @@ class UserDefaultDataInitializer implements DataInitializer {
 
 		var password = "test";
 
-		List.of(//
-			new RegistrationForm("admin", password,password, "admins cave", "a", "s", "2022-4-4")
+		List.of(
+			new RegistrationForm("admin", password, password, "Hauptstraße 1, Bürogebäude", "Max", "Mustermann", "1980-01-15")
 		).forEach(userManagement::createAdmin);
 
-		List.of(//
-			new RegistrationForm("employee1", password,password, "employees avenue 1", "a", "s", "2022-4-4"),
-			new RegistrationForm("employee2@example.com", password,password, "employees avenue 2", "a", "s", "2022-4-4")
+		List.of(
+			new RegistrationForm("employee1", password, password, "Arbeiterweg 45", "Lisa", "Meier", "1992-05-24"),
+			new RegistrationForm("employee2@example.com", password, password, "Fleißstraße 12", "Paul", "Schmidt", "1988-08-19"),
+			new RegistrationForm("employee3@example.com", password, password, "Industriepark 9", "Clara", "Fischer", "1990-03-11")
 		).forEach(userManagement::createEmployee);
 
-
-		List.of(//
-			new RegistrationForm("customer", password,password, "The test palace 34", "a", "s", "2022-4-4"),
-			new RegistrationForm("customer1@example.com", password,password, "Streetstreet 1", "a", "s", "2022-4-4"),
-			new RegistrationForm("customer2@example.com", password,password, "Streetstreet 2", "a", "s", "2022-4-4"),
-			new RegistrationForm("customer3@example.com", password,password, "Streetstreet 3", "a", "s", "2022-4-4")
-			).forEach(userManagement::createCustomer);
+		List.of(
+			new RegistrationForm("customer", password, password, "Kundenallee 23", "Anna", "Weber", "1986-11-03"),
+			new RegistrationForm("customer1@example.com", password, password, "Eichenweg 8", "Johannes", "Bauer", "1979-06-21"),
+			new RegistrationForm("customer2@example.com", password, password, "Birkenstraße 14", "Sophie", "Klein", "1995-02-17"),
+			new RegistrationForm("customer3@example.com", password, password, "Hauptplatz 3", "Martin", "Wolf", "1983-09-29"),
+			new RegistrationForm("customer4@example.com", password, password, "Blumenweg 5", "Laura", "Hofmann", "1987-12-08")
+		).forEach(userManagement::createCustomer);
 	}
 }

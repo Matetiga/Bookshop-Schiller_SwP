@@ -14,13 +14,14 @@
 <body>
 
 <div th:replace="fragments/admin_navbar :: navbar"></div>
-
+<header class="mt-6">
+    <h1 class="text-center mb-4">Einnahmen pro Monat</h1>
+</header>
 <section>
     <div class="table-responsive">
 
         <div class="container mt-5">
-            <h2 class="text-center mb-4">Einnahmen pro Monat</h2>
-            <canvas id="financeChart" width="800" height="400"></canvas>
+            <canvas class="right-view panel-effect" id="financeChart" width="800" height="400"></canvas>
         </div>
 
     </div>

@@ -40,6 +40,7 @@ public class InventoryController {
 		if (!model.containsAttribute("bookForm")) {
 			model.addAttribute("bookForm", new AddBookForm());
 		}
+		model.addAttribute("bookGenres_addBook", Genre.getAllGenres());
 		model.addAttribute("books", books);
 		return "inventory_book";
 	}
@@ -80,37 +81,23 @@ public class InventoryController {
 
 
 	@PostMapping("/inventory/increase")
-	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
+	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id ,
+										  @RequestParam("viewName") String viewName,  Model model){
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
-		if (shopProduct.getProduct() instanceof Book) {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(1));
 			shopProductInventory.save(item);
-			});
+		});
+		if (viewName.equals("inventory_book")) {
 			showInventory(model);
-		return "inventory_book";
 		}
-		if (shopProduct.getProduct() instanceof Calendar) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(1));
-				shopProductInventory.save(item);
-
-			});
-			showInventory(model);
-			return "redirect:/inventory_calendar";
+		if (viewName.equals("inventory_calendar")) {
+			showCalendarInventory(model);
 		}
-		if (shopProduct.getProduct() instanceof Merch) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(1));
-				shopProductInventory.save(item);
-
-			});
-			showInventory(model);
-			return "redirect:/inventory_merch";
+		if (viewName.equals("inventory_merch")) {
+			showMerchInventory(model);
 		}
-		else{
-			return "inventory_book";
-		}
+		return viewName;
 
 	}
 	@PostMapping("/inventory/decrease")
@@ -130,7 +117,7 @@ public class InventoryController {
 				shopProductInventory.save(item);
 
 			});
-			showInventory(model);
+			showCalendarInventory(model);
 			return "redirect:/inventory_calendar";
 		}
 		if (shopProduct.getProduct() instanceof Merch) {
@@ -139,7 +126,7 @@ public class InventoryController {
 				shopProductInventory.save(item);
 
 			});
-			showInventory(model);
+			showMerchInventory(model);
 			return "redirect:/inventory_merch";
 		}
 		else{
@@ -163,14 +150,14 @@ public class InventoryController {
 			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 				shopProductInventory.delete(item);
 			});
-			showInventory(model);
+			showCalendarInventory(model);
 			return "redirect:/inventory_calendar";
 		}
 		if (shopProduct.getProduct() instanceof Merch) {
 			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 				shopProductInventory.delete(item);
 			});
-			showInventory(model);
+			showMerchInventory(model);
 			return "redirect:/inventory_merch";
 		}
 		else{
@@ -178,15 +165,22 @@ public class InventoryController {
 		}
 	}
 
+//	@GetMapping("/inventory/add_bookForm")
+//	public String showAddBookForm(Model model, AddBookForm bookForm) {
+//		model.addAttribute("bookForm", bookForm);
+//		return "inventory_book";
+//	}
+
 
 	@PostMapping("/inventory/add_book")
-	public String addProduct(@Valid @ModelAttribute("bookForm") AddBookForm bookForm,  BindingResult result, Model model){
+	public String addBook(@Valid @ModelAttribute("bookForm") AddBookForm bookForm,  BindingResult result, Model model){
 
 		if(result.hasErrors()){
 			showInventory(model);
 			model.addAttribute("showModal", true);
 			return "inventory_book";
 		}
+
 
 		Book book = new Book(bookForm.getName(),
 			bookForm.getImage(),
@@ -199,7 +193,7 @@ public class InventoryController {
 		shopProductCatalog.save(book);
 		shopProductInventory.save(new UniqueInventoryItem( book, Quantity.of(bookForm.getStock())));
 		showInventory(model);
-		model.addAttribute("bookGenres_addBook", Genre.getAllGenres());
+
 		return "inventory_book";
 	}
 
@@ -257,6 +251,8 @@ public class InventoryController {
 		return "inventory_editable";
 	}
 
+	//TODO: Invalid arguments are allowed to be passed
+	// check for empty Strings or negative values
 	@PostMapping("/inventory/save_book")
 	public String saveBook(
 		@RequestParam("itemId") Product.ProductIdentifier id,

@@ -16,11 +16,12 @@
 <div sec:authorize="hasRole('EMPLOYEE')">
     <div th:replace="fragments/employee_navbar :: navbar"></div>
 </div>
-
+<header class="mt-6">
+    <h1 class="text-center mb-4" th:text="#{employee.overview}">Employee overview</h1>
+</header>
 <div class="container mt-5">
-  <h2 class="text-center mb-4" th:text="#{employee.overview}">Employee overview</h2>
 
-  <section>
+  <section class="container panel-effect">
     <div class="table-responsive">
       <table class="table table-bordered table-hover">
         <thead class="thead-dark">

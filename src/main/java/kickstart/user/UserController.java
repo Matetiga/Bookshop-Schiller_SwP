@@ -48,16 +48,14 @@ class UserController {
 		if (result.hasErrors()) {
 			return "register";
 		}
-		else {
-			// ?
-		}
+
 		userManagement.createCustomer(form);
 
 		return "redirect:/";
 	}
 
 	@GetMapping("/register")
-	String register(Model model, RegistrationForm form) {
+	public String register(Model model, RegistrationForm form) {
 		return "register";
 	}
 
@@ -157,6 +155,50 @@ class UserController {
 		return "redirect:/login";  
 	}	
 
+	@GetMapping("/account_edit")
+	public String accountEdit(@AuthenticationPrincipal UserDetails UserDetails, EditUserProfilForm form, Model model) {
+		
+		if (UserDetails == null) throw new IllegalStateException("User has to exists, but does not exist");
+
+		else {
+			for (User user : userManagement.findAll()) {
+				if (user.getUserAccount().getUsername().equals(UserDetails.getUsername())) {
+					form.setEdit_name(user.getName());
+					form.setEdit_last_name(user.getLast_name());
+					form.setEdit_address(user.getAddress());
+					form.setEdit_password(""); // TODO: show right password in stars or add case of no password change
+					form.setEdit_confirmPassword("");
+					model.addAttribute("editUserProfileForm", form);
+					return "account_edit";
+				}
+			}
+			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
+		}
+	}
+
+	@PostMapping("/account_edit")
+	String updateProfile(@AuthenticationPrincipal UserDetails userDetails, @Valid EditUserProfilForm form, Errors result, Model model) {
+
+		if (userDetails == null) throw new IllegalStateException("User have to exists, but does not.");
+
+		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
+			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match"); 
+		}
+
+		if (result.hasErrors()) {
+    		model.addAttribute("editUserProfileForm", form);
+			model.addAttribute("errors", result); // TODO: errors still not occur into account_edit fornmular 
+			return "account_edit"; 
+		}
+
+		for (User user : userManagement.findAll()) {
+			if (user.getUserAccount().getUsername().equals(userDetails.getUsername())) {
+				userManagement.editProfile(user, user.getUserAccount(), form);
+				return "redirect:/account";
+			}
+		}
+		throw new IllegalArgumentException("User have to exists, but exists not.");
+	}
 
 	public UserManagement getUserManagement() {
 		return userManagement;

@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"local>
 <head>
-  <meta charset="UTF-8">
-  <title>Calendar Inventory</title>
+    <meta charset="UTF-8">
+    <title>Calendar Inventory</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
     <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
 </head>
 <body>
+<div sec:authorize="hasRole('ADMIN')">
+    <div th:replace="fragments/admin_navbar :: navbar"></div>
+</div>
+<div sec:authorize="hasRole('EMPLOYEE')">
+    <div th:replace="fragments/employee_navbar :: navbar"></div>
+</div>
 <header>
     <h1 th:text="#{inventory.title}">Inventory Lists</h1>
 </header>
@@ -20,15 +29,16 @@
         </ul>
         <button id="openForm">Add New Merch</button>
     </aside>
-          <table class="compact-table product-catalog panel-effect">
-              <tr>
-                  <th th:text="#{inventory.name}">Name</th>
-                  <th th:text="#{inventory.price}">Price</th>
-                  <th th:text="#{inventory.desc}">Description</th>
-                  <th th:text="#{inventory.img}">Image</th>
-                  <th th:text="#{inventory.stock}">Stock</th>
-              </tr>
-              <tr th:each="item : ${merch}">
+    <section class="right-view panel-effect">
+        <table class="compact-table">
+            <tr>
+                <th th:text="#{inventory.name}">Name</th>
+                <th th:text="#{inventory.price}">Price</th>
+                <th th:text="#{inventory.desc}">Description</th>
+                <th th:text="#{inventory.img}">Image</th>
+                <th th:text="#{inventory.stock}">Stock</th>
+            </tr>
+            <tr th:each="item : ${merch}">
                 <td th:text="${item.getKey().name}">Name</td>
                 <td th:text="${item.getKey().price}">Price</td>
                 <td th:text="${item.getKey().description}">Description</td>
@@ -37,29 +47,31 @@
                 <td>
                   <form th:action="@{/inventory/increase}" method="post">
                     <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                      <input type="hidden" name="viewName" th:value="'inventory_merch'" />
                       <button type="submit" >+</button>
                   </form>
                 </td>
-                  <td>
-                      <form th:action="@{/inventory/decrease}" method="post">
-                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                          <button type="submit" >-</button>
-                      </form>
-                  </td>
-                  <td>
-                      <form th:action="@{/inventory/delete}" method="post">
-                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                          <button type="submit">Delete Item :(</button>
-                      </form>
-                  </td>
-                  <td>
-                      <form th:action="@{/inventory/editable}" method="post">
-                          <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
-                          <button type="submit">EDIT</button>
-                      </form>
-                  </td>
-              </tr>
-          </table>
+                <td>
+                    <form th:action="@{/inventory/decrease}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit" >-</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/delete}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit">Delete Item :(</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/inventory/editable}" method="post">
+                        <input type="hidden" name="itemId" th:value="${item.getKey().id}" />
+                        <button type="submit">EDIT</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </section>
 </div>
   <!-- Adding a table to insert new Merch-->
   <div id="addNewMerch" class="modal">
@@ -110,7 +122,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function (){
-        if([[${showModal}]]) {
+        if(/*[[${showModal}]]*/ '') {
             modal.style.display = 'block';
         }
     });

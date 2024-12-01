@@ -93,6 +93,13 @@ h1 {
     padding: 20px;
     gap: 20px;
 }
+.container-medium {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px;
+}
 .alignContainer {
     margin: 0 10%;
     display: flex;
@@ -215,6 +222,12 @@ h1 {
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Grid-Layout für die Bücher */
+    gap: 20px;
+    background-color: var(--panel-color-clear);
+}
+.right-view {
+    flex: 1;
+    padding: 20px;
     gap: 20px;
     background-color: var(--panel-color-clear);
 }
@@ -361,3 +374,52 @@ form select.form-control {
 form button {
     align-self: flex-start; /* Button bleibt linksbündig */
 }
+
+/*The Navbar styles. Bootstrap overrides onyl colors for some reason, so we have to annotate !important*/
+
+.brand-slogan {
+    font-family: 'Times New Roman', serif;
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: #470e0e !important;
+    text-transform: uppercase;
+}
+
+.navbar-brand {
+    padding-left: 10;
+
+}
+
+.navbar {
+    background-color: #ffe4b5 !important;
+    position: relative;
+}
+
+.navbar .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .navbar-brand.text-center {
+    flex-grow: 1;
+    text-align: center;
+    margin-left: 10%;
+}
+
+.account-icon {
+    font-size: 30px;
+    color: #470e0e;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.navbar-brand {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+
+

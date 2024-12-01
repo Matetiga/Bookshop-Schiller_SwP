@@ -104,9 +104,6 @@ public class BookTest {
 		}
 
 		try { // try to set a genre that does not exist
-
-			// this forces the deleteGenre method to be static
-			// TODO: is this the best way to test this?
 			Genre.deleteGenre(genre);
 			book.setBookGenre(genre);
 		} catch (IllegalArgumentException e) {
@@ -141,6 +138,22 @@ public class BookTest {
 		// Test for invalid Genre (genre does not exist)
 		Genre.deleteGenre(sus);
 		assertThrows(IllegalArgumentException.class, () -> book.setGenre(sus));
+	}
+
+	@Test
+	public void testBookSetISBN(){
+		book.setISBN("New ISBN");
+		Assertions.assertEquals("New ISBN", book.getISBN());
+		assertThrows(IllegalArgumentException.class, () -> book.setISBN(""));
+	 	assertThrows(NullPointerException.class, () -> book.setISBN(null));
+	}
+
+	@Test
+	public void testBookSetPublisher(){
+		book.setPublisher("New Publisher");
+		Assertions.assertEquals("New Publisher", book.getPublisher());
+		assertThrows(IllegalArgumentException.class, () -> book.setPublisher(""));
+		assertThrows(NullPointerException.class, () -> book.setPublisher(null));
 	}
 }
 

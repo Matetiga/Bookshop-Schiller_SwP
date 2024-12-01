@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
     <head>
         <title>Inventory List</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" th:href="@{/resources/css/style.css}">
         <link rel="stylesheet" th:href="@{/resources/css/inventory_style.css}">
     </head>
     <body>
+        <div sec:authorize="hasRole('ADMIN')">
+            <div th:replace="fragments/admin_navbar :: navbar"></div>
+        </div>
+        <div sec:authorize="hasRole('EMPLOYEE')">
+            <div th:replace="fragments/employee_navbar :: navbar"></div>
+        </div>
     <header>
         <h1 th:text="#{inventory.title}">Inventory Lists</h1>
     </header>
@@ -22,7 +32,7 @@
         <button id="openForm">Add New Book</button>
         </aside>
 
-<section class="product-catalog panel-effect">
+    <section class="right-view panel-effect">
         <table class="compact-table">
             <tr>
                 <th th:text="#{inventory.name}">Name</th>
@@ -48,6 +58,7 @@
                 <td>
                     <form th:action="@{/inventory/increase}" method="post">
                         <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                        <input type="hidden" name="viewName" th:value="'inventory_book'" />
                         <button type="submit" >+</button>
                     </form>
                 </td>
@@ -71,6 +82,8 @@
                 </td>
             </tr>
         </table>
+    </section>
+    </div>
         <!-- Adding a table to insert new Books-->
         <div id="addNewBook" class="modal">
             <div class="modal-content">
@@ -104,14 +117,13 @@
                     <input type="text" id="author" name="author" th:field="*{author}" placeholder="Enter Author" required/>
                     <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
 
-
-                    <!--                    TODO: add the checker for the genre -->
 <!--                    <label for="genre"></label>-->
                     <label>
                         <select name="genre">
-                            <option th:each="genre : ${bookGenres_addBook}" th:value="${genre.genre}" th:text="${genre.genre}">
-                            </option>
+                            <option value="" disabled selected>Select Genre</option>
+                            <option th:each="genre : ${bookGenres_addBook}" th:value="${genre.genre}" th:text="${genre.genre}"></option>
                         </select>
+                            <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></span>
                     </label>
 
 
@@ -133,6 +145,7 @@
 
         </div>
 
+    </body>
     <script th:inline="javascript">
         const modal = document.getElementById('addNewBook');
         const open = document.getElementById('openForm');
@@ -147,11 +160,13 @@
         }
 
         document.addEventListener("DOMContentLoaded", function (){
-            if([[${showModal}]]) {
+            if(/*[[${showModal}]]*/ '') {
                 modal.style.display = 'block';
             }
         });
     </script>
+</section>
+    </div>
     </body>
 </html>
 

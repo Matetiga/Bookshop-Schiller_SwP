@@ -50,6 +50,13 @@ public class UserManagement {
 		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
+	public void editProfile(User user, UserAccount userAccount, EditUserProfilForm form) {
+		user.setName(form.getEdit_name());
+		user.setLast_name(form.getEdit_last_name());
+		user.setAddress(form.getEdit_address());
+		userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
+	}
+
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
 
         Assert.notNull(form, "Registration form must not be null!");
