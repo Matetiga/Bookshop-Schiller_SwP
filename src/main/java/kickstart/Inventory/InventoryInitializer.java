@@ -7,6 +7,9 @@ import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static kickstart.Inventory.Genre.createGenre;
 
 @Component
@@ -30,21 +33,24 @@ public class InventoryInitializer implements DataInitializer {
 			Genre cooking = createGenre("Cooking");
 			Genre history = createGenre("History");
 
+			Set<Genre> genreSet1 = new HashSet<>(Set.of(fiction, cooking));
+			Set<Genre> genreSet2 = new HashSet<>(Set.of(history));
+			Set<Genre> genreSet3 = new HashSet<>(Set.of(adventure));
 
 			shopProductCatalog.save(new Book("The Great Gatsby", "gatsby", Money.of(10.99, "EUR"),
-				"A novel set in the 1920s about the American Dream", fiction, "F. Scott Fitzgerald",
+				"A novel set in the 1920s about the American Dream", genreSet1, "F. Scott Fitzgerald",
 				"9780743273565", "Scribner"));
 
 			shopProductCatalog.save(new Book("Sapiens: A Brief History of Humankind", "sapiens", Money.of(14.99, "EUR"),
-				"Explores the history of humankind", history, "Yuval Noah Harari",
+				"Explores the history of humankind", genreSet2, "Yuval Noah Harari",
 				"9780062316110", "Harper"));
 
 			shopProductCatalog.save(new Book("Harry Potter and the Sorcerer's Stone", "harry", Money.of(8.99, "EUR"),
-				"A young wizard's journey begins", adventure, "J.K. Rowling",
+				"A young wizard's journey begins", genreSet3, "J.K. Rowling",
 				"9780590353427", "Scholastic"));
 
 			shopProductCatalog.save(new Book("The revolution", "stephen", Money.of(12.99, "EUR"),
-				"An exploration of cosmology by Stephen Hawking", history, "Stephen Hawking",
+				"An exploration of cosmology by Stephen Hawking", genreSet2, "Stephen Hawking",
 				"9780553380163", "Bantam"));
 
 			shopProductCatalog.save (new Merch("T-Shirt", "t-shirt", Money.of(19.99, "EUR"), "Comfortable cotton T-shirt"));

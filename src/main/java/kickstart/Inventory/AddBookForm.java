@@ -3,7 +3,11 @@ package kickstart.Inventory;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.javamoney.moneta.Money;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class AddBookForm {
 
@@ -19,8 +23,8 @@ public class AddBookForm {
 	@NotBlank(message = "Description is required")
 	private String description;
 
-	@NotBlank(message = "Genre is required")
-	private String genre;
+	@NotEmpty(message = "Genre is required")
+	private Set<String> genre = new HashSet<>();
 
 	@NotBlank(message = "Author is required")
 	private String author;
@@ -35,7 +39,7 @@ public class AddBookForm {
 	private int stock;
 
 	public AddBookForm() {}
-	public AddBookForm(String name, String image, String description, String genre,
+	public AddBookForm(String name, String image, String description, Set<String> genre,
 					   String author, String ISBN, String publisher, double price, int stock) {
 		this.name = name;
 		this.image = image;
@@ -81,11 +85,11 @@ public class AddBookForm {
 		this.description = description;
 	}
 
-	public String getGenre() {
+	public Set<String> getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Set<String> genre) {
 		this.genre = genre;
 	}
 

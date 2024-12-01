@@ -1,9 +1,5 @@
 package kickstart.catalog;
-import kickstart.Inventory.Book;
-import kickstart.Inventory.Calendar;
-import kickstart.Inventory.Merch;
-import kickstart.Inventory.ShopProduct;
-import kickstart.Inventory.ShopProductCatalog;
+import kickstart.Inventory.*;
 import kickstart.orders.OrderController;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.InventoryItem;
@@ -49,13 +45,17 @@ public class CatalogController {
 			.toList();
 
 		Set<String> allGenres = allBooks.stream()
-			.map(Book::getBookGenre)
+			// merge all genres streams into one set
+			.flatMap(book -> book.getBookGenres().stream())
+			.map(Genre::getGenre)
 			.collect(Collectors.toSet());
 
 		List<Book> filteredBooks = selectedGenres == null || selectedGenres.isEmpty()
 			? allBooks
 			: allBooks.stream()
-			.filter(book -> selectedGenres.contains(book.getBookGenre()))
+			.filter(book -> book.getBookGenres().stream()
+					.map(Genre::getGenre)
+					.anyMatch(selectedGenres::contains)) //should match any genre in selectedGenres
 			.toList();
 
 		model.addAttribute("catalog", filteredBooks);

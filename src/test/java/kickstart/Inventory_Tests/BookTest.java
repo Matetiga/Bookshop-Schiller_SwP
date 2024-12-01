@@ -6,6 +6,11 @@ import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static kickstart.Inventory.Genre.createGenre;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,11 +19,14 @@ public class BookTest {
 
 	Genre genre;
 	private Book book;
+	private Set<Genre> genres = new HashSet<>();
+
 	@BeforeEach
 	public void setUp(){
 		this.genre = createGenre("Science Fiction");
+		genres.add(genre);
 		this.book = new Book("Test", "imageURL", Money.of(10, "EUR"),
-			"description", createGenre("Science Fiction"),
+			"description", genres,
 			"Author", "ISBN", "Publisher");
 
 	}
@@ -31,57 +39,57 @@ public class BookTest {
 		Assertions.assertEquals("imageURL", book.getImage());
 		Assertions.assertEquals(Money.of(10, "EUR"), book.getPrice());
 		Assertions.assertEquals("description", book.getDescription());
-		Assertions.assertEquals("Science Fiction", book.getBookGenre());
 		Assertions.assertEquals("Author", book.getAuthor());
 		Assertions.assertEquals("ISBN", book.getISBN());
 		Assertions.assertEquals("Publisher", book.getPublisher());
+		assertThat(book.getBookGenres()).contains(genre);
 
 		// Test for a invalid parameters
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"), "description",
-				createGenre("Science Fiction"), null, "ISBN", "Publisher");
+				genres, null, "ISBN", "Publisher");
 		} catch (NullPointerException e) {
 			Assertions.assertEquals("Book Author cannot be null", e.getMessage());
 		}
 
 		try{
 			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
-				createGenre("Science Fiction"), "", "ISBN", "Publisher");
+				genres, "", "ISBN", "Publisher");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book Author cannot be empty", e.getMessage());
 		}
 
 		try{
 			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
-				null, "Author", "Hola", "Publisher");
-		}catch (NullPointerException e){
-			Assertions.assertEquals("Book Genre cannot be null", e.getMessage());
+				Collections.emptySet(), "Author", "Hola", "Publisher");
+		}catch (IllegalArgumentException e){
+			Assertions.assertEquals("Book Genre cannot be empty", e.getMessage());
 		}
 
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
-				createGenre("Science Fiction"), "Broski", null, "Publisher");
+				genres, "Broski", null, "Publisher");
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book ISBN cannot be null", e.getMessage());
 		}
 
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
-				createGenre("Science Fiction"), "Broski", "", "Publisher");
+				genres, "Broski", "", "Publisher");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book ISBN cannot be empty", e.getMessage());
 		}
 
 		try{
 			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
-				createGenre("Science Fiction"), "Broski", "ISBN", null);
+				genres, "Broski", "ISBN", null);
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Book Publisher cannot be null", e.getMessage());
 		}
 
 		try {
 			new Book("Title", "imageURL", Money.of(10, "EUR"),  "description",
-				createGenre("Science Fiction"), "Broski", "ISBN", "");
+				genres, "Broski", "ISBN", "");
 		}catch (IllegalArgumentException e){
 			Assertions.assertEquals("Book Publisher cannot be empty", e.getMessage());
 		}
@@ -90,25 +98,44 @@ public class BookTest {
 	// Setters Tests
 	@Test
 	public void testBookValidGenre(){
-		Genre sus = createGenre("Suspense");
-		book.setBookGenre(sus);
-		Assertions.assertEquals("Suspense", book.getBookGenre());
+		Genre sus = createGenre("Cooking");
+		book.addBookGenre(sus);
+		assertThat(book.getBookGenres()).contains(sus);
 	}
 
 	@Test
 	public void testBookInvalidGenre() {
-		try {
-			book.setBookGenre(null);
-		} catch (NullPointerException e) {
-			Assertions.assertEquals("Setter Book Genre cannot be null", e.getMessage());
-		}
+		assertThrows(NullPointerException.class, () -> book.addBookGenre(null));
 
-		try { // try to set a genre that does not exist
-			Genre.deleteGenre(genre);
-			book.setBookGenre(genre);
-		} catch (IllegalArgumentException e) {
-			Assertions.assertEquals("Setter Book Genre does not exist", e.getMessage());
-		}
+		// try to add a genre that is already added
+		assertThrows(IllegalArgumentException.class, () -> book.addBookGenre(genre));
+
+		Genre.deleteGenre(genre);
+		// try to add a genre that does not exist
+		assertThrows(IllegalArgumentException.class, () -> book.addBookGenre(genre));
+
+	}
+
+	@Test
+	public void testBookDeleteGenre(){
+		Genre sus = createGenre("Cooking");
+		book.addBookGenre(sus);
+		assertThat(book.getBookGenres()).contains(sus);
+		book.deleteBookGenre(sus);
+		assertThat(book.getBookGenres()).doesNotContain(sus);
+	}
+
+	@Test
+	public void testBookDeleteInvalidGenre(){
+		assertThrows(NullPointerException.class, () -> book.deleteBookGenre(null));
+
+		Genre test = createGenre("testDelete");
+		book.addBookGenre(test);
+		book.deleteBookGenre(test);
+		assertThrows(IllegalArgumentException.class, () -> book.deleteBookGenre(test));
+
+		Genre.deleteGenre(test);
+		assertThrows(IllegalArgumentException.class, () -> book.deleteBookGenre(test));
 	}
 
 	@Test
@@ -125,19 +152,6 @@ public class BookTest {
 		}catch (NullPointerException e){
 			Assertions.assertEquals("Setter Book Author cannot be null", e.getMessage());
 		}
-	}
-
-	@Test
-	public void testBookSetGenre(){
-		Genre sus = createGenre("Suspense");
-		book.setGenre(sus);
-		Assertions.assertEquals("Suspense", book.getBookGenre());
-
-		assertThrows(NullPointerException.class, () -> book.setGenre(null), "Book Genre Setter cannot be null");
-
-		// Test for invalid Genre (genre does not exist)
-		Genre.deleteGenre(sus);
-		assertThrows(IllegalArgumentException.class, () -> book.setGenre(sus));
 	}
 
 	@Test
