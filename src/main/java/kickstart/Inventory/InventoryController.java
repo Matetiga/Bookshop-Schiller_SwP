@@ -2,6 +2,7 @@ package kickstart.Inventory;
 
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
@@ -27,6 +28,24 @@ public class InventoryController {
 		this.shopProductCatalog = shopProductCatalog;
 	}
 
+	@PostMapping("/inventory/add_newGenre")
+	public String addNewGenre(@NotBlank @RequestParam("newGenre") String genre, Model model) {
+		try {
+			Genre.createGenre(genre);
+
+		}catch (IllegalArgumentException e) {
+			model.addAttribute("error_newGenre", "Genre can not be empty");
+		}
+		showInventory(model);
+		return "inventory_book";
+	}
+	@PostMapping("/inventory/delete_genre")
+	public String deleteGenre(@RequestParam("genre") String genre, Model model) {
+		// this will get the already existing genre
+		Genre.deleteGenre(Genre.createGenre(genre));
+		showInventory(model);
+		return "inventory_book";
+	}
 
 	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {

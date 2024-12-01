@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 
@@ -119,6 +120,50 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertFalse(shopProductInventory.findByProductIdentifier(calendar.getId()).isPresent());
 		assertFalse(shopProductInventory.findByProductIdentifier(merch.getId()).isPresent());
 
+	}
+
+	@Test
+	public void testAddNewGenre(){
+		controller.addNewGenre("newGenre", model);
+		controller.addNewGenre("NewGenrE", model);
+
+		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+		assertThat(genres).hasSize(6);
+
+		boolean exists = false;
+		for(Genre genre: Genre.getAllGenres()){
+			if(genre.getGenre().equals("newGenre")){
+				exists = true;
+			}
+		}
+		assertTrue(exists);
+	}
+
+	@Test
+	public void testAddNewGenreEmpty(){
+		controller.addNewGenre("", model);
+
+		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+		assertTrue(model.containsAttribute("error_newGenre"));
+		assertThat(genres).hasSize(5);
+	}
+
+	@Test
+	public void testDeleteGenre(){
+		Genre.createGenre("testDeleteGenre");
+		controller.deleteGenre("testDeleteGenre", model);
+
+		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+		assertThat(genres).hasSize(5);
+
+		boolean inexistent = false;
+		for(Genre genre: Genre.getAllGenres()){
+			if (genre.getGenre().equals("testDeleteGenre")){
+				inexistent = true;
+				break;
+			}
+		}
+		assertFalse(inexistent);
 	}
 	//TODO this should test the Forms for the Book and the Calendar/Merch
 	// but how to "activate" the "BindingResult"?

@@ -27,62 +27,86 @@
                 <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
                 <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
                 <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
-
-        </ul>
-        <button id="openForm">Add New Book</button>
+            </ul>
+            <button id="openForm">Add New Book</button>
         </aside>
 
-    <section class="right-view panel-effect">
-        <table class="compact-table">
-            <tr>
-                <th th:text="#{inventory.name}">Name</th>
-                <th th:text="#{inventory.stock}">Stock</th>
-                <th th:text="#{inventory.img}">Image</th>
-                <th th:text="#{inventory.price}">Price</th>
-                <th th:text="#{inventory.desc}">Description</th>
-                <th th:text="#{inventory.genre}">Genre</th>
-                <th th:text="#{inventory.author}">Author</th>
-                <th th:text="#{inventory.isbn}">ISBN</th>
-                <th th:text="#{inventory.publisher}">Publisher</th>
-            </tr>
-            <tr th:each="book : ${books}">
-                <td th:text="${book.getKey().name}"></td>
-                <td th:text="${book.getValue()}"></td>
-                <td th:text="${book.getKey().image}"></td>
-                <td th:text="${book.getKey().price}"></td>
-                <td th:text="${book.getKey().description}"></td>
-                <td th:text="${book.getKey().getBookGenre()}"></td>
-                <td th:text="${book.getKey().author}"></td>
-                <td th:text="${book.getKey().ISBN}"></td>
-                <td th:text="${book.getKey().publisher}"></td>
-                <td>
-                    <form th:action="@{/inventory/increase}" method="post">
-                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <input type="hidden" name="viewName" th:value="'inventory_book'" />
-                        <button type="submit" >+</button>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/inventory/decrease}" method="post">
-                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit" >-</button>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/inventory/delete}" method="post">
-                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit">Delete Item :(</button>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/inventory/editable}" method="post">
-                        <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                        <button type="submit">EDIT</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
-    </section>
+        <section class="right-view panel-effect">
+            <table class="compact-table">
+                <tr>
+                    <th th:text="#{inventory.name}">Name</th>
+                    <th th:text="#{inventory.stock}">Stock</th>
+                    <th th:text="#{inventory.img}">Image</th>
+                    <th th:text="#{inventory.price}">Price</th>
+                    <th th:text="#{inventory.desc}">Description</th>
+                    <th th:text="#{inventory.genre}">Genre</th>
+                    <th th:text="#{inventory.author}">Author</th>
+                    <th th:text="#{inventory.isbn}">ISBN</th>
+                    <th th:text="#{inventory.publisher}">Publisher</th>
+                </tr>
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.getKey().name}"></td>
+                    <td th:text="${book.getValue()}"></td>
+                    <td th:text="${book.getKey().image}"></td>
+                    <td th:text="${book.getKey().price}"></td>
+                    <td th:text="${book.getKey().description}"></td>
+                    <td th:text="${book.getKey().getBookGenre()}"></td>
+                    <td th:text="${book.getKey().author}"></td>
+                    <td th:text="${book.getKey().ISBN}"></td>
+                    <td th:text="${book.getKey().publisher}"></td>
+                    <td>
+                        <form th:action="@{/inventory/increase}" method="post">
+                            <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                            <input type="hidden" name="viewName" th:value="'inventory_book'" />
+                            <button type="submit" >+</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/inventory/decrease}" method="post">
+                            <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                            <button type="submit" >-</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/inventory/delete}" method="post">
+                            <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                            <button type="submit">Delete Item :(</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/inventory/editable}" method="post">
+                            <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
+                            <button type="submit">EDIT</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+                <h2>Genres List</h2>
+                <form th:action="@{/inventory/add_newGenre}" method="post">
+                    <label>
+                        <input type="text" name="newGenre" placeholder="Enter new Genre"/>
+                        <span th:if="${error_newGenre}" th:text="${error_newGenre}"></span>
+                    </label>
+                    <button type="submit">Create new Genre</button>
+                </form>
+                <table class="compact-table">
+                    <tr>
+                        <th th:text="#{inventory.genre}">Genre</th>
+                    </tr>
+                    <tr th:each="genre : ${bookGenres_addBook}">
+                        <td th:text="${genre.genre}"></td>
+                        <td>
+                            <form th:action="@{/inventory/delete_genre}" method="post">
+                                <input type="hidden" name="genre" th:value="${genre.genre}">
+                                <button type="submit">Delete Genre</button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+
+
+        </section>
     </div>
         <!-- Adding a table to insert new Books-->
         <div id="addNewBook" class="modal">
