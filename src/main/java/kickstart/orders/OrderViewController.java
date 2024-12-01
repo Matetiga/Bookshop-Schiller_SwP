@@ -31,12 +31,20 @@ public class OrderViewController {
 		return this.orderStates;
 	}
 
+	/*
+	@ModelAttribute("selectedState")
+	String initalizeSelectedState() {
+		return "Alle";
+	}
+	*/
+
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		model.addAttribute("selectedState", "Alle");
 
+		model.addAttribute("selectedState", "Alle");
+		//temporär, später: filterOrders(...)
 		return "order-overview";
 	}
 
@@ -48,9 +56,8 @@ public class OrderViewController {
 		myOrderRepository.deleteById(orderId);
 
 		model.addAttribute("orderList", myOrderRepository.findAll());
-		model.addAttribute("selectedState", "Alle");
 
-		return "order-overview";
+		return "redirect:/order-overview";
 	}
 
 	@PostMapping("/changeStatus")
@@ -86,6 +93,11 @@ public class OrderViewController {
 		model.addAttribute("orderList", orderList);
 
 		return "order-overview";
+	}
+
+	@PostMapping("/filterOrders")
+	String filterOrders(@RequestParam("state") String state, @RequestParam("productId") Product.ProductIdentifier productId, @RequestParam("userId") String userId){
+		return "cart";
 	}
 
 	//currently not used
