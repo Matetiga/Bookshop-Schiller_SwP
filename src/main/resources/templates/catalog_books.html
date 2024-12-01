@@ -63,7 +63,7 @@
             </div>
             <div class="product-catalog-item-info">
                 <a class="h3" th:href="@{/book/{id}(id=${shopProduct.productId})}" th:text="${shopProduct.name}">Book Title</a>
-                <div class="text-base" th:text="${shopProduct.getBookGenre()} ?: 'Unknown Genre'">Unknown Genre</div>
+                <div class="text-base" th:each="genre : ${shopProduct.getBookGenres()}" th:text="${genre.getGenre()} ?: 'Unknown Genre'">Unknown Genre</div>
                 <div class="price text-medium-bold" th:text="${shopProduct.price}">9.99 €</div>
             </div>
         </div>

@@ -59,9 +59,7 @@ public class GenreTest {
 		Genre genre2 = Genre.createGenre("Fantasy");
 		Genre genre3 = Genre.createGenre("Horror");
 		Assertions.assertEquals(3, Genre.getAllGenres().size(), "Genres not added to the list");
-		for (Genre g: Genre.getAllGenres()){
-			System.out.println("testing inside testdeleteGenre" + g.getGenre());
-		}
+
 		deleteGenre(genre);
 
 		Assertions.assertEquals(2, Genre.getAllGenres().size());

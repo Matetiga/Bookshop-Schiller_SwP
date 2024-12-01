@@ -12,6 +12,9 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -104,7 +107,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	@Test
 	public void testInventoryDeleteProduct(){
 		Book book = new Book("name", "im", Money.of(10, "EUR"),
-			"des", Genre.createGenre("science Fiction"), "author", "ISBN", "publisher");
+			"des", new HashSet<>(Set.of(Genre.createGenre("science fiction"))), "author", "ISBN", "publisher");
 
 		shopProductCatalog.save(book);
 		shopProductInventory.save(new UniqueInventoryItem(book, Quantity.of(10)));
@@ -150,10 +153,15 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 
 	@Test
 	public void testDeleteGenre(){
-		Genre.createGenre("testDeleteGenre");
-		controller.deleteGenre("testDeleteGenre", model);
+		Genre testgenre = Genre.createGenre("testDeleteGenre");
 
-		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+		Book testBook = new Book("testBookDeleteGenre", "im", Money.of(10, "EUR"),
+			"des", new HashSet<>(Set.of(testgenre)), "author", "ISBN", "publisher");
+		shopProductCatalog.save(testBook);
+
+		controller.deleteGenre("testDeleteGenre", model);
+		// Genre should be deleted from the list
+		Iterable<Genre> genres = (Iterable<Genre>) model.asMap().get("bookGenres_addBook");
 		assertThat(genres).hasSize(5);
 
 		boolean inexistent = false;
@@ -164,6 +172,10 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 			}
 		}
 		assertFalse(inexistent);
+
+		// Genre should be deleted from the book
+		assertThat(testBook.getBookGenres()).isEmpty();
+
 	}
 	//TODO this should test the Forms for the Book and the Calendar/Merch
 	// but how to "activate" the "BindingResult"?

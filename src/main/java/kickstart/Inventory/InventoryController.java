@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class InventoryController {
@@ -42,7 +43,17 @@ public class InventoryController {
 	@PostMapping("/inventory/delete_genre")
 	public String deleteGenre(@RequestParam("genre") String genre, Model model) {
 		// this will get the already existing genre
-		Genre.deleteGenre(Genre.createGenre(genre));
+		Genre deleteGenre = Genre.createGenre(genre);
+
+		Genre.deleteGenre(deleteGenre);
+		shopProductCatalog.findAll().stream()
+			.filter(product -> product instanceof Book)
+			.map(product -> (Book) product)
+			.filter(book -> book.getBookGenres().contains(deleteGenre))
+			.forEach(book -> {
+				book.getBookGenres().remove(deleteGenre);
+				shopProductCatalog.save(book);
+			});
 		showInventory(model);
 		return "inventory_book";
 	}
@@ -200,12 +211,13 @@ public class InventoryController {
 			return "inventory_book";
 		}
 
-
 		Book book = new Book(bookForm.getName(),
 			bookForm.getImage(),
 			Money.of(bookForm.getPrice(), "EUR"),
 			bookForm.getDescription(),
-			Genre.createGenre(bookForm.getGenre()),
+			bookForm.getGenre().stream()
+				.map(Genre::createGenre)
+				.collect(Collectors.toSet()),
 			bookForm.getAuthor(),
 			bookForm.getISBN(),
 			bookForm.getPublisher());
@@ -275,10 +287,11 @@ public class InventoryController {
 	@PostMapping("/inventory/save_book")
 	public String saveBook(
 		@RequestParam("itemId") Product.ProductIdentifier id,
+		// this can be replaced with AddBookForm
 		@RequestParam("name") String name,
 		@RequestParam("description") String desc,
 		@RequestParam("price") BigDecimal price,
-		@RequestParam("genre")String genreName,
+		@RequestParam("genre")Set<String> genreName,
 		@RequestParam("author")String author,
 		@RequestParam("ISBN") String isbn,
 		@RequestParam("publisher")String publisher) {
@@ -294,8 +307,11 @@ public class InventoryController {
 			((Book) item.getProduct()).setISBN(isbn);
 			((Book) item.getProduct()).setPublisher(publisher);
 
-			Genre genre = Genre.createGenre(genreName);
-			((Book) item.getProduct()).setGenre(genre);
+//			Genre genre = Genre.createGenre(genreName);
+			((Book) item.getProduct()).setBookGenres(genreName.stream()
+				.map(Genre::createGenre)
+				.collect(Collectors.toSet())
+			);
 
 			shopProductInventory.save(item);
 		});

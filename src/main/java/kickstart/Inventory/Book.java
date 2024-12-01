@@ -1,8 +1,10 @@
 package kickstart.Inventory;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import org.javamoney.moneta.Money;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import static kickstart.Inventory.Genre.getAllGenres;
@@ -10,18 +12,18 @@ import static kickstart.Inventory.Genre.getAllGenres;
 // TODO Add a Valid ISBN check
 @Entity
 public class Book extends ShopProduct {
-	@Embedded
-	private Genre genre;
+	@ElementCollection
+	private Set<Genre> genres = new HashSet<>();
 	private String author;
 	private String ISBN;
 	private String publisher;
 
 	public Book(){}
 	public Book(String name, String image, Money price, String description,
-				Genre genre, String author, String ISBN, String publisher) {
+				Set<Genre> genres, String author, String ISBN, String publisher) {
 		super(name, image, price, description);
-		if (genre == null) {
-			throw new NullPointerException("Book Genre cannot be null");
+		if (genres.isEmpty()) {
+			throw new IllegalArgumentException("Book Genre cannot be empty");
 		}
 
 		if(author == null){
@@ -45,23 +47,43 @@ public class Book extends ShopProduct {
 			throw new IllegalArgumentException("Book Publisher cannot be empty");
 		}
 
-		this.genre = genre;
+		this.genres = genres;
 		this.author = author;
 		this.ISBN = ISBN;
 		this.publisher = publisher;
 	}
 
 	// Setters
-	public void setBookGenre(Genre genre) {
+	public void addBookGenre(Genre genre) {
 		if (genre == null) {
 			throw new NullPointerException("Setter Book Genre cannot be null");
 		}
-		Set<Genre> allGenres = getAllGenres();
-		if (!allGenres.contains(genre)) {
-			throw new IllegalArgumentException("Setter Book Genre does not exist");
-			// return or Exception?
+		if (!getAllGenres().contains(genre)) {
+			throw new IllegalArgumentException("Setter addBookGenre does not exist in getAllGenres");
 		}
-		this.genre = genre;
+		if(genres.contains(genre)){
+			throw new IllegalArgumentException("Setter addBookGenre already exists");
+		}
+		this.genres.add(genre);
+	}
+	public void deleteBookGenre(Genre genre){
+		if (genre == null) {
+			throw new NullPointerException("Setter deleteBookGenre cannot be null");
+		}
+		if (!getAllGenres().contains(genre)) {
+			throw new IllegalArgumentException("Setter deleteBookGenre does not exist in getAllGenres");
+		}
+		if(!genres.contains(genre)){
+			throw new IllegalArgumentException("Setter deleteBookGenre does not exist");
+		}
+		this.genres.remove(genre);
+	}
+
+	public void setBookGenres(Set<Genre> genres) {
+		if (genres.isEmpty()) {
+			throw new IllegalArgumentException("Setter Book Genre cannot be empty");
+		}
+		this.genres = genres;
 	}
 
 	public void setAuthor(String author) {
@@ -74,17 +96,6 @@ public class Book extends ShopProduct {
 		this.author = author;
 	}
 
-	public void setGenre(Genre genre){
-		if (genre == null) {
-			throw new NullPointerException("Setter Book Genre cannot be null");
-		}
-		// TODO should it throw an Exception or create automatically the genre?
-		if(!getAllGenres().contains(genre)){
-			throw new IllegalArgumentException("Setter Book Genre does not exist");
-		}
-
-		this.genre = genre;
-	}
 
 	public void setPublisher(String publisher) {
 		if (publisher == null) {
@@ -97,8 +108,6 @@ public class Book extends ShopProduct {
 	}
 
 	//TODO check for a valid ISBN
-	// IMPORTANT!!!!!!!!!!
-	// ASK if it must be 13 or 10 digits (there are more questions above)
 	public void setISBN(String ISBN) {
 		if (ISBN == null) {
 			throw new NullPointerException("Setter Book ISBN cannot be null");
@@ -110,8 +119,8 @@ public class Book extends ShopProduct {
 	}
 
 	// Getters
-	public String getBookGenre() {
-		return genre.getGenre();
+	public Set<Genre> getBookGenres() {
+		return genres;
 	}
 	public String getAuthor() {
 		return author;
