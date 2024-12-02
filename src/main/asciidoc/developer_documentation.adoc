@@ -179,6 +179,7 @@ image::./models/design/General/DialogMap(black_white).png[dialoque_map, 100%, 10
 |Semantic UI|UI
 |jQuery|UI
 |Bootstrap|UI and Appearance
+|Chart.js |Creating charts and graphs
 
 |===
 

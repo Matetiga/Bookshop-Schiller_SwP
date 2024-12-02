@@ -37,8 +37,14 @@
             <div class="right-column paddingContainer product-details-info ">
                 <h2 th:text="${book.name}">Book Title</h2>
                 <p class="genre" th:text="'Author: ' + ${book.getAuthor()}">Author</p>
-                <p class="genre" th:text="'ISBN: ' + ${book.getISBN}">Isbn</p>
-                <p class="genre" th:text="'Genre: ' + ${book.getBookGenre()}">Genre: Genre Name</p>
+                <p class="genre" th:text="'ISBN: ' + ${book.getISBN()}">Isbn</p>
+                <div>
+                    <p class="genre-title">Genres: </p>
+                    <ul class="genre-list">
+                        <li th:each="genre : ${book.getBookGenres()}">
+                            <span th:text="${genre.getGenre()}">Genre Name</span>
+                    </ul>
+                </div>
                 <p class="genre" th:text="${book.description}">Description</p>
                 <p class="genre" th:text="'Current Stock: ' +${quantity}">Stock</p>
                 <p class="price" th:text="${book.price}">9.99 €</p>

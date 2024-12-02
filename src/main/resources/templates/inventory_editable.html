@@ -62,11 +62,21 @@
                         <th>Edit</th>
                     </tr>
                     <tr>
-                        <td th:text="${book.getBookGenre()}"></td>
+                        <td>
+<!--                            TODO: this line has been changed to display all genres in a book-->
+                            <ul>
+                                <li th:each="genre : ${book.getBookGenres()}">
+                                    <span th:text="${genre.getGenre()}"></span>
+                                </li>
+                            </ul>
+                        </td>
                         <td>
                             <label>
-                                <select name="genre">
-                                    <option th:each="genre : ${bookGenres}" th:value="${genre.genre}" th:text="${genre.genre}" th:selected="${genre.genre == book.getBookGenre()}">
+                                <select name="genre[]" multiple>
+                                    <option th:each="genre : ${bookGenres}"
+                                            th:value="${genre.genre}"
+                                            th:text="${genre.genre}"
+                                            th:selected="${book.getBookGenres().contains(genre)}">
                                     </option>
                                 </select>
                             </label>

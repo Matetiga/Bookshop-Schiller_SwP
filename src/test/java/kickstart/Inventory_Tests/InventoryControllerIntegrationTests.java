@@ -12,8 +12,12 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 
@@ -103,7 +107,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	@Test
 	public void testInventoryDeleteProduct(){
 		Book book = new Book("name", "im", Money.of(10, "EUR"),
-			"des", Genre.createGenre("science Fiction"), "author", "ISBN", "publisher");
+			"des", new HashSet<>(Set.of(Genre.createGenre("science fiction"))), "author", "ISBN", "publisher");
 
 		shopProductCatalog.save(book);
 		shopProductInventory.save(new UniqueInventoryItem(book, Quantity.of(10)));
@@ -118,6 +122,59 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertFalse(shopProductInventory.findByProductIdentifier(book.getId()).isPresent());
 		assertFalse(shopProductInventory.findByProductIdentifier(calendar.getId()).isPresent());
 		assertFalse(shopProductInventory.findByProductIdentifier(merch.getId()).isPresent());
+
+	}
+
+	@Test
+	public void testAddNewGenre(){
+		controller.addNewGenre("newGenre", model);
+		controller.addNewGenre("NewGenrE", model);
+
+		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+		assertThat(genres).hasSize(6);
+
+		boolean exists = false;
+		for(Genre genre: Genre.getAllGenres()){
+			if(genre.getGenre().equals("newGenre")){
+				exists = true;
+			}
+		}
+		assertTrue(exists);
+	}
+
+	@Test
+	public void testAddNewGenreEmpty(){
+		controller.addNewGenre("", model);
+
+		Iterable<Object> genres = (Iterable<Object>) model.asMap().get("bookGenres_addBook");
+		assertTrue(model.containsAttribute("error_newGenre"));
+		assertThat(genres).hasSize(5);
+	}
+
+	@Test
+	public void testDeleteGenre(){
+		Genre testgenre = Genre.createGenre("testDeleteGenre");
+
+		Book testBook = new Book("testBookDeleteGenre", "im", Money.of(10, "EUR"),
+			"des", new HashSet<>(Set.of(testgenre)), "author", "ISBN", "publisher");
+		shopProductCatalog.save(testBook);
+
+		controller.deleteGenre("testDeleteGenre", model);
+		// Genre should be deleted from the list
+		Iterable<Genre> genres = (Iterable<Genre>) model.asMap().get("bookGenres_addBook");
+		assertThat(genres).hasSize(5);
+
+		boolean inexistent = false;
+		for(Genre genre: Genre.getAllGenres()){
+			if (genre.getGenre().equals("testDeleteGenre")){
+				inexistent = true;
+				break;
+			}
+		}
+		assertFalse(inexistent);
+
+		// Genre should be deleted from the book
+		assertThat(testBook.getBookGenres()).isEmpty();
 
 	}
 	//TODO this should test the Forms for the Book and the Calendar/Merch

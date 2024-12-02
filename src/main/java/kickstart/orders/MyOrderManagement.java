@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static kickstart.Inventory.Genre.createGenre;
@@ -75,14 +77,17 @@ public class MyOrderManagement {
 		Genre fiction = createGenre("Fiction");
 		Genre history = createGenre("Cooking");
 
+		Set<Genre> genreSet1 = new HashSet<>(Set.of(fiction));
+		Set<Genre> genreSet2 = new HashSet<>(Set.of(history));
+
 		Product exampleProduct1 = new Book("Abarth", "gatsby.jpg", Money.of(10 ,"EUR"),
-			"Mir gehts Abartig schlecht", fiction, "Jemand mit einem schönen Nachnamen",
+			"Mir gehts Abartig schlecht", genreSet1, "Jemand mit einem schönen Nachnamen",
 			"9780743273565", "Scribner");
 		Product exampleProduct2 = new Book("Bisschen verwirrend vielleicht am Anfang", "sapiens.jpg", Money.of(15, "EUR"),
-			"Ich weiß es doch auch nicht", history, "W. Lederle",
+			"Ich weiß es doch auch nicht", genreSet2, "W. Lederle",
 			"9780062316110", "Harper");
 		Product exampleProduct3 = new Book("S-Bahn", "sapiens.jpg", Money.of(15, "EUR"),
-			"123", history, "Rainer Winkler",
+			"123", genreSet2, "Rainer Winkler",
 			"9780062316110", "Harper");
 
 		testOrder1.addOrderLine(exampleProduct1, Quantity.of(69));
