@@ -16,7 +16,6 @@ import java.util.Comparator;
 @Controller
 @SessionAttributes({"orderStates", "orderList", "selectedState"})
 public class OrderViewController {
-
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
@@ -72,7 +71,7 @@ public class OrderViewController {
 	}
 
 	@PostMapping("/filterByStatus")
-	String filterStatus(Model model, @RequestParam("valueStatus") String state){
+	String filterByState(Model model, @RequestParam("valueStatus") String state){
 		model.addAttribute("orderList", myOrderManagement.findByStatus(state, myOrderRepository.findAll()));
 		model.addAttribute("selectedState", state);
 
