@@ -41,8 +41,6 @@ public class MyOrderManagement {
 			}
 			return orderList;
 		}
-
-
 	}
 
 	public Iterable<MyOrder> findByProductName(String productName, Iterable<MyOrder> filteredList){
@@ -80,17 +78,17 @@ public class MyOrderManagement {
 		Set<Genre> genreSet1 = new HashSet<>(Set.of(fiction));
 		Set<Genre> genreSet2 = new HashSet<>(Set.of(history));
 
-		Product exampleProduct1 = new Book("Abarth", "gatsby.jpg", Money.of(10 ,"EUR"),
-			"Mir gehts Abartig schlecht", genreSet1, "Jemand mit einem schönen Nachnamen",
+		Product exampleProduct1 = new Book("Frankreich", "gatsby.jpg", Money.of(10 ,"EUR"),
+			"Test", genreSet1, "Arno Dübel",
 			"9780743273565", "Scribner");
-		Product exampleProduct2 = new Book("Bisschen verwirrend vielleicht am Anfang", "sapiens.jpg", Money.of(15, "EUR"),
-			"Ich weiß es doch auch nicht", genreSet2, "W. Lederle",
+		Product exampleProduct2 = new Book("spannendes Buch", "sapiens.jpg", Money.of(15, "EUR"),
+			"Ich weiß ich nicht", genreSet2, "Karin Ritter",
 			"9780062316110", "Harper");
-		Product exampleProduct3 = new Book("S-Bahn", "sapiens.jpg", Money.of(15, "EUR"),
+		Product exampleProduct3 = new Book("S-Bahn-Netz2024", "sapiens.jpg", Money.of(15, "EUR"),
 			"123", genreSet2, "Rainer Winkler",
 			"9780062316110", "Harper");
 
-		testOrder1.addOrderLine(exampleProduct1, Quantity.of(69));
+		testOrder1.addOrderLine(exampleProduct1, Quantity.of(1));
 		testOrder1.addOrderLine(exampleProduct2, Quantity.of(42));
 		testOrder1.addOrderLine(exampleProduct3, Quantity.of(3));
 
