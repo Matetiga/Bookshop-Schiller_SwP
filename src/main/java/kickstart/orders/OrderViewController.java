@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 
 @Controller
-@SessionAttributes({"orderStates", "orderList", "selectedState"})
+@SessionAttributes({"orderList", "orderStates", "selectedState", "paymentMethods", "selectedPaymentMethod"})
 public class OrderViewController {
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
+	private final String[] paymentMethods = {"Alle", "Bar", "Rechnung"};
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
@@ -30,12 +32,10 @@ public class OrderViewController {
 		return this.orderStates;
 	}
 
-	/*
-	@ModelAttribute("selectedState")
-	String initalizeSelectedState() {
-		return "Alle";
+	@ModelAttribute("paymentMethods")
+	String[] initalizePaymentMethods() {
+		return this.paymentMethods;
 	}
-	*/
 
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
@@ -43,10 +43,10 @@ public class OrderViewController {
 		model.addAttribute("orderList", myOrderRepository.findAll());
 
 		model.addAttribute("selectedState", "Alle");
-		//temporär, später: filterOrders(...)
+		model.addAttribute("selectedPaymentMethod", "Alle");
+
 		return "order-overview";
 	}
-
 
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
@@ -70,33 +70,25 @@ public class OrderViewController {
 		return "order-details";
 	}
 
-	@PostMapping("/filterByStatus")
-	String filterByState(Model model, @RequestParam("valueStatus") String state){
-		model.addAttribute("orderList", myOrderManagement.findByStatus(state, myOrderRepository.findAll()));
-		model.addAttribute("selectedState", state);
-
-		return "order-overview";
-	}
-
-	@PostMapping("/filterByProduct")
-	String filterByProduct(@RequestParam(value = "productName", required = true) String productName, @RequestParam(value = "productId", required = true) Product.ProductIdentifier productId, Model model){
-		Iterable<MyOrder> orderList;
-		if(productId != null && !productId.toString().isEmpty()){
-			orderList = myOrderManagement.findByProductId(productId, (Iterable<MyOrder>) model.getAttribute("orderList"));
-		}else if(productName != null && !productName.isEmpty()){
-			orderList = myOrderManagement.findByProductName(productName, (Iterable<MyOrder>) model.getAttribute("orderList"));
-		}else{
-			orderList = myOrderRepository.findAll();
-		}
-
-		model.addAttribute("orderList", orderList);
-
-		return "order-overview";
-	}
-
 	@PostMapping("/filterOrders")
-	String filterOrders(@RequestParam("state") String state, @RequestParam("productId") Product.ProductIdentifier productId, @RequestParam("userId") String userId){
-		return "cart";
+	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productId", required = false, defaultValue = "empty%7") Product.ProductIdentifier productId, @RequestParam(value = "productName", required = false, defaultValue = "empty%7") String productName, @RequestParam(value = "userId", required = false, defaultValue = "empty%7") String userId, Model model){
+		Iterable<MyOrder> filterList = myOrderManagement.findByStatus(state, myOrderRepository.findAll());
+		filterList = myOrderManagement.findByPaymentMethod(paymentMethod, filterList);
+		System.out.println(filterList);
+		if (!productId.toString().equals("empty%7")){
+			filterList = myOrderManagement.findByProductId(productId, filterList);
+		}
+		if (!productName.equals("empty%7")) {
+			filterList = myOrderManagement.findByProductName(productName, filterList);
+		}
+		if (!userId.equals("empty%7")){
+			filterList = myOrderManagement.findByUsername(userId, filterList);
+		}
+		System.out.println(filterList);
+		model.addAttribute("orderList", filterList);
+		model.addAttribute("selectedState", state);
+		model.addAttribute("selectedPaymentMethod", paymentMethod);
+		return "order-overview";
 	}
 
 	//currently not used

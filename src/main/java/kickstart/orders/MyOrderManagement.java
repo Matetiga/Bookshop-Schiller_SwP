@@ -1,5 +1,6 @@
 package kickstart.orders;
 
+import kickstart.user.UserManagement;
 import org.salespointframework.order.Order;
 
 import kickstart.Inventory.Book;
@@ -23,9 +24,11 @@ import static kickstart.Inventory.Genre.createGenre;
 @Transactional
 public class MyOrderManagement {
 	private final MyOrderRepository myOrderRepository;
+	private final UserManagement userManagement;
 
-	MyOrderManagement(MyOrderRepository myOrderRepository){
+	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement){
 		this.myOrderRepository = myOrderRepository;
+		this.userManagement = userManagement;
 		initalizeDemoOrders();
 	}
 
@@ -36,6 +39,20 @@ public class MyOrderManagement {
 			ArrayList<MyOrder> orderList = new ArrayList<>();
 			for(MyOrder order : filteredList){
 				if(order.getMyOrderStatus().equals(state)){
+					orderList.add(order);
+				}
+			}
+			return orderList;
+		}
+	}
+
+	public Iterable<MyOrder> findByPaymentMethod(String paymentMethod, Iterable<MyOrder> list){
+		if(paymentMethod == null || paymentMethod.equals("Alle")){
+			return list;
+		}else {
+			ArrayList<MyOrder> orderList = new ArrayList<>();
+			for (MyOrder order : list) {
+				if (order.getStringPaymentMethod().equals(paymentMethod)) {
 					orderList.add(order);
 				}
 			}
@@ -62,6 +79,16 @@ public class MyOrderManagement {
 				if(orderLine.getProductIdentifier().equals(productId)){
 					orderList.add(order);
 				}
+			}
+		}
+		return orderList;
+	}
+
+	Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
+		ArrayList<MyOrder> orderList = new ArrayList<>();
+		for(MyOrder order : list){
+			if(userManagement.findByUsername(username).getUserAccount().getId() == order.getUserAccountIdentifier()){
+				orderList.add(order);
 			}
 		}
 		return orderList;
@@ -101,19 +128,6 @@ public class MyOrderManagement {
 		myOrderRepository.save(testOrder3);
 
 	}
-
-	/*
-	Iterable<MyOrder> findByCustomersName(String firstname, String lastname){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : myOrderRepository.findAll()){
-			if(userRepository.findById(order.getUserAccountIdentifier())){
-				orderList.add(order);
-			}
-		}
-		return orderList;
-	}
-
-	 */
 
 	public MyOrder findByID(Order.OrderIdentifier id) {
 		return myOrderRepository.findById(id)
