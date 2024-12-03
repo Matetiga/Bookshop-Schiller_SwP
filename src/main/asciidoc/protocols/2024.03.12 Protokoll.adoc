@@ -35,4 +35,4 @@ abgearbeitete Issues seit letztem Meeting (siehe Github)
 erfolgreiche Zwischenpräsentation
 
 == Planung des nächsten Sprints
-einfach weiter machen/ issues abhaken
+einfach weiter machen bzw. Issues abhaken
