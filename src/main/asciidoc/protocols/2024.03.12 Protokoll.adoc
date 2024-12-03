@@ -35,5 +35,4 @@ abgearbeitete Issues seit letztem Meeting (siehe Github)
 erfolgreiche Zwischenpräsentation
 
 == Planung des nächsten Sprints
-*Issue referenziert die Issue ID von GitHub*
 einfach weiter machen/ issues abhaken
