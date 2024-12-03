@@ -27,17 +27,9 @@ __Teilnehmer:__
 Zwischenpräsentation
 
 == Retrospektive des letzten Sprints
-*Issue referenziert die Issue ID von GitHub*
 // Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
 
-Issues (siehe Github)
-// See http://asciidoctor.org/docs/user-manual/=tables
-[option="headers"]
-|===
-|Issue |Aufgabe |Status |Bemerkung
-|…     |…       |…      |…
-|===
-
+abgearbeitete Issues seit letztem Meeting (siehe Github)
 
 == Aktueller Stand
 erfolgreiche Zwischenpräsentation
@@ -45,9 +37,3 @@ erfolgreiche Zwischenpräsentation
 == Planung des nächsten Sprints
 *Issue referenziert die Issue ID von GitHub*
 einfach weiter machen/ issues abhaken
-// See http://asciidoctor.org/docs/user-manual/=tables
-[option="headers"]
-|===
-|Issue |Titel |Beschreibung |Verantwortlicher |Status
-|…     |…     |…            |…                |…
-|===
