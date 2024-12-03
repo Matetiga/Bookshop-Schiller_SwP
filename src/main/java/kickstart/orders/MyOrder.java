@@ -45,8 +45,8 @@ public class MyOrder extends Order {
 					this.myOrderStatus = "Offen";
 					break;
 			}
-		}else if(this.getStringPaymentMethod().equals("Rechnung")){
-			switch (this.getMyOrderStatus()){
+		}else if(this.getStringPaymentMethod().equals("Rechnung")) {
+			switch (this.getMyOrderStatus()) {
 				case "Offen":
 					this.myOrderStatus = "in Lieferung";
 					break;
@@ -59,13 +59,6 @@ public class MyOrder extends Order {
 				case "Abgeschlossen":
 					this.myOrderStatus = "Offen";
 			}
-		}else{
-			try {
-				throw new Exception("Ungültige Bezahlmethode!");
-			} catch (Exception e) {
-				System.out.println("Fehler: " + e.getMessage());
-			}
 		}
-
 	}
 }

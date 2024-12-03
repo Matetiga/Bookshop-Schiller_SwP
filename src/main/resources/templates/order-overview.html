@@ -37,19 +37,19 @@
                     <button type="submit" class="btn btn-primary">Filtern</button>
                 </div>
             </div>
-            <div>
-                <label for="filter_payment">Bezahlmethode:</label>
-                <select id="filter_payment" name="valuePayment" class="form-control">
-                    <option th:each="state : ${orderStates}"
-                            th:value="${state}"
-                            th:text="${state}"
-                            th:selected="${state == selectedState}">
-                    </option>
-                </select>
-            </div>
-            <div class="form-group mt-3">
-                <button type="submit" class="btn btn-primary">Filtern</button>
-            </div>
+<!--            <div>-->
+<!--                <label for="filter_payment">Bezahlmethode:</label>-->
+<!--                <select id="filter_payment" name="valuePayment" class="form-control">-->
+<!--                    <option th:each="state : ${orderStates}"-->
+<!--                            th:value="${state}"-->
+<!--                            th:text="${state}"-->
+<!--                            th:selected="${state == selectedState}">-->
+<!--                    </option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="form-group mt-3">-->
+<!--                <button type="submit" class="btn btn-primary">Filtern</button>-->
+<!--            </div>-->
         </form>
         <div class="form-container my-4">
 
