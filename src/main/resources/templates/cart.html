@@ -19,8 +19,10 @@
         <div class="container">
 
         <aside class="sidebar panel-effect">
-                <button th:onclick="|location.href='@{/}'|" class="small-nav-tab-button" th:text="#{cart.welcome}">Zur Homepage</button>
-                <button th:onclick="|location.href='@{/books}'|" class="small-nav-tab-button" th:text="#{cart.catalog}">Katalog</button>
+            <ul class="small-nav">
+                <li><button th:onclick="|location.href='@{/}'|" class="small-nav-tab-button" th:text="#{cart.welcome}">Zur Homepage</button></li>
+                <li><button th:onclick="|location.href='@{/books}'|" class="small-nav-tab-button" th:text="#{cart.catalog}">Katalog</button></li>
+            </ul>
         </aside>
 
 
