@@ -87,7 +87,7 @@ public class MyOrderManagement {
 	Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
-			if(userManagement.findByUsername(username).getUserAccount().getId() == order.getUserAccountIdentifier()){
+			if(userManagement.findByUsername(username) == userManagement.findByID(UUID.fromString(order.getUserAccountIdentifier().toString()))){
 				orderList.add(order);
 			}
 		}
