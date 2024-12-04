@@ -5,10 +5,13 @@ import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
 import org.salespointframework.order.OrderStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -112,8 +115,26 @@ public class OrderViewController {
 		return "order-details";
 	}
 
+	@PostMapping("/my-order/{orderID}")
+	public String orderDetailsByID(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		MyOrder order = myOrderManagement.findByID(orderId);
+
+		model.addAttribute("order", order);
+
+		return "my-order-details";
+	}
+
 	@GetMapping("/order-details")
 	String orderDetails(){
 		return "order-details";
 	}
+
+	@GetMapping("/my-orders")
+	@PreAuthorize("isAuthenticated()")
+	String myOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
+		model.addAttribute("orderList", myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
+
+		return "my-orders";
+	}
+
 }
