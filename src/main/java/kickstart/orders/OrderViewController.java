@@ -22,6 +22,9 @@ public class OrderViewController {
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
 	private final String[] paymentMethods = {"Alle", "Bar", "Rechnung"};
 
+	//for initializing demo orders:
+	private boolean isInitialized = false;
+
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.myOrderManagement = myOrderManagement;
@@ -40,6 +43,11 @@ public class OrderViewController {
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
+
+		if(!isInitialized){
+			myOrderManagement.initalizeDemoOrders();
+			isInitialized = true;
+		}
 		model.addAttribute("orderList", myOrderRepository.findAll());
 
 		model.addAttribute("selectedState", "Alle");

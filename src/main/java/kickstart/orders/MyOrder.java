@@ -1,21 +1,20 @@
 package kickstart.orders;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import org.hibernate.tool.schema.spi.ExceptionHandler;
+import jakarta.persistence.*;
 import org.salespointframework.order.Order;
-import org.salespointframework.order.OrderStatus;
 import org.salespointframework.useraccount.UserAccount;
-
-import javax.money.MonetaryAmount;
 
 @Entity
 public class MyOrder extends Order {
 	private String stringPaymentMethod;
 	private String myOrderStatus;
 
-	public MyOrder(UserAccount.UserAccountIdentifier userId, String paymentMethod) {
-		super(userId);
+	@ManyToOne
+	private UserAccount userAccount;
+
+	public MyOrder(UserAccount userAccount, String paymentMethod) {
+		super(userAccount.getId());
+		this.userAccount = userAccount;
 		this.stringPaymentMethod = paymentMethod;
 		this.myOrderStatus = "Offen";
 	}
@@ -24,8 +23,12 @@ public class MyOrder extends Order {
 
 	}
 
+	public UserAccount getUserAccount(){
+		return this.userAccount;
+	}
+
 	public String getStringPaymentMethod(){
-		return stringPaymentMethod;
+		return this.stringPaymentMethod;
 	}
 
 	public String getMyOrderStatus(){

@@ -41,9 +41,9 @@ public class OrdersUnitTests {
 
 	@Test
 	void testMyOrderGetStringPaymentMethod() {
-		UserAccount.UserAccountIdentifier userId = mock(UserAccount.UserAccountIdentifier.class);
+		UserAccount user = mock(UserAccount.class);
 		String paymentMethod = "CreditCard";
-		MyOrder order = new MyOrder(userId, paymentMethod);
+		MyOrder order = new MyOrder(user, paymentMethod);
 
 		assertEquals(paymentMethod, order.getStringPaymentMethod());
 	}
@@ -57,8 +57,8 @@ public class OrdersUnitTests {
 
 	@Test
 	void testChangeStatusRechnung() {
-		UserAccount.UserAccountIdentifier userId = mock(UserAccount.UserAccountIdentifier.class);
-		MyOrder order = new MyOrder(userId, "Rechnung");
+		UserAccount user = mock(UserAccount.class);
+		MyOrder order = new MyOrder(user, "Rechnung");
 
 		order.changeStatus();
 		assertEquals("in Lieferung", order.getMyOrderStatus());
@@ -75,8 +75,8 @@ public class OrdersUnitTests {
 
 	@Test
 	void testChangeStatusBar() {
-		UserAccount.UserAccountIdentifier userId = mock(UserAccount.UserAccountIdentifier.class);
-		MyOrder order = new MyOrder(userId,"Bar");
+		UserAccount user = mock(UserAccount.class);
+		MyOrder order = new MyOrder(user,"Bar");
 
 		order.changeStatus();
 		assertEquals("Abholbereit", order.getMyOrderStatus());

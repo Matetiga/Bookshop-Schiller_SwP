@@ -27,7 +27,6 @@ import static kickstart.Inventory.Genre.createGenre;
 @Controller
 @SessionAttributes("cart")
 public class OrderController {
-	private UserAccount.UserAccountIdentifier userId;
 	private final MyOrderRepository myOrderRepository;
 	private final UniqueInventory<UniqueInventoryItem> inventory;
 	private final UserManagement userManagement;
@@ -36,7 +35,6 @@ public class OrderController {
 	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
-		this.userId = UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString());
 		this.inventory = inventory;
 	}
 
@@ -77,8 +75,7 @@ public class OrderController {
 		MyOrder order = null;
 		for (User user : userManagement.findAll()) {
 			if (user.getUserAccount().getUsername().equals(userDetails.getUsername())) {
-				order = new MyOrder(user.getUserAccount().getId(), paymentMethod);
-
+				order = new MyOrder(user.getUserAccount(), paymentMethod);
 			}
 		}
 		if(order != null){

@@ -9,6 +9,8 @@ import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.Password;
+import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +31,6 @@ public class MyOrderManagement {
 	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
-		initalizeDemoOrders();
 	}
 
 	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
@@ -95,9 +96,10 @@ public class MyOrderManagement {
 	}
 
 	public void initalizeDemoOrders(){
-		MyOrder testOrder1 = new MyOrder(UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString()), "Rechnung");
-		MyOrder testOrder2 = new MyOrder(UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString()), "Bar");
-		MyOrder testOrder3 = new MyOrder(UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString()), "Bar");
+		MyOrder testOrder1 = new MyOrder(userManagement.findByUsername("employee2@example.com").getUserAccount(), "Rechnung");
+		MyOrder testOrder2 = new MyOrder(userManagement.findByUsername("employee2@example.com").getUserAccount(), "Bar");
+		MyOrder testOrder3 = new MyOrder(userManagement.findByUsername("employee2@example.com").getUserAccount(), "Bar");
+		//MyOrder testOrder3 = new MyOrder(UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString()), "Bar");
 
 		Genre fiction = createGenre("Fiction");
 		Genre history = createGenre("Cooking");
