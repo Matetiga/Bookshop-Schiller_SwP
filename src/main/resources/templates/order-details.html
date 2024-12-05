@@ -32,9 +32,9 @@
                         <input type="hidden" name="orderId" th:value="${order.getId()}"/>
                         <button th:text="#{order.updateStatus}" type="submit" class="btn btn-primary w-100">Status ändern</button>
                     </form>
-                    <form method="post" th:action="@{/deleteOrder}" class="mb-2">
+                    <form id="deleteOrderForm" method="post" th:action="@{/deleteOrder}" class="mb-2">
                         <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                        <button th:text="#{order.removeOrder}" type="submit" class="btn btn-danger w-100">Bestellung entfernen</button>
+                        <button type="button" th:text="#{order.removeOrder}" onclick="confirmDelete()" class="btn btn-danger w-100">Bestellung entfernen</button>
                     </form>
                 </div>
             </div>
@@ -92,7 +92,18 @@
         </div>
     </div>
 </div>
+<script>
+    function confirmDelete(){
+        var res = confirm("Bestellung unwiderruflich löschen?");
 
+        if(res){
+            alert("Bestellung wurde gelöscht.");
+            document.getElementById("deleteOrderForm").submit();
+        }else{
+            alert("Löschen abgebrochen.");
+        }
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
