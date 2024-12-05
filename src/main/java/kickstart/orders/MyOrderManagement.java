@@ -15,6 +15,7 @@ import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -85,7 +86,7 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
+	public Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
 			if(userManagement.findByUsername(username) == userManagement.findByID(UUID.fromString(order.getUserAccountIdentifier().toString()))){
@@ -93,6 +94,28 @@ public class MyOrderManagement {
 			}
 		}
 		return orderList;
+	}
+
+	public Iterable<MyOrder> findByMonth(Month month, Iterable<MyOrder> list){
+		ArrayList<MyOrder> orderList = new ArrayList<>();
+		for(MyOrder order : list){
+			if(month == order.getDateCreated().getMonth()){
+				orderList.add(order);
+			}
+		}
+		return orderList;
+	}
+
+	public long getTotalOfOrderList(Iterable<MyOrder> orderList){
+		long sum = 0;
+		for(MyOrder order : orderList){
+			sum += order.getTotal().getNumber().longValue();
+		}
+		return sum;
+	}
+
+	public long getTotalOfMonth(Month month, Iterable<MyOrder> orderList){
+		return this.getTotalOfOrderList(this.findByMonth(month, orderList));
 	}
 
 	public void initalizeDemoOrders(){
