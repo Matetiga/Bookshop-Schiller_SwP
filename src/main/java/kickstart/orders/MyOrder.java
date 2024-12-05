@@ -1,6 +1,7 @@
 package kickstart.orders;
 
 import jakarta.persistence.*;
+import kickstart.user.User;
 import org.salespointframework.order.Order;
 import org.salespointframework.useraccount.UserAccount;
 
@@ -10,11 +11,11 @@ public class MyOrder extends Order {
 	private String myOrderStatus;
 
 	@ManyToOne
-	private UserAccount userAccount;
+	private User user;
 
-	public MyOrder(UserAccount userAccount, String paymentMethod) {
-		super(userAccount.getId());
-		this.userAccount = userAccount;
+	public MyOrder(User user, String paymentMethod) {
+		super(user.getUserAccount().getId());
+		this.user = user;
 		this.stringPaymentMethod = paymentMethod;
 		this.myOrderStatus = "Offen";
 	}
@@ -23,8 +24,8 @@ public class MyOrder extends Order {
 
 	}
 
-	public UserAccount getUserAccount(){
-		return this.userAccount;
+	public User getUser(){
+		return this.user;
 	}
 
 	public String getStringPaymentMethod(){

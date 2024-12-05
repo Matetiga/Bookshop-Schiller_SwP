@@ -119,9 +119,9 @@ public class MyOrderManagement {
 	}
 
 	public void initalizeDemoOrders(){
-		MyOrder testOrder1 = new MyOrder(userManagement.findByUsername("employee2@example.com").getUserAccount(), "Rechnung");
-		MyOrder testOrder2 = new MyOrder(userManagement.findByUsername("employee2@example.com").getUserAccount(), "Bar");
-		MyOrder testOrder3 = new MyOrder(userManagement.findByUsername("employee2@example.com").getUserAccount(), "Bar");
+		MyOrder testOrder1 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Rechnung");
+		MyOrder testOrder2 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Bar");
+		MyOrder testOrder3 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Bar");
 		//MyOrder testOrder3 = new MyOrder(UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString()), "Bar");
 
 		Genre fiction = createGenre("Fiction");

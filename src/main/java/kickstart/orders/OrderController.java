@@ -75,7 +75,7 @@ public class OrderController {
 		MyOrder order = null;
 		for (User user : userManagement.findAll()) {
 			if (user.getUserAccount().getUsername().equals(userDetails.getUsername())) {
-				order = new MyOrder(user.getUserAccount(), paymentMethod);
+				order = new MyOrder(user, paymentMethod);
 			}
 		}
 		if(order != null){

@@ -4,6 +4,7 @@ import kickstart.Inventory.Book;
 import kickstart.orders.MyOrder;
 
 import kickstart.orders.MyOrderRepository;
+import kickstart.user.User;
 import org.javamoney.moneta.Money;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.catalog.Product;
@@ -41,7 +42,7 @@ public class OrdersUnitTests {
 
 	@Test
 	void testMyOrderGetStringPaymentMethod() {
-		UserAccount user = mock(UserAccount.class);
+		User user = mock(User.class);
 		String paymentMethod = "CreditCard";
 		MyOrder order = new MyOrder(user, paymentMethod);
 
@@ -57,7 +58,7 @@ public class OrdersUnitTests {
 
 	@Test
 	void testChangeStatusRechnung() {
-		UserAccount user = mock(UserAccount.class);
+		User user = mock(User.class);
 		MyOrder order = new MyOrder(user, "Rechnung");
 
 		order.changeStatus();
@@ -75,7 +76,7 @@ public class OrdersUnitTests {
 
 	@Test
 	void testChangeStatusBar() {
-		UserAccount user = mock(UserAccount.class);
+		User user = mock(User.class);
 		MyOrder order = new MyOrder(user,"Bar");
 
 		order.changeStatus();
