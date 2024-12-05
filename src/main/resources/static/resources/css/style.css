@@ -439,6 +439,47 @@ form button {
     padding-right: 20px;
 }
 
+.toast {
+    opacity: 0.7;
+    border-radius: 15px;
+    background-color: rgb(71, 14, 14);
+    color: #f1f1f1;
+    transition: opacity 0.5s ease, transform 0.3s ease;
+    pointer-events: auto;
+    max-width: 500px;
+    width: 100%;
+}
+
+.toast:hover {
+    opacity: 1;
+}
+.toast-header {
+    background-color: #470e0e;
+    color: #f1f1f1;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.toast-body {
+    background-color: rgb(71, 14, 14);
+}
+
+.toast-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    z-index: 1050;
+    pointer-events: none;
+    background: transparent;
+}
+
+
+
 
 
 

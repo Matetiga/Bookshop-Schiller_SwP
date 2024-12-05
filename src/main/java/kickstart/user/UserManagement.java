@@ -94,49 +94,55 @@ public class UserManagement {
 		return null;
 	}
 
-
-
-
 	@Transactional
-	public void promoteAccountById(UUID id) {
+	public String promoteAccountById(UUID id) {
 		User user = this.safeUserGetByID(id);
 
-		if (user.getUserAccount().hasRole(Role.of("ADMIN"))) return;
-
+		if (user.getUserAccount().hasRole(Role.of("ADMIN"))){
+			return "Promotion failed: Cannot promote admin account further.";
+		}
 		if (user.getUserAccount().hasRole((Role.of("EMPLOYEE")))){
 			user.getUserAccount().add(Role.of("ADMIN"));
 			user.getUserAccount().remove(Role.of("EMPLOYEE"));
-			return;
+			return String.format("Promotion successful: Account '%s' has been promoted to Role of %s", id.toString(), Role.of("ADMIN"));
 		}
 		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))){
 			user.getUserAccount().add(Role.of("EMPLOYEE"));
 			user.getUserAccount().remove(Role.of("CUSTOMER"));
+			return String.format("Promotion successful: Account '%s' has been promoted to Role of %s", id.toString(), Role.of("EMPLOYEE"));
 		}
 
-
-
+		return "Promotion failed: Account '%s' does not exist.";
 	}
 
 	@Transactional
-	public void degradeAccountById(UUID id) {
+	public String degradeAccountById(UUID id) {
 		User user = this.safeUserGetByID(id);
-
 		//This prevents admin1 for example to degrade himself
-		if (currentUserSameAsID(id)) return;
+		if (currentUserSameAsID(id)){
+			System.out.println("Thinks same id");
+			return "Degradation failed: Cannot degrade own Account.";
+		}
 
 		if (user.getUserAccount().hasRole(Role.of("ADMIN"))){
 			user.getUserAccount().remove(Role.of("ADMIN"));
 			user.getUserAccount().add(Role.of("EMPLOYEE"));
-			return;
+			return String.format("Degradation successful: Account '%s' has been degraded to Role of %s.", id.toString(), Role.of("EMPLOYEE"));
 		}
 
 		if (user.getUserAccount().hasRole((Role.of("EMPLOYEE")))){
 			user.getUserAccount().add(Role.of("CUSTOMER"));
 			user.getUserAccount().remove(Role.of("EMPLOYEE"));
-			return;
+			return String.format("Degradation successful: Account '%s' has been degraded to Role of %s.", id.toString(), Role.of("CUSTOMER"));
 		}
 
-		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))) users.delete(user);
+		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))){
+			users.delete(user);
+			return String.format("Deleting of Customer Account successful: Account '%s' has been deleted", id.toString());
+
+		}
+		System.out.println("Thinks no id");
+		return "Degradation failed: Account '%s' does not exist.";
 	}
 
 	public User safeUserGetByID(UUID id){

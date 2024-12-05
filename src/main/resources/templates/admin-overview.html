@@ -13,6 +13,7 @@
 <header class="mt-6">
     <h1 class="text-center mb-4" th:text="#{admin.overview}">Employee overview</h1>
 </header>
+
 <div class="container mt-5">
     <section class="container panel-effect">
         <div class="table-responsive">
@@ -54,6 +55,9 @@
         </div>
     </section>
 </div>
+
+<!-- If url has parameter ?toastMessage= .. then this confirmation toast will populate-->
+<div th:replace="fragments/confirmationToast :: toast"></div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
