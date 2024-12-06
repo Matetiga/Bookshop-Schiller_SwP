@@ -405,11 +405,6 @@ form button {
     text-transform: uppercase;
 }
 
-.navbar-brand {
-    padding-left: 10;
-
-}
-
 .navbar {
     background-color: #ffe4b5 !important;
     position: relative;
@@ -439,29 +434,24 @@ form button {
     padding-right: 20px;
 }
 
+
+.toast-button {
+    max-width: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 2em auto;
+}
+
 .toast {
-    opacity: 0.7;
-    border-radius: 15px;
-    background-color: rgb(71, 14, 14);
-    color: #f1f1f1;
-    transition: opacity 0.5s ease, transform 0.3s ease;
-    pointer-events: auto;
-    max-width: 500px;
-    width: 100%;
+    transition: opacity 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .toast:hover {
     opacity: 1;
-}
-.toast-header {
-    background-color: #470e0e;
-    color: #f1f1f1;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-
-.toast-body {
-    background-color: rgb(71, 14, 14);
+    transform: translateY(-10px);
+    box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 .toast-container {
@@ -469,17 +459,23 @@ form button {
     justify-content: center;
     align-items: flex-end;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 1rem;
     z-index: 1050;
-    pointer-events: none;
     background: transparent;
 }
 
+.toast.show {
+    animation: slideUp 0.5s ease-out forwards;
+}
 
-
-
-
-
+.toast-buttons {
+    max-width: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 2em auto;
+}
