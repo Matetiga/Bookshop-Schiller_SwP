@@ -54,8 +54,10 @@
                         <span th:text="${order.getId()}">12345</span><br>
                         <strong th:text="#{orders.date} + ':'"></strong>
                         <span th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}">2024-11-24</span><br>
-                        <strong th:text="#{orders.customerId} + ':'"></strong>
-                        <span th:text="${order.getUserAccountIdentifier()}">Customer123</span><br>
+                        <strong>Kunde</strong>
+                        <span th:text="${order.getUser().getUserAccount().getUsername()}">Customer123</span><br>
+                        <strong>Kunden-Adresse</strong>
+                        <span th:text="${order.getUser().getAddress()}"></span><br>
                         <strong th:text="#{orders.paymentMethod} + ':'"></strong>
                         <span th:text="${order.getStringPaymentMethod()}">Payment Method</span><br>
                         <strong th:text="#{orders.state} + ':'"></strong>
