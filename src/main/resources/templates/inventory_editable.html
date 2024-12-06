@@ -6,6 +6,8 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+<div th:replace="fragments/shop_navbar :: navbar"></div>
+
 <div th:if="${book != null}">
     <header>
         <h1>Editing Book</h1>

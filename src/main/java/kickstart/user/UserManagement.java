@@ -138,10 +138,9 @@ public class UserManagement {
 
 		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))){
 			users.delete(user);
-			return String.format("Deleting of Customer Account successful: Account '%s' has been deleted", id.toString());
+			return String.format("Customer Account deleted successfully: Account '%s' has been deleted", id.toString());
 
 		}
-		System.out.println("Thinks no id");
 		return "Degradation failed: Account '%s' does not exist.";
 	}
 
