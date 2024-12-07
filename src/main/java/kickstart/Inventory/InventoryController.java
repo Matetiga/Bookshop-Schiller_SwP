@@ -209,6 +209,7 @@ public class InventoryController {
 
 	private String saveImage(MultipartFile image) {
 		String fileName = image.getOriginalFilename();
+
 //		String tempDir = System.getProperty("java.io.tmpdir");
 //		tempDir,
 		Path imagePath = Paths.get("uploads/images", fileName);

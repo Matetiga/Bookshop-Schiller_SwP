@@ -90,7 +90,7 @@
             <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
 
             <label for="image"></label>
-            <input type="file" id="image" accept="image/*" name="image"  required/>
+            <input type="file" id="image" accept=".jpg" name="image"  required/>
             <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
 
             <label for="price"></label>
