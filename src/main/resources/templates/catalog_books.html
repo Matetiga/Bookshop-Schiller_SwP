@@ -56,8 +56,9 @@
         <div class="product-catalog-item" th:each="shopProduct : ${catalog}">
             <div class="image">
                 <a th:href="@{/book/{id}(id=${shopProduct.getId()})}">
+                    <!-- This was changed, because every product has now the complete path-->
                     <img class="thumbnail"
-                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
+                         th:src="@{${shopProduct.image}}"
                          src="../static/resources/img/cover/stephen.jpg"/>
                 </a>
             </div>

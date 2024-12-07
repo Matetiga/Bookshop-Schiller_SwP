@@ -37,37 +37,37 @@ public class InventoryInitializer implements DataInitializer {
 			Set<Genre> genreSet2 = new HashSet<>(Set.of(history));
 			Set<Genre> genreSet3 = new HashSet<>(Set.of(adventure));
 
-			shopProductCatalog.save(new Book("The Great Gatsby", "gatsby", Money.of(10.99, "EUR"),
+			shopProductCatalog.save(new Book("The Great Gatsby", "/resources/img/cover/gatsby.jpg", Money.of(10.99, "EUR"),
 				"A novel set in the 1920s about the American Dream", genreSet1, "F. Scott Fitzgerald",
 				"9780743273565", "Scribner"));
 
-			shopProductCatalog.save(new Book("Sapiens: A Brief History of Humankind", "sapiens", Money.of(14.99, "EUR"),
+			shopProductCatalog.save(new Book("Sapiens: A Brief History of Humankind", "/resources/img/cover/sapiens.jpg", Money.of(14.99, "EUR"),
 				"Explores the history of humankind", genreSet2, "Yuval Noah Harari",
 				"9780062316110", "Harper"));
 
-			shopProductCatalog.save(new Book("Harry Potter and the Sorcerer's Stone", "harry", Money.of(8.99, "EUR"),
+			shopProductCatalog.save(new Book("Harry Potter and the Sorcerer's Stone", "/resources/img/cover/harry.jpg", Money.of(8.99, "EUR"),
 				"A young wizard's journey begins", genreSet3, "J.K. Rowling",
 				"9780590353427", "Scholastic"));
 
-			shopProductCatalog.save(new Book("The revolution", "stephen", Money.of(12.99, "EUR"),
+			shopProductCatalog.save(new Book("The revolution", "/resources/img/cover/stephen.jpg", Money.of(12.99, "EUR"),
 				"An exploration of cosmology by Stephen Hawking", genreSet2, "Stephen Hawking",
 				"9780553380163", "Bantam"));
 
-			shopProductCatalog.save (new Merch("T-Shirt", "t-shirt", Money.of(19.99, "EUR"), "Comfortable cotton T-shirt"));
-			shopProductCatalog.save (new Merch("Mug", "mug", Money.of(9.99, "EUR"), "Ceramic coffee mug"));
-			shopProductCatalog.save (new Merch("Cap", "cap", Money.of(14.99, "EUR"), "Stylish baseball cap"));
-			shopProductCatalog.save (new Merch("Poster", "poster", Money.of(5.99, "EUR"), "Decorative wall poster"));
+			shopProductCatalog.save (new Merch("T-Shirt", "/resources/img/cover/t-shirt.jpg", Money.of(19.99, "EUR"), "Comfortable cotton T-shirt"));
+			shopProductCatalog.save (new Merch("Mug", "/resources/img/cover/mug.jpg", Money.of(9.99, "EUR"), "Ceramic coffee mug"));
+			shopProductCatalog.save (new Merch("Cap", "/resources/img/cover/cap.jpg", Money.of(14.99, "EUR"), "Stylish baseball cap"));
+			shopProductCatalog.save (new Merch("Poster", "/resources/img/cover/poster.jpg", Money.of(5.99, "EUR"), "Decorative wall poster"));
 
-			shopProductCatalog.save(new Calendar("Nature 2024", "nature2024", Money.of(12.99, "EUR"),
+			shopProductCatalog.save(new Calendar("Nature 2024", "/resources/img/cover/nature2024.jpg", Money.of(12.99, "EUR"),
 				"A calendar featuring beautiful nature landscapes for each month."));
 
-			shopProductCatalog.save(new Calendar("Space Exploration 2024", "space", Money.of(15.99, "EUR"),
+			shopProductCatalog.save(new Calendar("Space Exploration 2024", "/resources/img/cover/space.jpg", Money.of(15.99, "EUR"),
 				"Explore the wonders of space with breathtaking images each month."));
 
-			shopProductCatalog.save(new Calendar("Historical Monuments 2024", "history", Money.of(10.99, "EUR"),
+			shopProductCatalog.save(new Calendar("Historical Monuments 2024", "/resources/img/cover/history.jpg", Money.of(10.99, "EUR"),
 				"A calendar showcasing famous historical monuments from around the world."));
 
-			shopProductCatalog.save(new Calendar("Wildlife Photography 2024", "wildlife", Money.of(14.99, "EUR"),
+			shopProductCatalog.save(new Calendar("Wildlife Photography 2024", "/resources/img/cover/wildlife.jpg", Money.of(14.99, "EUR"),
 				"Each month features stunning photographs of wildlife in their natural habitats."));
 
 

@@ -4,7 +4,8 @@ package kickstart.Inventory;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import org.javamoney.moneta.Money;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,8 +15,8 @@ public class AddBookForm {
 	@NotBlank(message = "Name is required")
 	private String name;
 
-	@NotBlank(message = "Image is required")
-	private String image;
+	@NotNull(message = "Image is required")
+	private MultipartFile image;
 
 	@Min(value = 0, message = "Price can not be negative")
 	private double price;
@@ -39,7 +40,7 @@ public class AddBookForm {
 	private int stock;
 
 	public AddBookForm() {}
-	public AddBookForm(String name, String image, String description, Set<String> genre,
+	public AddBookForm(String name, MultipartFile image, String description, Set<String> genre,
 					   String author, String ISBN, String publisher, double price, int stock) {
 		this.name = name;
 		this.image = image;
@@ -61,11 +62,11 @@ public class AddBookForm {
 		this.name = name;
 	}
 
-	public String getImage() {
+	public MultipartFile getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(MultipartFile image) {
 		this.image = image;
 	}
 

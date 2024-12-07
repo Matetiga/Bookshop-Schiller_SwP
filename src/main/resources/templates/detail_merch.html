@@ -30,7 +30,7 @@
             <div class="left-column paddingContainer">
                 <div class="product-details-image left-column">
 <!--                               /resources/img/cover/schmeh.jpg-->
-                    <img th:src="@{/resources/img/cover/{image}.jpg(image=${merch.getImage()})}" alt="Merch Cover">
+                    <img th:src="@{{image}(image=${merch.getImage()})}" alt="Merch Cover">
                 </div>
             </div>
 

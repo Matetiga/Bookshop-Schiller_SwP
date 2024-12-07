@@ -30,7 +30,7 @@
             <!-- Image Section -->
             <div class="left-column paddingContainer">
                 <div class="product-details-image left-column">
-                    <img th:src="@{/resources/img/cover/{image}.jpg(image=${book.image})}" alt="Book Cover">
+                    <img th:src="@{${book.image}}" alt="Book Cover">
                 </div>
             </div>
 

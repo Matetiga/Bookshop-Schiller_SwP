@@ -43,7 +43,7 @@
             <div class="image">
                 <a th:href="@{/calender/{id}(id=${shopProduct.id})}">
                     <img class="thumbnail"
-                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.getImage()})}"
+                         th:src="@{{image}(image=${shopProduct.getImage()})}"
                          src="../static/resources/img/cover/stephen.jpg"/>
                 </a>
             </div>

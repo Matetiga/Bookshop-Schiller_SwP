@@ -41,7 +41,7 @@
             <div class="image">
                 <a th:href="@{/merch/{id}(id=${shopProduct.id})}">
                     <img class="thumbnail"
-                         th:src="@{/resources/img/cover/{image}.jpg(image=${shopProduct.image})}"
+                         th:src="@{{image}(image=${shopProduct.image})}"
                          src="../static/resources/img/cover/stephen.jpg"/>
                 </a>
             </div>

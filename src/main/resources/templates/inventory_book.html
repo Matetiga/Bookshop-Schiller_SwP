@@ -74,7 +74,7 @@
                         </form>
                     </td>
                     <td>
-                        <form th:action="@{/inventory/delete}" method="post">
+                        <form th:action="@{/inventory/delete}" method="post" onsubmit="return confirmDelete()">
                             <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
                             <button type="submit">Delete Item :(</button>
                         </form>
@@ -103,7 +103,7 @@
                     <tr th:each="genre : ${bookGenres_addBook}">
                         <td th:text="${genre.genre}"></td>
                         <td>
-                            <form th:action="@{/inventory/delete_genre}" method="post">
+                            <form th:action="@{/inventory/delete_genre}" method="post" onsubmit="return confirmDelete()">
                                 <input type="hidden" name="genre" th:value="${genre.genre}">
                                 <button type="submit">Delete Genre</button>
                             </form>
@@ -119,7 +119,7 @@
             <div class="modal-content">
                 <span id="close" class="close">&times;</span>
                 <h1>Add New Book</h1>
-                <form th:action="@{/inventory/add_book}" method="post" th:object="${bookForm}">
+                <form th:action="@{/inventory/add_book}" method="post" th:object="${bookForm}" enctype="multipart/form-data">
                     <label for="name"></label>
                     <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter Name" required/>
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
@@ -130,7 +130,8 @@
 
 
                     <label for="image"></label>
-                    <input type="text" id="image" name="image" th:field="*{image}" placeholder="Enter Image" required/>
+<!--                    th:field="*{image}" accept="image/*"-->
+                    <input type="file" id="image" accept="image/*" name="image"  required/>
                     <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
 
 
@@ -194,10 +195,12 @@
                 modal.style.display = 'block';
             }
         });
+
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this?");
+        }
     </script>
-</section>
-    </div>
-    </body>
+
 </html>
 
 
