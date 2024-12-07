@@ -51,8 +51,10 @@ public class OrderViewController {
 			myOrderManagement.initalizeDemoOrders();
 			isInitialized = true;
 		}
-		model.addAttribute("orderList", myOrderRepository.findAll());
 
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
+
+		model.addAttribute("orderList", myOrderRepository.findAll());
 		model.addAttribute("selectedState", "Alle");
 		model.addAttribute("selectedPaymentMethod", "Alle");
 
@@ -116,6 +118,7 @@ public class OrderViewController {
 
 	@PostMapping("/order/{orderID}")
 	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 		MyOrder order = myOrderManagement.findByID(orderId);
 
 		model.addAttribute("order", order);
@@ -125,6 +128,7 @@ public class OrderViewController {
 
 	@PostMapping("/my-order/{orderID}")
 	public String orderDetailsByID(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 		MyOrder order = myOrderManagement.findByID(orderId);
 
 		model.addAttribute("order", order);
@@ -140,6 +144,8 @@ public class OrderViewController {
 	@GetMapping("/my-orders")
 	@PreAuthorize("isAuthenticated()")
 	String myOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
+
 		model.addAttribute("orderList", myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
 
 		return "my-orders";
