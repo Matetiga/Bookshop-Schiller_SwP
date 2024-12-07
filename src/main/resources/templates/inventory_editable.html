@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
-<div th:if="${book != null}">
+<div th:if="${bookForm != null}">
     <header>
         <h1>Editing Book</h1>
     </header>
@@ -18,55 +18,46 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form action="/inventory/save_book" method="post">
-                <input type="hidden" name="itemId" th:value="${book.id}" />
+            <form th:action="@{/inventory/save_book/{id}(id=${bookID})}" method="post">
                 <table>
                     <tr>
                         <th>Name</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.name}"></td>
+                        <td th:text="${bookForm.name}"></td>
                         <td>
-                            <input type="text" name="name" th:value="${book.name}" placeholder="Enter new name" />
+                            <label>
+                                <input type="text" name="name" th:field="*{bookForm.name}" placeholder="Enter new name" />
+<!--                                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+
+                            </label>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
-                        <th>Price</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.price}"></td>
+                        <th>Image</th>
+                        <td th:text="${bookForm.image}"></td>
                         <td>
-                            <input type="text" name="price" th:value="${book.price.number}" placeholder="Enter new price"/>
+                            <label>
+                                <input type="text" name="image" th:field="*{bookForm.image}" placeholder="Enter new image" />
+<!--                                <span th:if="${#fields.hasErrors('image')}" th:errors="*{bookForm.image}"></span>-->
+                            </label>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Description</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.description}"></td>
+                        <td th:text="${bookForm.description}"></td>
                         <td>
-                            <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${book.description}"></textarea>
+                            <label>
+                                <textarea name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="*{bookForm.description}"></textarea>
+<!--                                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>-->
+                            </label>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
-                        <th>Genre</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
+                        <th>Genres</th>
                         <td>
-<!--                            TODO: this line has been changed to display all genres in a book-->
                             <ul>
-                                <li th:each="genre : ${book.getBookGenres()}">
-                                    <span th:text="${genre.getGenre()}"></span>
+                                <!-- Each genre is a string here -->
+                                <li th:each="genre : ${bookForm.getGenre()}">
+                                    <span th:text="${genre}"></span>
                                 </li>
                             </ul>
                         </td>
@@ -74,52 +65,56 @@
                             <label>
                                 <select name="genre[]" multiple>
                                     <option th:each="genre : ${bookGenres}"
-                                            th:value="${genre.genre}"
-                                            th:text="${genre.genre}"
-                                            th:selected="${book.getBookGenres().contains(genre)}">
+                                            th:value="${genre.getGenre()}"
+                                            th:text="${genre.getGenre()}"
+                                            th:selected="*{bookForm.getGenre().contains(genre)}">
+
                                     </option>
                                 </select>
                             </label>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Author</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.author}"></td>
+                        <td th:text="${bookForm.author}"></td>
                         <td>
-                            <input type="text" name="author" th:value="${book.author}" placeholder="Enter new author"/>
+                            <label>
+                                <input type="text" name="author" th:field="*{bookForm.author}" placeholder="Enter new author" />
+                            </label>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>ISBN</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.ISBN}"></td>
+                        <td th:text="${bookForm.ISBN}"></td>
                         <td>
-                            <input type="text" name="ISBN" th:value="${book.ISBN}" placeholder="Enter new ISBN" />
+                            <label>
+                                <input type="text" name="ISBN" th:field="*{bookForm.ISBN}" placeholder="Enter new ISBN" />
+                            </label>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Publisher</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.publisher}"></td>
+                        <td th:text="${bookForm.publisher}"></td>
                         <td>
-                            <input type="text" name="publisher" th:value="${book.publisher}" placeholder="Enter new publisher"/>
+                            <label>
+                                <input type="text" name="publisher" th:field="*{bookForm.publisher}" placeholder="Enter new publisher" />
+                            </label>
                         </td>
                     </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td th:text="${bookForm.price}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="price" th:field="*{bookForm.price}" placeholder="Enter new price" />
+                            </label>
+                        </td>
+                    </tr>
+
                 </table>
+
                 <button type="submit">Save Changes</button>
+                <span th:if="${error_editing}" th:text="${error_editing}"></span>
             </form>
         </section>
     </div>

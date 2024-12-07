@@ -177,24 +177,6 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertThat(testBook.getBookGenres()).isEmpty();
 
 	}
-	//TODO this should test the Forms for the Book and the Calendar/Merch
-	// but how to "activate" the "BindingResult"?
-//
-//	@Test
-//	public void testInventoryAddNewBook(){
-//	}
-//
-//		AddBookForm form = new AddBookForm(" ", "img", "des", "science fiction",
-//			"author", "ISBN", "publisher", 10.0, 10);
-//		BindingResult bindingResult = new BeanPropertyBindingResult(form, "addBookForm");
-//
-//
-//		ValidationUtils.invokeValidator(validator, form, bindingResult);
-//
-//		// Assert: Check for errors
-//		assertThat(bindingResult.hasErrors()).isTrue();
-//		assertThat(bindingResult.getFieldError("name")).isNotNull();
-//		assertThat(bindingResult.getFieldError("name").getDefaultMessage()).isEqualTo("Name is required");
-//
-//	}
+// Important:
+	// Test for methods that include Bindingresult will not be tested
 }

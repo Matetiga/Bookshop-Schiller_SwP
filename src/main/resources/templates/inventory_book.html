@@ -27,6 +27,7 @@
                 <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
                 <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
                 <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
+                <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/inventory_testing}'|">TESTING</button></li>
             </ul>
             <button id="openForm">Add New Book</button>
         </aside>
@@ -57,6 +58,7 @@
                                 <span th:text="${genre.genre}"></span>
                             </li>
                         </ul>
+                    </td>
                     <td th:text="${book.getKey().author}"></td>
                     <td th:text="${book.getKey().ISBN}"></td>
                     <td th:text="${book.getKey().publisher}"></td>
@@ -80,10 +82,10 @@
                         </form>
                     </td>
                     <td>
-                        <form th:action="@{/inventory/editable}" method="post">
-                            <input type="hidden" name="itemId" th:value="${book.getKey().id}" />
-                            <button type="submit">EDIT</button>
+                        <form th:action="@{/inventory/editable/{id}(id=${book.getKey().id})}" method="get">
+                            <button  type="submit">EDIT</button>
                         </form>
+
                     </td>
                 </tr>
             </table>
@@ -119,7 +121,7 @@
             <div class="modal-content">
                 <span id="close" class="close">&times;</span>
                 <h1>Add New Book</h1>
-                <form th:action="@{/inventory/add_book}" method="post" th:object="${bookForm}">
+                <form th:if="${bookForm != null}"  th:action="@{/inventory/add_book}" method="post" th:object="${bookForm}">
                     <label for="name"></label>
                     <input type="text" id="name" name="name" th:field="*{name}" placeholder="Enter Name" required/>
                     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
@@ -147,7 +149,7 @@
                     <input type="text" id="author" name="author" th:field="*{author}" placeholder="Enter Author" required/>
                     <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
 
-<!--                    Selection of Genres-->
+    <!--                    Selection of Genres-->
                     <label>
                         <select name="genre[]" multiple th:field="*{genre}">
                             <option value="" disabled selected>Select Genre</option>
@@ -195,9 +197,6 @@
             }
         });
     </script>
-</section>
-    </div>
-    </body>
 </html>
 
 

@@ -67,6 +67,8 @@ public class InventoryController {
 			}
 		}
 		// this prevents the form from being overwritten when the page is reloaded
+		//TODO: this is not the most optimal way to do
+		// the form is passed to the html only as a parameter and not a direct initialization
 		if (!model.containsAttribute("bookForm")) {
 			model.addAttribute("bookForm", new AddBookForm());
 		}
@@ -197,13 +199,13 @@ public class InventoryController {
 
 //	@GetMapping("/inventory/add_bookForm")
 //	public String showAddBookForm(Model model, AddBookForm bookForm) {
-//		model.addAttribute("bookForm", bookForm);
+//		model.addAttribute("bookForm", new AddBookForm());
 //		return "inventory_book";
 //	}
 
 
 	@PostMapping("/inventory/add_book")
-	public String addBook(@Valid @ModelAttribute("bookForm") AddBookForm bookForm,  BindingResult result, Model model){
+	public String addBook(@Valid AddBookForm bookForm,  BindingResult result, Model model){
 
 		if(result.hasErrors()){
 			showInventory(model);
@@ -265,12 +267,33 @@ public class InventoryController {
 
 
 
-	@PostMapping("/inventory/editable")
-	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
-		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+	@GetMapping("/inventory/editable/{itemId}")
+	public String getDetail(@PathVariable Product.ProductIdentifier itemId, Model model) {
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(itemId).get();
 		if (shopProduct.getProduct() instanceof Book) {
-			model.addAttribute("book", shopProduct.getProduct() );
+			model.addAttribute("bookID", shopProduct.getProduct().getId() );
 			model.addAttribute("bookGenres", Genre.getAllGenres());
+			// TODO: this may not be the most optimal way
+			Book book = (Book) shopProduct.getProduct();
+			Set<String> set = book.getBookGenres().stream()
+				.map(Genre::getGenre)
+				.collect(Collectors.toSet());
+
+			AddBookForm form = new AddBookForm(
+				book.getName(),
+				book.getImage(),
+				book.getDescription(),
+				set,
+				book.getAuthor(),
+				book.getISBN(),
+				book.getPublisher(),
+				book.getPrice().getNumber().doubleValue(),
+				shopProduct.getQuantity().getAmount().intValue()
+			);
+
+			model.addAttribute("bookForm", form);
+
+
 		}
 		if (shopProduct.getProduct() instanceof Calendar) {
 			model.addAttribute("calendar", shopProduct.getProduct());
@@ -282,36 +305,45 @@ public class InventoryController {
 		return "inventory_editable";
 	}
 
-	//TODO: Invalid arguments are allowed to be passed
-	// check for empty Strings or negative values
-	@PostMapping("/inventory/save_book")
-	public String saveBook(
-		@RequestParam("itemId") Product.ProductIdentifier id,
-		// this can be replaced with AddBookForm
-		@RequestParam("name") String name,
-		@RequestParam("description") String desc,
-		@RequestParam("price") BigDecimal price,
-		@RequestParam("genre")Set<String> genreName,
-		@RequestParam("author")String author,
-		@RequestParam("ISBN") String isbn,
-		@RequestParam("publisher")String publisher) {
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.getProduct().setName(name);
 
-			Money moneyPrice = Money.of(price, "EUR");
+	@PostMapping("/inventory/save_book/{itemId}")
+	public String saveBook(@Valid AddBookForm bookForm, BindingResult result, @PathVariable Product.ProductIdentifier itemId, Model model){
+		if(result.hasErrors()){
+			model.addAttribute("error_editing", "there was an error");
+			model.addAttribute("bookForm", bookForm);
+			getDetail(itemId, model);
+			return "inventory_editable";
+		}
+
+		shopProductInventory.findByProductIdentifier(itemId).ifPresent(item -> {
+			item.getProduct().setName(bookForm.getName());
+
+			Money moneyPrice = Money.of(bookForm.getPrice(), "EUR");
 			item.getProduct().setPrice(moneyPrice);
 
-			((Book) item.getProduct()).setDescription(desc);
+			((Book) item.getProduct()).setDescription(bookForm.getDescription());
 
-			((Book) item.getProduct()).setAuthor(author);
-			((Book) item.getProduct()).setISBN(isbn);
-			((Book) item.getProduct()).setPublisher(publisher);
-
-//			Genre genre = Genre.createGenre(genreName);
-			((Book) item.getProduct()).setBookGenres(genreName.stream()
+			((Book) item.getProduct()).setAuthor(bookForm.getAuthor());
+			((Book) item.getProduct()).setISBN(bookForm.getISBN());
+			((Book) item.getProduct()).setPublisher(bookForm.getPublisher());
+			((Book) item.getProduct()).setBookGenres(bookForm.getGenre().stream()
 				.map(Genre::createGenre)
 				.collect(Collectors.toSet())
 			);
+
+//			Book book = (Book) item.getProduct();
+//
+//			book.setName(bookForm.getName());
+//			book.setImage(bookForm.getImage());
+//			book.setPrice(Money.of(bookForm.getPrice(), "EUR"));
+//			book.setDescription(bookForm.getDescription());
+//			book.setBookGenres(bookForm.getGenre().stream()
+//				.map(Genre::createGenre)
+//				.collect(Collectors.toSet())
+//			);
+//			book.setAuthor(bookForm.getAuthor());
+//			book.setISBN(bookForm.getISBN());
+//			book.setPublisher(bookForm.getPublisher());
 
 			shopProductInventory.save(item);
 		});
@@ -359,6 +391,22 @@ public class InventoryController {
 		return "redirect:/inventory_merch";
 	}
 
+
+	@GetMapping("/inventory_testing")
+	public String testingForm(Model model, TestingForm form){
+		return "inventory_testing";
+	}
+
+	@PostMapping("/inventory_testing")
+	public String testingForm(@Valid TestingForm form, BindingResult result ,Model model){
+		if(result.hasErrors()){
+			return "inventory_testing";
+
+		}
+
+		model.addAttribute("passed", "Form has been passed");
+		return "inventory_testing";
+	}
 }
 
 
