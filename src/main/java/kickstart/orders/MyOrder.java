@@ -5,10 +5,13 @@ import kickstart.user.User;
 import org.salespointframework.order.Order;
 import org.salespointframework.useraccount.UserAccount;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class MyOrder extends Order {
 	private String stringPaymentMethod;
 	private String myOrderStatus;
+	private LocalDateTime startDeliveryTime;
 
 	@ManyToOne
 	private User user;
@@ -36,6 +39,14 @@ public class MyOrder extends Order {
 		return  this.myOrderStatus;
 	}
 
+	public LocalDateTime getStartDeliveryTime(){
+		return this.startDeliveryTime;
+	}
+
+	public void setStartDeliveryTime(LocalDateTime time){
+		this.startDeliveryTime = time;
+	}
+
 	public void changeStatus(){
 		if(this.getStringPaymentMethod().equals("Bar")){
 			switch (this.getMyOrderStatus()){
@@ -53,6 +64,7 @@ public class MyOrder extends Order {
 			switch (this.getMyOrderStatus()) {
 				case "Offen":
 					this.myOrderStatus = "in Lieferung";
+					this.startDeliveryTime = LocalDateTime.now();
 					break;
 				case "in Lieferung":
 					this.myOrderStatus = "geliefert";

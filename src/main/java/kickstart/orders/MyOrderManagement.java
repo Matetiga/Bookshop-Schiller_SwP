@@ -15,6 +15,8 @@ import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -118,6 +120,13 @@ public class MyOrderManagement {
 		return this.getTotalOfOrderList(this.findByMonth(month, orderList));
 	}
 
+	public void setDeliveryState(Iterable<MyOrder> orderList){
+		for(MyOrder order : this.findByStatus("in Lieferung", orderList)){
+			if(LocalDateTime.now().minusDays(3).isAfter(order.getStartDeliveryTime())){
+				order.changeStatus();
+			}
+		}
+	}
 	public void initalizeDemoOrders(){
 		MyOrder testOrder1 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Rechnung");
 		MyOrder testOrder2 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Bar");
