@@ -50,7 +50,7 @@ public class OrderViewController {
 	String orderOverview(Model model){
 
 		if(!isInitialized){
-			myOrderManagement.initalizeDemoOrders();
+			myOrderManagement.initializeRandomOrders();
 			isInitialized = true;
 		}
 
