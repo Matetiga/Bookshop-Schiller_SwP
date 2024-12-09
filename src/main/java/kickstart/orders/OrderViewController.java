@@ -12,13 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes({"orderList", "orderStates", "selectedState", "paymentMethods", "selectedPaymentMethod"})
+@SessionAttributes({"orderStates", "selectedState", "paymentMethods", "selectedPaymentMethod"})
 public class OrderViewController {
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
@@ -63,7 +65,6 @@ public class OrderViewController {
 
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
-		//"Bist du sicher?"-Message einbauen
 
 		myOrderRepository.deleteById(orderId);
 
