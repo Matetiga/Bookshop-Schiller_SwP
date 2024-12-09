@@ -1,9 +1,7 @@
 package kickstart.orders;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
-import org.salespointframework.order.OrderStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,13 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Optional;
 
 @Controller
 @SessionAttributes({"orderStates", "selectedState", "paymentMethods", "selectedPaymentMethod"})

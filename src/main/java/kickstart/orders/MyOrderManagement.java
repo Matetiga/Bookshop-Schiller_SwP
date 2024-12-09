@@ -5,9 +5,6 @@ import kickstart.Inventory.ShopProductCatalog;
 import kickstart.user.UserManagement;
 import org.salespointframework.order.Order;
 
-import kickstart.Inventory.Book;
-import kickstart.Inventory.Genre;
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
@@ -17,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
-
-import static kickstart.Inventory.Genre.createGenre;
 
 @Service
 @Transactional
@@ -139,6 +134,7 @@ public class MyOrderManagement {
 			}
 
 			randomOrder.setDebitTime(LocalDateTime.of(random.nextInt(2023, 2025), random.nextInt(12) + 1, random.nextInt(1, 29), random.nextInt(0, 24), random.nextInt(0, 60)));
+			randomOrder.setState("Abgeschlossen");
 
 			myOrderRepository.save(randomOrder);
 		}
