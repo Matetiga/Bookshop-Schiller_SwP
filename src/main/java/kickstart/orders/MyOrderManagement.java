@@ -1,39 +1,31 @@
 package kickstart.orders;
 
+import kickstart.Inventory.ShopProduct;
+import kickstart.Inventory.ShopProductCatalog;
 import kickstart.user.UserManagement;
 import org.salespointframework.order.Order;
 
-import kickstart.Inventory.Book;
-import kickstart.Inventory.Genre;
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
-import org.salespointframework.useraccount.Password;
-import org.salespointframework.useraccount.Role;
-import org.salespointframework.useraccount.UserAccount;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import static kickstart.Inventory.Genre.createGenre;
+import java.util.*;
 
 @Service
 @Transactional
 public class MyOrderManagement {
 	private final MyOrderRepository myOrderRepository;
 	private final UserManagement userManagement;
+	private final ShopProductCatalog shopProductCatalog;
 
-	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement){
+	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement, ShopProductCatalog shopProductCatalog){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
+		this.shopProductCatalog = shopProductCatalog;
 	}
 
 	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
@@ -101,7 +93,7 @@ public class MyOrderManagement {
 	public Iterable<MyOrder> findByMonth(Month month, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
-			if(month == order.getDateCreated().getMonth()){
+			if(month == order.getDebitTime().getMonth()){
 				orderList.add(order);
 			}
 		}
@@ -127,40 +119,25 @@ public class MyOrderManagement {
 			}
 		}
 	}
-	public void initalizeDemoOrders(){
-		MyOrder testOrder1 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Rechnung");
-		MyOrder testOrder2 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Bar");
-		MyOrder testOrder3 = new MyOrder(userManagement.findByUsername("employee2@example.com"), "Bar");
-		//MyOrder testOrder3 = new MyOrder(UserAccount.UserAccountIdentifier.of(UUID.randomUUID().toString()), "Bar");
 
-		Genre fiction = createGenre("Fiction");
-		Genre history = createGenre("Cooking");
+	public void initializeRandomOrders(){
+		for (int i = 0; i < 50; i++){
+			Random random = new Random();
+			List<ShopProduct> shopProductList = shopProductCatalog.findAll().stream().toList();
 
-		Set<Genre> genreSet1 = new HashSet<>(Set.of(fiction));
-		Set<Genre> genreSet2 = new HashSet<>(Set.of(history));
+			MyOrder randomOrder = new MyOrder(userManagement.findByUsername("employee2@example.com"), random.nextBoolean() ? "Bar" : "Rechnung");
 
-		Product exampleProduct1 = new Book("Frankreich", "gatsby.jpg", Money.of(10 ,"EUR"),
-			"Test", genreSet1, "Arno Dübel",
-			"9780743273565", "Scribner");
-		Product exampleProduct2 = new Book("spannendes Buch", "sapiens.jpg", Money.of(15, "EUR"),
-			"Ich weiß ich nicht", genreSet2, "Karin Ritter",
-			"9780062316110", "Harper");
-		Product exampleProduct3 = new Book("S-Bahn-Netz2024", "sapiens.jpg", Money.of(15, "EUR"),
-			"123", genreSet2, "Rainer Winkler",
-			"9780062316110", "Harper");
+			for (int j = 0; j < 5; j++){
+				ShopProduct randomProduct = shopProductList.get(random.nextInt(shopProductList.size()));
 
-		testOrder1.addOrderLine(exampleProduct1, Quantity.of(1));
-		testOrder1.addOrderLine(exampleProduct2, Quantity.of(42));
-		testOrder1.addOrderLine(exampleProduct3, Quantity.of(3));
+				randomOrder.addOrderLine(randomProduct, Quantity.of(random.nextInt(1, 11)));
+			}
 
-		testOrder2.addOrderLine(exampleProduct1, Quantity.of(7));
+			randomOrder.setDebitTime(LocalDateTime.of(random.nextInt(2023, 2025), random.nextInt(12) + 1, random.nextInt(1, 29), random.nextInt(0, 24), random.nextInt(0, 60)));
+			randomOrder.setState("Abgeschlossen");
 
-		testOrder3.addOrderLine(exampleProduct2, Quantity.of(1));
-
-		myOrderRepository.save(testOrder1);
-		myOrderRepository.save(testOrder2);
-		myOrderRepository.save(testOrder3);
-
+			myOrderRepository.save(randomOrder);
+		}
 	}
 
 	public MyOrder findByID(Order.OrderIdentifier id) {

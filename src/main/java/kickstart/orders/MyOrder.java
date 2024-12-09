@@ -3,7 +3,6 @@ package kickstart.orders;
 import jakarta.persistence.*;
 import kickstart.user.User;
 import org.salespointframework.order.Order;
-import org.salespointframework.useraccount.UserAccount;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +11,7 @@ public class MyOrder extends Order {
 	private String stringPaymentMethod;
 	private String myOrderStatus;
 	private LocalDateTime startDeliveryTime;
+	private LocalDateTime debitTime; //wird bis auf demoOrders, zur Bestellzeit gesetzt
 
 	@ManyToOne
 	private User user;
@@ -21,6 +21,7 @@ public class MyOrder extends Order {
 		this.user = user;
 		this.stringPaymentMethod = paymentMethod;
 		this.myOrderStatus = "Offen";
+		this.debitTime = LocalDateTime.now();
 	}
 
 	public MyOrder(){
@@ -45,6 +46,18 @@ public class MyOrder extends Order {
 
 	public void setStartDeliveryTime(LocalDateTime time){
 		this.startDeliveryTime = time;
+	}
+
+	public LocalDateTime getDebitTime(){
+		return this.debitTime;
+	}
+
+	public void setDebitTime(LocalDateTime time){
+		this.debitTime = time;
+	}
+
+	public void setState(String state){
+		this.myOrderStatus = state;
 	}
 
 	public void changeStatus(){
