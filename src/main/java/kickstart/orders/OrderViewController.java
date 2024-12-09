@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 @Controller
-@SessionAttributes({"orderStates", "selectedState", "paymentMethods", "selectedPaymentMethod"})
+@SessionAttributes({"orderStates", "paymentMethods"})
 public class OrderViewController {
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
@@ -53,6 +53,9 @@ public class OrderViewController {
 		model.addAttribute("orderList", myOrderRepository.findAll());
 		model.addAttribute("selectedState", "Alle");
 		model.addAttribute("selectedPaymentMethod", "Alle");
+		model.addAttribute("selectedUsername", "");
+		model.addAttribute("selectedProduct", "");
+
 
 		return "order-overview";
 	}
@@ -79,23 +82,26 @@ public class OrderViewController {
 	}
 
 	@PostMapping("/filterOrders")
-	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productId", required = false, defaultValue = "empty%7") Product.ProductIdentifier productId, @RequestParam(value = "productName", required = false, defaultValue = "empty%7") String productName, @RequestParam(value = "userId", required = false, defaultValue = "empty%7") String userId, Model model){
+	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productId", required = false, defaultValue = "") Product.ProductIdentifier productId, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
 		Iterable<MyOrder> filterList = myOrderManagement.findByStatus(state, myOrderRepository.findAll());
 		filterList = myOrderManagement.findByPaymentMethod(paymentMethod, filterList);
 		System.out.println(filterList);
-		if (!productId.toString().equals("empty%7")){
+		if (!productId.toString().equals("")){
 			filterList = myOrderManagement.findByProductId(productId, filterList);
 		}
-		if (!productName.equals("empty%7")) {
+		if (!productName.equals("")) {
 			filterList = myOrderManagement.findByProductName(productName, filterList);
 		}
-		if (!userId.equals("empty%7")){
-			filterList = myOrderManagement.findByUsername(userId, filterList);
+		if (!username.equals("")){
+			filterList = myOrderManagement.findByUsername(username, filterList);
 		}
 		System.out.println(filterList);
 		model.addAttribute("orderList", filterList);
 		model.addAttribute("selectedState", state);
 		model.addAttribute("selectedPaymentMethod", paymentMethod);
+		model.addAttribute("selectedUsername", username);
+		model.addAttribute("selectedProduct", productName);
+
 		return "order-overview";
 	}
 
