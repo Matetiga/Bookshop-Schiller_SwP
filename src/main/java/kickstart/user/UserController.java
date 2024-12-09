@@ -1,6 +1,7 @@
 package kickstart.user;
 
 import jakarta.validation.Valid;
+import kickstart.orders.MyOrderManagement;
 import org.salespointframework.useraccount.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -93,27 +94,6 @@ class UserController {
 
 		return "employee-overview";
 	}
-
-	@GetMapping("/finance-data")
-	@ResponseBody
-	public Map<String, Double> getMonthlyRevenueData() {
-
-		// Einnahmen nach Monaten
-		Map<String, Double> revenueData = new LinkedHashMap<>();
-		revenueData.put("August", 420.75);
-		revenueData.put("September", 344.87);
-		revenueData.put("Oktober", 556.98);
-		revenueData.put("November", 690.56);
-
-		return revenueData;
-	}
-
-	@GetMapping("/finance-overview")
-	@PreAuthorize("hasRole('ADMIN')")
-	String financeOverview(Model model) {
-		return "finance-overview";
-	}
-
 
 	@GetMapping("/admin-overview")
 	@PreAuthorize("hasRole('ADMIN')")

@@ -108,15 +108,15 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	public long getTotalOfOrderList(Iterable<MyOrder> orderList){
-		long sum = 0;
+	public double getTotalOfOrderList(Iterable<MyOrder> orderList){
+		double sum = 0;
 		for(MyOrder order : orderList){
-			sum += order.getTotal().getNumber().longValue();
+			sum += order.getTotal().getNumber().doubleValueExact();
 		}
 		return sum;
 	}
 
-	public long getTotalOfMonth(Month month, Iterable<MyOrder> orderList){
+	public double getTotalOfMonth(Month month, Iterable<MyOrder> orderList){
 		return this.getTotalOfOrderList(this.findByMonth(month, orderList));
 	}
 
