@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -25,15 +26,12 @@ public class FinanceController {
 	@GetMapping("/finance-data")
 	@ResponseBody
 	public Map<String, Double> getMonthlyRevenueData() {
-
+		Month month = LocalDateTime.now().getMonth();
 		// Einnahmen nach Monaten
 		Map<String, Double> revenueData = new LinkedHashMap<>();
-		revenueData.put("August", 420.75);
-		revenueData.put("September", 344.87);
-		revenueData.put("Oktober", 556.98);
-		revenueData.put("November", 690.56);
-		revenueData.put("Dezember", myOrderManagement.getTotalOfMonth(Month.DECEMBER, myOrderRepository.findAll()));
-
+		for (int i = 11; i >= 0; i--) {
+			revenueData.put(Month.of(month.getValue() - i).toString(), myOrderManagement.getTotalOfMonth(Month.of(month.getValue() - i), myOrderRepository.findAll()));
+		}
 		return revenueData;
 	}
 
