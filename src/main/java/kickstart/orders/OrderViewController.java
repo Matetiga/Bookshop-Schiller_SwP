@@ -82,13 +82,10 @@ public class OrderViewController {
 	}
 
 	@PostMapping("/filterOrders")
-	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productId", required = false, defaultValue = "") Product.ProductIdentifier productId, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
+	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
 		Iterable<MyOrder> filterList = myOrderManagement.findByStatus(state, myOrderRepository.findAll());
 		filterList = myOrderManagement.findByPaymentMethod(paymentMethod, filterList);
 		System.out.println(filterList);
-		if (!productId.toString().equals("")){
-			filterList = myOrderManagement.findByProductId(productId, filterList);
-		}
 		if (!productName.equals("")) {
 			filterList = myOrderManagement.findByProductName(productName, filterList);
 		}

@@ -68,18 +68,6 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	public Iterable<MyOrder> findByProductId(Product.ProductIdentifier productId, Iterable<MyOrder> filteredList){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : filteredList){
-			for(OrderLine orderLine : order.getOrderLines()){
-				if(orderLine.getProductIdentifier().equals(productId)){
-					orderList.add(order);
-				}
-			}
-		}
-		return orderList;
-	}
-
 	public Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
