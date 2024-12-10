@@ -27,12 +27,10 @@ public class FinanceController {
 
 	@GetMapping("/finance-data")
 	@ResponseBody
-	public Map<String, Double> MonthlyRevenueData(@RequestParam(value = "amount", defaultValue = "12") int amount) {
+	public Map<String, Double> MonthlyRevenueData() {
 		Month month = LocalDateTime.now().getMonth();
-//		String year = Integer.toString(LocalDateTime.now().getYear());
-
 		Map<String, Double> revenueData = new LinkedHashMap<>();
-		for (int i = amount - 1 ; i >= 0; i--) {
+		for (int i = 11 ; i >= 0; i--) {
 			revenueData.put(Month.of(month.getValue() - i).toString(), myOrderManagement.getTotalOfMonth(Month.of(month.getValue() - i), myOrderRepository.findAll()));
 		}
 		return revenueData;
