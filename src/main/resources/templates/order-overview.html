@@ -62,7 +62,7 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-dark">
                             <tr>
-                                <th th:text="#{orders.date}">Datum</th>
+                                <th>Bestelldatum</th>
                                 <th>Kunde</th>
                                 <th th:text="#{orders.price}">Bestellwert</th>
                                 <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
@@ -73,7 +73,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="order : ${orderList}">
-                                <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
+                                <td th:text="${#temporals.format(order.getDebitTime, 'dd.MM.yyyy HH:mm')}"></td>
                                 <td th:text="${order.getUser().getUserAccount().getUsername()}"></td>
                                 <td th:text="${order.getTotal()}"></td>
                                 <td th:text="${order.getStringPaymentMethod()}"></td>

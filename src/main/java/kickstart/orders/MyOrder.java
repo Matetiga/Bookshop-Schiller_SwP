@@ -11,7 +11,7 @@ public class MyOrder extends Order {
 	private String stringPaymentMethod;
 	private String myOrderStatus;
 	private LocalDateTime startDeliveryTime;
-	private LocalDateTime debitTime; //wird bis auf demoOrders, zur Bestellzeit gesetzt
+	private LocalDateTime debitTime;
 
 	@ManyToOne
 	private User user;
@@ -21,7 +21,7 @@ public class MyOrder extends Order {
 		this.user = user;
 		this.stringPaymentMethod = paymentMethod;
 		this.myOrderStatus = "Offen";
-		this.debitTime = LocalDateTime.now();
+		this.debitTime = LocalDateTime.now(); //final value for regular orders
 	}
 
 	public MyOrder(){
@@ -52,6 +52,7 @@ public class MyOrder extends Order {
 		return this.debitTime;
 	}
 
+	//only used for manipulating the time of the random example-orders
 	public void setDebitTime(LocalDateTime time){
 		this.debitTime = time;
 	}
