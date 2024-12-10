@@ -32,7 +32,7 @@ public class ProductCatalogIntegrationTests extends AbstractIntegrationTests {
 				result.add((Book) item.getProduct());
 			}
 		}
-		assertThat(result).hasSize(4);
+		assertThat(result).hasSize(12);
 	}
 
 	@Test
