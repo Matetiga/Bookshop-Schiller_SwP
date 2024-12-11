@@ -35,7 +35,7 @@ public class AddBookForm {
 	@NotBlank(message = "Publisher is required")
 	private String publisher;
 
-	@Min(value = 1, message = "Stock must be greater than 0")
+	@Min(value = 0, message = "Stock can not be negative")
 	private int stock;
 
 	public AddBookForm() {}

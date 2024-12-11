@@ -65,8 +65,7 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{/inventory/editable}" method="post">
-                        <input type="hidden" name="itemId" th:value="${calendar.getKey().id}" />
+                    <form th:action="@{/inventory/editable/{id}(id=${calendar.getKey().id})}" method="get">
                         <button type="submit">EDIT</button>
                     </form>
                 </td>

@@ -7,7 +7,7 @@ public class AddMerchCalendarForm {
 	@NotBlank(message = "Name is required")
 	private String name;
 
-	@Min(value = 1, message = "Stock must be greater than 0")
+	@Min(value = 0, message = "Stock can not be negative")
 	private int stock;
 
 	@NotBlank(message = "Image is required")
