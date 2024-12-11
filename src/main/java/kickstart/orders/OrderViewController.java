@@ -1,10 +1,10 @@
 package kickstart.orders;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
-import org.salespointframework.order.OrderStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,15 @@ import java.util.Collections;
 import java.util.Comparator;
 
 @Controller
-@SessionAttributes({"orderStates", "orderList", "selectedState"})
+@SessionAttributes({"orderStates", "paymentMethods"})
 public class OrderViewController {
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
+	private final String[] paymentMethods = {"Alle", "Bar", "Rechnung"};
+
+	//for initializing demo orders:
+	private boolean isInitialized = false;
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
@@ -30,27 +34,34 @@ public class OrderViewController {
 		return this.orderStates;
 	}
 
-	/*
-	@ModelAttribute("selectedState")
-	String initalizeSelectedState() {
-		return "Alle";
+	@ModelAttribute("paymentMethods")
+	String[] initalizePaymentMethods() {
+		return this.paymentMethods;
 	}
-	*/
 
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
-		model.addAttribute("orderList", myOrderRepository.findAll());
 
+		if(!isInitialized){
+			myOrderManagement.initializeRandomOrders();
+			isInitialized = true;
+		}
+
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
+
+		model.addAttribute("orderList", myOrderRepository.findAll());
 		model.addAttribute("selectedState", "Alle");
-		//temporär, später: filterOrders(...)
+		model.addAttribute("selectedPaymentMethod", "Alle");
+		model.addAttribute("selectedUsername", "");
+		model.addAttribute("selectedProduct", "");
+
+
 		return "order-overview";
 	}
 
-
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
-		//"Bist du sicher?"-Message einbauen
 
 		myOrderRepository.deleteById(orderId);
 
@@ -70,33 +81,28 @@ public class OrderViewController {
 		return "order-details";
 	}
 
-	@PostMapping("/filterByStatus")
-	String filterByState(Model model, @RequestParam("valueStatus") String state){
-		model.addAttribute("orderList", myOrderManagement.findByStatus(state, myOrderRepository.findAll()));
-		model.addAttribute("selectedState", state);
-
-		return "order-overview";
-	}
-
-	@PostMapping("/filterByProduct")
-	String filterByProduct(@RequestParam(value = "productName", required = true) String productName, @RequestParam(value = "productId", required = true) Product.ProductIdentifier productId, Model model){
-		Iterable<MyOrder> orderList;
-		if(productId != null && !productId.toString().isEmpty()){
-			orderList = myOrderManagement.findByProductId(productId, (Iterable<MyOrder>) model.getAttribute("orderList"));
-		}else if(productName != null && !productName.isEmpty()){
-			orderList = myOrderManagement.findByProductName(productName, (Iterable<MyOrder>) model.getAttribute("orderList"));
-		}else{
-			orderList = myOrderRepository.findAll();
-		}
-
-		model.addAttribute("orderList", orderList);
-
-		return "order-overview";
-	}
-
 	@PostMapping("/filterOrders")
-	String filterOrders(@RequestParam("state") String state, @RequestParam("productId") Product.ProductIdentifier productId, @RequestParam("userId") String userId){
-		return "cart";
+	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productId", required = false, defaultValue = "") Product.ProductIdentifier productId, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
+		Iterable<MyOrder> filterList = myOrderManagement.findByStatus(state, myOrderRepository.findAll());
+		filterList = myOrderManagement.findByPaymentMethod(paymentMethod, filterList);
+		System.out.println(filterList);
+		if (!productId.toString().equals("")){
+			filterList = myOrderManagement.findByProductId(productId, filterList);
+		}
+		if (!productName.equals("")) {
+			filterList = myOrderManagement.findByProductName(productName, filterList);
+		}
+		if (!username.equals("")){
+			filterList = myOrderManagement.findByUsername(username, filterList);
+		}
+		System.out.println(filterList);
+		model.addAttribute("orderList", filterList);
+		model.addAttribute("selectedState", state);
+		model.addAttribute("selectedPaymentMethod", paymentMethod);
+		model.addAttribute("selectedUsername", username);
+		model.addAttribute("selectedProduct", productName);
+
+		return "order-overview";
 	}
 
 	//currently not used
@@ -113,6 +119,7 @@ public class OrderViewController {
 
 	@PostMapping("/order/{orderID}")
 	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 		MyOrder order = myOrderManagement.findByID(orderId);
 
 		model.addAttribute("order", order);
@@ -120,8 +127,29 @@ public class OrderViewController {
 		return "order-details";
 	}
 
+	@PostMapping("/my-order/{orderID}")
+	public String orderDetailsByID(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
+		MyOrder order = myOrderManagement.findByID(orderId);
+
+		model.addAttribute("order", order);
+
+		return "my-order-details";
+	}
+
 	@GetMapping("/order-details")
 	String orderDetails(){
 		return "order-details";
 	}
+
+	@GetMapping("/my-orders")
+	@PreAuthorize("isAuthenticated()")
+	String myOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
+
+		model.addAttribute("orderList", myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
+
+		return "my-orders";
+	}
+
 }

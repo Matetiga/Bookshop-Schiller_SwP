@@ -23,46 +23,39 @@
 </header>
 <div class="container mt-5">
     <aside class="sidebar panel-effect">
-        <form class="ui form" method="post" th:action="@{/filterByStatus}">
+        <form class="ui form" method="post" th:action="@{/filterOrders}">
             <div class="form-group">
                 <label for="dropdown_status">Status:</label>
-                <select id="dropdown_status" name="valueStatus" class="form-control">
+                <select id="dropdown_status" name="filterState" class="form-control">
                     <option th:each="state : ${orderStates}"
                             th:value="${state}"
                             th:text="${state}"
                             th:selected="${state == selectedState}">
                     </option>
                 </select>
+            </div>
+            <div>
+                <label for="filter_payment">Bezahlmethode:</label>
+                <select id="filter_payment" name="filterPaymentMethod" class="form-control">
+                    <option th:each="pm: ${paymentMethods}"
+                            th:value="${pm}"
+                            th:text="${pm}"
+                            th:selected="${pm == selectedPaymentMethod}">
+                    </option>
+                </select>
+            </div>
+            <div class="form-container my-4">
                 <div class="form-group mt-3">
+                    Produktname:
+                    <input type="text" name="productName" th:value="${selectedProduct}"/>
+                    Produkt-ID:
+                    <input type="text" name="productId"/>
+                    Benutzer E-Mail:
+                    <input type="text" name="userId" th:value="${selectedUsername}"/>
                     <button type="submit" class="btn btn-primary">Filtern</button>
                 </div>
             </div>
-<!--            <div>-->
-<!--                <label for="filter_payment">Bezahlmethode:</label>-->
-<!--                <select id="filter_payment" name="valuePayment" class="form-control">-->
-<!--                    <option th:each="state : ${orderStates}"-->
-<!--                            th:value="${state}"-->
-<!--                            th:text="${state}"-->
-<!--                            th:selected="${state == selectedState}">-->
-<!--                    </option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="form-group mt-3">-->
-<!--                <button type="submit" class="btn btn-primary">Filtern</button>-->
-<!--            </div>-->
         </form>
-        <div class="form-container my-4">
-
-            <form class="ui form" method="post" th:action="@{/filterByProduct}">
-                <div class="form-group mt-3">
-                    Produktname:
-                    <input type="text" name="productName"/>
-                    ProduktID:
-                    <input type="text" name="productId"/>
-                    <button type="submit" class="btn btn-primary">Filtern</button>
-                </div>
-            </form>
-        </div>
     </aside>
         <section class="container panel-effect">
             <div class="table-responsive">
@@ -72,7 +65,7 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th th:text="#{orders.date}">Datum</th>
-                                <th th:text="#{orders.customerId}">Kunde</th>
+                                <th>Kunde</th>
                                 <th th:text="#{orders.price}">Bestellwert</th>
                                 <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
                                 <th th:text="#{orders.state}">Status</th>
@@ -83,14 +76,14 @@
                             <tbody>
                             <tr th:each="order : ${orderList}">
                                 <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
-                                <td th:text="${order.getUserAccountIdentifier()}"></td>
+                                <td th:text="${order.getUser().getUserAccount().getUsername()}"></td>
                                 <td th:text="${order.getTotal()}"></td>
                                 <td th:text="${order.getStringPaymentMethod()}"></td>
                                 <td th:text="${order.getMyOrderStatus()}"></td>
                                 <td>
                                     <form class="ui form" method="post" th:action="@{'/order/' + ${order.id}}">
                                         <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                                        <button type="submit" class="btn btn-primary">Details</button>
+                                        <button type="submit" class="btn btn-info">Details</button>
                                     </form>
                                 </td>
                             </tr>

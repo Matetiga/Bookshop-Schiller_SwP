@@ -1,35 +1,63 @@
 package kickstart.orders;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import org.hibernate.tool.schema.spi.ExceptionHandler;
+import jakarta.persistence.*;
+import kickstart.user.User;
 import org.salespointframework.order.Order;
-import org.salespointframework.order.OrderStatus;
-import org.salespointframework.useraccount.UserAccount;
 
-import javax.money.MonetaryAmount;
+import java.time.LocalDateTime;
 
 @Entity
 public class MyOrder extends Order {
 	private String stringPaymentMethod;
 	private String myOrderStatus;
+	private LocalDateTime startDeliveryTime;
+	private LocalDateTime debitTime; //wird bis auf demoOrders, zur Bestellzeit gesetzt
 
-	public MyOrder(UserAccount.UserAccountIdentifier userId, String paymentMethod) {
-		super(userId);
+	@ManyToOne
+	private User user;
+
+	public MyOrder(User user, String paymentMethod) {
+		super(user.getUserAccount().getId());
+		this.user = user;
 		this.stringPaymentMethod = paymentMethod;
 		this.myOrderStatus = "Offen";
+		this.debitTime = LocalDateTime.now();
 	}
 
 	public MyOrder(){
 
 	}
 
+	public User getUser(){
+		return this.user;
+	}
+
 	public String getStringPaymentMethod(){
-		return stringPaymentMethod;
+		return this.stringPaymentMethod;
 	}
 
 	public String getMyOrderStatus(){
 		return  this.myOrderStatus;
+	}
+
+	public LocalDateTime getStartDeliveryTime(){
+		return this.startDeliveryTime;
+	}
+
+	public void setStartDeliveryTime(LocalDateTime time){
+		this.startDeliveryTime = time;
+	}
+
+	public LocalDateTime getDebitTime(){
+		return this.debitTime;
+	}
+
+	public void setDebitTime(LocalDateTime time){
+		this.debitTime = time;
+	}
+
+	public void setState(String state){
+		this.myOrderStatus = state;
 	}
 
 	public void changeStatus(){
@@ -49,6 +77,7 @@ public class MyOrder extends Order {
 			switch (this.getMyOrderStatus()) {
 				case "Offen":
 					this.myOrderStatus = "in Lieferung";
+					this.startDeliveryTime = LocalDateTime.now();
 					break;
 				case "in Lieferung":
 					this.myOrderStatus = "geliefert";

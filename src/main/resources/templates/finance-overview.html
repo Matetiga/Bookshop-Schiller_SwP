@@ -15,8 +15,17 @@
 
 <div th:replace="fragments/admin_navbar :: navbar"></div>
 <header class="mt-6">
-    <h1 class="text-center mb-4">Einnahmen pro Monat</h1>
+    <h1 class="text-center mb-4" th:text="#{finance.header}">Einnahmen pro Monat</h1>
 </header>
+
+<form method="get" th:action="@{/finance-overview}">
+    <div class="genre">
+        <label for="amount" th:text="#{finance.amount}"></label>
+        <input type="number" id="amount" name="amount" min="1" th:max="24" step="1" value="12">
+    </div>
+    <button type="submit" class="my-cool-button" th:text="#{finance.button}"></button>
+</form>
+
 <section>
     <div class="table-responsive">
 

@@ -8,6 +8,8 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+<div th:replace="fragments/shop_navbar :: navbar"></div>
+
 <header>
     <h1 th:text="#{merch.title}">Merch</h1>
 </header>
@@ -28,7 +30,7 @@
             <div class="left-column paddingContainer">
                 <div class="product-details-image left-column">
 <!--                               /resources/img/cover/schmeh.jpg-->
-                    <img th:src="@{/resources/img/cover/{image}.jpg(image=${merch.getImage()})}" alt="Merch Cover">
+                    <img th:src="@{{image}(image=${merch.getImage()})}" alt="Merch Cover">
                 </div>
             </div>
 

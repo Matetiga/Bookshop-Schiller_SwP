@@ -12,8 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -196,6 +202,22 @@ public class InventoryController {
 	}
 
 
+	private String saveImage(MultipartFile image) {
+		String fileName = image.getOriginalFilename();
+
+//		String tempDir = System.getProperty("java.io.tmpdir");
+//		tempDir,
+		Path imagePath = Paths.get("uploads/images", fileName);
+		try {
+			Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "../" + imagePath.toString();
+	}
+
+
+
 	@PostMapping("/inventory/add_book")
 	public String addBook(@Valid AddBookForm bookForm,  BindingResult result, Model model){
 
@@ -205,8 +227,10 @@ public class InventoryController {
 			return "inventory_book";
 		}
 
+		String imagePath = saveImage(bookForm.getImage());
+
 		Book book = new Book(bookForm.getName(),
-			bookForm.getImage(),
+			imagePath,
 			Money.of(bookForm.getPrice(), "EUR"),
 			bookForm.getDescription(),
 			bookForm.getGenre().stream()
@@ -229,8 +253,10 @@ public class InventoryController {
 			model.addAttribute("showModal", true);
 			return "inventory_merch";
 		}
+
+		String imagePath = saveImage(merchForm.getImage());
 		Merch merch = new Merch(merchForm.getName(),
-			merchForm.getImage(),
+			imagePath,
 			Money.of(merchForm.getPrice(), "EUR"),
 			merchForm.getDescription());
 		shopProductCatalog.save(merch);
@@ -246,8 +272,9 @@ public class InventoryController {
 			model.addAttribute("showModal", true);
 			return "inventory_calendar";
 		}
+		String imagePath = saveImage(calendarForm.getImage());
 		Calendar calendar = new Calendar(calendarForm.getName(),
-			calendarForm.getImage(),
+			imagePath,
 			Money.of(calendarForm.getPrice(), "EUR"),
 			calendarForm.getDescription());
 
@@ -402,22 +429,6 @@ public class InventoryController {
 		return "redirect:/inventory_merch";
 	}
 
-
-	@GetMapping("/inventory_testing")
-	public String testingForm(Model model, TestingForm form){
-		return "inventory_testing";
-	}
-
-	@PostMapping("/inventory_testing")
-	public String testingForm(@Valid TestingForm form, BindingResult result ,Model model){
-		if(result.hasErrors()){
-			return "inventory_testing";
-
-		}
-
-		model.addAttribute("passed", "Form has been passed");
-		return "inventory_testing";
-	}
 }
 
 

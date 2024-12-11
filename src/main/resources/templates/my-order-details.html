@@ -10,37 +10,20 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
-
-<div sec:authorize="hasRole('ADMIN')">
-    <div th:replace="fragments/admin_navbar :: navbar"></div>
-</div>
-<div sec:authorize="hasRole('EMPLOYEE')">
-    <div th:replace="fragments/employee_navbar :: navbar"></div>
-</div>
+<div th:replace="fragments/shop_navbar :: navbar"></div>
 
 <header class="mt-6">
-    <h2 class="text-center mb-4" th:text="#{order.detail} + ' - ' + ${order.getId()}">
-        Order Details - [Order ID]
-    </h2>
 </header>
 <div class="container my-5">
     <aside class="sidebar panel-effect">
-        <div class="row">
-            <div class="col-md-3" sec:authorize="hasRole('ADMIN') or hasRole('EMPLOYEE')">
-                <div class="btn-group-vertical w-100" role="group" aria-label="Admin actions">
-                    <form method="post" th:action="@{/changeStatus}" class="mb-2">
-                        <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                        <button th:text="#{order.updateStatus}" type="submit" class="btn btn-primary w-100">Status ändern</button>
-                    </form>
-                    <form id="deleteOrderForm" method="post" th:action="@{/deleteOrder}" class="mb-2">
-                        <input type="hidden" name="orderId" th:value="${order.getId()}"/>
-                        <button type="button" th:text="#{order.removeOrder}" onclick="confirmDelete()" class="btn btn-danger w-100">Bestellung entfernen</button>
-                    </form>
-                </div>
-            </div>
-            <div>
-            </div>
-        </div>
+        <h2 th:text="#{account.title}">Account</h2>
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|">Home</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" th:text="#{home.nav.account}">Account</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/my-orders}'|" th:text="#{order.my-orders}">Meine Bestellungen</button></li>
+            <li><button class="small-nav-tab-button active" th:text="#{order.detail}">Bestelldetails</button></li>
+
+        </ul>
     </aside>
     <div class="row">
 
@@ -54,10 +37,8 @@
                         <span th:text="${order.getId()}">12345</span><br>
                         <strong th:text="#{orders.date} + ':'"></strong>
                         <span th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}">2024-11-24</span><br>
-                        <strong>Kunde</strong>
-                        <span th:text="${order.getUser().getUserAccount().getUsername()}">Customer123</span><br>
-                        <strong>Kunden-Adresse</strong>
-                        <span th:text="${order.getUser().getAddress()}"></span><br>
+                        <strong th:text="#{orders.customerId} + ':'"></strong>
+                        <span th:text="${order.getUserAccountIdentifier()}">Customer123</span><br>
                         <strong th:text="#{orders.paymentMethod} + ':'"></strong>
                         <span th:text="${order.getStringPaymentMethod()}">Payment Method</span><br>
                         <strong th:text="#{orders.state} + ':'"></strong>
@@ -94,21 +75,13 @@
         </div>
     </div>
 </div>
-<script>
-    function confirmDelete(){
-        var res = confirm("Bestellung unwiderruflich löschen?");
 
-        if(res){
-            alert("Bestellung wurde gelöscht.");
-            document.getElementById("deleteOrderForm").submit();
-        }else{
-            alert("Löschen abgebrochen.");
-        }
-    }
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package kickstart.user;
 
 import jakarta.validation.Valid;
+import kickstart.orders.MyOrderManagement;
 import org.salespointframework.useraccount.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
@@ -29,7 +31,6 @@ class UserController {
 		this.userManagement = userManagement;
 	}
 	
-	// until yet not perfect style 
 	@PostMapping("/register")
 	String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
 
@@ -61,7 +62,10 @@ class UserController {
 
 	@GetMapping("/customer-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String customerOverview(Model model) {
+	String customerOverview(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model) {
+		if (toastMessage != null && !toastMessage.isEmpty()) {
+			model.addAttribute("toastMessage", toastMessage);
+		}
 		HashSet<User> customers =  new HashSet<>();
 		//only customers should be displayed
 		for (User user: userManagement.findAll()){
@@ -75,7 +79,11 @@ class UserController {
 
 	@GetMapping("/employee-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	String employeeOverview(Model model) {
+	String employeeOverview(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model){
+		if (toastMessage != null && !toastMessage.isEmpty()) {
+			model.addAttribute("toastMessage", toastMessage);
+		}
+
 		HashSet<User> employees =  new HashSet<>();
 		//only employees should be displayed
 		for (User user: userManagement.findAll()){
@@ -87,30 +95,12 @@ class UserController {
 		return "employee-overview";
 	}
 
-	@GetMapping("/finance-data")
-	@ResponseBody
-	public Map<String, Double> getMonthlyRevenueData() {
-
-		// Einnahmen nach Monaten
-		Map<String, Double> revenueData = new LinkedHashMap<>();
-		revenueData.put("August", 420.75);
-		revenueData.put("September", 344.87);
-		revenueData.put("Oktober", 556.98);
-		revenueData.put("November", 690.56);
-
-		return revenueData;
-	}
-
-	@GetMapping("/finance-overview")
-	@PreAuthorize("hasRole('ADMIN')")
-	String financeOverview(Model model) {
-		return "finance-overview";
-	}
-
-
 	@GetMapping("/admin-overview")
 	@PreAuthorize("hasRole('ADMIN')")
-	String Admins(Model model) {
+	String Admins(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model){
+		if (toastMessage != null && !toastMessage.isEmpty()) {
+			model.addAttribute("toastMessage", toastMessage);
+		}
 		HashSet<User> admins =  new HashSet<>();
 		//only admins should be displayed
 		for (User user: userManagement.findAll()){
@@ -124,20 +114,22 @@ class UserController {
 
 	@PostMapping("/promote/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source) {
-		userManagement.promoteAccountById(id);
-
-		return "redirect:/" + source;
+	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source, Model model) {
+		/*
+		When a User gets promoted there should be a confirmation message that is saved below.
+		However, we reload the site after each button click. The message wouldnt be visible. That's why we add the message as URL parameter to pass this information,
+		so that on reload, we can check if a toastMessage has been left. If so => display it
+		 */
+		String toastMessage = userManagement.promoteAccountById(id);
+		return "redirect:/" + source + "?toastMessage=" + toastMessage;
 	}
 
 	@PostMapping("/degrade/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source) {
-
-
-		userManagement.degradeAccountById(id);
-
-		return "redirect:/" + source;
+	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source, RedirectAttributes redirectAttributes) {
+		String toastMessage = userManagement.degradeAccountById(id);
+		redirectAttributes.addFlashAttribute("toastMessage", toastMessage);
+		return "redirect:/" + source + "?toastMessage=" + toastMessage;
 	}
 
 	@GetMapping("/account")

@@ -9,6 +9,8 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
+<div th:replace="fragments/shop_navbar :: navbar"></div>
+
 <header>
     <h1 th:text="#{book.title}">Book</h1>
 </header>
@@ -28,7 +30,7 @@
             <!-- Image Section -->
             <div class="left-column paddingContainer">
                 <div class="product-details-image left-column">
-                    <img th:src="@{/resources/img/cover/{image}.jpg(image=${book.image})}" alt="Book Cover">
+                    <img th:src="@{${book.image}}" alt="Book Cover">
                 </div>
             </div>
 
