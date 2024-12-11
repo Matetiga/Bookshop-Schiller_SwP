@@ -5,8 +5,8 @@
 
 <head>
   <title th:text="#{cart.tabTitle}">Warenkorb</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">    <title>Warenkorb</title>
 </head>
 <body>
@@ -27,42 +27,46 @@
 
 
             <section class="right-view panel-effect">
-            <div th:unless="${cart.empty}">
-                <table class="compact-table">
-                    <thead>
-                    <tr>
-                        <th th:text="#{cart.table.title}">Titel</th>
-                        <th th:text="#{cart.table.quantity}">Anzahl</th>
-                        <th th:text="#{cart.table.price}">Preis</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each=" item : ${cart}">
-                        <td th:text="${item.productName}"></td>
-                        <td>
-                            <form class="ui form" method="post" th:action="@{/cartIncrease}">
-                                <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
-                                <button type="submit" class="ui button">+</button>
-                             </form>
-                            <span th:text="${item.quantity}"> </span>
-                            <form class="ui form" method="post" th:action="@{/cartDecrease}">
-                                <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
-                                <button type="submit" class="ui button">-</button>
-                            </form></td></td>
-                        <td th:text="${item.price}"></td>
-                        <td>
-                            <form class="ui form" method="post" th:action="@{/cartDelete}">
-                                <input type="hidden" name="productId" th:value="${item.id}"/>
-                                <button type="submit" class="ui button" th:text="#{cart.delete}">Produkt entfernen</button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table><br>
-                <form class="ui form" method="post" th:action="@{/clear}">
-                <button type="submit" class="ui button" th:text="#{cart.clear}">Warenkorb leeren</button>
-            </form><br>
-            <div>
+                <div class="table-responsive">
+                    <div th:unless="${cart.empty}">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col" th:text="#{cart.table.title}">Titel</th>
+                                <th scope="col" th:text="#{cart.table.quantity}">Anzahl</th>
+                                <th scope="col" th:text="#{cart.table.price}">Preis</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each=" item : ${cart}">
+                                <td th:text="${item.productName}"></td>
+                                <td>
+                                    <form class="ui form" method="post" th:action="@{/cartIncrease}">
+                                        <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
+                                        <button class="btn btn-primary" type="submit">+</button>
+                                    </form>
+                                    <span th:text="${item.quantity}"> </span>
+                                    <form class="ui form" method="post" th:action="@{/cartDecrease}">
+                                        <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
+                                        <button class="btn btn-primary" type="submit">-</button>
+                                    </form></td></td>
+                                <td th:text="${item.price}"></td>
+                                <td>
+                                    <form class="ui form" method="post" th:action="@{/cartDelete}">
+                                        <input type="hidden" name="productId" th:value="${item.id}"/>
+                                        <button class="btn btn-danger" type="submit" th:text="#{cart.delete}">Produkt entfernen</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table><br>
+                        <form class="ui form" method="post" th:action="@{/clear}">
+                            <button class="btn btn-secondary" type="submit" th:text="#{cart.clear}">Warenkorb leeren</button>
+                        </form><br>
+                        <div>
+                </div>
+
                 <form class="ui form" method="post" th:action="@{/checkout}">
                     <label for="dropdown_payment" th:text="#{cart.sentence.paymentMethod}">Wählen Sie eine Bezahlmethode:</label>
                     <select id="dropdown_payment" name="paymentMethod">
@@ -70,7 +74,7 @@
                         <option value="Rechnung" th:text="#{cart.invoice}">Rechnung</option>
                     </select>
                         <br>
-                        <button type="submit" class="ui button" th:text="#{cart.buy}">Kaufen</button>
+                        <button class="ui button btn btn-success" type="submit" th:text="#{cart.buy}">Kaufen</button>
                     </form>
                 </div>
             </div>
