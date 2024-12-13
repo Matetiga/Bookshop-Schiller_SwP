@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -205,8 +207,6 @@ public class InventoryController {
 	private String saveImage(MultipartFile image) {
 		String fileName = image.getOriginalFilename();
 
-//		String tempDir = System.getProperty("java.io.tmpdir");
-//		tempDir,
 		Path imagePath = Paths.get("uploads/images", fileName);
 		try {
 			Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
@@ -215,7 +215,6 @@ public class InventoryController {
 		}
 		return "../" + imagePath.toString();
 	}
-
 
 
 	@PostMapping("/inventory/add_book")
