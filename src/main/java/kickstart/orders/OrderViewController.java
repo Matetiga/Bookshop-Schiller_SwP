@@ -25,14 +25,13 @@ public class OrderViewController {
 
 	private String[] lastFilterOptions = {"Alle", "Alle", "", ""};
 	private String lastSortDateValue;
-
-	//for initializing demo orders:
-	private boolean isInitialized = false;
+	private String lastSortDateValueKonto;
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.myOrderManagement = myOrderManagement;
 		lastSortDateValue = "neueste";
+		lastSortDateValueKonto = "neueste";
 	}
 
 	@ModelAttribute("orderStates")
@@ -48,11 +47,6 @@ public class OrderViewController {
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
-		if(!isInitialized){
-			myOrderManagement.initializeRandomOrders();
-			isInitialized = true;
-		}
-
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 
 		List<MyOrder> filteredList = (List<MyOrder>) myOrderManagement.filterAllOrders(lastFilterOptions[0], lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]);
@@ -166,9 +160,30 @@ public class OrderViewController {
 	String myOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 
-		model.addAttribute("orderList", myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
+		Iterable<MyOrder> orderList = myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll());
+
+		model.addAttribute("orderList", myOrderManagement.sortByDate(orderList).reversed());
+		model.addAttribute("sortDateButtonValueKonto", "neueste");
 
 		return "my-orders";
 	}
+
+	@PostMapping("/sortByDateKonto")
+	String sortDateKontoOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
+		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
+
+		if(lastSortDateValueKonto.equals("neueste")){
+			lastSortDateValueKonto = "älteste";
+		}else {
+			orderList = orderList.reversed();
+			lastSortDateValueKonto = "neueste";
+		}
+
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("sortDateButtonValueKonto", lastSortDateValueKonto);
+		return "my-orders";
+	}
+
+
 
 }
