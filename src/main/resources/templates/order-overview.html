@@ -54,6 +54,11 @@
                 </div>
             </div>
         </form>
+        <form class="ui form" method="post" th:action="@{/sortByDate}">
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary" th:text="${sortDateButtonValue}"></button>
+            </div>
+        </form>
     </aside>
         <section class="container panel-effect">
             <div class="table-responsive">

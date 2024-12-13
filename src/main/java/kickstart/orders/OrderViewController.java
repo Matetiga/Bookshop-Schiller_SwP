@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Controller
 @SessionAttributes({"orderStates", "paymentMethods"})
@@ -21,12 +23,16 @@ public class OrderViewController {
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
 	private final String[] paymentMethods = {"Alle", "Bar", "Rechnung"};
 
+	private String[] lastFilterOptions = {"Alle", "Alle", "", ""};
+	private String lastSortDateValue;
+
 	//for initializing demo orders:
 	private boolean isInitialized = false;
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.myOrderManagement = myOrderManagement;
+		lastSortDateValue = "neueste";
 	}
 
 	@ModelAttribute("orderStates")
@@ -42,7 +48,6 @@ public class OrderViewController {
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
-
 		if(!isInitialized){
 			myOrderManagement.initializeRandomOrders();
 			isInitialized = true;
@@ -50,11 +55,19 @@ public class OrderViewController {
 
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 
-		model.addAttribute("orderList", myOrderRepository.findAll());
-		model.addAttribute("selectedState", "Alle");
-		model.addAttribute("selectedPaymentMethod", "Alle");
-		model.addAttribute("selectedUsername", "");
-		model.addAttribute("selectedProduct", "");
+		List<MyOrder> filteredList = (List<MyOrder>) myOrderManagement.filterAllOrders(lastFilterOptions[0], lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]);
+
+		List<MyOrder> orderList = myOrderManagement.sortByDate(filteredList);
+		if (lastSortDateValue.equals("neueste")) {
+			orderList =  orderList.reversed();
+		}
+
+		model.addAttribute("orderList", orderList);
+		model.addAttribute("selectedState", lastFilterOptions[0]);
+		model.addAttribute("selectedPaymentMethod", lastFilterOptions[1]);
+		model.addAttribute("selectedProduct", lastFilterOptions[2]);
+		model.addAttribute("selectedUsername", lastFilterOptions[3]);
+		model.addAttribute("sortDateButtonValue", lastSortDateValue);
 
 
 		return "order-overview";
@@ -83,33 +96,42 @@ public class OrderViewController {
 
 	@PostMapping("/filterOrders")
 	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
-		Iterable<MyOrder> filterList = myOrderManagement.findByStatus(state, myOrderRepository.findAll());
-		filterList = myOrderManagement.findByPaymentMethod(paymentMethod, filterList);
-		System.out.println(filterList);
-		if (!productName.equals("")) {
-			filterList = myOrderManagement.findByProductName(productName, filterList);
+		Iterable<MyOrder> filteredList = myOrderManagement.filterAllOrders(state, paymentMethod, productName, username);
+
+		List<MyOrder> orderList = myOrderManagement.sortByDate(filteredList);
+		if (lastSortDateValue.equals("neueste")) {
+			orderList = orderList.reversed();
 		}
-		if (!username.equals("")){
-			filterList = myOrderManagement.findByUsername(username, filterList);
-		}
-		System.out.println(filterList);
-		model.addAttribute("orderList", filterList);
+
+		model.addAttribute("orderList", orderList);
 		model.addAttribute("selectedState", state);
 		model.addAttribute("selectedPaymentMethod", paymentMethod);
-		model.addAttribute("selectedUsername", username);
 		model.addAttribute("selectedProduct", productName);
+		model.addAttribute("selectedUsername", username);
+		model.addAttribute("sortDateButtonValue", lastSortDateValue);
+
+		this.lastFilterOptions = new String[] {state, paymentMethod, productName, username};
 
 		return "order-overview";
 	}
 
-	//currently not used
 	@PostMapping("/sortByDate")
 	String sortByDate(Model model){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		myOrderRepository.findAll().forEach(orderList::add);
-		Collections.sort(orderList, Comparator.comparing(Order::getDateCreated));
+		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.filterAllOrders(lastFilterOptions[0], lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]));
+
+		if(lastSortDateValue.equals("neueste")){
+			lastSortDateValue = "älteste";
+		}else {
+			orderList = orderList.reversed();
+			lastSortDateValue = "neueste";
+		}
 
 		model.addAttribute("orderList", orderList);
+		model.addAttribute("selectedState", lastFilterOptions[0]);
+		model.addAttribute("selectedPaymentMethod", lastFilterOptions[1]);
+		model.addAttribute("selectedProduct", lastFilterOptions[2]);
+		model.addAttribute("selectedUsername", lastFilterOptions[3]);
+		model.addAttribute("sortDateButtonValue", lastSortDateValue);
 
 		return "order-overview";
 	}
