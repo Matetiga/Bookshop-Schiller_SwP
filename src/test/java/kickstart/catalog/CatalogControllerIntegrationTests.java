@@ -35,7 +35,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 		Iterable<Object> object = (Iterable<Object>) model.asMap().get("catalog");
 
-		assertThat(object).hasSize(4);
+		assertThat(object).hasSize(12);
 	}
 
 	@Test
