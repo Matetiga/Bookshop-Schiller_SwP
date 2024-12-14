@@ -139,13 +139,13 @@ public class InventoryController {
 	}
 	@PostMapping("/inventory/decrease")
 	public String decreaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
 
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(-1));
 			shopProductInventory.save(item);
 		});
 
-		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
 		if (shopProduct.getProduct() instanceof Book) {
 			showInventory(model);
 			return "inventory_book";
@@ -167,9 +167,8 @@ public class InventoryController {
 
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model){
-		shopProductInventory.findByProductIdentifier(id).ifPresent(shopProductInventory::delete);
-
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		shopProductInventory.findByProductIdentifier(id).ifPresent(shopProductInventory::delete);
 		if (shopProduct.getProduct() instanceof Book) {
 			showInventory(model);
 			return "inventory_book";
@@ -185,6 +184,7 @@ public class InventoryController {
 		else{
 			return "inventory_book";
 		}
+
 	}
 
 
