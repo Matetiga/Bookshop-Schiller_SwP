@@ -75,12 +75,18 @@ public class Genre {
 		if (obj == this) {
 			return true;
 		}
-		if (!(obj instanceof Genre obj_genre)) {
-			return false;
+		if (obj instanceof Genre objGenre ) {
+			// Compare two Genre objects
+			String normalizedGenre = genre.replaceAll("\\s", "").toLowerCase();
+			String normalizedObjGenre = objGenre.getGenre().replaceAll("\\s", "").toLowerCase();
+			return normalizedGenre.equals(normalizedObjGenre);
+		} else if (obj instanceof String objString) {
+			// Compare a Genre object with a String
+			String normalizedGenre = genre.replaceAll("\\s", "").toLowerCase();
+			String normalizedString = objString.replaceAll("\\s", "").toLowerCase();
+			return normalizedGenre.equals(normalizedString);
 		}
-		String normalized_genre = genre.replaceAll("\\s", "").toLowerCase();
-		String normalized_obj_genre = obj_genre.getGenre().replaceAll("\\s", "").toLowerCase();
-		return normalized_obj_genre.equals(normalized_genre);
+		return false;
 	}
 
 	@Override

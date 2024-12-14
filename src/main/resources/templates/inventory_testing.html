@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>testing form</title>
+</head>
+<body>
+    <form th:action="@{inventory_testing}" method="post" th:object="${testingForm}">
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>
+                    <label>
+<!--                        TODO: this will show an empty field for input-->
+<!--                        but we want the field to be already populated with the existing book information-->
+<!--                        for the case the user decides to change -->
+<!--                        maybe the info inside th:value will not be rendered as text, but it indeed be passed to the controller-->
+                        <input type="text" name="name" th:field="*{name}" th:value="${#fields.hasErrors('name')} ? *{name} : 'Hello'" >
+                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th>testing row</th>
+                <td>this should be the first col</td>
+                <td>
+                    <label>
+                        <input type="text" name="testing" placeholder="enter text">
+                    </label>
+                </td>
+            </tr>
+<!--            <tr>-->
+<!--                <th>Price</th>-->
+<!--                <td>-->
+<!--                    <label>-->
+<!--                        <input type="number" name="price" th:field="*{price}" placeholder="enter number">-->
+<!--                    </label>-->
+<!--                </td>-->
+<!--            </tr>-->
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

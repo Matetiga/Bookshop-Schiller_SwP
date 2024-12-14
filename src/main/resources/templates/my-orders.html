@@ -20,37 +20,12 @@
         <button class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" th:text="#{home.nav.account}">Account</button>
         <button class="small-nav-tab-button active" th:onclick="|location.href='@{/my-orders}'|" th:text="#{order.my-orders}">Meine Bestellungen</button>
         <br>
-        <form class="ui form" method="post" th:action="@{/filterOrders}">
-            <div class="form-group">
-                <label for="dropdown_status">Status:</label>
-                <select id="dropdown_status" name="filterState" class="form-control">
-                    <option th:each="state : ${orderStates}"
-                            th:value="${state}"
-                            th:text="${state}"
-                            th:selected="${state == selectedState}">
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="filter_payment">Bezahlmethode:</label>
-                <select id="filter_payment" name="filterPaymentMethod" class="form-control">
-                    <option th:each="pm: ${paymentMethods}"
-                            th:value="${pm}"
-                            th:text="${pm}"
-                            th:selected="${pm == selectedPaymentMethod}">
-                    </option>
-                </select>
-            </div>
-            <div class="form-container my-4">
-                <div class="form-group mt-3">
-                    Produktname:
-                    <input type="text" name="productName"/>
-                    <button type="submit" class="btn btn-primary">Filtern</button>
-                </div>
+        <form class="ui form" method="post" th:action="@{/sortByDateKonto}">
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary" th:text="${sortDateButtonValueKonto}"></button>
             </div>
         </form>
     </aside>
-
     <section class="container panel-effect">
         <div class="table-responsive">
             <section layout:fragment="content">
@@ -58,19 +33,16 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                         <tr>
-                            <th th:text="#{orders.date}">Datum</th>
-                            <th th:text="#{orders.customerId}">Kunde</th>
+                            <th>Bestelldatum</th>
                             <th th:text="#{orders.price}">Bestellwert</th>
                             <th th:text="#{orders.paymentMethod}">Bezahlmethode</th>
                             <th th:text="#{orders.state}">Status</th>
-                            <th scope="col" colspan="2" th:text="#{user.edit}">Aktionen</th>
-
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="order : ${orderList}">
-                            <td th:text="${#temporals.format(order.getDateCreated(), 'dd.MM.yyyy HH:mm')}"></td>
-                            <td th:text="${order.getUserAccountIdentifier()}"></td>
+                            <td th:text="${#temporals.format(order.getDebitTime(), 'dd.MM.yyyy HH:mm')}"></td>
                             <td th:text="${order.getTotal()}"></td>
                             <td th:text="${order.getStringPaymentMethod()}"></td>
                             <td th:text="${order.getMyOrderStatus()}"></td>

@@ -15,6 +15,8 @@
  */
 package kickstart.welcome;
 
+import kickstart.orders.MyOrderManagement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +24,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class WelcomeController {
 
- 	@GetMapping("/")
+	private final MyOrderManagement myOrderManagement;
+	private boolean ordersInitialized;
+
+	public WelcomeController(MyOrderManagement myOrderManagement) {
+		this.myOrderManagement = myOrderManagement;
+		this.ordersInitialized = false;
+	}
+
+	@GetMapping("/")
  	public String index() {
-		 return "home";
+		//initialization of random ("historical"/demo-)orders here, because the default users must already be existent
+		if (!ordersInitialized){
+			myOrderManagement.initializeRandomOrders();
+		}
+		return "home";
  	}
 
 	@PostMapping("/welcome")

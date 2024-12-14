@@ -12,8 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
+import org.springframework.validation.FieldError;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -30,7 +29,7 @@ class UserController {
 		Assert.notNull(userManagement, "UserManagement.java must not be null!");
 		this.userManagement = userManagement;
 	}
-	
+
 	@PostMapping("/register")
 	String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
 
@@ -43,7 +42,7 @@ class UserController {
 		}
 
 		if (!form.getPassword().equals(form.getConfirmPassword())) {
-			result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match"); 
+			result.rejectValue("confirmPassword", "error.confirmPassword", "Passwords do not match");
 		}
 
 		if (result.hasErrors()) {
@@ -140,16 +139,16 @@ class UserController {
 
 		for (User user : userManagement.findAll()) {
 			if (user.getUserAccount().getUsername().equals(UserDetails.getUsername())) {
-				model.addAttribute("user", user);  
+				model.addAttribute("user", user);
 				return "account";
 			}
 		}
-		return "redirect:/login";  
-	}	
+		return "redirect:/login";
+	}
 
 	@GetMapping("/account_edit")
 	public String accountEdit(@AuthenticationPrincipal UserDetails UserDetails, EditUserProfilForm form, Model model) {
-		
+
 		if (UserDetails == null) throw new IllegalStateException("User has to exists, but does not exist");
 
 		User user = userManagement.findByUsername(UserDetails.getUsername());

@@ -68,18 +68,6 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	public Iterable<MyOrder> findByProductId(Product.ProductIdentifier productId, Iterable<MyOrder> filteredList){
-		ArrayList<MyOrder> orderList = new ArrayList<>();
-		for(MyOrder order : filteredList){
-			for(OrderLine orderLine : order.getOrderLines()){
-				if(orderLine.getProductIdentifier().equals(productId)){
-					orderList.add(order);
-				}
-			}
-		}
-		return orderList;
-	}
-
 	public Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
@@ -120,12 +108,34 @@ public class MyOrderManagement {
 		}
 	}
 
+	public Iterable<MyOrder> filterAllOrders(String state, String paymentMethod, String productName, String username){
+		Iterable<MyOrder> filterList = this.findByStatus(state, myOrderRepository.findAll());
+		filterList = this.findByPaymentMethod(paymentMethod, filterList);
+
+		if (!productName.isEmpty()) {
+			filterList = this.findByProductName(productName, filterList);
+		}
+		if (!username.isEmpty()){
+			filterList = this.findByUsername(username, filterList);
+		}
+
+		return filterList;
+	}
+
+	public List<MyOrder> sortByDate(Iterable<MyOrder> iterable){
+		List<MyOrder> list = new ArrayList<>();
+		iterable.forEach(list::add);
+		list.sort(Comparator.comparing(MyOrder::getDebitTime));
+
+		return list;
+	}
+
 	public void initializeRandomOrders(){
 		for (int i = 0; i < 50; i++){
 			Random random = new Random();
 			List<ShopProduct> shopProductList = shopProductCatalog.findAll().stream().toList();
 
-			MyOrder randomOrder = new MyOrder(userManagement.findByUsername("employee2@example.com"), random.nextBoolean() ? "Bar" : "Rechnung");
+			MyOrder randomOrder = new MyOrder(userManagement.findByUsername(random.nextBoolean() ? "customer1@example.com" : "customer2@example.com"), random.nextBoolean() ? "Bar" : "Rechnung");
 
 			for (int j = 0; j < 5; j++){
 				ShopProduct randomProduct = shopProductList.get(random.nextInt(shopProductList.size()));

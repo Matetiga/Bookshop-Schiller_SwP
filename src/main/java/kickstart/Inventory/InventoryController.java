@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -72,7 +74,7 @@ public class InventoryController {
 				books.add(new AbstractMap.SimpleEntry<Book, Quantity>((Book) item.getProduct(), item.getQuantity()));
 			}
 		}
-		// this prevents the form from being overwritten when the page is reloaded
+		// this prevents the form from being overwritten when the page is re rendered
 		if (!model.containsAttribute("bookForm")) {
 			model.addAttribute("bookForm", new AddBookForm());
 		}
@@ -119,7 +121,6 @@ public class InventoryController {
 	@PostMapping("/inventory/increase")
 	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id ,
 										  @RequestParam("viewName") String viewName,  Model model){
-		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(1));
 			shopProductInventory.save(item);
@@ -139,29 +140,21 @@ public class InventoryController {
 	@PostMapping("/inventory/decrease")
 	public String decreaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id , Model model){
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+
+		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
+			item.increaseQuantity(Quantity.of(-1));
+			shopProductInventory.save(item);
+		});
+
 		if (shopProduct.getProduct() instanceof Book) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(-1));
-				shopProductInventory.save(item);
-			});
 			showInventory(model);
 			return "inventory_book";
 		}
 		if (shopProduct.getProduct() instanceof Calendar) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(-1));
-				shopProductInventory.save(item);
-
-			});
 			showCalendarInventory(model);
 			return "redirect:/inventory_calendar";
 		}
 		if (shopProduct.getProduct() instanceof Merch) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				item.increaseQuantity(Quantity.of(-1));
-				shopProductInventory.save(item);
-
-			});
 			showMerchInventory(model);
 			return "redirect:/inventory_merch";
 		}
@@ -175,43 +168,29 @@ public class InventoryController {
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model){
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		shopProductInventory.findByProductIdentifier(id).ifPresent(shopProductInventory::delete);
 		if (shopProduct.getProduct() instanceof Book) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				shopProductInventory.delete(item);
-			});
 			showInventory(model);
 			return "inventory_book";
 		}
 		if (shopProduct.getProduct() instanceof Calendar) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				shopProductInventory.delete(item);
-			});
 			showCalendarInventory(model);
 			return "redirect:/inventory_calendar";
 		}
 		if (shopProduct.getProduct() instanceof Merch) {
-			shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-				shopProductInventory.delete(item);
-			});
 			showMerchInventory(model);
 			return "redirect:/inventory_merch";
 		}
 		else{
 			return "inventory_book";
 		}
+
 	}
 
-//	@GetMapping("/inventory/add_bookForm")
-//	public String showAddBookForm(Model model, AddBookForm bookForm) {
-//		model.addAttribute("bookForm", bookForm);
-//		return "inventory_book";
-//	}
 
 	private String saveImage(MultipartFile image) {
-		String fileName = image.getOriginalFilename();
+		String fileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
 
-//		String tempDir = System.getProperty("java.io.tmpdir");
-//		tempDir,
 		Path imagePath = Paths.get("uploads/images", fileName);
 		try {
 			Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
@@ -222,9 +201,9 @@ public class InventoryController {
 	}
 
 
-
 	@PostMapping("/inventory/add_book")
-	public String addBook(@Valid @ModelAttribute("bookForm") AddBookForm bookForm,  BindingResult result, Model model){
+	public String addBook(@Valid AddBookForm bookForm, BindingResult result,
+						  @RequestParam("imageFile") MultipartFile file , Model model){
 
 		if(result.hasErrors()){
 			showInventory(model);
@@ -232,7 +211,7 @@ public class InventoryController {
 			return "inventory_book";
 		}
 
-		String imagePath = saveImage(bookForm.getImage());
+		String imagePath = saveImage(file);
 
 		Book book = new Book(bookForm.getName(),
 			imagePath,
@@ -252,14 +231,15 @@ public class InventoryController {
 	}
 
 	@PostMapping("/inventory/add_merch")
-	public String addMerch(@Valid @ModelAttribute("merchForm") AddMerchCalendarForm merchForm, BindingResult result, Model model){
+	public String addMerch(@Valid @ModelAttribute("merchForm") AddMerchCalendarForm merchForm, BindingResult result,
+						   @RequestParam("imageFile") MultipartFile file, Model model){
 		if(result.hasErrors()){
 			showMerchInventory(model);
 			model.addAttribute("showModal", true);
 			return "inventory_merch";
 		}
 
-		String imagePath = saveImage(merchForm.getImage());
+		String imagePath = saveImage(file);
 		Merch merch = new Merch(merchForm.getName(),
 			imagePath,
 			Money.of(merchForm.getPrice(), "EUR"),
@@ -271,13 +251,14 @@ public class InventoryController {
 	}
 
 	@PostMapping("/inventory/add_calendar")
-	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm, BindingResult result, Model model){
+	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm, BindingResult result,
+							  @RequestParam("imageFile") MultipartFile file ,Model model){
 		if(result.hasErrors()){
 			showCalendarInventory(model);
 			model.addAttribute("showModal", true);
 			return "inventory_calendar";
 		}
-		String imagePath = saveImage(calendarForm.getImage());
+		String imagePath = saveImage(file);
 		Calendar calendar = new Calendar(calendarForm.getName(),
 			imagePath,
 			Money.of(calendarForm.getPrice(), "EUR"),
@@ -290,74 +271,140 @@ public class InventoryController {
 	}
 
 
+	// This method should give all the information of the different products to the html
+	// depending on its class
+	@GetMapping("/inventory/editable/{itemId}")
+	public String getDetail(@PathVariable Product.ProductIdentifier itemId, Model model) {
 
-	@PostMapping("/inventory/editable")
-	public String getDetail(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
-		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
+		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(itemId).get();
+		model.addAttribute("productId", shopProduct.getProduct().getId() );
 		if (shopProduct.getProduct() instanceof Book) {
-			model.addAttribute("book", shopProduct.getProduct() );
+
 			model.addAttribute("bookGenres", Genre.getAllGenres());
+			Book book = (Book) shopProduct.getProduct();
+			Set<String> set = book.getBookGenres().stream()
+				.map(Genre::getGenre)
+				.collect(Collectors.toSet());
+
+			AddBookForm form = new AddBookForm(
+				book.getName(),
+				book.getImage(),
+				book.getDescription(),
+				set,
+				book.getAuthor(),
+				book.getISBN(),
+				book.getPublisher(),
+				book.getPrice().getNumber().doubleValue(),
+				shopProduct.getQuantity().getAmount().intValue()
+			);
+			model.addAttribute("bookForm", form);
+
 		}
 		if (shopProduct.getProduct() instanceof Calendar) {
-			model.addAttribute("calendar", shopProduct.getProduct());
+			Calendar calendar = (Calendar) shopProduct.getProduct();
+			AddMerchCalendarForm form = new AddMerchCalendarForm(
+				calendar.getName(),
+				calendar.getImage(),
+				calendar.getPrice().getNumber().doubleValue(),
+				calendar.getDescription(),
+				shopProduct.getQuantity().getAmount().intValue()
+			);
+			model.addAttribute("calendarForm", form);
 		}
 		if (shopProduct.getProduct() instanceof Merch) {
-			model.addAttribute("merch", shopProduct.getProduct());
+			Merch merch = (Merch) shopProduct.getProduct();
+			AddMerchCalendarForm form = new AddMerchCalendarForm(
+				merch.getName(),
+				merch.getImage(),
+				merch.getPrice().getNumber().doubleValue(),
+				merch.getDescription(),
+				shopProduct.getQuantity().getAmount().intValue()
+			);
+			model.addAttribute("merchForm", form);
 		}
 
 		return "inventory_editable";
 	}
 
-	//TODO: Invalid arguments are allowed to be passed
-	// check for empty Strings or negative values
-	@PostMapping("/inventory/save_book")
-	public String saveBook(
-		@RequestParam("itemId") Product.ProductIdentifier id,
-		// this can be replaced with AddBookForm
-		@RequestParam("name") String name,
-		@RequestParam("description") String desc,
-		@RequestParam("price") BigDecimal price,
-		@RequestParam("genre")Set<String> genreName,
-		@RequestParam("author")String author,
-		@RequestParam("ISBN") String isbn,
-		@RequestParam("publisher")String publisher) {
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.getProduct().setName(name);
+	private void setStockEdit(UniqueInventoryItem item , Quantity oldQuantity, int newQuantity){
+		int oldStock = oldQuantity.getAmount().intValue();
 
-			Money moneyPrice = Money.of(price, "EUR");
-			item.getProduct().setPrice(moneyPrice);
+		if(oldStock < newQuantity){
+			item.increaseQuantity(Quantity.of(newQuantity - oldStock));
+		}
+		if(oldStock > newQuantity){
+			item.decreaseQuantity(Quantity.of(oldStock - newQuantity));
+		}
+	}
 
-			((Book) item.getProduct()).setDescription(desc);
 
-			((Book) item.getProduct()).setAuthor(author);
-			((Book) item.getProduct()).setISBN(isbn);
-			((Book) item.getProduct()).setPublisher(publisher);
+	@PostMapping("/inventory/save_book/{itemId}")
+	public String saveBook(@Valid AddBookForm bookForm, BindingResult result,
+						   @RequestParam("imageFile") MultipartFile file,
+						   @PathVariable Product.ProductIdentifier itemId, Model model){
 
-//			Genre genre = Genre.createGenre(genreName);
-			((Book) item.getProduct()).setBookGenres(genreName.stream()
+		if(result.hasErrors()){
+			model.addAttribute("fieldErrors", result.getFieldErrors());
+			getDetail(itemId, model);
+			return "inventory_editable";
+		}
+		// this should update the path of the image if a new image is uploaded
+		// otherwise keep the old path
+		String imagePath;
+		if (!file.isEmpty()){
+			imagePath = saveImage(file);
+		} else {
+			imagePath = bookForm.getImage();
+		}
+
+		shopProductInventory.findByProductIdentifier(itemId).ifPresent(item -> {
+			Book book = (Book) item.getProduct();
+			book.setName(bookForm.getName());
+			book.setImage(imagePath);
+			book.setPrice(Money.of(bookForm.getPrice(), "EUR"));
+			book.setDescription(bookForm.getDescription());
+			book.setBookGenres(bookForm.getGenre().stream()
 				.map(Genre::createGenre)
 				.collect(Collectors.toSet())
 			);
+			book.setAuthor(bookForm.getAuthor());
+			book.setISBN(bookForm.getISBN());
+			book.setPublisher(bookForm.getPublisher());
 
+			setStockEdit(item, item.getQuantity(), bookForm.getStock());
 			shopProductInventory.save(item);
 		});
 		return "redirect:/inventory_book";
 
 	}
 
-	@PostMapping("/inventory/save_calendar")
-	public String saveCalendar(
-		@RequestParam("itemId") Product.ProductIdentifier id,
-		@RequestParam("name") String name,
-		@RequestParam("description") String desc,
-		@RequestParam("price") BigDecimal price) {
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.getProduct().setName(name);
+	@PostMapping("/inventory/save_calendar/{itemId}")
+	public String saveCalendar(@Valid AddMerchCalendarForm calendarForm, BindingResult result,
+							   @RequestParam("imageFileCalendar") MultipartFile file,
+							   @PathVariable Product.ProductIdentifier itemId, Model model) {
+		if(result.hasErrors()){
+			model.addAttribute("fieldErrors", result.getFieldErrors());
+			getDetail(itemId, model);
+			return "inventory_editable";
+		}
 
-			Money moneyPrice = Money.of(price, "EUR");
-			item.getProduct().setPrice(moneyPrice);
+		// this should update the path of the image if a new image is uploaded
+		// otherwise keep the old path
+		String imagePath;
+		if (!file.isEmpty()){
+			imagePath = saveImage(file);
+		} else {
+			imagePath = calendarForm.getImage();
+		}
 
-			((Calendar) item.getProduct()).setDescription(desc);
+		shopProductInventory.findByProductIdentifier(itemId).ifPresent(item -> {
+			Calendar calendar = (Calendar) item.getProduct();
+			calendar.setName(calendarForm.getName());
+			calendar.setImage(imagePath);
+			calendar.setDescription(calendarForm.getDescription());
+			calendar.setPrice(Money.of(calendarForm.getPrice(), "EUR"));
+
+			setStockEdit(item, item.getQuantity(), calendarForm.getStock());
 
 			shopProductInventory.save(item);
 		});
@@ -365,20 +412,33 @@ public class InventoryController {
 
 	}
 
-	@PostMapping("/inventory/save_merch")
-	public String saveMerch(
-		@RequestParam("itemId") Product.ProductIdentifier id,
-		@RequestParam("name") String name,
-		@RequestParam("description") String desc,
-		@RequestParam("price") BigDecimal price) {
-		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.getProduct().setName(name);
+	@PostMapping("/inventory/save_merch/{itemId}")
+	public String saveMerch(@Valid AddMerchCalendarForm merchForm, BindingResult result,
+							@RequestParam("imageFileMerch") MultipartFile file,
+							@PathVariable Product.ProductIdentifier itemId, Model model) {
+		if(result.hasErrors()){
+			model.addAttribute("fieldErrors", result.getFieldErrors());
+			getDetail(itemId, model);
+			return "inventory_editable";
+		}
 
-			Money moneyPrice = Money.of(price, "EUR");
-			item.getProduct().setPrice(moneyPrice);
+		// this should update the path of the image if a new image is uploaded
+		// otherwise keep the old path
+		String imagePath;
+		if (!file.isEmpty()){
+			imagePath = saveImage(file);
+		} else {
+			imagePath = merchForm.getImage();
+		}
 
-			((Merch) item.getProduct()).setDescription(desc);
+		shopProductInventory.findByProductIdentifier(itemId).ifPresent(item -> {
+			Merch merch = (Merch) item.getProduct();
+			merch.setName(merchForm.getName());
+			merch.setImage(imagePath);
+			merch.setDescription(merchForm.getDescription());
+			merch.setPrice(Money.of(merchForm.getPrice(), "EUR"));
 
+			setStockEdit(item, item.getQuantity(), merchForm.getStock());
 			shopProductInventory.save(item);
 		});
 
