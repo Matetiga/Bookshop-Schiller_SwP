@@ -86,8 +86,9 @@
               <input type="number" id="stock"  th:field="*{stock}" name="stock" placeholder="Enter Stock" required/>
               <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
 
-              <label for="image"></label>
-              <input type="file" id="image" accept=".jpg" name="image"  required/>
+              <label for="imageFile"></label>
+              <input type="file" id="imageFile" accept=".jpg" name="imageFile"  required onchange="returnImageName()"/>
+              <input type="hidden" id="imageName" name="imageName" th:field="*{image}" required/>
               <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
 
               <label for="price"></label>
@@ -128,6 +129,13 @@
 
     function confirmDelete() {
         return confirm("Are you sure you want to delete this?");
+    }
+    // this should bind only the file name to the 'image' field of the Form
+    function returnImageName(){
+        const fileInput = document.getElementById('imageFile');
+        const hiddenName = document.getElementById('imageName');
+        hiddenName.value = fileInput.files[0].name;
+
     }
 </script>
 </html>

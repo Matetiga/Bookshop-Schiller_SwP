@@ -20,7 +20,7 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form th:action="@{/inventory/save_book/{id}(id=${productId})}" th:object="${bookForm}" method="post">
+            <form th:action="@{/inventory/save_book/{id}(id=${productId})}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Name</th>
@@ -41,8 +41,9 @@
                         <th>Image</th>
                         <td th:text="${bookForm.image}"></td>
                         <td>
-                            <label>
-                                <input type="text" name="image" th:field="*{image}" placeholder="Enter new image" />
+                            <label for="imageFile">
+                                <input type="file" id="imageFile" accept=".jpg" name="imageFile" onchange="returnImageNameBook()"/>
+                                <input type="hidden" id="imageName" name="imageName" th:field="*{image}" required/>
                             </label>
                             <span th:each="error : ${fieldErrors}"
                                   th:if="${error.field == 'image'}"
@@ -160,7 +161,6 @@
         </section>
     </div>
 </div>
-
 <div class="shadowbox" th:if="${calendarForm != null}">
     <header>
         <h1>Editing Calendar</h1>
@@ -173,7 +173,7 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form th:action="@{/inventory/save_calendar/{id}(id=${productId})}" th:object="${calendarForm}" method="post">
+            <form th:action="@{/inventory/save_calendar/{id}(id=${productId})}" th:object="${calendarForm}" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Name</th>
@@ -194,8 +194,9 @@
                         <th>Image</th>
                         <td th:text="${calendarForm.image}"></td>
                         <td>
-                            <label>
-                                <input type="text" name="image" th:field="*{image}" placeholder="Enter new image" />
+                            <label for="imageFile">
+                                <input type="file" id="imageFileCalendar" accept=".jpg" name="imageFileCalendar" onchange="returnImageNameCalendar()"/>
+                                <input type="hidden" id="imageNameCalendar" name="imageNameCalendar" th:field="*{image}" required/>
                             </label>
                             <span th:each="error : ${fieldErrors}"
                                   th:if="${error.field == 'image'}"
@@ -261,7 +262,7 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form th:action="@{/inventory/save_merch/{id}(id=${productId})}" th:object="${merchForm}" method="post">
+            <form th:action="@{/inventory/save_merch/{id}(id=${productId})}" th:object="${merchForm}" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Name</th>
@@ -282,8 +283,9 @@
                         <th>Image</th>
                         <td th:text="${merchForm.image}"></td>
                         <td>
-                            <label>
-                                <input type="text" name="image" th:field="*{image}" placeholder="Enter new image" />
+                            <label for="imageFile">
+                                <input type="file" id="imageFileMerch" accept=".jpg" name="imageFileMerch" onchange="returnImageNameMerch()"/>
+                                <input type="hidden" id="imageNameMerch`" name="imageNameMerch" th:field="*{image}" required/>
                             </label>
                             <span th:each="error : ${fieldErrors}"
                                   th:if="${error.field == 'image'}"
@@ -337,4 +339,29 @@
     </div>
 </div>
 </body>
+<script>
+    function returnImageNameBook(){
+        const fileInput = document.getElementById('imageFile');
+        const hiddenName = document.getElementById('imageName');
+        if(fileInput.files.length>1){
+            hiddenName.value = fileInput.files[0].name;
+        }
+    }
+
+    function returnImageNameCalendar(){
+        const fileInput = document.getElementById('imageFileCalendar');
+        const hiddenName = document.getElementById('imageNameCalendar');
+        if(fileInput.files.length>1){
+            hiddenName.value = fileInput.files[0].name;
+        }
+    }
+
+    function returnImageNameMerch(){
+        const fileInput = document.getElementById('imageFileMerch');
+        const hiddenName = document.getElementById('imageNameMerch`');
+        if(fileInput.files.length>1){
+            hiddenName.value = fileInput.files[0].name;
+        }
+    }
+</script>
 </html>

@@ -10,7 +10,6 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +17,6 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
 
 public class InventoryControllerIntegrationTests extends AbstractIntegrationTests {
 

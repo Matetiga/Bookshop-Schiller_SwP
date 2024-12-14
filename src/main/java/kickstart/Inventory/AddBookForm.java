@@ -16,7 +16,7 @@ public class AddBookForm {
 	private String name;
 
 	@NotNull(message = "Image is required")
-	private MultipartFile image;
+	private String image;
 
 	@Min(value = 0, message = "Price can not be negative")
 	private double price;
@@ -40,7 +40,7 @@ public class AddBookForm {
 	private int stock;
 
 	public AddBookForm() {}
-	public AddBookForm(String name, MultipartFile image, String description, Set<String> genre,
+	public AddBookForm(String name, String image, String description, Set<String> genre,
 					   String author, String ISBN, String publisher, double price, int stock) {
 		this.name = name;
 		this.image = image;
@@ -62,11 +62,11 @@ public class AddBookForm {
 		this.name = name;
 	}
 
-	public MultipartFile getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(MultipartFile image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
