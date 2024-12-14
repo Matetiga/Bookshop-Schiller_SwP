@@ -3,12 +3,14 @@ package kickstart.user;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 
 class RegistrationForm {
 
 	private final @Email(message = "It has to be a valid email") String email;
-	private final @Size(min = 8, message = "Password must be at least 8 characters") String password;
+	private final @Size(min = 8, message = "Password must be at least 8 characters") 
+				  @Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*", message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\":{}|<>") String password;
 	private final @NotEmpty(message = "The address cannot be empty") String address;
 	private final String confirmPassword;
 	private final @NotEmpty(message = "The name cannot be empty") String name;

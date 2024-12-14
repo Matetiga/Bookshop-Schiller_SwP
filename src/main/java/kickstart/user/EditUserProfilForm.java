@@ -1,15 +1,17 @@
 package kickstart.user;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
 class EditUserProfilForm {
 
-	private @NotEmpty(message = "The edit_address cannot be empty") String edit_address;
-	private @NotEmpty(message = "The edit_name cannot be empty") String edit_name;
-	private @NotEmpty(message = "The last edit_name cannot be empty") String edit_last_name;
-	private @Size(min = 8, message = "Password must be at least 8 characters") String edit_password;
+	private @NotEmpty(message = "The Address cannot be empty") String edit_address;
+	private @NotEmpty(message = "The Name cannot be empty") String edit_name;
+	private @NotEmpty(message = "The Last Name cannot be empty") String edit_last_name;
+	private @Size(min = 8, message = "Password must be at least 8 characters")
+	 		@Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*", message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\\\\\":{}|<>") String edit_password;
 	private String edit_confirmPassword;	 
 
 
