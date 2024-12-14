@@ -188,7 +188,7 @@ public class InventoryController {
 	}
 
 
-	private String saveImage(MultipartFile image) {
+	public String saveImage(MultipartFile image) {
 		String fileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
 
 		Path imagePath = Paths.get("uploads/images", fileName);

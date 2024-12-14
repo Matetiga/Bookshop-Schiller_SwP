@@ -10,13 +10,21 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class InventoryControllerIntegrationTests extends AbstractIntegrationTests {
 
@@ -173,6 +181,33 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		// Genre should be deleted from the book
 		assertThat(testBook.getBookGenres()).isEmpty();
 
+	}
+
+
+	@Test
+	public void testSaveImage() throws Exception {
+		// Mock MultipartFile
+		MultipartFile mockFile = mock(MultipartFile.class);
+		when(mockFile.getOriginalFilename()).thenReturn("test-image.jpg");
+
+		byte[] mockContent = "Image content".getBytes();
+		InputStream mockInputStream = new ByteArrayInputStream(mockContent);
+		when(mockFile.getInputStream()).thenReturn(mockInputStream);
+
+		// calling the method
+		String savedPath = controller.saveImage(mockFile);
+
+		assertTrue(savedPath.contains("../uploads/images"), "Path should contain 'uploads/images'");
+		assertTrue(savedPath.endsWith("test-image.jpg"));
+
+		Path uploadedFilePath = Paths.get("uploads/images");
+		//this should get everything after the last slash
+		// so: /uploads/images/UUID-test-image.jpg -> UUID-test-image.jpg
+		Path expectedFilePath = uploadedFilePath.resolve(savedPath.substring(savedPath.lastIndexOf("/") + 1));
+		assertTrue(Files.exists(expectedFilePath), "File should exist in the actual directory");
+
+		// this should then clean the directory of the test file
+		Files.delete(expectedFilePath);
 	}
 // Important:
 	// Test for methods that include Bindingresult will not be tested
