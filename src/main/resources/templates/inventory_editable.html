@@ -10,7 +10,7 @@
 <body>
 <div th:replace="fragments/shop_navbar :: navbar"></div>
 
-<div th:if="${book != null}">
+<div th:if="${bookForm != null}">
     <header>
         <h1>Editing Book</h1>
     </header>
@@ -22,114 +22,148 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form action="/inventory/save_book" method="post">
-                <input type="hidden" name="itemId" th:value="${book.id}" />
+            <form th:action="@{/inventory/save_book/{id}(id=${productId})}" th:object="${bookForm}" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Name</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.name}"></td>
+                        <td th:text="${bookForm.name}"></td>
                         <td>
-                            <input type="text" name="name" th:value="${book.name}" placeholder="Enter new name" />
+                            <label>
+                                <input type="text" name="name" th:field="*{name}" placeholder="Enter new name" />
+                            </label>
+                            <!-- Display error message did not work the 'conventional way' as in inventory_book -->
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'name'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
-                        <th>Price</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.price}"></td>
+                        <th>Image</th>
+                        <td th:text="${bookForm.image}"></td>
                         <td>
-                            <input type="text" name="price" th:value="${book.price.number}" placeholder="Enter new price"/>
+                            <label for="imageFile">
+                                <input type="file" id="imageFile" accept=".jpg" name="imageFile" onchange="returnImageNameBook()"/>
+                                <input type="hidden" id="imageName" name="imageName" th:field="*{image}" required/>
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'image'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Description</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.description}"></td>
+                        <td th:text="${bookForm.description}"></td>
                         <td>
-                            <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${book.description}"></textarea>
+                            <label>
+                                <textarea name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="*{description}"></textarea>
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'description'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
-                        <th>Genre</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
+                        <th>Genres</th>
                         <td>
-<!--                            TODO: this line has been changed to display all genres in a book-->
                             <ul>
-                                <li th:each="genre : ${book.getBookGenres()}">
-                                    <span th:text="${genre.getGenre()}"></span>
+                                <!-- Each genre is a string here -->
+                                <li th:each="genre : ${bookForm.getGenre()}">
+                                    <span th:text="${genre}"></span>
                                 </li>
                             </ul>
                         </td>
                         <td>
                             <label>
                                 <select name="genre[]" multiple>
-                                    <option th:each="genre : ${bookGenres}"
-                                            th:value="${genre.genre}"
-                                            th:text="${genre.genre}"
-                                            th:selected="${book.getBookGenres().contains(genre)}">
+                                    <option th:each="bookGenre : ${bookGenres}"
+                                            th:value="${bookGenre.getGenre()}"
+                                            th:text="${bookGenre.getGenre()}"
+                                            th:selected="${bookForm.getGenre().contains(bookGenre)}">
                                     </option>
                                 </select>
                             </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'genre'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Author</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.author}"></td>
+                        <td th:text="${bookForm.author}"></td>
                         <td>
-                            <input type="text" name="author" th:value="${book.author}" placeholder="Enter new author"/>
+                            <label>
+                                <input type="text" name="author" th:field="*{author}" placeholder="Enter new author" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'author'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>ISBN</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.ISBN}"></td>
+                        <td th:text="${bookForm.ISBN}"></td>
                         <td>
-                            <input type="text" name="ISBN" th:value="${book.ISBN}" placeholder="Enter new ISBN" />
+                            <label>
+                                <input type="text" name="ISBN" th:field="*{ISBN}" placeholder="Enter new ISBN" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'ISBN'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Publisher</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${book.publisher}"></td>
+                        <td th:text="${bookForm.publisher}"></td>
                         <td>
-                            <input type="text" name="publisher" th:value="${book.publisher}" placeholder="Enter new publisher"/>
+                            <label>
+                                <input type="text" name="publisher" th:field="*{publisher}" placeholder="Enter new publisher" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'publisher'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td th:text="${bookForm.price}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="price" th:field="*{price}" placeholder="Enter new price" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'price'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Stock</th>
+                        <td th:text="${bookForm.stock}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="stock" th:field="*{stock}" placeholder="Enter new stock" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'stock'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+                        </td>
+
                 </table>
                 <button class="btn btn-success" type="submit">Save Changes</button>
             </form>
         </section>
     </div>
 </div>
-
-<div class="shadowbox" th:if="${calendar != null}">
+<div class="shadowbox" th:if="${calendarForm != null}">
     <header>
         <h1>Editing Calendar</h1>
     </header>
@@ -141,43 +175,76 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form action="/inventory/save_calendar" method="post">
-                <input type="hidden" name="itemId" th:value="${calendar.id}" />
+            <form th:action="@{/inventory/save_calendar/{id}(id=${productId})}" th:object="${calendarForm}" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Name</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${calendar.name}"></td>
+                        <td th:text="${calendarForm.name}"></td>
                         <td>
-                            <input type="text" name="name" th:value="${calendar.name}" placeholder="Enter new name" />
+                            <label>
+                                <input type="text" name="name" th:field="*{name}" placeholder="Enter new name" />
+                            </label>
+                            <!-- Display error message did not work the 'conventional way' as in inventory_book -->
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'name'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
-                        <th>Price</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${calendar.price}"></td>
+                        <th>Image</th>
+                        <td th:text="${calendarForm.image}"></td>
                         <td>
-                            <input type="text" name="price" th:value="${calendar.price.number}" placeholder="Enter new price"/>
+                            <label for="imageFile">
+                                <input type="file" id="imageFileCalendar" accept=".jpg" name="imageFileCalendar" onchange="returnImageNameCalendar()"/>
+                                <input type="hidden" id="imageNameCalendar" name="imageNameCalendar" th:field="*{image}" required/>
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'image'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Description</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${calendar.description}"></td>
+                        <td th:text="${calendarForm.description}"></td>
                         <td>
-                            <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${calendar.description}"></textarea>
+                            <label>
+                                <textarea name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="*{description}"></textarea>
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'description'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td th:text="${calendarForm.price}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="price" th:field="*{price}" placeholder="Enter new price" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'price'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Stock</th>
+                        <td th:text="${calendarForm.stock}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="stock" th:field="*{stock}" placeholder="Enter new stock" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'stock'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+                        </td>
+
                 </table>
                 <button class="btn btn-success" type="submit">Save Changes</button>
             </form>
@@ -185,7 +252,7 @@
     </div>
 </div>
 
-<div th:if="${merch != null}">
+<div th:if="${merchForm != null}">
     <header>
         <h1>Editing Merchandise</h1>
     </header>
@@ -197,43 +264,76 @@
             </ul>
         </aside>
         <section class="right-view panel-effect">
-            <form action="/inventory/save_merch" method="post">
-                <input type="hidden" name="itemId" th:value="${merch.id}" />
+            <form th:action="@{/inventory/save_merch/{id}(id=${productId})}" th:object="${merchForm}" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Name</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${merch.name}"></td>
+                        <td th:text="${merchForm.name}"></td>
                         <td>
-                            <input type="text" name="name" th:value="${merch.name}" placeholder="Enter new name" />
+                            <label>
+                                <input type="text" name="name" th:field="*{name}" placeholder="Enter new name" />
+                            </label>
+                            <!-- Display error message did not work the 'conventional way' as in inventory_book -->
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'name'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
-                        <th>Price</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${merch.price}"></td>
+                        <th>Image</th>
+                        <td th:text="${merchForm.image}"></td>
                         <td>
-                            <input type="text" name="price" th:value="${merch.price.number}" placeholder="Enter new price" />
+                            <label for="imageFile">
+                                <input type="file" id="imageFileMerch" accept=".jpg" name="imageFileMerch" onchange="returnImageNameMerch()"/>
+                                <input type="hidden" id="imageNameMerch`" name="imageNameMerch" th:field="*{image}" required/>
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'image'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
-                </table>
-                <table>
                     <tr>
                         <th>Description</th>
-                        <th>Edit</th>
-                    </tr>
-                    <tr>
-                        <td th:text="${merch.description}"></td>
+                        <td th:text="${merchForm.description}"></td>
                         <td>
-                            <textarea type="text" name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="${merch.description}"></textarea>
+                            <label>
+                                <textarea name="description"  placeholder="Enter new description" rows="4" cols="20" th:text="*{description}"></textarea>
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'description'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
                         </td>
                     </tr>
+                    <tr>
+                        <th>Price</th>
+                        <td th:text="${merchForm.price}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="price" th:field="*{price}" placeholder="Enter new price" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'price'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Stock</th>
+                        <td th:text="${merchForm.stock}"></td>
+                        <td>
+                            <label>
+                                <input type="number" name="stock" th:field="*{stock}" placeholder="Enter new stock" />
+                            </label>
+                            <span th:each="error : ${fieldErrors}"
+                                  th:if="${error.field == 'stock'}"
+                                  th:text="${error.defaultMessage}">
+                            </span>
+                        </td>
+
                 </table>
                 <button class="btn btn-success" type="submit">Save Changes</button>
             </form>
@@ -241,4 +341,29 @@
     </div>
 </div>
 </body>
+<script>
+    function returnImageNameBook(){
+        const fileInput = document.getElementById('imageFile');
+        const hiddenName = document.getElementById('imageName');
+        if(fileInput.files.length>1){
+            hiddenName.value = fileInput.files[0].name;
+        }
+    }
+
+    function returnImageNameCalendar(){
+        const fileInput = document.getElementById('imageFileCalendar');
+        const hiddenName = document.getElementById('imageNameCalendar');
+        if(fileInput.files.length>1){
+            hiddenName.value = fileInput.files[0].name;
+        }
+    }
+
+    function returnImageNameMerch(){
+        const fileInput = document.getElementById('imageFileMerch');
+        const hiddenName = document.getElementById('imageNameMerch`');
+        if(fileInput.files.length>1){
+            hiddenName.value = fileInput.files[0].name;
+        }
+    }
+</script>
 </html>

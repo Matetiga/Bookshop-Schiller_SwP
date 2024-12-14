@@ -10,7 +10,6 @@ import org.salespointframework.quantity.Quantity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +17,6 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
 
 public class InventoryControllerIntegrationTests extends AbstractIntegrationTests {
 
@@ -177,24 +174,6 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertThat(testBook.getBookGenres()).isEmpty();
 
 	}
-	//TODO this should test the Forms for the Book and the Calendar/Merch
-	// but how to "activate" the "BindingResult"?
-//
-//	@Test
-//	public void testInventoryAddNewBook(){
-//	}
-//
-//		AddBookForm form = new AddBookForm(" ", "img", "des", "science fiction",
-//			"author", "ISBN", "publisher", 10.0, 10);
-//		BindingResult bindingResult = new BeanPropertyBindingResult(form, "addBookForm");
-//
-//
-//		ValidationUtils.invokeValidator(validator, form, bindingResult);
-//
-//		// Assert: Check for errors
-//		assertThat(bindingResult.hasErrors()).isTrue();
-//		assertThat(bindingResult.getFieldError("name")).isNotNull();
-//		assertThat(bindingResult.getFieldError("name").getDefaultMessage()).isEqualTo("Name is required");
-//
-//	}
+// Important:
+	// Test for methods that include Bindingresult will not be tested
 }

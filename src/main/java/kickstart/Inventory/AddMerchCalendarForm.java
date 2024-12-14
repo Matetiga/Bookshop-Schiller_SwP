@@ -9,11 +9,11 @@ public class AddMerchCalendarForm {
 	@NotBlank(message = "Name is required")
 	private String name;
 
-	@Min(value = 1, message = "Stock must be greater than 0")
+	@Min(value = 0, message = "Stock can not be negative")
 	private int stock;
 
 	@NotNull(message = "Image is required")
-	private MultipartFile image;
+	private String image;
 
 	@Min(value = 0, message = "Price can not be negative")
 	private double price;
@@ -24,7 +24,7 @@ public class AddMerchCalendarForm {
 
 	public AddMerchCalendarForm() {
 	}
-	public AddMerchCalendarForm(String name, MultipartFile image, double price, String description, int stock) {
+	public AddMerchCalendarForm(String name, String image, double price, String description, int stock) {
 		this.name = name;
 		this.image = image;
 		this.price = price;
@@ -36,7 +36,7 @@ public class AddMerchCalendarForm {
 		return name;
 	}
 
-	public MultipartFile getImage() {
+	public String getImage() {
 		return image;
 	}
 
@@ -56,7 +56,7 @@ public class AddMerchCalendarForm {
 		this.name = name;
 	}
 
-	public void setImage(MultipartFile image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 

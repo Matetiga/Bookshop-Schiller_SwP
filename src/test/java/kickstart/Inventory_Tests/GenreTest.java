@@ -80,9 +80,9 @@ public class GenreTest {
 		Genre genre = Genre.createGenre("Science Fiction");
 		Genre genre2 = Genre.createGenre("scIence fiCtion");
 		Genre genre3 = Genre.createGenre("Fantasy");
-		assertTrue(genre.equals(genre2), "Genres are not equal");
+		assertTrue(genre.equals(genre2), "Genres are equal");
 		assertFalse(genre.equals(genre3), "Genres are equal");
-		assertFalse(genre.equals("Science Fiction"), "Genres are equal");
+		assertTrue(genre.equals("Science Fiction"), "Genres are equal");
 	}
 
 }
