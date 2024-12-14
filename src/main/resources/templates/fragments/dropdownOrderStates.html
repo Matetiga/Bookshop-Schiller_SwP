@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<div th:fragment="dropdownMenu">
+    <label for="dropdown_status">Status:</label>
+    <select id="dropdown_status" name="filterState" class="form-control">
+        <option th:each="state : ${statesList}"
+                th:value="${state}"
+                th:text="${state}"
+                th:selected="${state == selectedState}">
+        </option>
+    </select>
+</div>
+</body>
+</html>

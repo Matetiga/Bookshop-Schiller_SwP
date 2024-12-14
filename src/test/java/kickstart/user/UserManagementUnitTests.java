@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import kickstart.orders.MyOrderManagement;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.useraccount.Password.UnencryptedPassword;
 import org.salespointframework.useraccount.Role;
@@ -23,6 +24,7 @@ class UserManagementUnitTests {
 		// create UserAccountManager-Mock and UserAccount-Mock
         // UserAccountManager with action to return the userAccount which is created
 		UserAccountManagement userAccountManager = mock(UserAccountManagement.class);
+		MyOrderManagement myOrderManagement = mock(MyOrderManagement.class);
 		UserAccount userAccount = mock(UserAccount.class);
 		when(userAccountManager.create(any(), any(), any(Role.class))).thenReturn(userAccount);
 

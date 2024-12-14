@@ -59,5 +59,6 @@ class UserDefaultDataInitializer implements DataInitializer {
 			new RegistrationForm("customer3@example.com", password, password, "Hauptplatz 3", "Martin", "Wolf", "1983-09-29"),
 			new RegistrationForm("customer4@example.com", password, password, "Blumenweg 5", "Laura", "Hofmann", "1987-12-08")
 		).forEach(userManagement::createCustomer);
+
 	}
 }

@@ -16,6 +16,26 @@
     <h1 class="text-center mb-4" th:text="#{customer.overview}">Customer Overview</h1>
 </header>
 <div class="container mt-5">
+    <aside class="sidebar panel-effect col-md-4">
+        <form class="ui form" method="post" th:action="@{/filterCustomers}">
+            <div class="form-group">
+                <div th:replace="fragments/dropdownOrderStates :: dropdownMenu"></div>
+            </div>
+            <div class="form-container my-4">
+                <div class="form-group mt-3">
+                    <label for="inputCustomerName" th:text="#{customers.nameForm}">Customer Name</label>
+                    <input type="text" name="customerName" class="form-control" id="inputCustomerName" placeholder="Max Mustermann" th:value="${selectedProduct}">
+                </div>
+                <div class="form-group mt-3">
+                    <label for="inputCustomerEmail" th:text="#{customers.nameForm}">Customer Name</label>
+                    <input type="text" name="customerEmail" class="form-control" id="inputCustomerEmail" placeholder="customer@mail.com" th:value="${selectedProduct}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                Filter
+            </button>
+        </form>
+    </aside>
     <section class="container panel-effect">
         <div class="table-responsive">
             <table class="table table-bordered table-hover">

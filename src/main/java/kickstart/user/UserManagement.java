@@ -1,5 +1,9 @@
 package kickstart.user;
 
+import kickstart.orders.MyOrder;
+import kickstart.orders.MyOrderManagement;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.salespointframework.useraccount.Password.UnencryptedPassword;
 import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
@@ -13,6 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -25,13 +32,13 @@ public class UserManagement {
     private final UserRepository users;
     private final UserAccountManagement userAccounts;
 
-    // warum @Qualifier("persistentUserAccountManagement")
-    UserManagement(UserRepository users, @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
+
+	UserManagement(UserRepository users, @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
 
         Assert.notNull(users, "UserRepository must not be null!");
         Assert.notNull(userAccounts, "UserAccountManagement must not be null!");
 
-        this.users = users;
+		this.users = users;
         this.userAccounts = userAccounts;
     }
 
@@ -160,5 +167,41 @@ public class UserManagement {
 		User requestedUser = this.findByID(id);
 		
 		return requestedUser.equals(requestingUser);
+	}
+
+	public Set<User> filterCustomers(Set<User> customers, String name, String email){
+		customers = this.filterByName(customers, name);
+		customers = this.filterByEmail(customers, email);
+
+		return customers;
+	}
+
+	private Set<User> filterByName(@NotNull Set<User> users, @NotNull String name) {
+		String lowerStr1 = name.toLowerCase();
+		Iterator<User> iterator = users.iterator();
+
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			String lowerStr2 = user.getName().toLowerCase();
+			if (!(lowerStr1.contains(lowerStr2) || lowerStr2.contains(lowerStr1))) {
+				iterator.remove();
+			}
+		}
+		return users;
+	}
+
+
+	private Set<User> filterByEmail(@NotNull Set<User> users, @NotNull String email) {
+		String lowerStr1 = email.toLowerCase();
+		Iterator<User> iterator = users.iterator();
+
+		while (iterator.hasNext()) {
+			User user = iterator.next();
+			String lowerStr2 = user.getEmail().toLowerCase();
+			if (!(lowerStr1.contains(lowerStr2) || lowerStr2.contains(lowerStr1))) {
+				iterator.remove();
+			}
+		}
+		return users;
 	}
 }

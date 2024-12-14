@@ -2,18 +2,22 @@ package kickstart.orders;
 
 import kickstart.Inventory.ShopProduct;
 import kickstart.Inventory.ShopProductCatalog;
+import kickstart.user.User;
 import kickstart.user.UserManagement;
+import org.jetbrains.annotations.NotNull;
 import org.salespointframework.order.Order;
 
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,7 +33,7 @@ public class MyOrderManagement {
 	}
 
 	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
-		if(state == null || state.equals("Alle")){
+		if(state == null || state.equals("Alle") || state.equals("All")){
 			return filteredList;
 		}else{
 			ArrayList<MyOrder> orderList = new ArrayList<>();
@@ -153,5 +157,23 @@ public class MyOrderManagement {
 	public MyOrder findByID(Order.OrderIdentifier id) {
 		return myOrderRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + id));
+	}
+
+	//For customer-overview we can filter for customers who have orders of some state
+	public Set<User> getFilteredCustomersByStateOfOrders(@NotNull String state){
+		if (state.equals("Alle") || state.equals("All")){
+			Streamable<User> users= userManagement.findAll();
+			return users.stream().collect(Collectors.toSet());
+		}
+
+		Iterable<MyOrder> orders = this.findByStatus(state, myOrderRepository.findAll());
+
+		Set<User> users = new HashSet<>();
+
+		for (MyOrder order : orders) {
+			users.add(order.getUser());
+		}
+
+		return users;
 	}
 }
