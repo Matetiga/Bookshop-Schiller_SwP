@@ -179,7 +179,7 @@ class UserController {
 			form.setEdit_address(user.getAddress());
 			form.setEdit_password("");
 			form.setEdit_confirmPassword("");
-			model.addAttribute("editUserProfileForm", form);
+			model.addAttribute("editUserProfilForm", form);
 			return "account_edit";
 		}
 	}
@@ -191,10 +191,14 @@ class UserController {
 
 		User user = userManagement.findByUsername(userDetails.getUsername());
 		 
-		if (user == null) throw new IllegalArgumentException("User have to exists, but exists not.");
+		if (user == null) throw new IllegalStateException("User have to exists, but exists not.");
+
+		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
+			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match");
+		}
 
 		if (result.hasErrors()) {
-			model.addAttribute("editUserProfileForm", form);
+			model.addAttribute("editUserProfilForm", form);
 			return "account_edit"; 
 		}
 		else {
