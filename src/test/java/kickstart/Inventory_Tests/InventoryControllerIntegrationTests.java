@@ -200,14 +200,12 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		assertTrue(savedPath.contains("../uploads/images"), "Path should contain 'uploads/images'");
 		assertTrue(savedPath.endsWith("test-image.jpg"));
 
-		Path uploadedFilePath = Paths.get("uploads/images");
-		//this should get everything after the last slash
-		// so: /uploads/images/UUID-test-image.jpg -> UUID-test-image.jpg
-		Path expectedFilePath = uploadedFilePath.resolve(savedPath.substring(savedPath.lastIndexOf("/") + 1));
-		assertTrue(Files.exists(expectedFilePath), "File should exist in the actual directory");
+		// this should get rid of '../' in the path
+		Path path = Paths.get(savedPath.substring(3));
+		assertTrue(Files.exists(path), "File should exist in the actual directory");
 
 		// this should then clean the directory of the test file
-		Files.delete(expectedFilePath);
+		Files.deleteIfExists(path);
 	}
 // Important:
 	// Test for methods that include Bindingresult will not be tested
