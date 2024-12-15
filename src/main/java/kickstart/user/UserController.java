@@ -1,12 +1,8 @@
 package kickstart.user;
 
 import jakarta.validation.Valid;
-import kickstart.orders.MyOrderManagement;
-import kickstart.orders.OrderViewController;
-import org.salespointframework.order.OrderManagement;
 import org.salespointframework.useraccount.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,7 +12,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.validation.FieldError;
 
 import java.util.*;
 
@@ -32,11 +27,6 @@ class UserController {
 	private final UserManagement userManagement;
 	@Autowired
 	private MessageSource messageSource;
-	@Qualifier("myOrderManagement")
-	@Autowired
-	private MyOrderManagement myOrderManagement;
-	@Autowired
-	private OrderViewController orderViewController;
 
 	UserController(UserManagement userManagement) {
 		Assert.notNull(userManagement, "UserManagement.java must not be null!");
@@ -206,23 +196,6 @@ class UserController {
 			return "redirect:/account";
 		}
 	}
-
-	@PostMapping("filterCustomers")
-	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	String filterCustomers(@RequestParam("filterState") String state, @RequestParam(value = "customerName", required = false, defaultValue = "") String customerName, @RequestParam(value = "customerEmail", required = false, defaultValue = "") String customerEmail, Model model){
-		Set<User> customers = myOrderManagement.getFilteredCustomersByStateOfOrders(state);
-		customers = userManagement.filterCustomers(customers, customerName, customerEmail);
-		customers.removeIf(customer -> customer.getHighestRole() == null || !customer.getHighestRole().equals(Role.of("CUSTOMER")));
-
-		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
-
-		model.addAttribute("customers", customers);
-		model.addAttribute("selectedState", state);
-		model.addAttribute("statesList", states.split(","));
-
-		return "customer-overview";
-	}
-
 
 	public UserManagement getUserManagement() {
 		return userManagement;
