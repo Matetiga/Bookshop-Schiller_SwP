@@ -33,7 +33,7 @@
         </ul>
 
         <form method="get" th:action="@{/books}">
-            <h2>Filter nach Genre</h2>
+            <h2 th:text="#{catalog.sentences.filterGenre}">Filter nach Genre</h2>
             <ul class="checkbox-list">
                 <li th:each="genre : ${genres}">
                     <label>
@@ -43,6 +43,28 @@
                     </label>
                 </li>
             </ul>
+            <h2 th:text="#{catalog.sentences.sortPrice}">Sortieren nach Preis</h2>
+            <select name="sort" class="form-select">
+                <option value="" th:selected="${sort == null}" th:text="#{catalog.noSort}">Keine Sortierung</option>
+                <option value="asc" th:selected="${sort == 'asc'}" th:text="#{catalog.sort.lowToHigh}">Preis: Niedrig zu Hoch</option>
+                <option value="desc" th:selected="${sort == 'desc'}" th:text="#{catalog.sort.highToLow}">Preis: Hoch zu Niedrig</option>
+            </select>
+            <h2 th:text="#{catalog.sentences.filterPrice}">Filter nach Preis</h2>
+            <div class="form-check">
+                <label class="form-check-label" for="priceRangeAll">
+                    <input type="radio" name="priceRange" id="priceRangeAll" th:value="all" th:checked="${priceMin == null && priceMax == null}" th:text="#{catalog.filter.allPrices}">
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label" for="priceRange10">
+                    <input type="radio" name="priceRange" id="priceRange10" th:value="under10" th:checked="${priceMax != null && priceMax == 10}" th:text="#{catalog.filter.under10}">
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label" for="priceRange15">
+                    <input type="radio" name="priceRange" id="priceRange15" th:value="over15" th:checked="${priceMin != null && priceMin == 15}" th:text="#{catalog.filter.over15}">
+                </label>
+            </div>
             <button class="btn btn-primary" type="submit">Filter</button>
         </form>
         <ul class="small-nav">

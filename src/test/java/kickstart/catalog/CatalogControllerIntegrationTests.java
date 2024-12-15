@@ -29,7 +29,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 		Model model = new ExtendedModelMap();
 
-		String returnedView = controller.bookCatalog(model, null);
+		String returnedView = controller.bookCatalog(model, null,"","");
 
 		assertThat(returnedView).isEqualTo("catalog_books");
 
@@ -44,7 +44,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 		Model model = new ExtendedModelMap();
 
-		String returnedView = controller.merchCatalog(model);
+		String returnedView = controller.merchCatalog(model,"","");
 
 		assertThat(returnedView).isEqualTo("catalog_merch");
 
@@ -59,7 +59,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 		Model model = new ExtendedModelMap();
 
-		String returnedView = controller.calenderCatalog(model);
+		String returnedView = controller.calenderCatalog(model,"","");
 
 		assertThat(returnedView).isEqualTo("catalog_calender");
 
