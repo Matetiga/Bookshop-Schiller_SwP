@@ -223,6 +223,47 @@ class UserController {
 		return "customer-overview";
 	}
 
+	@GetMapping("/editPerson/{id}")
+    public String showEditPersonForm(@PathVariable("id") UUID id, @AuthenticationPrincipal UserDetails UserDetails, EditPersonbyAuthorityForm form, Model model) {
+        
+		if (UserDetails == null) throw new IllegalStateException("User have to exists, but does not.");
+
+        User employee = userManagement.findByID(id);
+
+        if (employee == null) {
+			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
+		}
+		else {
+			form.setnew_name(employee.getName());
+			form.setnew_last_name(employee.getLast_name());
+			form.setnew_address(employee.getAddress());
+			model.addAttribute("editPersonbyAuthorityForm", form);
+			return "editPerson";
+		}
+    }
+
+	@PostMapping("/editPerson/{id}")
+	public String updatePerson(@AuthenticationPrincipal UserDetails userDetails, @PathVariable("id") UUID id, @Valid EditPersonbyAuthorityForm form, Errors result, Model model) {
+
+		if (userDetails == null) throw new IllegalStateException("User have to exists, but does not.");
+
+		User employee = userManagement.findByID(id);	
+		
+		if (employee == null) {
+			throw new IllegalStateException("User must exist, but was not found.");
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("editPersonbyAuthorityForm", form);
+			return "redirect:/editPerson/" + id.toString();			
+		}
+		else {
+			employee.setName(form.getnew_name());
+			employee.setLast_name(form.getnew_last_name());
+			employee.setAddress(form.getnew_address());
+			return "redirect:/employee-overview";
+		}
+	}
 
 	public UserManagement getUserManagement() {
 		return userManagement;
