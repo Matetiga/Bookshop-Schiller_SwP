@@ -1,7 +1,13 @@
 package kickstart.orders;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import kickstart.user.User;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
+import org.salespointframework.useraccount.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 @Controller
@@ -26,6 +29,9 @@ public class OrderViewController {
 	private String[] lastFilterOptions = {"Alle", "Alle", "", ""};
 	private String lastSortDateValue;
 	private String lastSortDateValueKonto;
+
+	@Autowired
+	private MessageSource messageSource;
 
 	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
@@ -184,6 +190,23 @@ public class OrderViewController {
 		return "my-orders";
 	}
 
+	/*
+	This HAS to be in order controller and NOT in UserController even though it would be more fitting, because a cycle would be formed:
+	order -> user -> order
+	 */
+	@PostMapping("filterCustomers")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+	String filterCustomers(@RequestParam("filterState") String state, @RequestParam(value = "customerName", required = false, defaultValue = "") String customerName, @RequestParam(value = "customerEmail", required = false, defaultValue = "") String customerEmail, Model model){
+		Set<User> customers = myOrderManagement.getFilteredCustomersByStateOfOrders(state);
+		customers = myOrderManagement.filterCustomers(customers, customerName, customerEmail);
+		customers.removeIf(customer -> customer.getHighestRole() == null || !customer.getHighestRole().equals(Role.of("CUSTOMER")));
 
+		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
 
+		model.addAttribute("customers", customers);
+		model.addAttribute("selectedState", state);
+		model.addAttribute("statesList", states.split(","));
+
+		return "customer-overview";
+	}
 }
