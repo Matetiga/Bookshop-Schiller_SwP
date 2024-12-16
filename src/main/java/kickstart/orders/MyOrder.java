@@ -70,7 +70,7 @@ public class MyOrder extends Order {
 				case "Abholbereit":
 					this.myOrderStatus = "Abgeschlossen";
 					break;
-				case "Abgeschlossen":
+				default:
 					this.myOrderStatus = "Offen";
 					break;
 			}
@@ -86,8 +86,10 @@ public class MyOrder extends Order {
 				case "geliefert":
 					this.myOrderStatus = "Abgeschlossen";
 					break;
-				case "Abgeschlossen":
+				default:
 					this.myOrderStatus = "Offen";
+					break;
+
 			}
 		}
 	}

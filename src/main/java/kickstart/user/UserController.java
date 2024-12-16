@@ -1,12 +1,9 @@
 package kickstart.user;
 
 import jakarta.validation.Valid;
-import kickstart.orders.MyOrderManagement;
-import kickstart.orders.OrderViewController;
-import org.salespointframework.order.OrderManagement;
+import org.jetbrains.annotations.NotNull;
 import org.salespointframework.useraccount.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.validation.FieldError;
 
 import java.util.*;
 
@@ -32,11 +28,6 @@ class UserController {
 	private final UserManagement userManagement;
 	@Autowired
 	private MessageSource messageSource;
-	@Qualifier("myOrderManagement")
-	@Autowired
-	private MyOrderManagement myOrderManagement;
-	@Autowired
-	private OrderViewController orderViewController;
 
 	UserController(UserManagement userManagement) {
 		Assert.notNull(userManagement, "UserManagement.java must not be null!");
@@ -73,7 +64,7 @@ class UserController {
 	}
 
 	@GetMapping("/customer-overview")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String customerOverview(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model) {
 		if (toastMessage != null && !toastMessage.isEmpty()) {
 			model.addAttribute("toastMessage", toastMessage);
@@ -180,6 +171,7 @@ class UserController {
 			form.setEdit_password("");
 			form.setEdit_confirmPassword("");
 			model.addAttribute("editUserProfilForm", form);
+			model.addAttribute("source", "/account_edit"); //for dynamic post button (is id present or not)
 			return "account_edit";
 		}
 	}
@@ -190,8 +182,42 @@ class UserController {
 		if (userDetails == null) throw new IllegalStateException("User have to exists, but does not.");
 
 		User user = userManagement.findByUsername(userDetails.getUsername());
-		 
-		if (user == null) throw new IllegalStateException("User have to exists, but exists not.");
+
+		return pushEditOfUserAccount(form, result, model, user);
+	}
+
+	public UserManagement getUserManagement() {
+		return userManagement;
+	}
+
+
+	@GetMapping("/account_edit/employee/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String goToAccountEditOfEmployees(@PathVariable("id") UUID id, EditUserProfilForm form, Model model){
+		User user = userManagement.safeUserGetByID(id);
+		String userType = "employee";
+
+
+		return addUserEditInformationToModelAndRedirect(id, form, model, user, userType);
+	}
+
+	@PostMapping("/account_edit/employee/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String doAccountEditOfEmployees(@PathVariable("id") UUID id,  @Valid EditUserProfilForm form, Errors result, Model model){
+		User user = userManagement.safeUserGetByID(id);
+
+		if (pushEditOfUserAccount(form, result, model, user).equals("redirect:/account")){
+			return "redirect:/employee-overview";
+		}
+
+		return pushEditOfUserAccount(form, result, model, user);
+	}
+
+	@NotNull
+	private String pushEditOfUserAccount(@Valid EditUserProfilForm form, Errors result, Model model, User user) {
+		if (user == null) {
+			throw new IllegalStateException("User have to exists, but exists not.");
+		}
 
 		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
 			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match");
@@ -199,32 +225,50 @@ class UserController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("editUserProfilForm", form);
-			return "account_edit"; 
+			return "account_edit";
+		}
+
+		userManagement.editProfile(user, user.getUserAccount(), form);
+		return "redirect:/account";
+	}
+
+	@GetMapping("/account_edit/customer/{id}")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+	public String goToAccountEditOfCustomer(@PathVariable("id") UUID id, EditUserProfilForm form, Model model){
+		User user = userManagement.safeUserGetByID(id);
+		String userType = "customer";
+
+		return addUserEditInformationToModelAndRedirect(id, form, model, user, userType);
+	}
+
+	@NotNull
+	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id, EditUserProfilForm form, Model model, User user, String userType) {
+		if (user == null) {
+			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
 		}
 		else {
-			userManagement.editProfile(user, user.getUserAccount(), form);
-			return "redirect:/account";
+			form.setEdit_name(user.getName());
+			form.setEdit_last_name(user.getLast_name());
+			form.setEdit_address(user.getAddress());
+			form.setEdit_password("");
+			form.setEdit_confirmPassword("");
+			model.addAttribute("editUserProfilForm", form);
+			model.addAttribute("source", "/account_edit/" + userType + "/" + id); //for dynamic post button (is id present or not)
 		}
+
+		return "account_edit";
 	}
 
-	@PostMapping("filterCustomers")
+	@PostMapping("/account_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	String filterCustomers(@RequestParam("filterState") String state, @RequestParam(value = "customerName", required = false, defaultValue = "") String customerName, @RequestParam(value = "customerEmail", required = false, defaultValue = "") String customerEmail, Model model){
-		Set<User> customers = myOrderManagement.getFilteredCustomersByStateOfOrders(state);
-		customers = userManagement.filterCustomers(customers, customerName, customerEmail);
-		customers.removeIf(customer -> customer.getHighestRole() == null || !customer.getHighestRole().equals(Role.of("CUSTOMER")));
+	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,  @Valid EditUserProfilForm form, Errors result, Model model){
+		User user = userManagement.safeUserGetByID(id);
 
-		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
+		if (pushEditOfUserAccount(form, result, model, user).equals("redirect:/account")){
+			return "redirect:/customer-overview";
+		}
 
-		model.addAttribute("customers", customers);
-		model.addAttribute("selectedState", state);
-		model.addAttribute("statesList", states.split(","));
-
-		return "customer-overview";
+		return pushEditOfUserAccount(form, result, model, user);
 	}
 
-
-	public UserManagement getUserManagement() {
-		return userManagement;
-	}
 }

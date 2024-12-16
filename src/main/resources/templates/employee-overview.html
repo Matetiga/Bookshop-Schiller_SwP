@@ -32,10 +32,9 @@
           <th scope="col" th:text="#{employee.id}">ID</th>
           <th scope="col" th:text="#{employee.fullName}">Full Name</th>
           <th scope="col" th:text="#{employee.email}">E-Mail</th>
-          <th scope="col" th:text="#{employee.role}">Role</th>
           <th scope="col" th:text="#{employee.address}">Address</th>
           <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
-          <th sec:authorize="hasRole('ADMIN')" colspan="2" scope="col" th:text="#{user.edit}">Edit</th>
+          <th sec:authorize="hasRole('ADMIN')" colspan="3" scope="col" th:text="#{user.edit}">Edit</th>
         </tr>
         </thead>
         <tbody>
@@ -43,7 +42,6 @@
           <td th:text="${employee.userAccount.id}">Cannot load ID</td>
           <td th:text="${employee.fullName}">Cannot load Name</td>
           <td th:text="${employee.email}">Cannot load E-mail</td>
-          <td th:text="${employee.highestRole}">Cannot load name</td>
           <td th:text="${employee.address}">Cannot load address!</td>
           <td th:text="${employee.registrationDate}">Cannot load date!</td>
           <td sec:authorize="hasRole('ADMIN')">
@@ -58,6 +56,11 @@
                 <input type="hidden" name="source" th:value="'employee-overview'" />
             </form>
           </td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <form th:action="@{/account_edit/employee/{id}(id=${employee.userAccount.id})}" method="get">
+                    <button type="submit" class="btn btn-dark" th:text="#{button.edit}">Edit details</button>
+                </form>
+            </td>
         </tr>
         </tbody>
       </table>

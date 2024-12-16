@@ -17,10 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -61,7 +58,10 @@ public class UserManagement {
 		user.setName(form.getEdit_name());
 		user.setLast_name(form.getEdit_last_name());
 		user.setAddress(form.getEdit_address());
-		userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
+
+		if (!form.getEdit_password().isEmpty()){
+			userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
+		}
 	}
 
     private UserAccount createUserAccount(RegistrationForm form, Role role) {

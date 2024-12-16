@@ -6,8 +6,6 @@ import kickstart.user.User;
 import kickstart.user.UserManagement;
 import org.jetbrains.annotations.NotNull;
 import org.salespointframework.order.Order;
-
-import org.salespointframework.catalog.Product;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.data.util.Streamable;
@@ -23,7 +21,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class MyOrderManagement {
 	private final MyOrderRepository myOrderRepository;
+
 	private final UserManagement userManagement;
+
 	private final ShopProductCatalog shopProductCatalog;
 
 	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement, ShopProductCatalog shopProductCatalog){
@@ -175,5 +175,9 @@ public class MyOrderManagement {
 		}
 
 		return users;
+	}
+
+	public Set<User> filterCustomers(Set<User> users, String name, String email){
+		return userManagement.filterCustomers(users, name, email);
 	}
 }

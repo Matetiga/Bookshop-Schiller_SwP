@@ -12,7 +12,7 @@ class EditUserProfilForm {
 	private @NotEmpty(message = "The Last Name cannot be empty") String edit_last_name;
 	private @Size(min = 8, message = "Password must be at least 8 characters")
 	 		@Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*", message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\\\\\":{}|<>") String edit_password;
-	private String edit_confirmPassword;	 
+	private String edit_confirmPassword;
 
 
 	public EditUserProfilForm(String edit_address, String edit_name, String edit_last_name, String birthDate, String edit_password, String edit_confirmPassword) {

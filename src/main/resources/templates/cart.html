@@ -46,7 +46,7 @@
                                         <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
                                         <button class="btn btn-primary" type="submit">+</button>
                                     </form>
-                                    <span th:text="${item.quantity}"> </span>
+                                    <span th:text="${item.quantity}"></span>
                                     <form class="ui form" method="post" th:action="@{/cartDecrease}">
                                         <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
                                         <button class="btn btn-primary" type="submit">-</button>
@@ -64,16 +64,15 @@
                         <form class="ui form" method="post" th:action="@{/clear}">
                             <button class="btn btn-secondary" type="submit" th:text="#{cart.clear}">Warenkorb leeren</button>
                         </form><br>
-                        <div>
-                </div>
-
-                <form class="ui form" method="post" th:action="@{/checkout}">
-                    <label for="dropdown_payment" th:text="#{cart.sentence.paymentMethod}">Wählen Sie eine Bezahlmethode:</label>
-                    <select id="dropdown_payment" name="paymentMethod">
-                        <option value="Bar" th:text="#{cart.cash}">Bar</option>
-                        <option value="Rechnung" th:text="#{cart.invoice}">Rechnung</option>
-                    </select>
-                        <br>
+                    <form class="ui form" method="post" th:action="@{/checkout}">
+                        <label for="dropdown_payment" th:text="#{cart.sentence.paymentMethod}">Wählen Sie eine Bezahlmethode:</label>
+                        <select id="dropdown_payment" name="paymentMethod">
+                            <option value="Bar" th:text="#{cart.cash}">Bar</option>
+                            <option value="Rechnung" th:text="#{cart.invoice}">Rechnung</option>
+                        </select>
+                            <br>
+                            Bei Zahlungsmethode "Rechnung" beträgt die Lieferzeit 3 Tage.
+                            <br>
                         <button class="ui button btn btn-success" type="submit" th:text="#{cart.buy}">Kaufen</button>
                     </form>
                 </div>
