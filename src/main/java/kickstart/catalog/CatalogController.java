@@ -1,5 +1,6 @@
 package kickstart.catalog;
 import kickstart.Inventory.*;
+import kickstart.Inventory.Calendar;
 import kickstart.orders.OrderController;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.InventoryItem;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -36,7 +34,10 @@ public class CatalogController {
 	}
 
 	@GetMapping("/books")
-	String bookCatalog(Model model, @RequestParam(value = "genres", required = false) List<String> selectedGenres) {
+	String bookCatalog(Model model, @RequestParam(value = "genres", required = false) List<String> selectedGenres,
+					   @RequestParam(value = "sort", required = false) String sort,
+					   @RequestParam(value = "priceRange", required = false) String priceRange,
+					   @RequestParam(value = "search", required = false) String search) {
 
 		List<Book> allBooks = inventory.findAll().stream()
 			.map(UniqueInventoryItem::getProduct)
@@ -50,6 +51,7 @@ public class CatalogController {
 			.map(Genre::getGenre)
 			.collect(Collectors.toSet());
 
+		// Filter Books by Genre
 		List<Book> filteredBooks = selectedGenres == null || selectedGenres.isEmpty()
 			? allBooks
 			: allBooks.stream()
@@ -58,16 +60,50 @@ public class CatalogController {
 					.anyMatch(selectedGenres::contains)) //should match any genre in selectedGenres
 			.toList();
 
+		// Sorting book in ascending or descending order
+		if("asc".equalsIgnoreCase(sort)) {
+			filteredBooks = filteredBooks.stream()
+				.sorted(Comparator.comparing(Book::getPrice))
+				.toList();
+		} else if("desc".equalsIgnoreCase(sort)) {
+			filteredBooks = filteredBooks.stream()
+				.sorted(Comparator.comparing(Book::getPrice).reversed())
+				.toList();
+		}
+
+		// Filter books cheaper than 10€ or more expensive than 15€
+		if("under10".equalsIgnoreCase(priceRange)) {
+			filteredBooks = filteredBooks.stream()
+				.filter(book -> book.getPrice().getNumber().doubleValue() < 10)
+				.toList();
+		} else if ("over15".equalsIgnoreCase(priceRange)) {
+			filteredBooks = filteredBooks.stream()
+				.filter(book -> book.getPrice().getNumber().doubleValue() > 15)
+				.toList();
+		}
+
+		// Search function by book's title
+		if(search != null && !search.trim().isEmpty()) {
+			filteredBooks = filteredBooks.stream()
+				.filter(book -> book.getName().toLowerCase().contains(search.toLowerCase()))
+				.toList();
+		}
+
 		model.addAttribute("catalog", filteredBooks);
 		model.addAttribute("genres", allGenres);
 		model.addAttribute("selectedGenres", selectedGenres);
 		model.addAttribute("title", "catalog.book.title");
+		model.addAttribute("sort", sort);
+		model.addAttribute("priceRange", priceRange);
+		model.addAttribute("search", search);
 
 		return "catalog_books";
 	}
 
 	@GetMapping("/merch")
-	String merchCatalog(Model model) {
+	String merchCatalog(Model model,@RequestParam(value = "sort", required = false) String sort,
+						@RequestParam(value = "priceRange", required = false) String priceRange,
+						@RequestParam(value = "search", required = false) String search) {
 
 		List<Merch> catalog = new ArrayList<>();
 		for(UniqueInventoryItem item : inventory.findAll()){
@@ -76,14 +112,48 @@ public class CatalogController {
 			}
 		}
 
+		// Sorting merch in ascending or descending order
+		if("asc".equalsIgnoreCase(sort)) {
+			catalog = catalog.stream()
+				.sorted(Comparator.comparing(Merch::getPrice))
+				.toList();
+		} else if("desc".equalsIgnoreCase(sort)) {
+			catalog = catalog.stream()
+				.sorted(Comparator.comparing(Merch::getPrice).reversed())
+				.toList();
+		}
+
+		// Filter merch cheaper than 10€ or more expensive than 15€
+		if("under10".equalsIgnoreCase(priceRange)) {
+			catalog = catalog.stream()
+				.filter(merch -> merch.getPrice().getNumber().doubleValue() < 10)
+				.toList();
+		} else if ("over15".equalsIgnoreCase(priceRange)) {
+			catalog = catalog.stream()
+				.filter(merch -> merch.getPrice().getNumber().doubleValue() > 15)
+				.toList();
+		}
+
+		// Search function by merch's title
+		if(search != null && !search.trim().isEmpty()) {
+			catalog = catalog.stream()
+				.filter(merch -> merch.getName().toLowerCase().contains(search.toLowerCase()))
+				.toList();
+		}
+
 		model.addAttribute("catalog", catalog);
 		model.addAttribute("title", "catalog.merch.title");
+		model.addAttribute("sort", sort);
+		model.addAttribute("priceRange", priceRange);
+		model.addAttribute("search", search);
 
 		return "catalog_merch";
 	}
 
 	@GetMapping("/calenders")
-	String calenderCatalog(Model model) {
+	String calenderCatalog(Model model,@RequestParam(value = "sort", required = false) String sort,
+						   @RequestParam(value = "priceRange", required = false) String priceRange,
+						   @RequestParam(value = "search", required = false) String search) {
 
 		List<Calendar> catalog = new ArrayList<>();
 		for(UniqueInventoryItem item : inventory.findAll()){
@@ -92,8 +162,40 @@ public class CatalogController {
 			}
 		}
 
+		// Sorting calendars in ascending or descending order
+		if("asc".equalsIgnoreCase(sort)) {
+			catalog = catalog.stream()
+				.sorted(Comparator.comparing(Calendar::getPrice))
+				.toList();
+		} else if("desc".equalsIgnoreCase(sort)) {
+			catalog = catalog.stream()
+				.sorted(Comparator.comparing(Calendar::getPrice).reversed())
+				.toList();
+		}
+
+		// Filter calendar cheaper than 10€ or more expensive than 15€
+		if("under10".equalsIgnoreCase(priceRange)) {
+			catalog = catalog.stream()
+				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() < 10)
+				.toList();
+		} else if ("over15".equalsIgnoreCase(priceRange)) {
+			catalog = catalog.stream()
+				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() > 15)
+				.toList();
+		}
+
+		// Search function by calendar's title
+		if(search != null && !search.trim().isEmpty()) {
+			catalog = catalog.stream()
+				.filter(merch -> merch.getName().toLowerCase().contains(search.toLowerCase()))
+				.toList();
+		}
+
 		model.addAttribute("catalog", catalog);
 		model.addAttribute("title", "catalog.calender.title");
+		model.addAttribute("sort", sort);
+		model.addAttribute("priceRange", priceRange);
+		model.addAttribute("search", search);
 
 		return "catalog_calender";
 	}
