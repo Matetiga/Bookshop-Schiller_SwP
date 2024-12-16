@@ -570,6 +570,7 @@ public class InventoryController {
 
 		return "inventory_merch";
 	}
+
 	@GetMapping("/inventory_calendar/sort_price_asc")
 	public String sortCalendarsByPriceAsc(Model model) {
 
@@ -591,6 +592,72 @@ public class InventoryController {
 		return "inventory_calendar";
 	}
 
+	@GetMapping("/inventory_calendar/sort_alpha")
+	public String sortCalendarsByName(Model model) {
+
+		List<Map.Entry<Calendar, Quantity>> calendars = new ArrayList<>();
+		for (UniqueInventoryItem item : shopProductInventory.findAll()) {
+			if (item.getProduct() instanceof Calendar) {
+				calendars.add(new AbstractMap.SimpleEntry<>((Calendar) item.getProduct(), item.getQuantity()));
+			}
+		}
+
+		calendars.sort(Comparator.comparing(entry -> entry.getKey().getName()));
+
+		model.addAttribute("calendars", calendars);
+		model.addAttribute("viewName", "inventory_calendar");
+
+		if (!model.containsAttribute("calendarForm")) {
+			model.addAttribute("calendarForm", new AddMerchCalendarForm());
+		}
+
+		return "inventory_calendar";
+	}
+
+	@GetMapping("/inventory_book/sort_alpha")
+	public String sortBooksByName(Model model) {
+
+		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();
+		for (UniqueInventoryItem item : shopProductInventory.findAll()) {
+			if (item.getProduct() instanceof Book) {
+				books.add(new AbstractMap.SimpleEntry<>((Book) item.getProduct(), item.getQuantity()));
+			}
+		}
+		books.sort(Comparator.comparing(entry -> entry.getKey().getName()));
+
+		model.addAttribute("books", books);
+		model.addAttribute("viewName", "inventory_book");
+
+		model.addAttribute("bookGenres_addBook", Genre.getAllGenres());
+
+		if (!model.containsAttribute("bookForm")) {
+			model.addAttribute("bookForm", new AddBookForm());
+		}
+
+		return "inventory_book";
+	}
+
+	@GetMapping("/inventory_merch/sort_alpha")
+	public String sortMerchByName(Model model) {
+
+		List<Map.Entry<Merch, Quantity>> merch = new ArrayList<>();
+		for (UniqueInventoryItem item : shopProductInventory.findAll()) {
+			if (item.getProduct() instanceof Merch) {
+				merch.add(new AbstractMap.SimpleEntry<>((Merch) item.getProduct(), item.getQuantity()));
+			}
+		}
+
+		merch.sort(Comparator.comparing(entry -> entry.getKey().getName()));
+
+		model.addAttribute("merch", merch);
+		model.addAttribute("viewName", "inventory_merch");
+
+		if (!model.containsAttribute("merchForm")) {
+			model.addAttribute("merchForm", new AddMerchCalendarForm());
+		}
+
+		return "inventory_merch";
+	}
 }
 
 

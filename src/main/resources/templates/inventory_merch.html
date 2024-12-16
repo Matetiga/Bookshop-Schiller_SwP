@@ -32,6 +32,12 @@
                     </button>
                 </div>
             </li>
+            <li>
+                <button class="btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/inventory_merch/sort_alpha}'|">
+                    Sort by Name (A-Z)
+                </button>
+            </li>
             <li th:if="${viewName == 'inventory_merch'}">
                 <div class="sorting-buttons" th:if="${viewName != null and viewName == 'inventory_merch'}">
                     <button class="btn btn-danger btn-sm"

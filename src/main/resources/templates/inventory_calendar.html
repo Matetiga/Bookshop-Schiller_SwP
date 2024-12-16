@@ -27,11 +27,16 @@
             <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
             <li>
                 <div class="sorting-buttons">
-                    <button class="btn btn-primary btn-sm"
-                            th:onclick="|location.href='@{/inventory_calendar/sort_price_asc}'|">
+                    <button class="btn btn-primary btn-sm" th:onclick="|location.href='@{/inventory_calendar/sort_price_asc}'|">
                         Sort by Price
                     </button>
                 </div>
+            </li>
+            <li>
+                <button class="btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/inventory_calendar/sort_alpha}'|">
+                    Sort by Name (A-Z)
+                </button>
             </li>
             <li th:if="${viewName != null and viewName == 'inventory_calendar'}">
                 <div class="sorting-buttons" th:if="${viewName != null and viewName == 'inventory_calendar'}">

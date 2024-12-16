@@ -32,6 +32,12 @@
                         </button>
                     </div>
                 </li>
+                <li>
+                    <button  class="btn btn-secondary btn-sm"
+                            th:onclick="|location.href='@{/inventory_book/sort_alpha}'|">
+                        Sort by Name (A-Z)
+                    </button>
+                </li>
                 <li th:if="${viewName == 'inventory_book'}">
                     <div class="sorting-buttons" th:if="${viewName != null and viewName == 'inventory_book'}">
                         <button class="btn btn-danger btn-sm"
@@ -63,6 +69,7 @@
                         <th scope="col" colspan="4"></th>
                     </tr>
                     </thead>
+<!--                    Justo por esto de aqui no se puede implementar una lista normal-->
                     <tr th:each="book : ${books}">
                         <td th:text="${book.getKey().name}"></td>
                         <td th:text="${book.getValue()}"></td>
