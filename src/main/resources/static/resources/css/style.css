@@ -7,6 +7,8 @@
     --panel-color: moccasin;
     --panel-color-clear: beige;
     --text-color: #333;
+    --white-text: #fff;
+    --text-shadow-color: #000;
     --font-family: 'Helvetica', 'Arial', sans-serif;
 
     /* Typography */
@@ -28,10 +30,14 @@
     box-sizing: border-box;
 }
 body {
-
+    background: var(--background-color);
+    background-image: url("../img/bookshop/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     margin: 0 auto;
     font: var(--font-size-base) / 22px var(--font-family);
-    background: var(--background-color);
     color: var(--text-color);
 
 /* 	margin: 0 auto;
@@ -51,7 +57,12 @@ h1 {
     line-height: 1.5em;
     text-align: center;
     margin: 20px 0;
-    color: var(--text-color);
+    color: var(--white-text);
+    text-shadow:
+            1px 1px 0 var(--text-shadow-color),
+            -1px 1px 0 var(--text-shadow-color),
+            1px -1px 0 var(--text-shadow-color),
+            -1px -1px 0 var(--text-shadow-color);
 }
 .h3 {
     font-size: var(--font-size-small);
