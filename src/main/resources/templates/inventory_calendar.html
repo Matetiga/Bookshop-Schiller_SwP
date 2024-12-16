@@ -25,7 +25,27 @@
             <li><button th:text="#{inventory.BookList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_book}'|">Book List</button></li>
             <li><button th:text="#{inventory.MerchList}" class="small-nav-tab-button " th:onclick="|location.href='@{/inventory_merch}'|">Merch List</button></li>
             <li><button th:text="#{inventory.CalenderList}" class="small-nav-tab-button active" th:onclick="|location.href='@{/inventory_calendar}'|">Calendar List</button></li>
-
+            <li>
+                <div class="sorting-buttons">
+                    <button class="btn btn-primary btn-sm" th:onclick="|location.href='@{/inventory_calendar/sort_price_asc}'|">
+                        Sort by Price
+                    </button>
+                </div>
+            </li>
+            <li>
+                <button class="btn btn-secondary btn-sm"
+                        th:onclick="|location.href='@{/inventory_calendar/sort_alpha}'|">
+                    Sort by Name (A-Z)
+                </button>
+            </li>
+            <li th:if="${viewName != null and viewName == 'inventory_calendar'}">
+                <div class="sorting-buttons" th:if="${viewName != null and viewName == 'inventory_calendar'}">
+                    <button class="btn btn-danger btn-sm"
+                            th:onclick="|location.href='@{/inventory_calendar/out_of_stock}'|">
+                        Out of Stock Calendars
+                    </button>
+                </div>
+            </li>
 </ul>
 <button class="btn btn-success" id="openForm">Add New Calendar</button>
     </aside>
