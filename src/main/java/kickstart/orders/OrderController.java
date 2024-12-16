@@ -1,28 +1,19 @@
 package kickstart.orders;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kickstart.Inventory.Book;
-import kickstart.Inventory.Genre;
 import kickstart.user.User;
 import kickstart.user.UserManagement;
-import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
 import org.salespointframework.order.OrderLine;
-import org.salespointframework.useraccount.UserAccount;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
-
-import static kickstart.Inventory.Genre.createGenre;
-
 
 @Controller
 @SessionAttributes("cart")
@@ -124,6 +115,4 @@ public class OrderController {
 			});
 		}
 	}
-
-
 }

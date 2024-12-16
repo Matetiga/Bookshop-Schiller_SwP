@@ -1,5 +1,6 @@
 package kickstart.orders;
 
+import kickstart.user.User;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
@@ -28,7 +29,7 @@ public class OrdersUnitTests {
 	/*
 	@Test
 	void testMyOrderGetStringPaymentMethod() {
-		User user = new User(mock(UserAccount.class), "123", "123", "123", "123");
+		User user = mock(User.class);
 
 		String paymentMethod = "Rechnung";
 		MyOrder order = new MyOrder(user, paymentMethod);
@@ -36,6 +37,7 @@ public class OrdersUnitTests {
 		assertEquals(paymentMethod, order.getStringPaymentMethod());
 	}
 	 */
+
 
 	@Test
 	void testMyOrderDefaultConstructor() {

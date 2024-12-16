@@ -1,8 +1,6 @@
 package kickstart.orders;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
 import kickstart.user.User;
-import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
 import org.salespointframework.useraccount.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.StreamSupport;
 
 @Controller
 @SessionAttributes({"orderStates", "paymentMethods"})
