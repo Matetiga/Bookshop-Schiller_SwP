@@ -12,8 +12,12 @@
 </head>
 <body>
 
-<div th:replace="fragments/admin_navbar :: navbar"></div>
-<header class="mt-5">
+<div sec:authorize="hasRole('ADMIN')">
+    <div th:replace="fragments/admin_navbar :: navbar"></div>
+</div>
+<div sec:authorize="hasRole('EMPLOYEE')">
+    <div th:replace="fragments/employee_navbar :: navbar"></div>
+</div><header class="mt-5">
     <h1 class="text-center mb-4" th:text="#{customer.overview}">Customer Overview</h1>
 </header>
 <div class="container mt-5">
