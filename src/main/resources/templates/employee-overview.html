@@ -32,94 +32,43 @@
           <th scope="col" th:text="#{employee.id}">ID</th>
           <th scope="col" th:text="#{employee.fullName}">Full Name</th>
           <th scope="col" th:text="#{employee.email}">E-Mail</th>
-          <th scope="col" th:text="#{employee.role}">Role</th>
           <th scope="col" th:text="#{employee.address}">Address</th>
           <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
-          <th sec:authorize="hasRole('ADMIN')" colspan="2" scope="col" th:text="#{user.edit}">Edit</th>
+          <th sec:authorize="hasRole('ADMIN')" colspan="3" scope="col" th:text="#{user.edit}">Edit</th>
         </tr>
         </thead>
         <tbody>
-          <tr th:each="employee : ${employees}">
-            <td th:text="${employee.userAccount.id}">Cannot load ID</td>
-            <td th:text="${employee.fullName}">Cannot load Name</td>
-            <td th:text="${employee.email}">Cannot load E-mail</td>
-            <td th:text="${employee.highestRole}">Cannot load role</td>
-            <td th:text="${employee.address}">Cannot load address!</td>
-            <td th:text="${employee.registrationDate}">Cannot load date!</td>
+        <tr th:each="employee : ${employees}">
+          <td th:text="${employee.userAccount.id}">Cannot load ID</td>
+          <td th:text="${employee.fullName}">Cannot load Name</td>
+          <td th:text="${employee.email}">Cannot load E-mail</td>
+          <td th:text="${employee.address}">Cannot load address!</td>
+          <td th:text="${employee.registrationDate}">Cannot load date!</td>
+          <td sec:authorize="hasRole('ADMIN')">
+            <form th:action="@{/promote/{id}(id=${employee.userAccount.id})}" method="post">
+              <button type="submit" class="btn btn-success btn" th:text="#{button.promote}">Promote</button>
+              <input type="hidden" name="source" th:value="'employee-overview'" />
+            </form>
+          </td>
+          <td sec:authorize="hasRole('ADMIN')">
+            <form th:action="@{/degrade/{id}(id=${employee.userAccount.id})}" method="post">
+                <button type="submit" class="btn btn-danger" th:text="#{button.degrade}">Degrade</button>
+                <input type="hidden" name="source" th:value="'employee-overview'" />
+            </form>
+          </td>
             <td sec:authorize="hasRole('ADMIN')">
-              <form th:action="@{/promote/{id}(id=${employee.userAccount.id})}" method="post">
-                  <button type="submit" class="btn btn-success" th:text="#{button.promote}">Promote</button>
-                  <input type="hidden" name="source" th:value="'employee-overview'" />
-              </form>
+                <form th:action="@{/account_edit/employee/{id}(id=${employee.userAccount.id})}" method="get">
+                    <button type="submit" class="btn btn-dark" th:text="#{button.edit}">Edit details</button>
+                </form>
             </td>
-            <td sec:authorize="hasRole('ADMIN')">
-              <form th:action="@{/degrade/{id}(id=${employee.userAccount.id})}" method="post">
-                  <button type="submit" class="btn btn-danger" th:text="#{button.degrade}">Degrade</button>
-                  <input type="hidden" name="source" th:value="'employee-overview'" />
-              </form>
-            </td>
-            <td sec:authorize="hasRole('ADMIN')">
-              <!-- Button to open the modal -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
-                      th:data-bs-target="'#editPersonModal_' + ${employee.userAccount.id}"
-                      th:text="#{button.editPerson}" th:data-id="${employee.userAccount.id}">
-                  Edit Person
-              </button>
-
-              <!-- Modal for editing -->
-              <div class="modal fade" th:id="'editPersonModal_' + ${employee.userAccount.id}" tabindex="-1" 
-                   th:aria-labelledby="'editPersonModalLabel_' + ${employee.userAccount.id}" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" th:id="'editPersonModalLabel_' + ${employee.userAccount.id}">Edit Person</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <!-- Form for editing -->
-                      <form th:action="@{/editPerson/{id}(id=${employee.userAccount.id})}" method="post" th:object="${editPersonbyAuthorityForm}">
-                        <div class="mb-3">
-                            <label for="new_name" class="form-label">First Name:</label>
-                            <input type="text" th:field="*{new_name}" class="form-control" id="new_name" value="${employee.name}" />
-                            <div th:if="${#fields.hasErrors('new_name')}" class="error">
-                                <p th:errors="*{new_name}"></p>
-                            </div>
-                        </div>
-                    
-                        <div class="mb-3">
-                            <label for="new_last_name" class="form-label">Last Name:</label>
-                            <input type="text" th:field="*{new_last_name}" class="form-control" id="new_last_name" value="${employee.last_name}" />
-                            <div th:if="${#fields.hasErrors('new_last_name')}" class="error">
-                                <p th:errors="*{new_last_name}"></p>
-                            </div>
-                        </div>
-                    
-                        <div class="mb-3">
-                            <label for="new_address" class="form-label">Address:</label>
-                            <input type="text" th:field="*{new_address}" class="form-control" id="new_address" value="${employee.address}" />
-                            <div th:if="${#fields.hasErrors('new_address')}" class="error">
-                                <p th:errors="*{new_address}"></p>
-                            </div>
-                        </div>
-                    
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                      </form>                    
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
+        </tr>
         </tbody>
       </table>
     </div>
   </section>
 </div>
 
-<!-- Confirmation Toast if URL has 'toastMessage' -->
+<!-- If url has parameter ?toastMessage= .. then this confirmation toast will populate-->
 <div th:replace="fragments/confirmationToast :: toast"></div>
 
 </body>

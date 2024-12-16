@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,10 +45,9 @@
                     <th scope="col" th:text="#{customers.id}">Customer ID</th>
                     <th scope="col" th:text="#{customers.fullName}">Full Name</th>
                     <th scope="col" th:text="#{customers.email}">E-Mail</th>
-                    <th scope="col" th:text="#{customers.role}">Role</th>
                     <th scope="col" th:text="#{customers.address}">Address</th>
                     <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
-                    <th scope="col" colspan="2" th:text="#{user.edit}">Edit</th>
+                    <th scope="col" colspan="3" th:text="#{user.edit}">Edit</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,6 @@
                     <td th:text="${customer.userAccount.id}">Cannot load ID!</td>
                     <td th:text="${customer.fullName}">Cannot load full name!</td>
                     <td th:text="${customer.email}">Cannot load email!</td>
-                    <td th:text="${customer.highestRole}">Cannot load role!</td>
                     <td th:text="${customer.address}">Cannot load address!</td>
                     <td th:text="${customer.registrationDate}">Cannot load date!</td>
                     <td>
@@ -68,6 +67,11 @@
                         <form th:action="@{/degrade/{id}(id=${customer.userAccount.id})}" method="post" onsubmit="return confirmDegrade()">
                             <button type="submit" class="btn btn-danger" th:text="#{button.delete}">Delete</button>
                             <input type="hidden" name="source" th:value="'customer-overview'" />
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/account_edit/customer/{id}(id=${customer.userAccount.id})}" method="get">
+                            <button type="submit" class="btn btn-dark" th:text="#{button.edit}">Edit details</button>
                         </form>
                     </td>
                 </tr>
