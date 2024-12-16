@@ -6,12 +6,8 @@ import kickstart.user.User;
 import kickstart.user.UserManagement;
 import org.jetbrains.annotations.NotNull;
 import org.salespointframework.order.Order;
-
-import org.salespointframework.catalog.Product;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.quantity.Quantity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
