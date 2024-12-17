@@ -3,6 +3,7 @@ package kickstart.Inventory;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
@@ -368,8 +369,8 @@ public class InventoryController {
 		return "inventory_editable";
 	}
 
-	private void setStockEdit(UniqueInventoryItem item, Quantity oldQuantity, int newQuantity) {
-		int oldStock = oldQuantity.getAmount().intValue();
+	private void setStockEdit(UniqueInventoryItem item, Quantity oldQuantity, long newQuantity) {
+		long oldStock = oldQuantity.getAmount().longValue();
 
 		if (oldStock < newQuantity) {
 			item.increaseQuantity(Quantity.of(newQuantity - oldStock));

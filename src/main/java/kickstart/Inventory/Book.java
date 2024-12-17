@@ -9,7 +9,6 @@ import java.util.Set;
 
 import static kickstart.Inventory.Genre.getAllGenres;
 
-// TODO Add a Valid ISBN check
 @Entity
 public class Book extends ShopProduct {
 	@ElementCollection
