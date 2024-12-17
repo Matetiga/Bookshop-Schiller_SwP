@@ -210,7 +210,6 @@ public class InventoryController {
 	}
 
 	public boolean isValidAndUniqueISBN(String ISBN, Product.ProductIdentifier id) {
-
 		if (ISBN == null || !ISBN.matches("\\d{13}")) {//d 0-9
 			return false;
 		}
