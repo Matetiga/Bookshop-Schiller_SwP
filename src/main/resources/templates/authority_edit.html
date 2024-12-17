@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{edit_user_account.title}">Edit Account</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <!-- Header for Viewing Profile -->
+    <header class="text-center mb-4">
+        <h1 th:text="#{account.title}">Account</h1>
+    </header>
+
+    <!-- Profile Section for Editing -->
+    <div class="container panel-effect">
+        <form method="post" role="form" th:action="@{${source}}" th:object="${editPersonbyAuthorityForm}" class="needs-validation" novalidate>
+            <div class="card-body">
+                <h3 class="border-bottom pb-2 mb-4" th:text="#{edit.account}">Editmodel Account</h3>
+
+                <div class="form-group mb-3">
+                    <label for="new_name" th:text="#{edit.name}">First Name</label>
+                    <input type="text" id="new_name" name="new_name" class="form-control" th:field="*{new_name}" th:errorclass="is-invalid" required />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('new_name')}" th:errors="*{new_name}">
+                        The Name cannot be empty.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="new_last_name" th:text="#{edit.last_name}">Last Name</label>
+                    <input type="text" id="new_last_name" name="new_last_name" class="form-control" th:field="*{new_last_name}" th:errorclass="is-invalid" required />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('new_last_name')}" th:errors="*{new_last_name}">
+                        The Last Name cannot be empty.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="new_address" th:text="#{edit.address}">Address</label>
+                    <input type="text" id="new_address" name="new_address" class="form-control" th:field="*{new_address}" th:errorclass="is-invalid" required />
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('new_address')}" th:errors="*{new_address}">
+                        The Address cannot be empty.
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" th:text="#{edit.SaveButton}">Save Changes</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

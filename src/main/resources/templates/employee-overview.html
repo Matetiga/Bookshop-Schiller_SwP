@@ -57,7 +57,7 @@
             </form>
           </td>
             <td sec:authorize="hasRole('ADMIN')">
-                <form th:action="@{/account_edit/employee/{id}(id=${employee.userAccount.id})}" method="get">
+                <form th:action="@{/authority_edit/employee/{id}(id=${employee.userAccount.id})}" method="get">
                     <button type="submit" class="btn btn-dark" th:text="#{button.edit}">Edit details</button>
                 </form>
             </td>

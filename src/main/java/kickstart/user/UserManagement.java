@@ -58,10 +58,13 @@ public class UserManagement {
 		user.setName(form.getEdit_name());
 		user.setLast_name(form.getEdit_last_name());
 		user.setAddress(form.getEdit_address());
+		userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
+	}
 
-		if (!form.getEdit_password().isEmpty()){
-			userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
-		}
+	public void editProfilebyAuthority(User user, EditPersonbyAuthorityForm form) {
+		user.setName(form.getnew_name());
+		user.setLast_name(form.getnew_last_name());
+		user.setAddress(form.getnew_address());
 	}
 
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
