@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
-
+<div th:replace="fragments/shop_navbar :: navbar"></div>
 <div class="container">
     <!-- Header for Viewing Profile -->
     <header class="text-center mb-4">
@@ -47,7 +47,12 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" th:text="#{edit.SaveButton}">Save Changes</button>
-
+                <div class="text-center mt-3">
+                    <a th:href="${#strings.contains(source, 'employee') ? '/employee-overview' : '/customer-overview'}"
+                       class="btn btn-secondary" role="button" th:text="#{edit.backButton}">
+                       Zurück
+                    </a>
+                </div>
             </div>
         </form>
     </div>
