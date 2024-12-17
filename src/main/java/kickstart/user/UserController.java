@@ -176,7 +176,6 @@ class UserController {
 			form.setEdit_password("");
 			form.setEdit_confirmPassword("");
 			model.addAttribute("editUserProfilForm", form);
-			model.addAttribute("source", "/account_edit"); //for dynamic post button (is id present or not)
 			return "account_edit";
 		}
 	}
@@ -189,42 +188,8 @@ class UserController {
 		}
 
 		User user = userManagement.findByUsername(userDetails.getUsername());
-
-		return pushEditOfUserAccount(form, result, model, user);
-	}
-
-	public UserManagement getUserManagement() {
-		return userManagement;
-	}
-
-
-	@GetMapping("/account_edit/employee/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String goToAccountEditOfEmployees(@PathVariable("id") UUID id, EditUserProfilForm form, Model model){
-		User user = userManagement.safeUserGetByID(id);
-		String userType = "employee";
-
-
-		return addUserEditInformationToModelAndRedirect(id, form, model, user, userType);
-	}
-
-	@PostMapping("/account_edit/employee/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String doAccountEditOfEmployees(@PathVariable("id") UUID id,  @Valid EditUserProfilForm form, Errors result, Model model){
-		User user = userManagement.safeUserGetByID(id);
-
-		if (pushEditOfUserAccount(form, result, model, user).equals("redirect:/account")){
-			return "redirect:/employee-overview";
-		}
-
-		return pushEditOfUserAccount(form, result, model, user);
-	}
-
-	@NotNull
-	private String pushEditOfUserAccount(@Valid EditUserProfilForm form, Errors result, Model model, User user) {
-		if (user == null) {
-			throw new IllegalStateException("User have to exists, but exists not.");
-		}
+		
+		if (user == null) throw new IllegalStateException("User have to exists, but exists not.");
 
 		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
 			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match");
@@ -232,16 +197,58 @@ class UserController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("editUserProfilForm", form);
-			return "account_edit";
+			return "account_edit"; 
 		}
-
-		userManagement.editProfile(user, user.getUserAccount(), form);
-		return "redirect:/account";
+		else {
+			userManagement.editProfile(user, user.getUserAccount(), form);
+			return "redirect:/account";
+		}
 	}
 
-	@GetMapping("/account_edit/customer/{id}")
+	public UserManagement getUserManagement() {
+		return userManagement;
+	}
+
+
+	@GetMapping("/authority_edit/employee/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String goToAccountEditOfEmployees(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model){
+		User user = userManagement.safeUserGetByID(id);
+		String userType = "employee";
+
+
+		return addUserEditInformationToModelAndRedirect(id, form, model, user, userType);
+	}
+
+	@PostMapping("/authority_edit/employee/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String doAccountEditOfEmployees(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
+		User user = userManagement.safeUserGetByID(id);
+		return pushEditOfUserAccount(form, result, model, user);
+	}
+
+	@NotNull
+	private String pushEditOfUserAccount(@Valid EditPersonbyAuthorityForm form, Errors result, Model model, User user) {
+		if (user == null) {
+			throw new IllegalStateException("User have to exists, but exists not.");
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("editPersonbyAuthorityForm", form);
+			return "authority_edit";
+		}
+		else {
+			userManagement.editProfilebyAuthority(user, form);
+		}
+		if (user.getHighestRole().equals(Role.of("CUSTOMER"))) {
+			return "redirect:/customer-overview";
+		}
+		else return "redirect:/employee-overview";
+	}
+
+	@GetMapping("/authority_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	public String goToAccountEditOfCustomer(@PathVariable("id") UUID id, EditUserProfilForm form, Model model){
+	public String goToAccountEditOfCustomer(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model){
 		User user = userManagement.safeUserGetByID(id);
 		String userType = "customer";
 
@@ -249,32 +256,25 @@ class UserController {
 	}
 
 	@NotNull
-	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id, EditUserProfilForm form, Model model, User user, String userType) {
+	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model, User user, String userType) {
 		if (user == null) {
 			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
 		}
 		else {
-			form.setEdit_name(user.getName());
-			form.setEdit_last_name(user.getLast_name());
-			form.setEdit_address(user.getAddress());
-			form.setEdit_password("");
-			form.setEdit_confirmPassword("");
-			model.addAttribute("editUserProfilForm", form);
-			model.addAttribute("source", "/account_edit/" + userType + "/" + id); //for dynamic post button (is id present or not)
+			form.setnew_name(user.getName());
+			form.setnew_last_name(user.getLast_name());
+			form.setnew_address(user.getAddress());
+			model.addAttribute("editPersonbyAuthorityForm", form);
+			model.addAttribute("source", "/authority_edit/" + userType + "/" + id); //for dynamic post button (is id present or not)
 		}
 
-		return "account_edit";
+		return "authority_edit";
 	}
 
-	@PostMapping("/account_edit/customer/{id}")
+	@PostMapping("/authority_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,  @Valid EditUserProfilForm form, Errors result, Model model){
+	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
 		User user = userManagement.safeUserGetByID(id);
-
-		if (pushEditOfUserAccount(form, result, model, user).equals("redirect:/account")){
-			return "redirect:/customer-overview";
-		}
-
 		return pushEditOfUserAccount(form, result, model, user);
 	}
 
