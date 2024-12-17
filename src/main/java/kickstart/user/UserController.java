@@ -72,8 +72,9 @@ class UserController {
 		HashSet<User> customers =  new HashSet<>();
 		//only customers should be displayed
 		for (User user: userManagement.findAll()){
-			if (user.getHighestRole().equals(Role.of("CUSTOMER")))
+			if (user.getHighestRole().equals(Role.of("CUSTOMER"))){
 				customers.add(user);
+			}
 		}
 
 		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
@@ -95,8 +96,9 @@ class UserController {
 		HashSet<User> employees =  new HashSet<>();
 		//only employees should be displayed
 		for (User user: userManagement.findAll()){
-			if (user.getHighestRole().equals(Role.of("EMPLOYEE")))
+			if (user.getHighestRole().equals(Role.of("EMPLOYEE"))) {
 				employees.add(user);
+			}
 		}
 		model.addAttribute("employees", employees);
 
@@ -112,8 +114,9 @@ class UserController {
 		HashSet<User> admins =  new HashSet<>();
 		//only admins should be displayed
 		for (User user: userManagement.findAll()){
-			if (user.getHighestRole().equals(Role.of("ADMIN")))
+			if (user.getHighestRole().equals(Role.of("ADMIN"))) {
 				admins.add(user);
+			}
 		}
 		model.addAttribute("admins", admins);
 
@@ -158,7 +161,9 @@ class UserController {
 	@GetMapping("/account_edit")
 	public String accountEdit(@AuthenticationPrincipal UserDetails UserDetails, EditUserProfilForm form, Model model) {
 
-		if (UserDetails == null) throw new IllegalStateException("User has to exists, but does not exist");
+		if (UserDetails == null){
+			throw new IllegalStateException("User has to exists, but does not exist");
+		}
 
 		User user = userManagement.findByUsername(UserDetails.getUsername());
 		if (user == null) {
@@ -179,7 +184,9 @@ class UserController {
 	@PostMapping("/account_edit")
 	String updateProfile(@AuthenticationPrincipal UserDetails userDetails, @Valid EditUserProfilForm form, Errors result, Model model) {
 
-		if (userDetails == null) throw new IllegalStateException("User have to exists, but does not.");
+		if (userDetails == null){
+			throw new IllegalStateException("User have to exists, but does not.");
+		}
 
 		User user = userManagement.findByUsername(userDetails.getUsername());
 
