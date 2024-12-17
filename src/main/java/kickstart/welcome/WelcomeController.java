@@ -37,6 +37,7 @@ public class WelcomeController {
 		//initialization of random ("historical"/demo-)orders here, because the default users must already be existent
 		if (!ordersInitialized){
 			myOrderManagement.initializeRandomOrders();
+			ordersInitialized = true;
 		}
 		return "home";
  	}
