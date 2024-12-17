@@ -82,7 +82,7 @@ public class InventoryInitializer implements DataInitializer {
 				"A powerful saga of crime, family, and loyalty in the world of the Mafia",genreSet7,"Mario Puzo","9780099528128","Arrow"));
 
 			shopProductCatalog.save(new Book("Java for Dummies", "/resources/img/cover/javafordummies.jpg", Money.of(7.99,"EUR"),
-				"Learn Java",genreSet8,"Barry Burd","97835ss27710706","Wiley-VCH"));
+				"Learn Java",genreSet8,"Barry Burd","9781603095082","Wiley-VCH"));
 
 			shopProductCatalog.save(new Book("From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen", "/resources/img/cover/snoopdogg.jpg",
 				Money.of(99.99,"EUR"),

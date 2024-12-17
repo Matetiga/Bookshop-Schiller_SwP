@@ -210,6 +210,24 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		// this should then clean the directory of the test file
 		Files.deleteIfExists(path);
 	}
+
+	@Test
+	public void testUniqueISBN() {
+		assertTrue(controller.isValidAndUniqueISBN("9781603095020", null));
+		assertTrue(controller.isValidAndUniqueISBN("9781603095426", null));
+		assertTrue(controller.isValidAndUniqueISBN("9781603095174", null));
+		assertTrue(controller.isValidAndUniqueISBN("9781603094429", null));
+		assertTrue(controller.isValidAndUniqueISBN("9781603095204", null));
+
+	}
+
+	@Test
+	public void testInvalidISBN(){
+		assertFalse(controller.isValidAndUniqueISBN("", null));
+		assertFalse(controller.isValidAndUniqueISBN("hhh4444555555", null));
+		assertFalse(controller.isValidAndUniqueISBN("9780743273565", null)); // ISBN already exists
+		assertFalse(controller.isValidAndUniqueISBN("1234567891234", null));
+	}
 // Important:
 	// Test for methods that include Bindingresult will not be tested
 }

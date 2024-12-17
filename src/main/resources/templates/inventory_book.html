@@ -69,7 +69,6 @@
                         <th scope="col" colspan="4"></th>
                     </tr>
                     </thead>
-<!--                    Justo por esto de aqui no se puede implementar una lista normal-->
                     <tr th:each="book : ${books}">
                         <td th:text="${book.getKey().name}"></td>
                         <td th:text="${book.getValue()}"></td>
@@ -194,7 +193,7 @@
 
                     <label for="ISBN"></label>
                     <input type="text" id="ISBN" name="ISBN" th:field="*{ISBN}" placeholder="Enter ISBN" required/>
-                    <span th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}"></span>
+                    <span th:if="${errorDuplicated_Isbn}" th:text="${errorDuplicated_Isbn}"></span>
 
 
                     <label for="publisher"></label>

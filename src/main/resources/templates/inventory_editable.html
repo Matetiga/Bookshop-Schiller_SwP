@@ -112,10 +112,7 @@
                             <label>
                                 <input type="text" name="ISBN" th:field="*{ISBN}" placeholder="Enter new ISBN" />
                             </label>
-                            <span th:each="error : ${fieldErrors}"
-                                  th:if="${error.field == 'ISBN'}"
-                                  th:text="${error.defaultMessage}">
-                            </span>
+                            <span th:if="${errorDuplicated_Isbn}" th:text="${errorDuplicated_Isbn}"></span>
                         </td>
                     </tr>
                     <tr>

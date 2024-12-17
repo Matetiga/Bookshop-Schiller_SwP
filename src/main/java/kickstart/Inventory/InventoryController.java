@@ -209,12 +209,46 @@ public class InventoryController {
 		return "../" + imagePath.toString();
 	}
 
+	public boolean isValidAndUniqueISBN(String ISBN, Product.ProductIdentifier id) {
+
+		if (ISBN == null || !ISBN.matches("\\d{13}")) {//d 0-9
+			return false;
+		}
+
+		// check correct format
+		// odd position digits * 1
+		// even position digits * 3
+		// sum of all digits must be = 0 (mod 10)
+		int total = 0;
+		for (int i = 0; i < 12; i++) { // First 12 digits only
+			int digit = Character.getNumericValue(ISBN.charAt(i));
+			if (i % 2 == 0) { // for odd (starting at 0) position
+				total += digit;
+			} else {
+				total += 3 * digit;
+			}
+		}
+
+		// Calculate check digit
+		int checkDigit = (10 - (total % 10)) % 10;
+
+		// Check uniqueness
+		return shopProductCatalog.findAll().stream() //how you iterate through some collections
+			.filter(product -> product instanceof Book) //only get instances of book
+			.map(product -> (Book) product) //Cast each product to access the methods in book
+			.noneMatch(book -> book.getISBN().equals(ISBN) &&
+				(id == null || !book.getId().equals(id))) //Exclude when creating a new book or when updating a book
+		&& checkDigit == Character.getNumericValue(ISBN.charAt(12)); // Compare check digit to the 13th digit
+	}
 
 	@PostMapping("/inventory/add_book")
 	public String addBook(@Valid AddBookForm bookForm, BindingResult result,
 						  @RequestParam("imageFile") MultipartFile file, Model model) {
 
-		if (result.hasErrors()) {
+		if (result.hasErrors() || !isValidAndUniqueISBN(bookForm.getISBN(), null)){
+			if(!isValidAndUniqueISBN(bookForm.getISBN(), null)){
+				model.addAttribute("errorDuplicated_Isbn", "ISBN must be unique and 13 digits long");
+			}
 			showInventory(model);
 			model.addAttribute("showModal", true);
 			return "inventory_book";
@@ -352,7 +386,10 @@ public class InventoryController {
 						   @RequestParam("imageFile") MultipartFile file,
 						   @PathVariable Product.ProductIdentifier itemId, Model model) {
 
-		if (result.hasErrors()) {
+		if (result.hasErrors() || !isValidAndUniqueISBN(bookForm.getISBN(), itemId)) {
+			if (!isValidAndUniqueISBN(bookForm.getISBN(), itemId)) {
+				model.addAttribute("errorDuplicated_Isbn", "ISBN must be unique and 13 digits long");
+			}
 			model.addAttribute("fieldErrors", result.getFieldErrors());
 			getDetail(itemId, model);
 			return "inventory_editable";
@@ -453,6 +490,7 @@ public class InventoryController {
 
 		return "redirect:/inventory_merch";
 	}
+
 
 	@GetMapping("/inventory_calendar/out_of_stock")
 	public String showOutOfStockCalendars(Model model) {
