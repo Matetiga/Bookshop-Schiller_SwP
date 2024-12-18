@@ -207,4 +207,16 @@ public class UserManagement {
 		}
 		return users;
 	}
+
+	public List<User> getAllUsersOfRole(Role role){
+		List<User> users = new ArrayList<>();
+
+		for (User user: this.findAll()){
+			if (user.getHighestRole().equals(role)){
+				users.add(user);
+			}
+		}
+
+		return users;
+	}
 }

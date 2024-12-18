@@ -30,9 +30,9 @@
         <thead class="table-dark">
         <tr>
           <th scope="col" th:text="#{employee.id}">ID</th>
-          <th scope="col" th:text="#{employee.fullName}">Full Name</th>
+          <th scope="col" onclick="sortTable(2)" style="cursor: pointer;" th:text="#{employee.fullName}">Full Name</th>
           <th scope="col" th:text="#{employee.email}">E-Mail</th>
-          <th scope="col" th:text="#{employee.address}">Address</th>
+          <th scope="col" th:text="#{employee.address}">Address<span class="sort-icon">▲▼</span></th>
           <th scope="col" th:text="#{user.sinceDate}">Registration Date</th>
           <th sec:authorize="hasRole('ADMIN')" colspan="3" scope="col" th:text="#{user.edit}">Edit</th>
         </tr>

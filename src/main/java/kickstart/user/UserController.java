@@ -35,7 +35,7 @@ class UserController {
 	}
 
 	@PostMapping("/register")
-	String registerNew(@Valid RegistrationForm form, Errors result, Model model) {
+	String registerNew(@Valid RegistrationForm form, Errors result) {
 
 		if (result.hasErrors()) {
 			return "register";
@@ -59,7 +59,7 @@ class UserController {
 	}
 
 	@GetMapping("/register")
-	public String register(Model model, RegistrationForm form) {
+	public String register() {
 		return "register";
 	}
 
@@ -69,13 +69,8 @@ class UserController {
 		if (toastMessage != null && !toastMessage.isEmpty()) {
 			model.addAttribute("toastMessage", toastMessage);
 		}
-		HashSet<User> customers =  new HashSet<>();
-		//only customers should be displayed
-		for (User user: userManagement.findAll()){
-			if (user.getHighestRole().equals(Role.of("CUSTOMER"))){
-				customers.add(user);
-			}
-		}
+		List<User> customers= userManagement.getAllUsersOfRole(Role.of("CUSTOMER"));
+
 
 		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
 
@@ -93,13 +88,7 @@ class UserController {
 			model.addAttribute("toastMessage", toastMessage);
 		}
 
-		HashSet<User> employees =  new HashSet<>();
-		//only employees should be displayed
-		for (User user: userManagement.findAll()){
-			if (user.getHighestRole().equals(Role.of("EMPLOYEE"))) {
-				employees.add(user);
-			}
-		}
+		List<User> employees= userManagement.getAllUsersOfRole(Role.of("EMPLOYEE"));
 		model.addAttribute("employees", employees);
 
 		return "employee-overview";
@@ -111,13 +100,7 @@ class UserController {
 		if (toastMessage != null && !toastMessage.isEmpty()) {
 			model.addAttribute("toastMessage", toastMessage);
 		}
-		HashSet<User> admins =  new HashSet<>();
-		//only admins should be displayed
-		for (User user: userManagement.findAll()){
-			if (user.getHighestRole().equals(Role.of("ADMIN"))) {
-				admins.add(user);
-			}
-		}
+		List<User> admins= userManagement.getAllUsersOfRole(Role.of("ADMIN"));
 		model.addAttribute("admins", admins);
 
 		return "admin-overview";
@@ -125,10 +108,10 @@ class UserController {
 
 	@PostMapping("/promote/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source, Model model) {
+	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source) {
 		/*
 		When a User gets promoted there should be a confirmation message that is saved below.
-		However, we reload the site after each button click. The message wouldnt be visible. That's why we add the message as URL parameter to pass this information,
+		However, we reload the site after each button click. The message wouldn't be visible. That's why we add the message as URL parameter to pass this information,
 		so that on reload, we can check if a toastMessage has been left. If so => display it
 		 */
 		String toastMessage = userManagement.promoteAccountById(id);
@@ -276,6 +259,39 @@ class UserController {
 	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
 		User user = userManagement.safeUserGetByID(id);
 		return pushEditOfUserAccount(form, result, model, user);
+	}
+
+	@GetMapping("/customer-overview/filterByDescendingAlphabet")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+	public String sortByDescendingAlphabet(Model model) {
+		List<User> customers= userManagement.getAllUsersOfRole(Role.of("CUSTOMER"));
+
+		customers.sort((user1, user2) -> user1.getFullName().compareToIgnoreCase(user2.getFullName()));
+		Collections.reverse(customers);
+
+		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
+
+		model.addAttribute("customers", customers);
+		model.addAttribute("selectedState", "Alle");
+		model.addAttribute("statesList", states.split(","));
+
+		return "customer-overview";
+	}
+
+	@GetMapping("/customer-overview/filterByAscendingAlphabet")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
+	public String sortByAscendingAlphabet(Model model) {
+		List<User> customers= userManagement.getAllUsersOfRole(Role.of("CUSTOMER"));
+
+		customers.sort((user1, user2) -> user1.getFullName().compareToIgnoreCase(user2.getFullName()));
+
+		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
+
+		model.addAttribute("customers", customers);
+		model.addAttribute("selectedState", "Alle");
+		model.addAttribute("statesList", states.split(","));
+
+		return "customer-overview";
 	}
 
 }
