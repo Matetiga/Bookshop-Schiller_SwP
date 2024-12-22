@@ -1,0 +1,23 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:16
+__Anwendung von Gruppe:18
+
+== Getestetes System
+Welche Aufgabe/Problemstellung löst die Anwendung: Online Bücherhandlung
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+| … | … | … | … |
+|===
+
+== Sonstiges
+* Optik der Anwendung
+* Fehlende Features
+* Interaktion mit der Anwendung (Usability)
+
+== Verbesserungsvorschläge
+* Was kann noch weiter verbessert werden?
