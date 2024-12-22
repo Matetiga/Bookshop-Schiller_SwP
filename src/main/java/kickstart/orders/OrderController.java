@@ -40,7 +40,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/cartAdd")
-	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId, @RequestParam("amount") long amount, HttpServletRequest request){
+	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId,
+				   @RequestParam("amount") long amount, HttpServletRequest request){
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), amount);
 
 		String referer = request.getHeader("Referer");
@@ -62,7 +63,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/checkout")
-	String buy(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Cart cart, @RequestParam("paymentMethod") String paymentMethod, Model model) {
+	String buy(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Cart cart,
+			   @RequestParam("paymentMethod") String paymentMethod, Model model) {
 		MyOrder order = null;
 		for (User user : userManagement.findAll()) {
 			if (user.getUserAccount().getUsername().equals(userDetails.getUsername())) {
@@ -90,8 +92,17 @@ public class OrderController {
 		return "cart";
 	}
 
+
 	@PostMapping ("/cartIncrease")
-	String increaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId, @ModelAttribute Cart cart){
+	public String increaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId,
+								   @ModelAttribute Cart cart, Model model) {
+		int quantity = cart.getQuantity(productId).getAmount().intValue();
+		int stock = inventory.findByProductIdentifier(productId).get().getQuantity().getAmount().intValue();
+		if (quantity == stock){
+			model.addAttribute("error_NotEnoughStock", true);
+			model.addAttribute("error_ArticleName", inventory.findByProductIdentifier(productId).get().getProduct().getName());
+			return "cart";
+		}
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
 		return "redirect:/cart";
 	}
