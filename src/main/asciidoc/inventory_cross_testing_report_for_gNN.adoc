@@ -19,27 +19,27 @@ Welche Aufgabe/Problemstellung löst die Anwendung: Online Bücherhandlung
 
 == Sonstiges
 * Optik der Anwendung
-**Alles ist weiß
-**Tabelle sieht gut aus
+** Alles ist weiß
+** Tabelle sieht gut aus
 
 * Fehlende Features
-**Information uber Preis, Descriptions und Genre von Produkte bei die Tabelle
-**Sagen wenn ein input falsch ist, wenn man Produkte editiert
-**Neue Produkte erstellen
-**Zuruck moglichkeit wenn man ein Produkt editiert
-**Filtern von produkte mit stock = 0
-**Produkte editieren ?? (Konnte selber kein Produkt richtig editieren)
-**Echte bildern haben, also filename zBsp
-**Name von Produkte soll auch edtitierbar sein
-**Sollte irgendwo sagen welche Genres es gibt
+** Information uber Preis, Descriptions und Genre von Produkte bei die Tabelle
+** Sagen wenn ein input falsch ist, wenn man Produkte editiert
+** Neue Produkte erstellen
+** Zuruck moglichkeit wenn man ein Produkt editiert
+** Filtern von produkte mit stock = 0
+** Produkte editieren ?? (Konnte selber kein Produkt richtig editieren)
+** Echte bildern haben, also filename zBsp
+** Name von Produkte soll auch edtitierbar sein
+** Sollte irgendwo sagen welche Genres es gibt
 
 * Interaktion mit der Anwendung (Usability)
-**Auf den ersten Blick ist das Inventar sehr intuitiv, es ist klar, was jeder Knopf macht und man kann leicht erkennen, wie alles angeordnet ist.
-**Beim editieren von Produkte ist es schwer klar zu kommen, ich konnte selber kein Produkt editieren, weil ich nicht weiß welche Parameter bei Image akzeptiert ist.
+** Auf den ersten Blick ist das Inventar sehr intuitiv, es ist klar, was jeder Knopf macht und man kann leicht erkennen, wie alles angeordnet ist.
+** Beim editieren von Produkte ist es schwer klar zu kommen, ich konnte selber kein Produkt editieren, weil ich nicht weiß welche Parameter bei Image akzeptiert ist.
 
 
 
 == Verbesserungsvorschläge
 * Was kann noch weiter verbessert werden?
-**Feedback beim Drücken von Buttons und "Confirm"-Messages fehlen, wenn man sachen editiert
-**Mit UI etwa cretiver sein und schoner machen
+** Feedback beim Drücken von Buttons und "Confirm"-Messages fehlen, wenn man sachen editiert
+** Mit UI etwa cretiver sein und schoner machen
