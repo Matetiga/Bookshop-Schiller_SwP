@@ -12,7 +12,7 @@ Welche Aufgabe/Problemstellung löst die Anwendung: Online Bücherhandlung
 |===
 |Pfad |Parameter |Beschreibung |Rückgabe
 | /changeBookItem | float | Wenn man ein float fur Buch als neue preis hinfugt | error status=500
-| /inventory | float | Wenn man ein float fur Buch als neue preis hinfugt | erros status=500
+| /inventory | float | Wenn man ein float fur eine Produkt als neue preis hinfugt | erros status=500
 | /inventory | - | Wenn man mehr als 2 filters von entfernte produkte nutzt bekommnt man eine lehre tabelle | -
 | /inventory | - | Kann keine Produkte editieren weil man nicht weiß welche Parameter akzeptiert sind | Welcome page
 |===
