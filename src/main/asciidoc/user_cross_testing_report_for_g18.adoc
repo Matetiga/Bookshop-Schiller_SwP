@@ -1,0 +1,38 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:__16
+__Anwendung von Gruppe:__18
+
+== Getestetes System
+Welche Aufgabe/Problemstellung löst die Anwendung: Online Bücherhandlung
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+| /register | Leeres Datum | Wenn man kein Datum setzt, kommt für ein Nutzer unverständlicher Fehler| Cannot invoke "java.time.LocalDate.atStartOfDay(java.time.ZoneId)" because the return value of "bookshop.customer.RegistrationForm.getBirthDay()" is null
+| /changeProfile & /changeEmployee & /employeeRegister| Name = <existierendes Nutzer>| Wenn man als neuen Name zB "admin" nimmt, beim Ändern des Profils. Gleicher Fehler für Mitarbeiter durch Admin| Internal Server Error, status=500
+| /changeProfile & /changeEmployee & /employeeRegister| Freier Name| siehe Oberes | siehe Oberes
+
+|===
+
+== Sonstiges
+* Optik der Anwendung
+** Für Felder und Buttons Bootstrap5 verwenden
+* Fehlende Features
+** Passwort-Kriterien bei Registrierung sollten von Anfang an sichtbar sein
+** Geburtstag bei Registrierung darf nicht in Zukunft liegen
+** Automatisches Einloggen nach Registrierung
+** Nach Ändern des Passworts nicht ausloggen
+** Registrierung von Mitarbeitern muss gleiche Passwortkriterien haben wie für User
+** Möglichkeit neue Admins hinzuzufügen
+** In /account alle Profildaten einsehen können, nicht nur Name
+** Addresse ändern können von Usern durch sich selber und Admin
+* Interaktion mit der Anwendung (Usability)
+** Keine Zurücksetzung von Filterattributen zB bei /sortAndFilterCustomers und /customers
+** Vielleicht ein gesonderter Teil mit Fähigkeiten für Admin, da jetzt die ganze Navigation in einer Navigationsleiste
+** "Bist du sicher?" - Frage bei Entfernen eines Users, da ein Klick direkt entfernt
+
+== Verbesserungsvorschläge
+* Was kann noch weiter verbessert werden?
