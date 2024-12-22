@@ -26,7 +26,7 @@ Online Bücherhandlung
 * Fehlende Features
 ** kein Filter nach Genre möglich
 * Interaktion mit der Anwendung (Usability)
-** Wenn man nicht angemeldet ist und etwas hinzufügen im Warenkorb hinzufügen will, dann wird man zum Login weitergeleitet, das kann für Verwirrung sorgen
+** Wenn man nicht angemeldet ist und etwas im Warenkorb hinzufügen will, dann wird man zum Login weitergeleitet, das kann für Verwirrung sorgen
 
 == Verbesserungsvorschläge
 * Was kann noch weiter verbessert werden?
