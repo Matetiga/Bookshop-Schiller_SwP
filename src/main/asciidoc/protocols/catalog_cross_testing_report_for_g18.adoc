@@ -1,0 +1,37 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:__ 16,
+__Anwendung von Gruppe:__ 18
+
+== Getestetes System
+Welche Aufgabe/Problemstellung löst die Anwendung:
+Online Bücherhandlung
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+|/book/id | - | "Die Pest", "Narziß und Goldmund", "Kabale und Liebe" haben keine Beschreibung| -
+|/book/id; /calendar/id; /merchandise/id|-|man kann maximal 5 Bücher in den Warenkorb legen, obwohl 10 möglich sein sollten|-
+|/bookCatalog; /calendarCatalog; /merchandiseCatalog|-|Seite crasht, wenn man bei Preis filtern keine Ganzzahl angibt|-
+|/book/id; /calendar/id; /merchandise/id|-|Wenn im Warenkorb genau so viele Bücher/Kalender/Merches sind wie im Vorrat, werden sie als "Ausverkauft" markiert, obwohl diese noch nicht gekauft wurden|-
+|===
+
+== Sonstiges
+* Optik der Anwendung
+** Name des Buchshops fehlt
+** man soll sehen, dass es ein Bookshop ist
+** ein Kalender-Bild ist unscharf
+* Fehlende Features
+** kein Filter nach Genre möglich
+* Interaktion mit der Anwendung (Usability)
+** Wenn man nicht angemeldet ist und etwas hinzufügen im Warenkorb hinzufügen will, dann wird man zum Login weitergeleitet, das kann für Verwirrung sorgen
+
+== Verbesserungsvorschläge
+* Was kann noch weiter verbessert werden?
+** Filter im Katalog neben den Produkten, statt drüber
+** Beschreibung zu Kalender und Merches hinzufügen
+** im Katalog nach Preis aufsteigend und absteigend sortieren
+
+
