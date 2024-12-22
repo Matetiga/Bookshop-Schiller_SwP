@@ -33,6 +33,8 @@ Welche Aufgabe/Problemstellung löst die Anwendung: Online Bücherhandlung
 ** Keine Zurücksetzung von Filterattributen zB bei /sortAndFilterCustomers und /customers
 ** Vielleicht ein gesonderter Teil mit Fähigkeiten für Admin, da jetzt die ganze Navigation in einer Navigationsleiste
 ** "Bist du sicher?" - Frage bei Entfernen eines Users, da ein Klick direkt entfernt
+** bei Registrierung nicht alle Felder leeren, wenn eine Anforderung nicht erfüllt
+
 
 == Verbesserungsvorschläge
 * Was kann noch weiter verbessert werden?
