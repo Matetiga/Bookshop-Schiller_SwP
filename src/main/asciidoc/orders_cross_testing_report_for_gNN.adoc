@@ -1,0 +1,36 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe: 16__,
+__Anwendung von Gruppe: 18__
+
+== Getestetes System
+Welche Aufgabe/Problemstellung löst die Anwendung:
+Online Bücherhandlung
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+|/orders | - | Wenn man auf Bestellung abschließen klickt, wird die Bestellung erst
+beim neu laden in abgeschlossene Bestellungen angezeigt  | -
+
+
+|===
+
+== Sonstiges
+* Optik der Anwendung:
+** monoton
+** nicht sehr ansprechend
+* Fehlende Features
+** Produktanzahl im Warenkorb erhöhen
+** Als Admin kommt man nicht in seinen Warenkorb
+** Mehr informationen über den Kunden in der Detailseite einer Bestellung
+* Interaktion mit der Anwendung (Usability)
+
+== Verbesserungsvorschläge
+* Was kann noch weiter verbessert werden?
+** Bei der Detailseite eines Produkts könnte 1 als Standardwert in der Menge stehen
+** Zu viel vom Videoshop kopiert -> eigenes Ui erstellen
+** Wenn man auf Bestellung stornieren klickt, eine Art Bestätigung einfügen, damit der User nicht
+versehentlich eine Bestellung storniert
