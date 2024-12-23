@@ -1,0 +1,92 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:__
+__Anwendung von Gruppe:__
+
+== Getestetes System
+Welche Aufgabe/Problemstellung löst die Anwendung.
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+|/book/id | - | "Die Pest", "Narziß und Goldmund", "Kabale und Liebe" haben keine Beschreibung| -
+|/book/id; /calendar/id; /merchandise/id|-|man kann maximal 5 Bücher in den Warenkorb legen, obwohl 10 möglich sein sollten|-
+|/bookCatalog; /calendarCatalog; /merchandiseCatalog|-|Seite crasht, wenn man bei Preis filtern keine Ganzzahl angibt|-
+|/book/id; /calendar/id; /merchandise/id|-|Wenn im Warenkorb genau so viele Bücher/Kalender/Merch sind wie im Vorrat, werden sie als "ausverkauft" markiert, obwohl diese noch nicht gekauft wurden|-
+|/changeBookItem | float | Wenn man ein float fur Buch als neue preis hinzufügt | error status=500
+|/inventory | float | Wenn man ein float fur ein Produkt als neue preis hinzufügt | error status=500
+|/inventory | - | Wenn man mehr als 2 filters von entfernte produkte nutzt, bekommt man eine lehre tabelle| -
+|/inventory | - | Kann keine Produkte editieren, weil man nicht weiß welche Parameter akzeptiert sind | Welcome page
+|/orders | - | Wenn man auf Bestellung abschließen klickt, wird die Bestellung erst beim neu laden in abgeschlossene Bestellungen angezeigt  | -
+|/cart & /orders| Anzahl > 1|Beim Hinzufügen von Produkten zum Warenkorb wird die Anzahl nicht richtig übernommen| Anzahl + 1
+|/orders| -| beim Kauf werden die Bestellungen sofort auf COMPLETED gesetzt| -
+|/cart|-|Admin kann nicht auf Warenkorb zugreifen|-
+|/orders|-| Beispielbestellungen haben keine Produkte|-
+|/orders|-| Beispielbestellungen haben immer aktuelle Zeit/Datum als Datum|-
+|/register | Leeres Datum | Wenn man kein Datum setzt, kommt für einen Nutzer unverständlicher Fehler| Cannot invoke "java.time.LocalDate.atStartOfDay(java.time.ZoneId)" because the return value of "bookshop.customer.RegistrationForm.getBirthDay()" is null
+|/changeProfile & /changeEmployee & /employeeRegister| Name = <existierendes Nutzer>| Wenn man als neuen Name z.B. "admin" nimmt, beim Ändern des Profils. Gleicher Fehler für Mitarbeiter durch Admin| Internal Server Error, status=500
+|/changeProfile & /changeEmployee & /employeeRegister| Freier Name| siehe Oberes | siehe Oberes
+|===
+
+== Sonstiges
+* Optik der Anwendung
+** Name des Buchshops fehlt
+** man soll sehen, dass es ein Bookshop ist
+** ein Kalender-Bild ist unscharf
+** Alles ist weiß
+** Tabelle sieht gut aus
+** nicht sehr ansprechend
+** uneindeutige Bezeichnungen
+** Für Felder und Buttons Bootstrap5 verwenden
+
+* Fehlende Features
+** kein Filter nach Genre möglich
+** Information über Preis, Descriptions und Genre von Produkte bei der Tabelle
+** Sagen, wenn ein input falsch ist, wenn man Produkte editiert
+** Neue Produkte erstellen
+** Zurück Möglichkeit, wenn man ein Produkt editiert
+** Filtern von produkte mit stock = 0
+** Produkte editieren? (Konnte selber kein Produkt richtig editieren)
+** Echte bildern haben, also filename zBsp
+** Name von Produkte soll auch editierbar sein
+** Sollte irgendwo sagen welche Genres es gibt
+** Produktanzahl im Warenkorb erhöhen
+** Als Admin kommt man nicht in seinen Warenkorb
+** Mehr informationen über den Kunden in der Detailseite einer Bestellung
+** mehrere Bestellungsstatus-Optionen z.B. "abholbereit" oder "in Lieferung"
+** Bezahlmethoden
+** Filtern von Bestellungen
+** Sortieren von Bestellungen
+** Bestellungsstatus ist nicht von "abgeschlossen" in "offen" änderbar (notwendig bei versehentlichen "Abschließen")
+** Passwort-Kriterien bei Registrierung sollten von Anfang an sichtbar sein
+** Geburtstag bei Registrierung darf nicht in Zukunft liegen
+** Automatisches Einloggen nach Registrierung
+** Nach Ändern des Passworts nicht ausloggen
+** Registrierung von Mitarbeitern muss gleiche Passwortkriterien haben wie für User
+** Möglichkeit neue Admins hinzuzufügen
+** In /account alle Profildaten einsehen können, nicht nur Name
+** Address ändern können von Usern durch sich selber und Admin
+
+* Interaktion mit der Anwendung (Usability)
+** Wenn man nicht angemeldet ist und etwas im Warenkorb hinzufügen will, dann wird man zum Login weitergeleitet, das kann für Verwirrung sorgen
+** Auf den ersten Blick ist das Inventar sehr intuitiv, es ist klar, was jeder Knopf macht und man kann leicht erkennen, wie alles angeordnet ist.
+** Beim Editieren von Produkte ist es schwer klarzukommen, ich konnte selber kein Produkt editieren, weil ich nicht weiß welche Parameter bei Image akzeptiert ist.
+** Keine Zurücksetzung von Filterattributen zB bei /sortAndFilterCustomers und /customers
+** Vielleicht ein gesonderter Teil mit Fähigkeiten für Admin, da jetzt die ganze Navigation in einer Navigationsleiste
+** "Bist du sicher?" - Frage bei Entfernen eines Users, da ein Klick direkt entfernt
+** bei Registrierung nicht alle Felder leeren, wenn eine Anforderung nicht erfüllt
+
+
+== Verbesserungsvorschläge
+* Was kann noch weiter verbessert werden?
+** Filter im Katalog neben den Produkten, statt darüber
+** Beschreibung zu Kalender und Merch hinzufügen
+** im Katalog nach Preis aufsteigend und absteigend sortieren
+** Feedback beim Drücken von Buttons und "Confirm"-Messages fehlen, wenn man Produkte editiert
+** Bei der Detailseite eines Produkts könnte 1 als Standardwert in der Menge stehen
+** Zu viel vom Videoshop kopiert -> eigenes Ui erstellen
+** Wenn man auf Bestellung stornieren klickt, eine Art Bestätigung einfügen, damit der User nicht versehentlich eine Bestellung storniert
+** mehr und nützlichere Attribute in der Bestellübersicht-Tabelle
+** mehr Beispielbestellungen
