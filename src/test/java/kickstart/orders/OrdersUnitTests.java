@@ -1,15 +1,29 @@
 package kickstart.orders;
 
 import kickstart.user.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Cart;
+import org.salespointframework.useraccount.UserAccount;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class OrdersUnitTests {
+	private User mockUser;
+	private UserAccount mockUserAccount;
+
+	@BeforeEach
+	void setUp() {
+		mockUserAccount = mock(UserAccount.class);
+		mockUser = mock(User.class);
+
+		when(mockUser.getUserAccount()).thenReturn(mockUserAccount);
+		when(mockUserAccount.getId()).thenReturn(UserAccount.UserAccountIdentifier.of("1"));
+	}
 
 	@Test
 	void testMyOrderRepository() {
@@ -26,18 +40,13 @@ public class OrdersUnitTests {
 		assertThat(cart.addOrUpdateItem(testProduct,testAmount).isPresent());
 	}
 
-	/*
 	@Test
 	void testMyOrderGetStringPaymentMethod() {
-		User user = mock(User.class);
-
 		String paymentMethod = "Rechnung";
-		MyOrder order = new MyOrder(user, paymentMethod);
+		MyOrder order = new MyOrder(mockUser, paymentMethod);
 
 		assertEquals(paymentMethod, order.getStringPaymentMethod());
 	}
-	 */
-
 
 	@Test
 	void testMyOrderDefaultConstructor() {
@@ -46,12 +55,9 @@ public class OrdersUnitTests {
 		assertNull(order.getStringPaymentMethod());
 	}
 
-	/*
 	@Test
 	void testChangeStatusRechnung() {
-		User user = new User(mock(UserAccount.class), mock(String.class), mock(String.class), mock(String.class), mock(String.class));
-
-		MyOrder order = new MyOrder(user, "Rechnung");
+		MyOrder order = new MyOrder(mockUser, "Rechnung");
 
 		order.changeStatus();
 		assertEquals("in Lieferung", order.getMyOrderStatus());
@@ -65,14 +71,10 @@ public class OrdersUnitTests {
 		order.changeStatus();
 		assertEquals("Offen", order.getMyOrderStatus());
 	}
-	 */
 
-	/*
 	@Test
 	void testChangeStatusBar() {
-		User user = new User(mock(UserAccount.class), mock(String.class), mock(String.class), mock(String.class), mock(String.class));
-
-		MyOrder order = new MyOrder(user,"Bar");
+		MyOrder order = new MyOrder(mockUser,"Bar");
 
 		order.changeStatus();
 		assertEquals("Abholbereit", order.getMyOrderStatus());
@@ -83,5 +85,4 @@ public class OrdersUnitTests {
 		order.changeStatus();
 		assertEquals("Offen", order.getMyOrderStatus());
 	}
-	 */
 }
