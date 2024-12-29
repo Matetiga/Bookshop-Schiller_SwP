@@ -58,7 +58,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="orderLine : ${order.getOrderLines().toList()}">
-                            <td th:text="${orderLine.getProductName()}">Sample Product</td>
+                            <td><a th:href="@{/product/{id}(id=${orderLine.getProductIdentifier})}" th:text="${orderLine.getProductName()}">Product Titel</a></td>
                             <td th:text="${orderLine.getQuantity()}">1</td>
                             <td th:text="${orderLine.getPrice()}">10.00</td>
                         </tr>

@@ -201,7 +201,7 @@ public class CatalogController {
 	}
 
 	@GetMapping("/book/{bookProduct}")
-	String bookDetail(@PathVariable ShopProduct bookProduct, Model model) {
+	public String bookDetail(@PathVariable ShopProduct bookProduct, Model model) {
 
 		var quantity = inventory.findByProductIdentifier(bookProduct.getId()) //
 			.map(InventoryItem::getQuantity) //
@@ -215,7 +215,7 @@ public class CatalogController {
 	}
 
 	@GetMapping("/merch/{merchProduct}")
-	String merchDetail(@PathVariable ShopProduct merchProduct, Model model) {
+	public String merchDetail(@PathVariable ShopProduct merchProduct, Model model) {
 
 		var quantity = inventory.findByProductIdentifier(merchProduct.getId()) //
 			.map(InventoryItem::getQuantity) //
@@ -229,7 +229,7 @@ public class CatalogController {
 	}
 
 	@GetMapping("/calender/{calenderProduct}")
-	String calenderDetail(@PathVariable ShopProduct calenderProduct, Model model) {
+	public String calenderDetail(@PathVariable ShopProduct calenderProduct, Model model) {
 
 		var quantity = inventory.findByProductIdentifier(calenderProduct.getId()) //
 			.map(InventoryItem::getQuantity) //

@@ -1,6 +1,13 @@
 package kickstart.orders;
 
+import kickstart.Inventory.Book;
+import kickstart.Inventory.Merch;
+import kickstart.Inventory.Calendar;
+import kickstart.Inventory.ShopProduct;
+import kickstart.Inventory.ShopProductCatalog;
+import kickstart.catalog.CatalogController;
 import kickstart.user.User;
+import org.salespointframework.catalog.Product;
 import org.salespointframework.order.Order;
 import org.salespointframework.useraccount.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +27,8 @@ import java.util.*;
 public class OrderViewController {
 	private final MyOrderRepository myOrderRepository;
 	private final MyOrderManagement myOrderManagement;
+	private final ShopProductCatalog shopProductCatalog;
+	private final CatalogController catalogController;
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
 	private final String[] paymentMethods = {"Alle", "Bar", "Rechnung"};
 
@@ -30,9 +39,11 @@ public class OrderViewController {
 	@Autowired
 	private MessageSource messageSource;
 
-	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement){
+	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement, ShopProductCatalog shopProductCatalog, CatalogController catalogController){
 		this.myOrderRepository = myOrderRepository;
 		this.myOrderManagement = myOrderManagement;
+		this.shopProductCatalog = shopProductCatalog;
+		this.catalogController = catalogController;
 		lastSortDateValue = "neueste";
 		lastSortDateValueKonto = "neueste";
 	}
@@ -185,6 +196,19 @@ public class OrderViewController {
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("sortDateButtonValueKonto", lastSortDateValueKonto);
 		return "my-orders";
+	}
+
+	@GetMapping("/product/{id}")
+	public String showProduct(@PathVariable Product.ProductIdentifier id, Model model) {
+		ShopProduct product = shopProductCatalog.findById(id).get();
+
+		if(product instanceof Book){
+			return catalogController.bookDetail(product, model);
+		}else if(product instanceof Calendar){
+			return catalogController.calenderDetail(product, model);
+		}else{
+			return catalogController.merchDetail(product, model);
+		}
 	}
 
 	/*
