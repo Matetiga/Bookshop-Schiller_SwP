@@ -40,7 +40,7 @@
                             </thead>
                             <tbody>
                             <tr th:each=" item : ${cart}">
-                                <td th:text="${item.productName}"></td>
+                                <td><a th:href="@{/product/{id}(id=${item.product.getId()})}" th:text="${item.productName}">Product Titel</a></td>
                                 <td>
                                     <form class="ui form" method="post" th:action="@{/cartIncrease}">
                                         <input type="hidden" name="productId" th:value="${item.product.getId()}"/>
