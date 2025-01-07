@@ -154,8 +154,10 @@ public class InventoryController {
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
 
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
-			item.increaseQuantity(Quantity.of(-1));
-			shopProductInventory.save(item);
+			if(item.getQuantity().getAmount().intValue() > 0){
+				item.increaseQuantity(Quantity.of(-1));
+				shopProductInventory.save(item);
+			}
 		});
 
 		if (shopProduct.getProduct() instanceof Book) {

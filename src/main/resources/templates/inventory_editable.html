@@ -133,7 +133,7 @@
                         <td th:text="${bookForm.price}"></td>
                         <td>
                             <label>
-                                <input type="number" name="price" th:field="*{price}" placeholder="Enter new price" />
+                                <input type="number" name="price" step="any" th:field="*{price}" placeholder="Enter new price" />
                             </label>
                             <span th:each="error : ${fieldErrors}"
                                   th:if="${error.field == 'price'}"
