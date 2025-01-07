@@ -1,0 +1,51 @@
+= Protokoll Gruppe XX
+
+Treffen am 07.01.2025
+Ort:      Ort des Treffens APB +
+Beginn:   13:00 Uhr +
+Ende:     xx:xx Uhr
+
+__Schriftführer:__ Willi Richter
+
+*Nächstes Treffen:* +
+14.01.2025, 13:00 Uhr, APB
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Martin
+- Linus
+- Erion 
+- Vincent
+- Willi
+- Marco
+- Kevin 
+- Fabian
+
+
+== Bemerkungen
+* Termin für Presentation: 03. 02.
+* Test coverage erhöhen
+* Cross testing implementieren
+* Kundenwunsch: Achievements (pro package min. 2)
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+Siehe Github
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+
+== Aktueller Stand
+* fast fertig
+
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+Siehe Github
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===
