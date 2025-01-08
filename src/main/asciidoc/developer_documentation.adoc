@@ -124,6 +124,7 @@ image::./models/analysis/ContextDiagramm/ContextDiagramm.png[context diagram, 10
 * *Navigation Bars* Ensure, that every page is easy to find via navigation bars
 * *User Interface* created a UI, so the user can quickly see wich page he currently looks at
 |Ease of use    a|
+* *Filter and sorting options* Providing several filter and sorting options to make find certain thing easier
 * *Similarity to other websites* Using our Software should feel similar to other common webshops, so users already know how to use the webside
 |Security        a|
 * *Confidentiality* Ensure that only data can be only accessed by people who are authorized to access them. This can be realized with _Spring Security_ and _Thymeleaf_ (`sec:authorize` - tag).
