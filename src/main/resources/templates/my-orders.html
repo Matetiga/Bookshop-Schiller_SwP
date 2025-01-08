@@ -16,9 +16,14 @@
 </header>
 <div class="container mt-5">
     <aside class="sidebar panel-effect">
-        <button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|" >Home</button>
-        <button class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" th:text="#{home.nav.account}">Account</button>
-        <button class="small-nav-tab-button active" th:onclick="|location.href='@{/my-orders}'|" th:text="#{order.my-orders}">Meine Bestellungen</button>
+        <h2 th:text="#{account.title}">Account</h2>
+        <ul class="small-nav">
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/}'|" >Home</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/account}'|" th:text="#{home.nav.account}">Account</button></li>
+            <li><button class="small-nav-tab-button active" th:onclick="|location.href='@{/my-orders}'|" th:text="#{order.my-orders}">Meine Bestellungen</button></li>
+            <li><button class="small-nav-tab-button" th:onclick="|location.href='@{/achievements}'|" th:text="#{achievements.title}">Errungenschaften</button></li>
+        </ul>
+
         <br>
         <form class="ui form" method="post" th:action="@{/sortByDateKonto}">
             <div class="form-group mt-3">

@@ -230,4 +230,10 @@ public class OrderViewController {
 
 		return "customer-overview";
 	}
+
+	@GetMapping("achievements")
+	String achievements(){
+		return "/achievements";
+	}
+
 }
