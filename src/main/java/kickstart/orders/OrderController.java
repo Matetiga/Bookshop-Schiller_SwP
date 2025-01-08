@@ -21,12 +21,13 @@ public class OrderController {
 	private final MyOrderRepository myOrderRepository;
 	private final UniqueInventory<UniqueInventoryItem> inventory;
 	private final UserManagement userManagement;
+	private final MyOrderManagement myOrderManagement;
 
-
-	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement){
+	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
 		this.inventory = inventory;
+		this.myOrderManagement = myOrderManagement;
 	}
 
 	@ModelAttribute("cart")
@@ -89,7 +90,10 @@ public class OrderController {
 			myOrderRepository.save(order);
 			cart.clear();
 		}
-		return "cart";
+		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
+		model.addAttribute("order", order);
+
+		return "my-order-details";
 	}
 
 
