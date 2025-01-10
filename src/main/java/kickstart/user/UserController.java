@@ -1,6 +1,7 @@
 package kickstart.user;
 
 import jakarta.validation.Valid;
+import kickstart.Achievement.Achievement;
 import org.jetbrains.annotations.NotNull;
 import org.salespointframework.useraccount.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,24 +144,24 @@ class UserController {
 
 	@GetMapping("/account_edit")
 	public String accountEdit(@AuthenticationPrincipal UserDetails UserDetails, EditUserProfilForm form, Model model) {
+		User user = userManagement.findByUserDetails(UserDetails);
 
-		if (UserDetails == null){
-			throw new IllegalStateException("User has to exists, but does not exist");
-		}
+		//achievement
+		Achievement ach1 = new Achievement("Ändere wer du bist!", "Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
 
-		User user = userManagement.findByUsername(UserDetails.getUsername());
-		if (user == null) {
-			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
+		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)){
+			userManagement.addAchievementToUser(user, ach1);
 		}
-		else {
-			form.setEdit_name(user.getName());
-			form.setEdit_last_name(user.getLast_name());
-			form.setEdit_address(user.getAddress());
-			form.setEdit_password("");
-			form.setEdit_confirmPassword("");
-			model.addAttribute("editUserProfilForm", form);
-			return "account_edit";
-		}
+		model.addAttribute("achievements", user.getAchievements());
+
+		form.setEdit_name(user.getName());
+		form.setEdit_last_name(user.getLast_name());
+		form.setEdit_address(user.getAddress());
+		form.setEdit_password("");
+		form.setEdit_confirmPassword("");
+		model.addAttribute("editUserProfilForm", form);
+		return "account_edit";
+
 	}
 
 	@PostMapping("/account_edit")
@@ -169,10 +170,10 @@ class UserController {
 		if (userDetails == null){
 			throw new IllegalStateException("User have to exists, but does not.");
 		}
-
 		User user = userManagement.findByUsername(userDetails.getUsername());
 		
 		if (user == null) throw new IllegalStateException("User have to exists, but exists not.");
+
 
 		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
 			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match");
@@ -292,6 +293,25 @@ class UserController {
 		model.addAttribute("statesList", states.split(","));
 
 		return "customer-overview";
+	}
+
+
+	@GetMapping("/achievements")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE') or hasRole('CUSTOMER')")
+	String achievements(@AuthenticationPrincipal UserDetails userDetails, Model model){
+		User user = userManagement.findByUserDetails(userDetails);
+		Achievement ach1 = new Achievement("Achievement Hunter!", "Besuche deine gesammelten und sehr sinnvollen Achievements ;D!", Role.of("CUSTOMER"));
+		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)){
+			userManagement.addAchievementToUser(user, ach1);
+			model.addAttribute("newAchievement", ach1);
+		}
+
+		int percentageCompletedAchievements = (user.getAchievements().size() * 100) / 10;
+
+		model.addAttribute("achievements", user.getAchievements());
+
+		model.addAttribute("progress", percentageCompletedAchievements);
+		return "achievements";
 	}
 
 }
