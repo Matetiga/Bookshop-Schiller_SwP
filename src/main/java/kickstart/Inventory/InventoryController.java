@@ -503,9 +503,7 @@ public class InventoryController {
 			}
 		}
 
-		if (outOfStockCalendars.isEmpty()) {
-			return "redirect:/inventory_calendar";
-		}
+
 		// Add filtered calendars to the model
 		model.addAttribute("calendars", outOfStockCalendars);
 		model.addAttribute("viewName", "inventory_calendar");
@@ -515,7 +513,7 @@ public class InventoryController {
 			model.addAttribute("calendarForm", new AddMerchCalendarForm());
 		}
 
-		return "inventory_calendar"; // Reuse the same template to display the out-of-stock items
+		return "inventory_calendar";
 	}
 
 	@GetMapping("/inventory_book/out_of_stock")
@@ -527,9 +525,7 @@ public class InventoryController {
 			}
 		}
 
-		if (outOfStockBooks.isEmpty()) {
-			return "redirect:/inventory_book";
-		}
+
 
 		model.addAttribute("books", outOfStockBooks);
 		model.addAttribute("viewName", "inventory_book");
@@ -551,9 +547,7 @@ public class InventoryController {
 			}
 		}
 
-		if (outOfStockMerch.isEmpty()) {
-			return "redirect:/inventory_merch";
-		}
+
 
 		model.addAttribute("merch", outOfStockMerch);
 		model.addAttribute("viewName", "inventory_merch");

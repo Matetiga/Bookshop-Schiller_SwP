@@ -32,9 +32,8 @@ class UserDefaultDataInitializer implements DataInitializer {
 
 	@Override
 	public void initialize() {
-
 		//dont add new users if user already exist
-		if (userAccountManagement.findByUsername("admin@example.com").isPresent()) {
+		if (userAccountManagement.findByUsername("admin").isPresent()) {
 			return;
 		}
 

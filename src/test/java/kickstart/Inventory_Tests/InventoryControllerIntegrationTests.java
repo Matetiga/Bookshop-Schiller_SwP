@@ -230,4 +230,65 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	}
 // Important:
 	// Test for methods that include Bindingresult will not be tested
+	@Test
+	public void testOutOfStockCalDef() {
+			String returnedView = controller.showOutOfStockCalendars(model);
+
+			Iterable<Object> calendar = (Iterable<Object>) model.asMap().get("calendars");
+			assertThat(calendar).hasSize(0);
+
+	}
+	@Test
+	public void testOutOfStockCal() {
+		Calendar testCalendar = new Calendar("name", "img", Money.of(10, "EUR"), "des");
+		shopProductCatalog.save(testCalendar);
+		shopProductInventory.save(new UniqueInventoryItem(testCalendar, Quantity.of(0)));
+
+		String returnedView = controller.showOutOfStockCalendars(model);
+
+		Iterable<Object> calendars = (Iterable<Object>) model.asMap().get("calendars");
+
+		assertThat(calendars).hasSize(1);
+	}
+
+	@Test
+	public void testOutOfStockBookDef() {
+		String returnedView = controller.showOutOfStockBooks(model);
+
+		Iterable<Object> book = (Iterable<Object>) model.asMap().get("books");
+		assertThat(book).hasSize(0);
+	}
+
+	@Test
+	public void testOutOfStockBook() {
+		Book testBook = new Book("name", "im", Money.of(10, "EUR"),
+			"des", new HashSet<>(Set.of(Genre.createGenre("science fiction"))), "author", "ISBN", "publisher");
+		shopProductCatalog.save(testBook);
+		shopProductInventory.save(new UniqueInventoryItem(testBook, Quantity.of(0)));
+
+		String returnedView = controller.showOutOfStockBooks(model);
+
+		Iterable<Object> book = (Iterable<Object>) model.asMap().get("books");
+		assertThat(book).hasSize(1);
+	}
+
+	@Test
+	public void testOutOfStockMerchDef() {
+		String returnedView = controller.showOutOfStockMerch(model);
+
+		Iterable<Object> merch = (Iterable<Object>) model.asMap().get("merch");
+		assertThat(merch).hasSize(0);
+	}
+
+	@Test
+	public void testOutOfStockMerch() {
+		Merch testMerch = new Merch("name", "img", Money.of(10, "EUR"), "des");
+		shopProductCatalog.save(testMerch);
+		shopProductInventory.save(new UniqueInventoryItem(testMerch, Quantity.of(0)));
+		String returnedView = controller.showOutOfStockMerch(model);
+
+		Iterable<Object> merch = (Iterable<Object>) model.asMap().get("merch");
+
+		assertThat(merch).hasSize(1);
+	}
 }

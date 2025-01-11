@@ -10,11 +10,13 @@ import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManagement;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import kickstart.Achievement.Achievement;
 
 
 import java.util.*;
@@ -28,6 +30,7 @@ public class UserManagement {
 
     private final UserRepository users;
     private final UserAccountManagement userAccounts;
+
 
 
 	UserManagement(UserRepository users, @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
@@ -103,6 +106,8 @@ public class UserManagement {
 		}
 		return null;
 	}
+
+
 
 	@Transactional
 	public String promoteAccountById(UUID id) {
@@ -218,5 +223,24 @@ public class UserManagement {
 		}
 
 		return users;
+	}
+
+	@Transactional
+	public void addAchievementToUser(User user, Achievement achievement) {
+		user.addAchievement(achievement);
+	}
+
+	@Transactional
+	public User findByUserDetails(UserDetails userDetails) {
+		if (userDetails == null){
+			throw new IllegalStateException("User has to exists, but does not exist");
+		}
+
+		User user = this.findByUsername(userDetails.getUsername());
+		if (user == null) {
+			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
+		}
+
+		return user;
 	}
 }
