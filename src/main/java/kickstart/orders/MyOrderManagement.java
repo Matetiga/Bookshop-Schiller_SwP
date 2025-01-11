@@ -106,7 +106,7 @@ public class MyOrderManagement {
 
 	public void setDeliveryState(Iterable<MyOrder> orderList){
 		for(MyOrder order : this.findByStatus("in Lieferung", orderList)){
-			if(LocalDateTime.now().minusSeconds(10).isAfter(order.getStartDeliveryTime())){
+			if(LocalDateTime.now().minusDays(3).isAfter(order.getStartDeliveryTime())){
 				order.changeStatus();
 			}
 		}

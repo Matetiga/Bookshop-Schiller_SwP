@@ -24,7 +24,7 @@ public class FinanceController {
 
 	@GetMapping("/finance-data")
 	@ResponseBody
-	public Map<String, Double> MonthlyRevenueData() {
+	public Map<String, Double> monthlyRevenueData() {
 		Month month = LocalDateTime.now().getMonth();
 		Map<String, Double> revenueData = new LinkedHashMap<>();
 		for (int i = 11 ; i >= 0; i--) {
