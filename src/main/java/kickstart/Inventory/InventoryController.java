@@ -4,6 +4,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import kickstart.Achievement.Achievement;
+import kickstart.Service.UserAchievementService;
 import kickstart.user.User;
 import kickstart.user.UserManagement;
 import org.javamoney.moneta.Money;
@@ -35,12 +36,14 @@ public class InventoryController {
 	private final UniqueInventory<UniqueInventoryItem> shopProductInventory;
 	private final ShopProductCatalog shopProductCatalog;
 	private final UserManagement userManagement;
+	private final UserAchievementService userAchievementService;
 
 	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog,
 						UserManagement userManagement) {
 		this.shopProductInventory = shopProductInventory;
 		this.shopProductCatalog = shopProductCatalog;
 		this.userManagement = userManagement;
+		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
 	@PostMapping("/inventory/add_newGenre")
@@ -73,24 +76,11 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
-	public void achievementToCurrentUser(Achievement ach, Model model) {
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userManagement.findByUsername(userDetails.getUsername());
-
-		if (!user.hasAchievement(ach) && user.achievementCanBeAdded(ach)) {
-			userManagement.addAchievementToUser(user, ach);
-			model.addAttribute("achievement", ach);
-		}
-	}
-
 	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {
-
-		// Achievement for visiting the inventory page
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Achievement ach1 = new Achievement("Testing achievement📚", "You have visited the inventory", Role.of("CUSTOMER"));
-		if(!model.containsAttribute("achievement")){
-			achievementToCurrentUser(ach1, model);
-		}
+		userAchievementService.processAchievement(userDetails, ach1, model);
 
 		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();
 		for (UniqueInventoryItem item : shopProductInventory.findAll()) {

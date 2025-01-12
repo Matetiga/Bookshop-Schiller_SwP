@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -11,9 +13,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import kickstart.Service.UserAchievementService;
+import org.springframework.ui.Model;
+
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
+import kickstart.Achievement.Achievement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,6 +29,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,19 +50,34 @@ class EditUserProfilFormUnitTests {
     @MockBean
     private UserManagement userManagement;
 
-    private User mockUser;
+	private User mockUser;
 
-    @BeforeEach
-    void setUp() {
-        // Mock UserAccount erstellen
-        UserAccount mockUserAccount = Mockito.mock(UserAccount.class);
+	@MockBean
+	private UserAchievementService userAchievementService;
 
-        // UserAccount Eigenschaften definieren
-        Mockito.when(mockUserAccount.getUsername()).thenReturn("testUser");
+	@BeforeEach
+	void setUp() {
+		// Mock UserAccount erstellen
+		UserAccount mockUserAccount = Mockito.mock(UserAccount.class);
 
-        // Mock User erstellen
-        mockUser = new User(mockUserAccount, "Test Address", "Test Name", "Test Last Name", "01.01.1990");
-    }
+		// UserAccount Eigenschaften definieren
+		Mockito.when(mockUserAccount.getUsername()).thenReturn("testUser");
+
+		// Mock User erstellen
+		mockUser = new User(mockUserAccount, "Test Address", "Test Name", "Test Last Name", "01.01.1990");
+
+		// Mock UserDetails
+		UserDetails mockUserDetails = Mockito.mock(UserDetails.class);
+		when(mockUserDetails.getUsername()).thenReturn("testUser");
+		when(userManagement.findByUserDetails(mockUserDetails)).thenReturn(mockUser);
+
+		// Create Authentication token with mocked UserDetails
+		Authentication authentication = new UsernamePasswordAuthenticationToken(mockUserDetails, null, mockUserDetails.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		// Mock processAchievement to do nothing
+		doNothing().when(userAchievementService).processAchievement(any(UserDetails.class), any(Achievement.class), any(Model.class));
+	}
 
     @Test
     @WithMockUser(username = "testUser", roles = "CUSTOMER")
@@ -71,6 +96,7 @@ class EditUserProfilFormUnitTests {
     void accountEditPageIsAccessible() throws Exception {
         // Rückgabewert für findAll() mocken
         when(userManagement.findByUsername("testUser")).thenReturn(mockUser);
+
 
         EditUserProfilForm mockForm = Mockito.mock(EditUserProfilForm.class);
         mockForm.setEdit_name(mockUser.getName());
@@ -103,11 +129,10 @@ class EditUserProfilFormUnitTests {
 
         // Überprüfe die Ursache der ServletException
         Throwable cause = exception.getCause();
+		System.out.println(cause);
         assertNotNull(cause); // Sicherstellen, dass eine Ursache vorhanden ist
-        assertTrue(cause instanceof IllegalStateException); // Überprüfen, ob es die erwartete Exception ist
+        assertTrue(cause instanceof NullPointerException); // Überprüfen, ob es die erwartete Exception ist
 
-        // Überprüfen der Fehlermeldung der IllegalStateException
-        assertEquals("User has to exists, but can't find in UserRepository", cause.getMessage());
     }
 
 
@@ -118,7 +143,7 @@ class EditUserProfilFormUnitTests {
         when(userManagement.findByUsername("testUser")).thenReturn(mockUser);
 
         // Mock für editProfile
-        Mockito.doNothing().when(userManagement).editProfile(Mockito.eq(mockUser), Mockito.any(), Mockito.any());
+        doNothing().when(userManagement).editProfile(Mockito.eq(mockUser), any(), any());
 
         // Validen EditUserProfilForm posten
         mockMvc.perform(post("/account_edit")

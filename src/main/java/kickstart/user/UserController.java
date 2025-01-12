@@ -2,11 +2,13 @@ package kickstart.user;
 
 import jakarta.validation.Valid;
 import kickstart.Achievement.Achievement;
+import kickstart.Service.UserAchievementService;
 import org.jetbrains.annotations.NotNull;
 import org.salespointframework.useraccount.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -29,10 +31,13 @@ class UserController {
 	private final UserManagement userManagement;
 	@Autowired
 	private MessageSource messageSource;
+	private final UserAchievementService userAchievementService;
+
 
 	UserController(UserManagement userManagement) {
 		Assert.notNull(userManagement, "UserManagement.java must not be null!");
 		this.userManagement = userManagement;
+		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
 	@PostMapping("/register")
@@ -143,26 +148,21 @@ class UserController {
 	}
 
 	@GetMapping("/account_edit")
-	public String accountEdit(@AuthenticationPrincipal UserDetails UserDetails, EditUserProfilForm form, Model model) {
-		User user = userManagement.findByUserDetails(UserDetails);
+	public String accountEdit(@AuthenticationPrincipal UserDetails userDetails, EditUserProfilForm form, Model model) {
 
-		//achievement
-		Achievement ach1 = new Achievement("Ändere wer du bist!", "Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
-		List<Achievement> achievements = new ArrayList<>();
+		Achievement achievement = new Achievement("Ändere wer du bist!", "Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
+		userAchievementService.processAchievement(userDetails, achievement, model);
 
-		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)){
-			userManagement.addAchievementToUser(user, ach1);
-			achievements.add(ach1);
-		}
-		model.addAttribute("achievements", user.getAchievements());
-		model.addAttribute("newAchievements", achievements); // this is the list of new achievements that the user has just unlocked
-
+		User user = userManagement.findByUserDetails(userDetails);
 		form.setEdit_name(user.getName());
 		form.setEdit_last_name(user.getLast_name());
 		form.setEdit_address(user.getAddress());
 		form.setEdit_password("");
 		form.setEdit_confirmPassword("");
 		model.addAttribute("editUserProfilForm", form);
+
+		System.out.println("Model attributes: " + model.asMap());
+
 		return "account_edit";
 
 	}
@@ -302,18 +302,12 @@ class UserController {
 	@GetMapping("/achievements")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE') or hasRole('CUSTOMER')")
 	String achievements(@AuthenticationPrincipal UserDetails userDetails, Model model){
-		User user = userManagement.findByUserDetails(userDetails);
-		Achievement ach1 = new Achievement("Achievement Hunter!", "Besuche deine gesammelten und sehr sinnvollen Achievements ;D!", Role.of("CUSTOMER"));
-		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)){
-			userManagement.addAchievementToUser(user, ach1);
-			model.addAttribute("newAchievement", ach1);
-		}
+		Achievement achievement = new Achievement("Achievement Hunter!", "Besuche deine gesammelten und sehr sinnvollen Achievements ;D!", Role.of("CUSTOMER"));
 
-		int percentageCompletedAchievements = (user.getAchievements().size() * 100) / 10;
+		userAchievementService.processAchievement(userDetails, achievement, model);
+		userAchievementService.addAllAchievementsToModel(userDetails, model);
+		userAchievementService.addProgressToModel(userDetails, model);
 
-		model.addAttribute("achievements", user.getAchievements());
-
-		model.addAttribute("progress", percentageCompletedAchievements);
 		return "achievements";
 	}
 

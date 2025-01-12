@@ -3,19 +3,19 @@
 <link th:href="@{/css/styles.css}" rel="stylesheet">
 <div th:if="${achievement}" th:fragment="toast">
     <div class="toast-container position-fixed top-0 end-0 p-3">
-        <!--        th:each="achievement : ${newAchievements}"-->
+
+        <!--        th:each="achievement : ${newAchievements}" -->
         <div class="toast align-items-center bg-white text-black border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
-                    <div class="toast-title fw-bold" th:text="'🎉 ' + ${achievement.title}"></div>
-                    <div class="toast-description" th:text="${achievement.description}"></div>
+                    <div class="toast-title fw-bold" th:text="'🎉 ' + ${achievement?.title}"></div>
+                    <div class="toast-description" th:text="${achievement?.description}"></div>
                 </div>
                 <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
-
-    <script>
+    <script th:if="${achievement != null}">
         document.addEventListener("DOMContentLoaded", () => {
             const toasts = document.querySelectorAll('.toast');
             toasts.forEach(toastElement => {
@@ -24,4 +24,6 @@
             });
         });
     </script>
+
+
 </div>
