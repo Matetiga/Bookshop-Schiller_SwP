@@ -3,20 +3,23 @@ package kickstart.Inventory;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import kickstart.Achievement.Achievement;
+import kickstart.user.User;
+import kickstart.user.UserManagement;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.Role;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -31,11 +34,13 @@ public class InventoryController {
 	@ManyToOne
 	private final UniqueInventory<UniqueInventoryItem> shopProductInventory;
 	private final ShopProductCatalog shopProductCatalog;
+	private final UserManagement userManagement;
 
-
-	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog) {
+	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog,
+						UserManagement userManagement) {
 		this.shopProductInventory = shopProductInventory;
 		this.shopProductCatalog = shopProductCatalog;
+		this.userManagement = userManagement;
 	}
 
 	@PostMapping("/inventory/add_newGenre")
@@ -70,6 +75,17 @@ public class InventoryController {
 
 	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {
+		// Access the current authenticated user's information
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userManagement.findByUserDetails(userDetails);
+
+		// Achievement for visiting the inventory page
+		Achievement ach1 = new Achievement("Testing achievement📚", "You have visited the inventory", Role.of("CUSTOMER"));
+		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)) {
+			userManagement.addAchievementToUser(user, ach1);  // Add the achievement to the user
+			model.addAttribute("achievement", ach1);
+		}
+
 		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();
 		for (UniqueInventoryItem item : shopProductInventory.findAll()) {
 			if (item.getProduct() instanceof Book) {
@@ -132,6 +148,12 @@ public class InventoryController {
 	@PostMapping("/inventory/increase")
 	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id,
 										  @RequestParam("viewName") String viewName, Model model) {
+
+		Achievement ach2 = new Achievement("ARRIBAAA ESPAÑA 📚", "a subir como espuma", Role.of("EMPLOYEE"));
+		List<Achievement> achievements = new ArrayList<>();
+		achievements.add(ach2);
+		model.addAttribute("achievement", ach2);
+
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(1));
 			shopProductInventory.save(item);

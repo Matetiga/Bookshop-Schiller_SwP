@@ -148,11 +148,14 @@ class UserController {
 
 		//achievement
 		Achievement ach1 = new Achievement("Ändere wer du bist!", "Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
+		List<Achievement> achievements = new ArrayList<>();
 
 		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)){
 			userManagement.addAchievementToUser(user, ach1);
+			achievements.add(ach1);
 		}
 		model.addAttribute("achievements", user.getAchievements());
+		model.addAttribute("newAchievements", achievements); // this is the list of new achievements that the user has just unlocked
 
 		form.setEdit_name(user.getName());
 		form.setEdit_last_name(user.getLast_name());

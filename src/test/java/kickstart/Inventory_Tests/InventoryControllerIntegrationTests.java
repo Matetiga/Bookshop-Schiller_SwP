@@ -2,12 +2,21 @@ package kickstart.Inventory_Tests;
 
 import kickstart.AbstractIntegrationTests;
 import kickstart.Inventory.*;
+import kickstart.user.User;
+import kickstart.user.UserManagement;
+import kickstart.user.UserRepository;
 import org.javamoney.moneta.Money;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,16 +48,41 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	@Autowired
 	ShopProductCatalog shopProductCatalog;
 
+	@Autowired
+	private final UserRepository users;
+
+
 	InventoryControllerIntegrationTests(@Autowired InventoryController controller,
 										@Autowired UniqueInventory<UniqueInventoryItem> shopProductInventory,
-										@Autowired ShopProductCatalog shopProductCatalog){
+										@Autowired ShopProductCatalog shopProductCatalog,
+										@Autowired UserRepository users) {
 		this.controller = controller;
 		this.shopProductInventory = shopProductInventory;
 		this.shopProductCatalog = shopProductCatalog;
+		this.users = users;
+	}
+
+	private User mockUser;
+
+	@BeforeEach
+	void setUp() {
+		// Mock UserAccount erstellen
+		UserAccount mockUserAccount = Mockito.mock(UserAccount.class);
+
+		// UserAccount Eigenschaften definieren
+		Mockito.when(mockUserAccount.getUsername()).thenReturn("testUser");
+
+		// Mock User erstellen
+		mockUser = new User(mockUserAccount, "Test Address", "Test Name", "Test Last Name", "01.01.1990");
+
+
+		users.save(mockUser);
+
 	}
 
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testInventoryBookOverview() {
 		String returnedView = controller.showInventory(model);
 
@@ -94,7 +128,11 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testDecreaseProductQuantity(){
+		UserManagement userManagement = mock(UserManagement.class);
+		when(userManagement.findByUsername("testUser")).thenReturn(mockUser);
+
 		Book book = (Book) shopProductCatalog.findByName("The Great Gatsby").stream().findFirst().get();
 		controller.decreaseProductQuantity(book.getId(), model);
 //
@@ -113,6 +151,9 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	public void testInventoryDeleteProduct(){
 		Book book = new Book("name", "im", Money.of(10, "EUR"),
 			"des", new HashSet<>(Set.of(Genre.createGenre("science fiction"))), "author", "ISBN", "publisher");
+
+		UserDetails details = mock(UserDetails.class);
+
 
 		shopProductCatalog.save(book);
 		shopProductInventory.save(new UniqueInventoryItem(book, Quantity.of(10)));

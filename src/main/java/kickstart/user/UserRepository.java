@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.util.Streamable;
 
 
-interface UserRepository extends CrudRepository<User, UserIdentifier> {
+public interface UserRepository extends CrudRepository<User, UserIdentifier> {
 
 	@Override
 	Streamable<User> findAll();
