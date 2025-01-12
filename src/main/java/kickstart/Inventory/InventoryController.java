@@ -73,17 +73,23 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	public void achievementToCurrentUser(Achievement ach, Model model) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userManagement.findByUsername(userDetails.getUsername());
+
+		if (!user.hasAchievement(ach) && user.achievementCanBeAdded(ach)) {
+			userManagement.addAchievementToUser(user, ach);
+			model.addAttribute("achievement", ach);
+		}
+	}
+
 	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {
-		// Access the current authenticated user's information
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userManagement.findByUserDetails(userDetails);
 
 		// Achievement for visiting the inventory page
 		Achievement ach1 = new Achievement("Testing achievement📚", "You have visited the inventory", Role.of("CUSTOMER"));
-		if (!user.hasAchievement(ach1) && user.achievementCanBeAdded(ach1)) {
-			userManagement.addAchievementToUser(user, ach1);  // Add the achievement to the user
-			model.addAttribute("achievement", ach1);
+		if(!model.containsAttribute("achievement")){
+			achievementToCurrentUser(ach1, model);
 		}
 
 		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();
@@ -205,6 +211,10 @@ public class InventoryController {
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
 		shopProductInventory.findByProductIdentifier(id).ifPresent(shopProductInventory::delete);
 		if (shopProduct.getProduct() instanceof Book) {
+			if(shopProductInventory.findAll().stream().noneMatch(item -> item.getProduct() instanceof Book)){
+				Achievement achievement = new Achievement("No books :(", "You have deleted all the books", Role.of("EMPLOYEE"));
+				achievementToCurrentUser(achievement, model);
+			}
 			showInventory(model);
 			return "inventory_book";
 		}

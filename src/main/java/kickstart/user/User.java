@@ -23,7 +23,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	private LocalDateTime registrationDate;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<Achievement> achievements;
+	private Set<Achievement> achievements = new HashSet<>();
 
 
 	private @OneToOne UserAccount userAccount;

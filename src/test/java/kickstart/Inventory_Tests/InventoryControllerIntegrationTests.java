@@ -1,6 +1,7 @@
 package kickstart.Inventory_Tests;
 
 import kickstart.AbstractIntegrationTests;
+import kickstart.Achievement.Achievement;
 import kickstart.Inventory.*;
 import kickstart.user.User;
 import kickstart.user.UserManagement;
@@ -12,6 +13,7 @@ import org.mockito.Mockito;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,6 +34,7 @@ import java.util.Set;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,21 +51,20 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	@Autowired
 	ShopProductCatalog shopProductCatalog;
 
-	@Autowired
-	private final UserRepository users;
+	@MockBean
+	private UserManagement userManagement;
 
 
 	InventoryControllerIntegrationTests(@Autowired InventoryController controller,
 										@Autowired UniqueInventory<UniqueInventoryItem> shopProductInventory,
-										@Autowired ShopProductCatalog shopProductCatalog,
-										@Autowired UserRepository users) {
+										@Autowired ShopProductCatalog shopProductCatalog) {
 		this.controller = controller;
 		this.shopProductInventory = shopProductInventory;
 		this.shopProductCatalog = shopProductCatalog;
-		this.users = users;
 	}
 
 	private User mockUser;
+	private Achievement ach1;
 
 	@BeforeEach
 	void setUp() {
@@ -72,11 +74,12 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		// UserAccount Eigenschaften definieren
 		Mockito.when(mockUserAccount.getUsername()).thenReturn("testUser");
 
+
 		// Mock User erstellen
 		mockUser = new User(mockUserAccount, "Test Address", "Test Name", "Test Last Name", "01.01.1990");
+		ach1 = new Achievement("Test Achievement", "Test Description", Role.of("ADMIN"));
 
-
-		users.save(mockUser);
+		when(userManagement.findByUsername("testUser")).thenReturn(mockUser);
 
 	}
 
@@ -91,6 +94,10 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 
 		assertThat(books).hasSize(12);
 		assertThat(genres).hasSize(8);
+
+		// check if the achievement has been added
+		assertTrue(model.containsAttribute("achievement"));
+
 	}
 
 	@Test
@@ -189,6 +196,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testAddNewGenreEmpty(){
 		controller.addNewGenre("", model);
 
@@ -198,6 +206,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testDeleteGenre(){
 		Genre testgenre = Genre.createGenre("testDeleteGenre");
 
