@@ -155,10 +155,6 @@ public class InventoryController {
 	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id,
 										  @RequestParam("viewName") String viewName, Model model) {
 
-		Achievement ach2 = new Achievement("ARRIBAAA ESPAÑA 📚", "a subir como espuma", Role.of("EMPLOYEE"));
-		List<Achievement> achievements = new ArrayList<>();
-		achievements.add(ach2);
-		model.addAttribute("achievement", ach2);
 
 		shopProductInventory.findByProductIdentifier(id).ifPresent(item -> {
 			item.increaseQuantity(Quantity.of(1));
@@ -214,6 +210,7 @@ public class InventoryController {
 			if(shopProductInventory.findAll().stream().noneMatch(item -> item.getProduct() instanceof Book)){
 				Achievement achievement = new Achievement("No books :(", "You have deleted all the books", Role.of("EMPLOYEE"));
 				achievementToCurrentUser(achievement, model);
+				model.addAttribute("showNoBooks", true);
 			}
 			showInventory(model);
 			return "inventory_book";

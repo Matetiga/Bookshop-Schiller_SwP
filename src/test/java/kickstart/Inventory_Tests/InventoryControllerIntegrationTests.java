@@ -51,10 +51,6 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	@Autowired
 	ShopProductCatalog shopProductCatalog;
 
-	@MockBean
-	private UserManagement userManagement;
-
-
 	InventoryControllerIntegrationTests(@Autowired InventoryController controller,
 										@Autowired UniqueInventory<UniqueInventoryItem> shopProductInventory,
 										@Autowired ShopProductCatalog shopProductCatalog) {
@@ -63,11 +59,18 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		this.shopProductCatalog = shopProductCatalog;
 	}
 
+
+	// Important for Achievements
+	@MockBean
+	private UserManagement userManagement;
 	private User mockUser;
 	private Achievement ach1;
 
 	@BeforeEach
 	void setUp() {
+		// this set up is needed when testing methods that require a user to be logged in
+		// logged in users is a requirement for the achievements
+
 		// Mock UserAccount erstellen
 		UserAccount mockUserAccount = Mockito.mock(UserAccount.class);
 

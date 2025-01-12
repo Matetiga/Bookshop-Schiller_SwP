@@ -148,8 +148,8 @@
         </section>
     </div>
         <!-- Adding a table to insert new Books-->
-        <div id="addNewBook" class="modal">
-            <div class="modal-content">
+        <div id="addNewBook" class="custom-modal">
+            <div class="custom-modal-content">
                 <span id="close" class="close">&times;</span>
                 <h1>Add New Book</h1>
                 <form th:action="@{/inventory/add_book}" th:if="${bookForm != null}" method="post" th:object="${bookForm}" enctype="multipart/form-data">
@@ -201,7 +201,7 @@
                     <span th:if="${#fields.hasErrors('publisher')}" th:errors="*{publisher}"></span>
 
 
-                    <div class="modal-footer">
+                    <div class="custom-modal-footer">
                         <button class="add-book_button" type="submit">Add Book</button>
                     </div>
                 </form>
@@ -210,6 +210,34 @@
         </div>
 <!--        this should include the code inside confirmationToast.html-->
         <div th:replace="fragments/achievementToast :: toast"></div>
+
+<!--        div for displaying No books image's Achievement-->
+        <div th:if="${showNoBooks}">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="custom-modalImg-title" id="imageModalLabel">No Books?</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Image inside the modal -->
+                            <img src="/resources/img/inventory_img/noBooks.jpg" alt="No Books Image" class="img-fluid rounded">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JavaScript to show the modal automatically -->
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const modalElement = document.getElementById('imageModal');
+                    const myModal = new bootstrap.Modal(modalElement);
+                    myModal.show();  // Show the modal automatically if it exists
+                });
+            </script>
+        </div>
 
     </body>
     <script th:inline="javascript">

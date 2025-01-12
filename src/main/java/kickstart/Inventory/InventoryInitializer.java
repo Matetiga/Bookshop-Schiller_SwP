@@ -84,9 +84,11 @@ public class InventoryInitializer implements DataInitializer {
 			shopProductCatalog.save(new Book("Java for Dummies", "/resources/img/cover/javafordummies.jpg", Money.of(7.99,"EUR"),
 				"Learn Java",genreSet8,"Barry Burd","9781603095082","Wiley-VCH"));
 
-			shopProductCatalog.save(new Book("From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen", "/resources/img/cover/snoopdogg.jpg",
+			Book snoopBook = (new Book("From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen", "/resources/img/cover/snoopdogg.jpg",
 				Money.of(99.99,"EUR"),
-				"Best Recipes world wide",genreSet9,"Snoop Dogg","9781452179612","Chronicle Books"));
+				"Best Recipes world wide",genreSet9,"Snoop Dogg",
+				"9781452179612","Chronicle Books"));
+			shopProductCatalog.save(snoopBook);
 
 			shopProductCatalog.save (new Merch("T-Shirt", "/resources/img/cover/t-shirt.jpg", Money.of(19.99, "EUR"), "Comfortable cotton T-shirt"));
 			shopProductCatalog.save (new Merch("Mug", "/resources/img/cover/mug.jpg", Money.of(9.99, "EUR"), "Ceramic coffee mug"));
@@ -112,6 +114,10 @@ public class InventoryInitializer implements DataInitializer {
 					shopProductInventory.save(new UniqueInventoryItem(product, Quantity.of(10)));
 				}
 			});
+
+			// so snoop dogg's book has 420 copies
+			shopProductInventory.findByProductIdentifier(snoopBook.getProductId())
+				.ifPresent(item -> item.increaseQuantity(Quantity.of(410)));
 		}
 
 

@@ -1,4 +1,4 @@
-.modal{
+.custom-modal{
     display: none;
     position: fixed;
     z-index: 1;
@@ -10,7 +10,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.custom-modal-content {
     background-color: white;
     margin: 10% auto;
     padding: 20px;
@@ -26,26 +26,18 @@
     cursor: pointer;
 }
 
-.modal-content label {
+.custom-modal-content label {
     display: grid;
 }
 
-.modal-content input{
+.custom-modal-content input{
     width: 100%;
     margin-bottom: 15px;
     box-sizing: border-box; /* Ensure padding does not affect width */
     position: relative; /* Make sure child elements stay positioned correctly */
 }
-/*.modal-content button {*/
-/*    padding: 10px;*/
-/*    background-color: #d2691e;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 10px;*/
-/*    float: right;*/
-/*}*/
 
-.modal-footer {
+.custom-modal-footer {
     margin-top: 10px;
     text-align: right;
     clear: both;
@@ -62,4 +54,20 @@
 }
 .add-book_button:hover {
     background-color: #038839; /* Change color on hover */
+}
+
+/* styling the modal of the image, when all books are removed */
+/*.modal.fade .modal-dialog {*/
+/*    transition: opacity 5s ease-out, transform 1.5s ease-out;*/
+/*}*/
+
+.modal.show .modal-dialog {
+    transition: opacity 5s ease-in-out, transform 1.5s ease-in-out;
+}
+
+.custom-modalImg-title {
+    font-size: 70px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    align-content: center;
 }
