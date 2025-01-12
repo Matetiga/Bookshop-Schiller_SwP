@@ -235,6 +235,10 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Grid-Layout für die Bücher */
     gap: 20px;
     background-color: var(--panel-color-clear);
+
+    /*justify-content: center;*/
+        align-content: flex-start; /* Zentriert die Zeilen vertikal */
+       /* min-height: calc(100vh - 200px);*/
 }
 .right-view {
     flex: 1;

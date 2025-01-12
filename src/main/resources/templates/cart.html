@@ -72,7 +72,7 @@
                             <option value="Rechnung" th:text="#{cart.invoice}">Rechnung</option>
                         </select>
                             <br>
-                            Bei Zahlungsmethode "Rechnung" beträgt die Lieferzeit 3 Tage.
+                            <p th:text="#{cart.invoice.sentence}">Bei Zahlungsmethode "Rechnung" beträgt die Lieferzeit 3 Tage.</p>
                             <br>
                         <button class="ui button btn btn-success" type="submit" th:text="#{cart.buy}">Kaufen</button>
                     </form>

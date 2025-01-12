@@ -1,11 +1,19 @@
 package kickstart.catalog;
 import kickstart.Inventory.*;
 import kickstart.Inventory.Calendar;
+import kickstart.Achievement.Achievement;
+import kickstart.user.User;
+import kickstart.user.UserManagement;
+import kickstart.Service.UserAchievementService;
 import kickstart.orders.OrderController;
 import org.salespointframework.catalog.Product;
 import org.salespointframework.inventory.InventoryItem;
 import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
+import org.salespointframework.useraccount.Role;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.salespointframework.order.Cart;
 import org.salespointframework.quantity.Quantity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +33,16 @@ public class CatalogController {
 
 	private final ShopProductCatalog catalog;
 	private final UniqueInventory<UniqueInventoryItem> inventory;
+	private final UserManagement userManagement;
+	private final UserAchievementService userAchievementService;
 
 
-	CatalogController(ShopProductCatalog productCatalog, UniqueInventory<UniqueInventoryItem> inventory) {
+	CatalogController(ShopProductCatalog productCatalog, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement) {
 
 		this.catalog = productCatalog;
 		this.inventory = inventory;
+		this.userManagement = userManagement;
+		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
 	@GetMapping("/books")
@@ -38,6 +50,8 @@ public class CatalogController {
 					   @RequestParam(value = "sort", required = false) String sort,
 					   @RequestParam(value = "priceRange", required = false) String priceRange,
 					   @RequestParam(value = "search", required = false) String search) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		List<Book> allBooks = inventory.findAll().stream()
 			.map(UniqueInventoryItem::getProduct)
@@ -71,22 +85,29 @@ public class CatalogController {
 				.toList();
 		}
 
+		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert", Role.of("CUSTOMER"));
 		// Filter books cheaper than 10€ or more expensive than 15€
 		if("under10".equalsIgnoreCase(priceRange)) {
 			filteredBooks = filteredBooks.stream()
 				.filter(book -> book.getPrice().getNumber().doubleValue() < 10)
 				.toList();
+			userAchievementService.processAchievement(userDetails, ach1, model);
 		} else if ("over15".equalsIgnoreCase(priceRange)) {
 			filteredBooks = filteredBooks.stream()
 				.filter(book -> book.getPrice().getNumber().doubleValue() > 15)
 				.toList();
 		}
 
+		Achievement ach2 = new Achievement("Hier ist nichts!", "Du siehst keine Bücher.", Role.of("CUSTOMER"));
 		// Search function by book's title
 		if(search != null && !search.trim().isEmpty()) {
 			filteredBooks = filteredBooks.stream()
 				.filter(book -> book.getName().toLowerCase().contains(search.toLowerCase()))
 				.toList();
+		}
+
+		if(filteredBooks.isEmpty()) {
+			userAchievementService.processAchievement(userDetails,ach2,model);
 		}
 
 		model.addAttribute("catalog", filteredBooks);
@@ -104,6 +125,9 @@ public class CatalogController {
 	String merchCatalog(Model model,@RequestParam(value = "sort", required = false) String sort,
 						@RequestParam(value = "priceRange", required = false) String priceRange,
 						@RequestParam(value = "search", required = false) String search) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
 
 		List<Merch> catalog = new ArrayList<>();
 		for(UniqueInventoryItem item : inventory.findAll()){
@@ -123,11 +147,13 @@ public class CatalogController {
 				.toList();
 		}
 
+		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert", Role.of("CUSTOMER"));
 		// Filter merch cheaper than 10€ or more expensive than 15€
 		if("under10".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
 				.filter(merch -> merch.getPrice().getNumber().doubleValue() < 10)
 				.toList();
+			userAchievementService.processAchievement(userDetails, ach1, model);
 		} else if ("over15".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
 				.filter(merch -> merch.getPrice().getNumber().doubleValue() > 15)
@@ -155,6 +181,8 @@ public class CatalogController {
 						   @RequestParam(value = "priceRange", required = false) String priceRange,
 						   @RequestParam(value = "search", required = false) String search) {
 
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
 		List<Calendar> catalog = new ArrayList<>();
 		for(UniqueInventoryItem item : inventory.findAll()){
 			if(item.getProduct() instanceof Calendar){
@@ -173,11 +201,13 @@ public class CatalogController {
 				.toList();
 		}
 
+		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert", Role.of("CUSTOMER"));
 		// Filter calendar cheaper than 10€ or more expensive than 15€
 		if("under10".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
 				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() < 10)
 				.toList();
+			userAchievementService.processAchievement(userDetails, ach1, model);
 		} else if ("over15".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
 				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() > 15)

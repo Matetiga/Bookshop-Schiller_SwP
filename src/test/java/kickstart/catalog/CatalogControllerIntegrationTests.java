@@ -3,27 +3,55 @@ package kickstart.catalog;
 import kickstart.AbstractIntegrationTests;
 
 import kickstart.Inventory.Book;
+import kickstart.Achievement.Achievement;
+import kickstart.user.User;
+import kickstart.user.UserManagement;
 import kickstart.Inventory.Calendar;
 import kickstart.Inventory.Merch;
 import kickstart.Inventory.ShopProduct;
 import kickstart.Inventory.ShopProductCatalog;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.salespointframework.quantity.Quantity;
+import org.salespointframework.useraccount.UserAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.salespointframework.useraccount.Role;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 import static org.salespointframework.catalog.QProduct.product;
 
 public class CatalogControllerIntegrationTests extends AbstractIntegrationTests {
 
 	@Autowired CatalogController controller;
+	@MockBean
+	private UserManagement userManagement;
+	private User mockUser;
 
 	@Autowired
 	ShopProductCatalog productCatalog;
 
+	private Achievement ach1;
+
+	@BeforeEach
+	void setUp() {
+		UserAccount mockUserAccount = Mockito.mock(UserAccount.class);
+		Mockito.when(mockUserAccount.getUsername()).thenReturn("testUser");
+
+		mockUser = new User(mockUserAccount, "Test Address", "Test Name", "Test Last Name", "01.01.1990");
+		ach1 = new Achievement("Test Achievement", "Test Description", Role.of("ADMIN"));
+
+		when(userManagement.findByUsername("testUser")).thenReturn(mockUser);
+	}
+
 	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
 	@SuppressWarnings("unchecked")
 	public void bookCatalogControllerIntegrationTest() {
 
@@ -39,6 +67,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
 	@SuppressWarnings("unchecked")
 	public void merchCatalogControllerIntegrationTest() {
 
@@ -54,6 +83,7 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
 	@SuppressWarnings("unchecked")
 	public void calenderCatalogControllerIntegrationTest() {
 
