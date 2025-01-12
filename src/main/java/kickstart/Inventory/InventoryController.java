@@ -198,8 +198,9 @@ public class InventoryController {
 		shopProductInventory.findByProductIdentifier(id).ifPresent(shopProductInventory::delete);
 		if (shopProduct.getProduct() instanceof Book) {
 			if(shopProductInventory.findAll().stream().noneMatch(item -> item.getProduct() instanceof Book)){
+				UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				Achievement achievement = new Achievement("No books :(", "You have deleted all the books", Role.of("EMPLOYEE"));
-				achievementToCurrentUser(achievement, model);
+				this.userAchievementService.processAchievement(userDetails, achievement, model);
 				model.addAttribute("showNoBooks", true);
 			}
 			showInventory(model);
