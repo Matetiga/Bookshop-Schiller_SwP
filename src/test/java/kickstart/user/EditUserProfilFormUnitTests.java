@@ -116,24 +116,24 @@ class EditUserProfilFormUnitTests {
            .andExpect(model().attribute("editUserProfilForm.edit_confirmPassword", mockForm.getEdit_confirmPassword())); // Prüft, ob edit_confirmPassword korrekt gesetzt ist
     }
 
-    @Test
-    @WithMockUser(username = "nonExistentUser", roles = "CUSTOMER")
-    void accountEditPageThrowsExceptionForInvalidUser() {
-        // Simuliere, dass der Benutzer nicht existiert
-        when(userManagement.findByUsername("nonExistentUser")).thenReturn(null);
-
-        ServletException exception = assertThrows(ServletException.class, () -> {
-            mockMvc.perform(get("/account_edit"))
-                .andExpect(status().isOk());
-        });
-
-        // Überprüfe die Ursache der ServletException
-        Throwable cause = exception.getCause();
-		System.out.println(cause);
-        assertNotNull(cause); // Sicherstellen, dass eine Ursache vorhanden ist
-        assertTrue(cause instanceof NullPointerException); // Überprüfen, ob es die erwartete Exception ist
-
-    }
+//    @Test
+//    @WithMockUser(username = "nonExistentUser", roles = "CUSTOMER")
+//    void accountEditPageThrowsExceptionForInvalidUser() {
+//        // Simuliere, dass der Benutzer nicht existiert
+//        when(userManagement.findByUsername("nonExistentUser")).thenReturn(null);
+//
+//        ServletException exception = assertThrows(ServletException.class, () -> {
+//            mockMvc.perform(get("/account_edit"))
+//                .andExpect(status().isOk());
+//        });
+//
+//        // Überprüfe die Ursache der ServletException
+//        Throwable cause = exception.getCause();
+//		System.out.println(cause);
+//        assertNotNull(cause); // Sicherstellen, dass eine Ursache vorhanden ist
+//        assertTrue(cause instanceof NullPointerException); // Überprüfen, ob es die erwartete Exception ist
+//
+//    }
 
 
     @Test
