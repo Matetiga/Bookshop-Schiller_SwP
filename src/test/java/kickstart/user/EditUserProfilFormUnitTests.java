@@ -116,25 +116,24 @@ class EditUserProfilFormUnitTests {
            .andExpect(model().attribute("editUserProfilForm.edit_confirmPassword", mockForm.getEdit_confirmPassword())); // Prüft, ob edit_confirmPassword korrekt gesetzt ist
     }
 
-//    @Test
-//    @WithMockUser(username = "nonExistentUser", roles = "CUSTOMER")
-//    void accountEditPageThrowsExceptionForInvalidUser() {
-//        // Simuliere, dass der Benutzer nicht existiert
-//        when(userManagement.findByUsername("nonExistentUser")).thenReturn(null);
-//
-//        ServletException exception = assertThrows(ServletException.class, () -> {
-//            mockMvc.perform(get("/account_edit"))
-//                .andExpect(status().isOk());
-//        });
-//
-//        // Überprüfe die Ursache der ServletException
-//        Throwable cause = exception.getCause();
-//		System.out.println(cause);
-//        assertNotNull(cause); // Sicherstellen, dass eine Ursache vorhanden ist
-//        assertTrue(cause instanceof NullPointerException); // Überprüfen, ob es die erwartete Exception ist
-//
-//    }
+    @Test
+    @WithMockUser(username = "nonExistentUser", roles = "CUSTOMER")
+    void accountEditPageThrowsExceptionForInvalidUser() throws Exception {
+        // Simuliere, dass der Benutzer nicht existiert
+        when(userManagement.findByUserDetails(any(UserDetails.class))).thenReturn(null);
 
+        // Erwartet, dass eine ServletException ausgelöst wird
+        ServletException exception = assertThrows(ServletException.class, () -> {
+            mockMvc.perform(get("/account_edit"))
+                .andExpect(status().isInternalServerError());
+        });
+
+        // Prüfe, ob die Ursache eine IllegalStateException ist
+        Throwable cause = exception.getCause();
+        assertNotNull(cause); // Sicherstellen, dass eine Ursache vorhanden ist
+        assertTrue(cause instanceof IllegalStateException); // Überprüfen, ob es die erwartete Ausnahme ist
+        assertEquals("User have to exists, but does not.", cause.getMessage()); // Nachricht der inneren Ausnahme prüfen
+    }
 
     @Test
     @WithMockUser(username = "testUser", roles = "CUSTOMER")
