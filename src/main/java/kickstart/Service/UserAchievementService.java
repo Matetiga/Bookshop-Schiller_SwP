@@ -1,6 +1,7 @@
 package kickstart.Service;
 
 import org.salespointframework.useraccount.Role;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import kickstart.user.User;
@@ -74,5 +75,9 @@ public class UserAchievementService {
 		}
 
 		return user;
+	}
+
+	public UserDetails getCurrentUser(){
+		return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }
