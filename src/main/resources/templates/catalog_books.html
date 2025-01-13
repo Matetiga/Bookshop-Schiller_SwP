@@ -70,8 +70,13 @@
                 </label>
             </div>
             <div class="form-check">
-                <label class="form-check-label" for="priceRange15">
-                    <input type="radio" name="priceRange" id="priceRange15" th:value="over15" th:checked="${priceMin != null && priceMin == 15}" th:text="#{catalog.filter.over15}">
+                <label class="form-check-label" for="priceRange10to25">
+                    <input type="radio" name="priceRange" id="priceRange10to25" th:value="10to25" th:checked="${priceMin == 10 && priceMax == 25}" th:text="#{catalog.filter.10to25}">
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label" for="priceRange25">
+                    <input type="radio" name="priceRange" id="priceRange25" th:value="over25" th:checked="${priceMin != null && priceMin == 25}" th:text="#{catalog.filter.over25}">
                 </label>
             </div>
             <button class="btn btn-primary" type="submit">Filter</button>
