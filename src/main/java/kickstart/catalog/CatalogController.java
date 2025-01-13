@@ -51,7 +51,14 @@ public class CatalogController {
 					   @RequestParam(value = "priceRange", required = false) String priceRange,
 					   @RequestParam(value = "search", required = false) String search) {
 
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = null;
+		if(principle instanceof UserDetails) {
+			userDetails = (UserDetails) principle;
+		} else {
+			model.addAttribute("userName","Gast");
+		}
 
 		List<Book> allBooks = inventory.findAll().stream()
 			.map(UniqueInventoryItem::getProduct)
@@ -91,10 +98,17 @@ public class CatalogController {
 			filteredBooks = filteredBooks.stream()
 				.filter(book -> book.getPrice().getNumber().doubleValue() < 10)
 				.toList();
-			userAchievementService.processAchievement(userDetails, ach1, model);
-		} else if ("over15".equalsIgnoreCase(priceRange)) {
+			if(userDetails != null) {
+				userAchievementService.processAchievement(userDetails, ach1, model);
+			}
+
+		} else if ("over25".equalsIgnoreCase(priceRange)) {
 			filteredBooks = filteredBooks.stream()
-				.filter(book -> book.getPrice().getNumber().doubleValue() > 15)
+				.filter(book -> book.getPrice().getNumber().doubleValue() > 25)
+				.toList();
+		} else if ("10to25".equalsIgnoreCase(priceRange)) {
+			filteredBooks = filteredBooks.stream().
+				filter(book -> book.getPrice().getNumber().doubleValue() > 10 && book.getPrice().getNumber().doubleValue() < 25)
 				.toList();
 		}
 
@@ -126,7 +140,13 @@ public class CatalogController {
 						@RequestParam(value = "priceRange", required = false) String priceRange,
 						@RequestParam(value = "search", required = false) String search) {
 
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = null;
+		if(principle instanceof UserDetails) {
+			userDetails = (UserDetails) principle;
+		} else {
+			model.addAttribute("userName","Gast");
+		}
 
 
 		List<Merch> catalog = new ArrayList<>();
@@ -153,12 +173,18 @@ public class CatalogController {
 			catalog = catalog.stream()
 				.filter(merch -> merch.getPrice().getNumber().doubleValue() < 10)
 				.toList();
-			userAchievementService.processAchievement(userDetails, ach1, model);
-		} else if ("over15".equalsIgnoreCase(priceRange)) {
+			if(userDetails != null) {
+				userAchievementService.processAchievement(userDetails, ach1, model);
+			}
+		} else if ("over25".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
-				.filter(merch -> merch.getPrice().getNumber().doubleValue() > 15)
+				.filter(merch -> merch.getPrice().getNumber().doubleValue() > 25)
 				.toList();
-		}
+		} else if ("10to25".equalsIgnoreCase(priceRange)) {
+			catalog = catalog.stream().
+				filter(book -> book.getPrice().getNumber().doubleValue() > 10 && book.getPrice().getNumber().doubleValue() < 25)
+				.toList();
+	}
 
 		// Search function by merch's title
 		if(search != null && !search.trim().isEmpty()) {
@@ -181,7 +207,13 @@ public class CatalogController {
 						   @RequestParam(value = "priceRange", required = false) String priceRange,
 						   @RequestParam(value = "search", required = false) String search) {
 
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object principle = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = null;
+		if(principle instanceof UserDetails) {
+			userDetails = (UserDetails) principle;
+		} else {
+			model.addAttribute("userName","Gast");
+		}
 
 		List<Calendar> catalog = new ArrayList<>();
 		for(UniqueInventoryItem item : inventory.findAll()){
@@ -207,10 +239,17 @@ public class CatalogController {
 			catalog = catalog.stream()
 				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() < 10)
 				.toList();
-			userAchievementService.processAchievement(userDetails, ach1, model);
-		} else if ("over15".equalsIgnoreCase(priceRange)) {
+
+			if(userDetails != null) {
+				userAchievementService.processAchievement(userDetails, ach1, model);
+			}
+		} else if ("over25".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
-				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() > 15)
+				.filter(calendar -> calendar.getPrice().getNumber().doubleValue() > 25)
+				.toList();
+		} else if ("10to25".equalsIgnoreCase(priceRange)) {
+			catalog = catalog.stream().
+				filter(book -> book.getPrice().getNumber().doubleValue() > 10 && book.getPrice().getNumber().doubleValue() < 25)
 				.toList();
 		}
 
