@@ -150,10 +150,15 @@ class UserController {
 	@GetMapping("/account_edit")
 	public String accountEdit(@AuthenticationPrincipal UserDetails userDetails, EditUserProfilForm form, Model model) {
 
+		User user = userManagement.findByUserDetails(userDetails);
+
+		if (user == null) {
+			throw new IllegalStateException("User have to exists, but does not.");
+		}
+
 		Achievement achievement = new Achievement("Ändere wer du bist!", "Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
 		userAchievementService.processAchievement(userDetails, achievement, model);
 
-		User user = userManagement.findByUserDetails(userDetails);
 		form.setEdit_name(user.getName());
 		form.setEdit_last_name(user.getLast_name());
 		form.setEdit_address(user.getAddress());
