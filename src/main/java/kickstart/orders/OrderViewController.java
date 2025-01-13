@@ -6,6 +6,7 @@ import kickstart.Inventory.Merch;
 import kickstart.Inventory.Calendar;
 import kickstart.Inventory.ShopProduct;
 import kickstart.Inventory.ShopProductCatalog;
+import kickstart.Service.UserAchievementService;
 import kickstart.catalog.CatalogController;
 import kickstart.user.User;
 import org.salespointframework.catalog.Product;
@@ -16,6 +17,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +34,8 @@ public class OrderViewController {
 	private final CatalogController catalogController;
 	private final String[] orderStates = {"Alle", "Offen", "Abholbereit", "Abgeschlossen", "in Lieferung", "geliefert"};
 	private final String[] paymentMethods = {"Alle", "Bar", "Rechnung"};
+	private final UserAchievementService  userAchievementService;
+
 
 	private String[] lastFilterOptions = {"Alle", "Alle", "", ""};
 	private String lastSortDateValue;
@@ -40,11 +44,15 @@ public class OrderViewController {
 	@Autowired
 	private MessageSource messageSource;
 
-	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement, ShopProductCatalog shopProductCatalog, CatalogController catalogController){
+	public OrderViewController(MyOrderRepository myOrderRepository, MyOrderManagement myOrderManagement,
+							   ShopProductCatalog shopProductCatalog, CatalogController catalogController,
+							   UserAchievementService userAchievementService){
+
 		this.myOrderRepository = myOrderRepository;
 		this.myOrderManagement = myOrderManagement;
 		this.shopProductCatalog = shopProductCatalog;
 		this.catalogController = catalogController;
+		this.userAchievementService = userAchievementService;
 		lastSortDateValue = "neueste";
 		lastSortDateValueKonto = "neueste";
 	}
@@ -64,7 +72,8 @@ public class OrderViewController {
 	String orderOverview(Model model){
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 
-		List<MyOrder> filteredList = (List<MyOrder>) myOrderManagement.filterAllOrders(lastFilterOptions[0], lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]);
+		List<MyOrder> filteredList = (List<MyOrder>) myOrderManagement.filterAllOrders(lastFilterOptions[0],
+			lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]);
 
 		List<MyOrder> orderList = myOrderManagement.sortByDate(filteredList);
 		if (lastSortDateValue.equals("neueste")) {
@@ -94,6 +103,11 @@ public class OrderViewController {
 
 	@PostMapping("/changeStatus")
 	String changeStatus(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Achievement ach = new Achievement("Zustandsmaschine", "Du hast den Zustand einer Bestellung geändert", Role.of("EMPLOYEE"));
+		userAchievementService.processAchievement(userDetails, ach, model);
+
 		MyOrder order = myOrderRepository.findById(orderId).get();
 		order.changeStatus();
 		myOrderRepository.save(order);
@@ -121,6 +135,11 @@ public class OrderViewController {
 
 		this.lastFilterOptions = new String[] {state, paymentMethod, productName, username};
 
+		if (paymentMethod.equals("Bar")){
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Achievement ach = new Achievement("Nur Bares ist Wahres", "In der Bestellübersicht nach der Bezahlmethode Bar gefiltert", Role.of("EMPLOYEE"));
+			userAchievementService.processAchievement(userDetails, ach, model);
+		}
 		return "order-overview";
 	}
 

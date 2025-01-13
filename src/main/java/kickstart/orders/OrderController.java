@@ -13,6 +13,7 @@ import org.salespointframework.order.CartItem;
 import org.salespointframework.order.OrderLine;
 import org.salespointframework.useraccount.Role;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,12 +28,15 @@ public class OrderController {
 	private final MyOrderManagement myOrderManagement;
 	private final UserAchievementService userAchievementService;
 
-	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement, MyOrderManagement myOrderManagement){
+	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory,
+					UserManagement userManagement, MyOrderManagement myOrderManagement,
+					UserAchievementService userAchievementService){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
 		this.inventory = inventory;
 		this.myOrderManagement = myOrderManagement;
-		this.userAchievementService = new UserAchievementService(this.userManagement);
+		this.userAchievementService = userAchievementService;
+
 	}
 
 	@ModelAttribute("cart")
@@ -63,7 +67,12 @@ public class OrderController {
 	}
 
 	@PostMapping("/clear")
-	String clearCart(@ModelAttribute Cart cart) {
+	String clearCart(@ModelAttribute Cart cart, Model model) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Achievement ach = new Achievement("Geizhals...", "Leere den Warenkorb.", Role.of("CUSTOMER"));
+		userAchievementService.processAchievement(userDetails, ach, model);
+
 		cart.clear();
 		return "cart";
 	}
@@ -121,6 +130,11 @@ public class OrderController {
 	@PostMapping ("/cartIncrease")
 	public String increaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId,
 								   @ModelAttribute Cart cart, Model model) {
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Achievement ach = new Achievement("Lieber zuviel, als zuwenig!", "Erhöhe die Produktanzahl im Warenkorb.", Role.of("CUSTOMER"));
+		userAchievementService.processAchievement(userDetails, ach, model);
+
 		int quantity = cart.getQuantity(productId).getAmount().intValue();
 		int stock = inventory.findByProductIdentifier(productId).get().getQuantity().getAmount().intValue();
 		if (quantity == stock){
@@ -129,7 +143,8 @@ public class OrderController {
 			return "cart";
 		}
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), 1);
-		return "redirect:/cart";
+
+		return "cart";
 	}
 
 	@PostMapping ("/cartDecrease")
