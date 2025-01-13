@@ -35,6 +35,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -82,7 +83,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 		mockUser = new User(mockUserAccount, "Test Address", "Test Name", "Test Last Name", "01.01.1990");
 		ach1 = new Achievement("Test Achievement", "Test Description", Role.of("ADMIN"));
 
-		when(userManagement.findByUsername("testUser")).thenReturn(mockUser);
+		when(userManagement.findByUserDetails(any())).thenReturn(mockUser);
 
 	}
 
@@ -122,6 +123,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testIncreaseProductQuantity(){
 		Book book = (Book) shopProductCatalog.findByName("Sapiens: A Brief History of Humankind").stream().findFirst().get();
 		controller.increaseProductQuantity(book.getId(), "inventory_book", model);
@@ -158,6 +160,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testInventoryDeleteProduct(){
 		Book book = new Book("name", "im", Money.of(10, "EUR"),
 			"des", new HashSet<>(Set.of(Genre.createGenre("science fiction"))), "author", "ISBN", "publisher");
@@ -182,6 +185,7 @@ public class InventoryControllerIntegrationTests extends AbstractIntegrationTest
 	}
 
 	@Test
+	@WithMockUser(username = "testUser", roles = "ADMIN")
 	public void testAddNewGenre(){
 		controller.addNewGenre("newGenre", model);
 		controller.addNewGenre("NewGenrE", model);
