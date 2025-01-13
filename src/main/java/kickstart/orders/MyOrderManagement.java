@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -82,10 +83,10 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
-	public Iterable<MyOrder> findByMonth(Month month, Iterable<MyOrder> list){
+	public Iterable<MyOrder> findByMonthAndYear(Month month, int year, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
-			if(month == order.getDebitTime().getMonth()){
+			if(month == order.getDebitTime().getMonth() && year == order.getDebitTime().getYear()){
 				orderList.add(order);
 			}
 		}
@@ -100,8 +101,8 @@ public class MyOrderManagement {
 		return sum;
 	}
 
-	public double getTotalOfMonth(Month month, Iterable<MyOrder> orderList){
-		return this.getTotalOfOrderList(this.findByMonth(month, orderList));
+	public double getTotalOfMonthAndYear(Month month, int year, Iterable<MyOrder> orderList){
+		return this.getTotalOfOrderList(this.findByMonthAndYear(month, year, orderList));
 	}
 
 	public void setDeliveryState(Iterable<MyOrder> orderList){
@@ -135,16 +136,19 @@ public class MyOrderManagement {
 	}
 
 	public void initializeRandomOrders(){
-		for (int i = 0; i < 50; i++){
+		for (int i = 0; i < 100; i++){
 			Random random = new Random();
 			List<ShopProduct> shopProductList = shopProductCatalog.findAll().stream().toList();
 
 			MyOrder randomOrder = new MyOrder(userManagement.findByUsername(random.nextBoolean() ? "customer1@example.com" : "customer2@example.com"), random.nextBoolean() ? "Bar" : "Rechnung");
 
 			for (int j = 0; j < 5; j++){
-				ShopProduct randomProduct = shopProductList.get(random.nextInt(shopProductList.size()));
+				ShopProduct randomProduct;
+				do{
+					randomProduct = shopProductList.get(random.nextInt(shopProductList.size()));
 
-				randomOrder.addOrderLine(randomProduct, Quantity.of(random.nextInt(1, 11)));
+				}while (!randomOrder.getOrderLines(randomProduct).isEmpty());
+				randomOrder.addOrderLine(randomProduct, Quantity.of(random.nextInt(1, 4)));
 			}
 
 			randomOrder.setDebitTime(LocalDateTime.of(random.nextInt(2023, 2025), random.nextInt(12) + 1, random.nextInt(1, 29), random.nextInt(0, 24), random.nextInt(0, 60)));

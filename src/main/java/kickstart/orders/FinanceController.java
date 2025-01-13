@@ -25,11 +25,24 @@ public class FinanceController {
 	@GetMapping("/finance-data")
 	@ResponseBody
 	public Map<String, Double> monthlyRevenueData() {
-		Month month = LocalDateTime.now().getMonth();
+		Month currentMonth = LocalDateTime.now().getMonth();
 		Map<String, Double> revenueData = new LinkedHashMap<>();
-		for (int i = 11 ; i >= 0; i--) {
-			revenueData.put(Month.of(month.getValue() - i).toString(), myOrderManagement.getTotalOfMonth(Month.of(month.getValue() - i), myOrderRepository.findAll()));
+		for (int i = 11; i >= 0; i--) {
+			Month dataMonth;
+			if(currentMonth.getValue() - i != 0){
+				dataMonth = Month.of((currentMonth.getValue() - i + 12) % 12);
+			}else{
+				dataMonth = Month.of(12);
+			}
+
+			if(dataMonth.getValue() <= LocalDateTime.now().getMonth().getValue()){
+				revenueData.put(dataMonth.toString(), myOrderManagement.getTotalOfMonthAndYear(dataMonth, LocalDateTime.now().getYear(), myOrderRepository.findAll()));
+			}
+			else{
+				revenueData.put(dataMonth.toString(), myOrderManagement.getTotalOfMonthAndYear(dataMonth, LocalDateTime.now().getYear() - 1, myOrderRepository.findAll()));
+			}
 		}
+		System.out.println(revenueData);
 		return revenueData;
 	}
 
