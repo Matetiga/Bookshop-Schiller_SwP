@@ -1,8 +1,5 @@
 package kickstart.user;
 
-import kickstart.orders.MyOrder;
-import kickstart.orders.MyOrderManagement;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.salespointframework.useraccount.Password.UnencryptedPassword;
 import org.salespointframework.useraccount.Role;

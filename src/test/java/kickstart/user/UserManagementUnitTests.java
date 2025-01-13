@@ -4,8 +4,13 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
+import kickstart.Achievement.Achievement;
 import kickstart.orders.MyOrderManagement;
 import org.junit.jupiter.api.Test;
 import org.salespointframework.useraccount.Password.UnencryptedPassword;
@@ -14,6 +19,8 @@ import org.salespointframework.useraccount.Role;
 import org.salespointframework.useraccount.UserAccount;
 import org.salespointframework.useraccount.UserAccountManagement;
 import org.springframework.data.util.Streamable;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -160,4 +167,74 @@ class UserManagementUnitTests {
 	
 		assertThat(foundUser).isEqualTo(user);
 	}
+	
+
+	@Test
+	void filtersCustomersByNameAndEmail() {
+		UserRepository repository = mock(UserRepository.class);
+		UserAccount userAccount1 = mock(UserAccount.class);
+		User user1 = new User(userAccount1, "address1", "John", "Doe", "2000-01-01");
+
+		UserAccount userAccount2 = mock(UserAccount.class);
+		User user2 = new User(userAccount2, "address2", "Jane", "Smith", "1990-01-01");
+
+		when(repository.findAll()).thenReturn(Streamable.of(user1, user2));
+		when(user1.getEmail()).thenReturn("john.doe@example.com");
+
+		UserManagement userManagement = new UserManagement(repository, mock(UserAccountManagement.class));
+
+		Set<User> filteredUsers = userManagement.filterCustomers(new HashSet<>(Arrays.asList(user1, user2)), "John", "john.doe@example.com");
+
+		assertThat(filteredUsers).containsExactly(user1);
+	}
+
+	@Test
+	void failsWhenUserNotFoundByID() {
+		UserRepository repository = mock(UserRepository.class);
+		when(repository.findAll()).thenReturn(Streamable.empty());
+
+		UserManagement userManagement = new UserManagement(repository, mock(UserAccountManagement.class));
+
+		UUID id = UUID.randomUUID();
+
+		// Test, dass null zurückgegeben wird, wenn kein Benutzer gefunden wird
+		User user = userManagement.findByID(id);
+		assertThat(user).isNull();
+	}
+
+
+	@Test
+	void retrievesUserByIDSuccessfully() {
+		UserRepository repository = mock(UserRepository.class);
+		UserAccount userAccount = mock(UserAccount.class);
+		User user = new User(userAccount, "address", "John", "Doe", "2000-01-01");
+
+		when(repository.findAll()).thenReturn(Streamable.of(user));
+
+		UserManagement userManagement = new UserManagement(repository, mock(UserAccountManagement.class));
+		UUID id = UUID.randomUUID();
+		UserAccountIdentifier userId = UserAccountIdentifier.of(id.toString());
+		when(userAccount.getId()).thenReturn(userId);
+
+		User foundUser = userManagement.findByID(id);
+
+		assertThat(foundUser).isEqualTo(user);
+	}
+
+	@Test
+	void findsUserByUsernameSuccessfully() {
+		UserRepository repository = mock(UserRepository.class);
+		UserAccount userAccount = mock(UserAccount.class);
+		User user = new User(userAccount, "address", "John", "Doe", "2000-01-01");
+
+		when(repository.findAll()).thenReturn(Streamable.of(user));
+		when(userAccount.getUsername()).thenReturn("john.doe@example.com");
+
+		UserManagement userManagement = new UserManagement(repository, mock(UserAccountManagement.class));
+
+		User foundUser = userManagement.findByUsername("john.doe@example.com");
+
+		assertThat(foundUser).isEqualTo(user);
+	}
+	
 }
