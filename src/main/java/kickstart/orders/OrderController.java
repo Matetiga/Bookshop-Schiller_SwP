@@ -1,6 +1,8 @@
 package kickstart.orders;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kickstart.Achievement.Achievement;
+import kickstart.Service.UserAchievementService;
 import kickstart.user.User;
 import kickstart.user.UserManagement;
 import org.salespointframework.catalog.Product;
@@ -9,6 +11,7 @@ import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.order.Cart;
 import org.salespointframework.order.CartItem;
 import org.salespointframework.order.OrderLine;
+import org.salespointframework.useraccount.Role;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -22,12 +25,14 @@ public class OrderController {
 	private final UniqueInventory<UniqueInventoryItem> inventory;
 	private final UserManagement userManagement;
 	private final MyOrderManagement myOrderManagement;
+	private final UserAchievementService userAchievementService;
 
 	OrderController(MyOrderRepository myOrderRepository, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement, MyOrderManagement myOrderManagement){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
 		this.inventory = inventory;
 		this.myOrderManagement = myOrderManagement;
+		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
 	@ModelAttribute("cart")
@@ -85,6 +90,22 @@ public class OrderController {
 				model.addAttribute("error_NotEnoughStock", true);
 				return "cart";
 			}
+
+			// Achievement for buying all Snoop Dogg's copies
+			cart.stream()
+				.filter(item -> item.getProduct().getName().equals("From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen"))
+				.findFirst()
+				.ifPresent(item -> {
+					if(item.getQuantity().getAmount().intValue() == 420){
+						if (!model.containsAttribute("achievement")) {
+
+							Achievement achievement = new Achievement("Pass in the buffffffffffffffffffffffffff",
+								"yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeah", Role.of("CUSTOMER"));
+							userAchievementService.processAchievement(userDetails, achievement, model);
+
+						}
+					}
+				});
 
 			//model.addAttribute("error_NotEnoughStock", false);
 			myOrderRepository.save(order);

@@ -55,6 +55,15 @@ public class InventoryController {
 			model.addAttribute("error_newGenre", "Genre can not be empty");
 		}
 		showInventory(model);
+
+		if (Objects.equals(genre, "jeb_")){
+			Achievement jeff = new Achievement("I see the player you mean",
+				"Yes. Take care. It has reached a higher level now. It can read our thoughts...",
+				Role.of("EMPLOYEE"));
+			userAchievementService.processAchievement(userAchievementService.getCurrentUser(), jeff, model);
+			model.addAttribute("rainbowEffect", true);
+		}
+
 		return "inventory_book";
 	}
 
@@ -78,7 +87,8 @@ public class InventoryController {
 
 	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		UserDetails userDetails = userAchievementService.getCurrentUser();
 		Achievement ach1 = new Achievement("Testing achievement📚", "You have visited the inventory", Role.of("CUSTOMER"));
 		userAchievementService.processAchievement(userDetails, ach1, model);
 

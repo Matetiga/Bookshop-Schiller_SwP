@@ -420,6 +420,7 @@ form button {
     text-transform: uppercase;
 }
 
+
 .navbar {
     background-color: #ffe4b5 !important;
     position: relative;
@@ -461,6 +462,13 @@ form button {
 
 .toast {
     transition: opacity 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 350px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.toast-description{
+    white-space: pre-wrap;
 }
 
 .toast:hover {
@@ -511,4 +519,20 @@ form button {
     justify-content: center;
     gap: 15px;
     margin: 2em auto;
+}
+
+/* animation for jeb_ achievement */
+@keyframes rainbowBackground {
+    0% { background-color: #ff0000; }
+    16% { background-color: #ffa500; }
+    32% { background-color: #ffff00; }
+    48% { background-color: #008000; }
+    64% { background-color: #0000ff; }
+    80% { background-color: #4b0082; }
+    100% { background-color: #ee82ee; }
+}
+
+.navbar.rainbow-navbar, .bg-light.rainbow-navbar {
+    background-color: initial !important; /* Reset background colors */
+    animation: rainbowBackground 5s linear infinite !important; /* Apply rainbow effect */
 }
