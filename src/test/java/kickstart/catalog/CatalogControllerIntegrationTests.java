@@ -22,6 +22,9 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.salespointframework.useraccount.Role;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -68,6 +71,53 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 	@Test
 	@WithMockUser(username = "testUser", roles="ADMIN")
+	public void sortBooksAscendingTest() {
+		Model model = new ExtendedModelMap();
+
+		String returnedView = controller.bookCatalog(model, null, "asc", "", "");
+
+		//assertThat(returnedView).isEqualTo("catalog_books");
+
+		List<Book> books = (List<Book>) model.asMap().get("catalog");
+
+		List<Double> prices = books.stream()
+			.map(book -> book.getPrice().getNumber().doubleValue())
+			.collect(Collectors.toList());
+
+		assertThat(prices).isSorted();
+	}
+
+	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
+	public void sortBooksDescendingTest() {
+		Model model = new ExtendedModelMap();
+
+		String returnedView = controller.bookCatalog(model, null, "desc", "", "");
+
+		List<Book> books = (List<Book>) model.asMap().get("catalog");
+
+		List<Double> prices = books.stream()
+			.map(book -> book.getPrice().getNumber().doubleValue())
+			.collect(Collectors.toList());
+
+		assertThat(prices).isSortedAccordingTo((a,b) -> b.compareTo(a));
+	}
+
+//	@Test
+//	@WithMockUser(username = "testUser", roles="ADMIN")
+//	public void booksUnder10Test() {
+//		Model model = new ExtendedModelMap();
+//
+//		String returnedView = controller.bookCatalog(model, null, "","under10", "");
+//
+//		List<Book> books = (List<Book>) model.asMap().get("catalog");
+//
+//		assertThat(books).allMatch(book -> book.getPrice().getNumber().doubleValue() < 10);
+//
+//	}
+
+	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
 	@SuppressWarnings("unchecked")
 	public void merchCatalogControllerIntegrationTest() {
 
@@ -84,6 +134,53 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 	@Test
 	@WithMockUser(username = "testUser", roles="ADMIN")
+	public void sortMerchsAscendingTest() {
+		Model model = new ExtendedModelMap();
+
+		String returnedView = controller.merchCatalog(model, "asc", "", "");
+
+		//assertThat(returnedView).isEqualTo("catalog_books");
+
+		List<Merch> merches = (List<Merch>) model.asMap().get("catalog");
+
+		List<Double> prices = merches.stream()
+			.map(merch -> merch.getPrice().getNumber().doubleValue())
+			.collect(Collectors.toList());
+
+		assertThat(prices).isSorted();
+	}
+
+	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
+	public void sortMerchsDescendingTest() {
+		Model model = new ExtendedModelMap();
+
+		String returnedView = controller.merchCatalog(model, "desc", "", "");
+
+		List<Merch> merches = (List<Merch>) model.asMap().get("catalog");
+
+		List<Double> prices = merches.stream()
+			.map(merch -> merch.getPrice().getNumber().doubleValue())
+			.collect(Collectors.toList());
+
+		assertThat(prices).isSortedAccordingTo((a,b) -> b.compareTo(a));
+	}
+
+//	@Test
+//	@WithMockUser(username = "testUser", roles="ADMIN")
+//	public void merchUnder10Test() {
+//		Model model = new ExtendedModelMap();
+//
+//		String returnedView = controller.merchCatalog(model, "","under10", "");
+//
+//		List<Merch> merches = (List<Merch>) model.asMap().get("catalog");
+//
+//		assertThat(merches).allMatch(merch -> merch.getPrice().getNumber().doubleValue() < 10);
+//
+//	}
+
+	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
 	@SuppressWarnings("unchecked")
 	public void calenderCatalogControllerIntegrationTest() {
 
@@ -97,6 +194,41 @@ public class CatalogControllerIntegrationTests extends AbstractIntegrationTests 
 
 		assertThat(object).hasSize(4);
 	}
+
+	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
+	public void sortCalendarsAscendingTest() {
+		Model model = new ExtendedModelMap();
+
+		String returnedView = controller.calenderCatalog(model, "asc", "", "");
+
+		//assertThat(returnedView).isEqualTo("catalog_books");
+
+		List<Calendar> calendar = (List<Calendar>) model.asMap().get("catalog");
+
+		List<Double> prices = calendar.stream()
+			.map(calendars -> calendars.getPrice().getNumber().doubleValue())
+			.collect(Collectors.toList());
+
+		assertThat(prices).isSorted();
+	}
+
+	@Test
+	@WithMockUser(username = "testUser", roles="ADMIN")
+	public void sortCalendarsDescendingTest() {
+		Model model = new ExtendedModelMap();
+
+		String returnedView = controller.calenderCatalog(model, "desc", "", "");
+
+		List<Calendar> calendars = (List<Calendar>) model.asMap().get("catalog");
+
+		List<Double> prices = calendars.stream()
+			.map(calendar -> calendar.getPrice().getNumber().doubleValue())
+			.collect(Collectors.toList());
+
+		assertThat(prices).isSortedAccordingTo((a,b) -> b.compareTo(a));
+	}
+
 
 	@Test
 	public void bookDetailControllerIntegrationTest() {
