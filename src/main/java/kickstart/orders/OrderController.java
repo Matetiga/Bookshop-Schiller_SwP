@@ -36,6 +36,7 @@ public class OrderController {
 		this.inventory = inventory;
 		this.myOrderManagement = myOrderManagement;
 		this.userAchievementService = userAchievementService;
+
 	}
 
 	@ModelAttribute("cart")
@@ -98,6 +99,22 @@ public class OrderController {
 				model.addAttribute("error_NotEnoughStock", true);
 				return "cart";
 			}
+
+			// Achievement for buying all Snoop Dogg's copies
+			cart.stream()
+				.filter(item -> item.getProduct().getName().equals("From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen"))
+				.findFirst()
+				.ifPresent(item -> {
+					if(item.getQuantity().getAmount().intValue() == 420){
+						if (!model.containsAttribute("achievement")) {
+
+							Achievement achievement = new Achievement("Pass in the buffffffffffffffffffffffffff",
+								"yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeah", Role.of("CUSTOMER"));
+							userAchievementService.processAchievement(userDetails, achievement, model);
+
+						}
+					}
+				});
 
 			//model.addAttribute("error_NotEnoughStock", false);
 			myOrderRepository.save(order);

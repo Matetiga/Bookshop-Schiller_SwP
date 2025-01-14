@@ -1,5 +1,7 @@
 <div xmlns:th="http://www.thymeleaf.org">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
+         th:fragment="navbar"
+         th:classappend="${rainbowEffect} ? 'rainbow-navbar' : ''">
         <a class="navbar-brand d-flex align-items-center" href="#">
             <img src="/resources/img/bookshop/bookshop_logo.png" alt="Logo" width="80" height="80"
                  class="d-inline-block align-text-top" th:onclick="|location.href='@{/}'|">
