@@ -21,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -234,12 +236,16 @@ public class InventoryController {
 		String fileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
 
 		Path imagePath = Paths.get("uploads/images", fileName);
+		String path = imagePath.toString().replace(File.separator, "/");
+
+		new File("uploads/images").mkdirs();
+
 		try {
-			Files.copy(image.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(image.getInputStream(), Paths.get(path), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "../" + imagePath.toString();
+		return "../" + path;
 	}
 
 	public boolean isValidAndUniqueISBN(String ISBN, Product.ProductIdentifier id) {
