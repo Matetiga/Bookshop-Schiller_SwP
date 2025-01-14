@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import kickstart.Achievement.Achievement;
 import kickstart.Service.UserAchievementService;
-import kickstart.user.User;
 import kickstart.user.UserManagement;
 import org.javamoney.moneta.Money;
 import org.salespointframework.catalog.Product;
@@ -13,7 +12,6 @@ import org.salespointframework.inventory.UniqueInventory;
 import org.salespointframework.inventory.UniqueInventoryItem;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.Role;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -235,7 +233,7 @@ public class InventoryController {
 	public String saveImage(MultipartFile image) {
 		String fileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
 
-		Path imagePath = Paths.get("uploads/images", fileName);
+		Path imagePath = Paths.get("uploads", "images", fileName);
 		String path = imagePath.toString().replace(File.separator, "/");
 
 		new File("uploads/images").mkdirs();
