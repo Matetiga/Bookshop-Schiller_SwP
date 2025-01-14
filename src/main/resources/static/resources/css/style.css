@@ -532,7 +532,7 @@ form button {
     100% { background-color: #ee82ee; }
 }
 
+
 .navbar.rainbow-navbar, .bg-light.rainbow-navbar {
-    background-color: initial !important; /* Reset background colors */
     animation: rainbowBackground 5s linear infinite !important; /* Apply rainbow effect */
 }
