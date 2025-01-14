@@ -54,7 +54,7 @@ public class UserAchievementService {
 		this.nullCheck(userDetails, model);
 		User user = this.getUserOrNullException(userDetails);
 
-		int percentageCompletedAchievements = (user.getAchievements().size() * 100) / 10;
+		int percentageCompletedAchievements = (user.getAchievements().size() * 100) / 11;
 		model.addAttribute("progress", percentageCompletedAchievements);
 	}
 
