@@ -30,10 +30,7 @@ public class UserAchievementService {
 
 		if (!user.hasAchievement(achievement) && user.achievementCanBeAdded(achievement)){
 			userManagement.addAchievementToUser(user, achievement);
-			//in know its always false but im desperate
-			if (achievement == null){
-				throw new NullPointerException("Achievement null");
-			}
+
 			model.addAttribute("achievement", achievement);
 			System.out.println("Achievement in controller: " + achievement);
 
