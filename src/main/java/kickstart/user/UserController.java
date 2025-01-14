@@ -65,7 +65,7 @@ class UserController {
 	}
 
 	@GetMapping("/register")
-	public String register() {
+	public String register(RegistrationForm form, Model model) {
 		return "register";
 	}
 
