@@ -215,6 +215,9 @@ image::models/design/Inventory/inventory_jUML.png[title = class design diagram -
 
 image:models/design/Order/ClassDiagramOrder.png[title = class design diagram - order]
 
+=== Achievement
+image:models/design/Achievement/achievement_Package.png[title = class design diagram - achievement]
+
 === Traceability between Analysis- and Design Model
 
 [options="header"]

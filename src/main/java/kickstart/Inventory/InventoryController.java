@@ -47,7 +47,12 @@ public class InventoryController {
 	}
 
 	@PostMapping("/inventory/add_newGenre")
-	public String addNewGenre(@NotBlank @RequestParam("newGenre") String genre, Model model) {
+	public String addNewGenre(@RequestParam("newGenre") String genre, Model model) {
+		if (genre.isBlank()){
+			showInventory(model);
+			return "inventory_book";
+		}
+
 		try {
 			Genre.createGenre(genre);
 
@@ -89,7 +94,7 @@ public class InventoryController {
 	public String showInventory(Model model) {
 
 		UserDetails userDetails = userAchievementService.getCurrentUser();
-		Achievement ach1 = new Achievement("Testing achievement📚", "You have visited the inventory", Role.of("CUSTOMER"));
+		Achievement ach1 = new Achievement("With great power comes great responsibility or something like that...", "You have visited the inventory", Role.of("CUSTOMER"));
 		userAchievementService.processAchievement(userDetails, ach1, model);
 
 		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();

@@ -523,16 +523,16 @@ form button {
 
 /* animation for jeb_ achievement */
 @keyframes rainbowBackground {
-    0% { background-color: #ff0000; }
+    0%, 100% { background-color: #ff0000; }  /* for smoother animation */
     16% { background-color: #ffa500; }
     32% { background-color: #ffff00; }
     48% { background-color: #008000; }
     64% { background-color: #0000ff; }
     80% { background-color: #4b0082; }
-    100% { background-color: #ee82ee; }
+    95% { background-color: #ee82ee; }
 }
 
 
 .navbar.rainbow-navbar, .bg-light.rainbow-navbar {
-    animation: rainbowBackground 5s linear infinite !important; /* Apply rainbow effect */
+    animation: rainbowBackground 7s linear infinite !important; /* Apply rainbow effect */
 }

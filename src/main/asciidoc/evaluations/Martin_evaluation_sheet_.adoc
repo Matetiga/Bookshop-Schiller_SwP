@@ -1,0 +1,40 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2024/25
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von: Martin Najera**
+
+**Gruppe: 16**
+
+== Was habe ich gelernt / was habe ich nicht gelernt?
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+Überall finde ich, dass ich sehr viel über die Programmierung Umgebung gelernt habe und hat mir geholfen ein besseres Überblick über die Arbeiten mit Frameworks.
+Das Projekt hat mein Verständnis für die Softwareentwicklung verbessert und hat mir geholfen, die Zusammenarbeit im Team zu verbessern.
+Außerdem verstehe ich jetzt besser, wie das Front-End und Back-End zusammen arbeiten und wie sie miteinander kommunizieren.
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+Ich finde, dass die Zusammenarbeit im Team genial war (Cheers to my team!). Es gab eine gute Kommunikation miteinander und jeder wollte arbeiten, was
+das Team Management erleichtert hat und die Arbeit effizienter gemacht hat.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+// Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
+Ich  glaube, dass hat sehr viel geholfen, dass eine große Dokumentation für die Bibliotheken/Frameworks gab. Trotzdem war es am Anfang besonders schwer zu verstehen, was alles gab.
+Es hat lange gedauert, bis ich mich an die Dokumentation gewöhnt habe. Vielleicht würde ich mir wünschen, das wir eine Einleitung zum SalesPoint hatten, um ein Überblick von alles zu bekommen.
+Am Anfang war es ein bisschen frustrierend, wenn ich etwas implementieren wollte und für lange Zeit stehen bliebe, da ich nicht wusste, dass eine spezifische Methode dafür existiert.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+// Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
+Es hätte auch sehr viel geholfen, wenn wir eine andere Empfehlung für das UML-Diagramm Editor als Papyrus hatten. Wir fanden, dass es sehr schwierig damit zu arbeiten war, und das hat das Effizienz
+und extrem viel Zeit des Teams gekostet, nur damit wir am Ende ein anderes Software benutzen mussten. Außerdem, vielleicht eine Einführung zum SalesPoint.
+
+== Feedback für den Tutor
+// Fühlten Sie sich durch den vom Lehrstuhl bereitgestellten Tutor gut betreut? Was war positiv? Was war verbesserungswürdig?
+Der Tutor bildete ein sehr angenehme atmosphäre und war immer bereit zu helfen, was ich persönlich sehr viel schätze, da ich so motiviert und besser arbeiten kann.
+Ich fand den Kundenwunsch sehr spaßig zu implementieren. Beste Idee.
+Außerdem finde ich, dass die Kommunikation über Matrix sehr gut gelungen ist. Der Tutor beantwortete immer die Fragen , manchmal ein bisschen spät, aber war kein großes Problem, er war immer da, um sie zu klären.
+
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
