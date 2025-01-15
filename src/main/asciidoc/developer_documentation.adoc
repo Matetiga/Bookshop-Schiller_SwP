@@ -16,6 +16,9 @@
 |1.0
 |November 15th 2024
 |Willi Richter, Vincent Richter, Martin Najera, Linus Leuner, Marco Hernandez, Emilio Leuoth, Erion Leka, Kevin Grandl
+|1.1
+|January 15th 2025
+|Willi Richter, Vincent Richter, Martin Najera, Linus Leuner, Marco Hernandez, Erion Leka, Kevin Grandl
 |===
 
 == Introduction
@@ -56,15 +59,18 @@ the payment process is initiated, ensuring stock is correctly accounted for.
 A Financial Overview feature, available only to Admins, will provide a monthly revenue
 summary without a breakdown by category. This overview will include a simple chart
 displaying monthly revenue trends over time, with historical data accessible as well.
-Revenue should be calculated upon order payment confirmation (immediate for cash orders)
-and will appear in the financial overview as earnings for the respective order month.
+Revenue should be calculated when the order is initiated and will appear in the financial
+overview as earnings for the respective order month.
 
 The User Interface (UI) will feature a navigational bar with different options depending on
 permissions set according to each user's role. The login screen will be universal across
 roles. The application will support search and filter options, enabling users to search
-by genre, author, and title and sort results by author, title, price, and release date.
-Stock availability will also be displayed in real-time, providing visibility for any
-items that are out of stock.
+by genre, author, and title and sort results by price. Stock availability will also be
+displayed in real-time, providing visibility for any items that are out of stock.
+
+The application shall furthermore contain achievements which can be unlocked by any user.
+But there will be achievements exclusive to employees. Unlocking achievements should feel
+surprising which is why achievements that are not yet unlocked are not displayed.
 
 == Constraints
 === Hardware Specifications
@@ -120,6 +126,7 @@ image::./models/analysis/ContextDiagramm/ContextDiagramm.png[context diagram, 10
 * *Modularity* Compose the software out of multiple components so changing one component will have less impact on other components.
 * *Reusability* Ensure that components of the system can be reused by other components or systems.
 * *Modifiabilty* Ensure that the application can be modified or extended without introducing errors or degrading the product quality.
+* *Software Tests* Ensure that a majority of the application is covered by software tests, so errors can be found more easily
 |Navigability   a|
 * *Navigation Bars* Ensure, that every page is easy to find via navigation bars
 * *User Interface* created a UI, so the user can quickly see wich page he currently looks at
@@ -181,6 +188,7 @@ image::./models/design/General/DialogMap(black_white).png[dialoque_map, 100%, 10
 |jQuery|UI
 |Bootstrap|UI and Appearance
 |Chart.js |Creating charts and graphs
+|Thymeleaf |Frontend/Templates
 
 |===
 

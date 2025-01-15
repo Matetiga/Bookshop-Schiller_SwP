@@ -59,19 +59,18 @@ the payment process is initiated, ensuring stock is correctly accounted for.
 A Financial Overview feature, available only to Admins, will provide a monthly revenue
 summary without a breakdown by category. This overview will include a simple chart
 displaying monthly revenue trends over time, with historical data accessible as well.
-Revenue should be calculated upon order payment confirmation (immediate for cash orders)
-and will appear in the financial overview as earnings for the respective order month.
+Revenue should be calculated when the order is initiated and will appear in the financial
+overview as earnings for the respective order month.
 
 The User Interface (UI) will feature a navigational bar with different options depending on
 permissions set according to each user's role. The login screen will be universal across
 roles. The application will support search and filter options, enabling users to search
-by genre, author, and title and sort results by author, title, price, and release date.
-Stock availability will also be displayed in real-time, providing visibility for any
-items that are out of stock.
+by genre, author, and title and sort results by price. Stock availability will also be
+displayed in real-time, providing visibility for any items that are out of stock.
 
-
-
-
+The application shall furthermore contain achievements which can be unlocked by any user.
+But there will be achievements exclusive to employees. Unlocking achievements should feel
+surprising which is why achievements that are not yet unlocked are not displayed.
 
 == Product Usage
 
