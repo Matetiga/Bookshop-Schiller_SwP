@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -107,7 +106,7 @@ public class MyOrderManagement {
 
 	public void setDeliveryState(Iterable<MyOrder> orderList){
 		for(MyOrder order : this.findByStatus("in Lieferung", orderList)){
-			if(LocalDateTime.now().minusDays(3).isAfter(order.getStartDeliveryTime())){
+			if(LocalDateTime.now().minusSeconds(30).isAfter(order.getStartDeliveryTime())){
 				order.changeStatus();
 			}
 		}
@@ -136,7 +135,7 @@ public class MyOrderManagement {
 	}
 
 	public void initializeRandomOrders(){
-		for (int i = 0; i < 100; i++){
+		for (int i = 0; i < 420; i++){
 			Random random = new Random();
 			List<ShopProduct> shopProductList = shopProductCatalog.findAll().stream().toList();
 
