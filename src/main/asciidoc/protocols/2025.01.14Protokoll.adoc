@@ -1,0 +1,52 @@
+= Protokoll Gruppe 16
+
+Treffen am 14.01.2025
+Ort:      Ort des Treffens APB +
+Beginn:   13:30 Uhr +
+Ende:     14:30 Uhr
+
+__Schriftführer:__Marco Hernandez
+
+*Nächstes Treffen:* +
+Abgabe
+
+__Teilnehmer:__
+//Tabellarisch oder Aufzählung, Kennzeichnung von Teilnehmern mit besonderer Rolle (z.B. Kunde)
+
+- Martin
+- Linus
+- Erion 
+- Vincent
+- Willi
+- Marco
+- Kevin 
+- Fabian
+
+
+== Bemerkungen
+Organisatorisches, letzte schritte um fertig zu sein
+
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+// Wie ist der Status der im letzten Sprint erstellten Issues/veteilten Aufgaben?
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|…     |…       |…      |…
+|===
+
+
+== Aktueller Stand
+Fast complett, man muss pflichtheft aktulisieren, hat schon alle funktionalitaten
+== Planung des nächsten Sprints
+*Issue referenziert die Issue ID von GitHub*
+Siehe Github
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===

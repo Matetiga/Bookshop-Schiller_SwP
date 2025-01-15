@@ -1,0 +1,33 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2024/25
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:** Vincent Richter
+
+**Gruppe:** 16
+
+== Was habe ich gelernt / was habe ich nicht gelernt?
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+Ich habe gute Kenntnisse in der Java-Programmierung erlernt und Grundlagen im Arbeiten mit Git und Github (z.B. Workflow, Issues, ...) erlangt. Außerdem habe ich Erfahrungen im Bezug auf die Arbeit im Team erlangt. Jedoch habe ich Kenntnisse im Umgang mit Datenbaken und Servern nicht im erhofften Maße erhalten.
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+Im Allgemeinem war ich sehr zufrieden mit meinem Team, der Kommunikation unter den Mitgliedern und der Arbeit des Scrum-Masters.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+// Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
+Zwar war die Wiederverwendung, besonders vom Spring-Framework für die Kommuniktion zwischen den Java- und html-files nützlich, jedoch war der Zeitaufwand zum Verstehen der BibliothekenFrameworks teilweise sehr groß. Um dies zu verbessern, sollte man mehr bzw. bessere Erklärungen/Dokumentationen/Beispiele bereit stellen.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+// Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
+* Einarbeitung in die Verwendung von Bibliotheken/Frameworks erleichtern (siehe vorheriger Abschnitt)
+* Umfang von Pflichtenheft, Developer-Doc, Java-Doc verringen, da die dafür aufzuwendende Zeit, nicht im Verhältnis zum Nutzen steht. Dafür könnte man die verwendete Zeit lieber in das Programmieren des Projekts investieren.
+
+== Feedback für den Tutor
+// Fühlten Sie sich durch den vom Lehrstuhl bereitgestellten Tutor gut betreut? Was war positiv? Was war verbesserungswürdig?
+Aufgrund seiner gelassenen Art und seinem zuverlässigem Antworten auf Nachrichten, war ich sehr zufrieden mit dem Tutor.
+Stiftung-Warentest sagt "sehr gut". Würde ich weiterempfehlen.
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
