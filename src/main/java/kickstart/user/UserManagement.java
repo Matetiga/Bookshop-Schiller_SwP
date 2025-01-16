@@ -28,8 +28,11 @@ public class UserManagement {
     private final UserRepository users;
     private final UserAccountManagement userAccounts;
 
-
-
+	/**
+	 *
+	 * @param users
+	 * @param userAccounts
+	 */
 	UserManagement(UserRepository users, @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
 
         Assert.notNull(users, "UserRepository must not be null!");
@@ -39,21 +42,42 @@ public class UserManagement {
         this.userAccounts = userAccounts;
     }
 
+	/**
+	 *
+	 * @param form
+	 * @return
+	 */
 	public User createCustomer(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("CUSTOMER"));
 		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
+	/**
+	 *
+	 * @param form
+	 * @return
+	 */
 	public User createEmployee(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("EMPLOYEE"));
 		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
+	/**
+	 *
+	 * @param form
+	 * @return
+	 */
 	public User createAdmin(RegistrationForm form) {
 		var userAccount = createUserAccount(form, Role.of("ADMIN"));
 		return users.save(new User(userAccount, form.getAddress(), form.getName(), form.getLast_name(), form.getBirthDate()));
 	}
 
+	/**
+	 *
+	 * @param user
+	 * @param userAccount
+	 * @param form
+	 */
 	public void editProfile(User user, UserAccount userAccount, EditUserProfilForm form) {
 		user.setName(form.getEdit_name());
 		user.setLast_name(form.getEdit_last_name());
@@ -61,12 +85,23 @@ public class UserManagement {
 		userAccounts.changePassword(userAccount, UnencryptedPassword.of(form.getEdit_password()));
 	}
 
+	/**
+	 *
+	 * @param user
+	 * @param form
+	 */
 	public void editProfilebyAuthority(User user, EditPersonbyAuthorityForm form) {
 		user.setName(form.getnew_name());
 		user.setLast_name(form.getnew_last_name());
 		user.setAddress(form.getnew_address());
 	}
 
+	/**
+	 *
+	 * @param form
+	 * @param role
+	 * @return
+	 */
     private UserAccount createUserAccount(RegistrationForm form, Role role) {
 
         Assert.notNull(form, "Registration form must not be null!");
@@ -76,14 +111,28 @@ public class UserManagement {
 
     }
 
+	/**
+	 *
+	 * @return
+	 */
     public Streamable<User> findAll() {
         return users.findAll();
     }
 
+	/**
+	 *
+	 * @param email
+	 * @return
+	 */
     public boolean emailExistsAlready(String email) {
         return userAccounts.findByUsername(email).isPresent();
     }
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public User findByID(UUID id) {
 		for (var user : users.findAll()) {
@@ -94,6 +143,11 @@ public class UserManagement {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param username
+	 * @return
+	 */
 	@Transactional
 	public User findByUsername(String username) {
 		for (var user : users.findAll()) {
@@ -104,8 +158,11 @@ public class UserManagement {
 		return null;
 	}
 
-
-
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public String promoteAccountById(UUID id) {
 		User user = this.safeUserGetByID(id);
@@ -127,6 +184,11 @@ public class UserManagement {
 		return "Promotion failed: Account '%s' does not exist.";
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public String degradeAccountById(UUID id) {
 		User user = this.safeUserGetByID(id);
@@ -156,6 +218,11 @@ public class UserManagement {
 		return "Degradation failed: Account '%s' does not exist.";
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	public User safeUserGetByID(UUID id){
 		User user = this.findByID(id);
 
@@ -165,6 +232,11 @@ public class UserManagement {
 		return user;
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @return
+	 */
 	public boolean currentUserSameAsID(UUID id){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -174,6 +246,13 @@ public class UserManagement {
 		return requestedUser.equals(requestingUser);
 	}
 
+	/**
+	 *
+	 * @param customers
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	public Set<User> filterCustomers(Set<User> customers, String name, String email){
 		customers = this.filterByName(customers, name);
 		customers = this.filterByEmail(customers, email);
@@ -181,6 +260,12 @@ public class UserManagement {
 		return customers;
 	}
 
+	/**
+	 *
+	 * @param users
+	 * @param name
+	 * @return
+	 */
 	private Set<User> filterByName(@NotNull Set<User> users, @NotNull String name) {
 		String lowerStr1 = name.toLowerCase();
 		Iterator<User> iterator = users.iterator();
@@ -195,7 +280,12 @@ public class UserManagement {
 		return users;
 	}
 
-
+	/**
+	 *
+	 * @param users
+	 * @param email
+	 * @return
+	 */
 	private Set<User> filterByEmail(@NotNull Set<User> users, @NotNull String email) {
 		String lowerStr1 = email.toLowerCase();
 		Iterator<User> iterator = users.iterator();
@@ -210,6 +300,11 @@ public class UserManagement {
 		return users;
 	}
 
+	/**
+	 *
+	 * @param role
+	 * @return
+	 */
 	public List<User> getAllUsersOfRole(Role role){
 		List<User> users = new ArrayList<>();
 
@@ -222,11 +317,21 @@ public class UserManagement {
 		return users;
 	}
 
+	/**
+	 *
+	 * @param user
+	 * @param achievement
+	 */
 	@Transactional
 	public void addAchievementToUser(User user, Achievement achievement) {
 		user.addAchievement(achievement);
 	}
 
+	/**
+	 *
+	 * @param userDetails
+	 * @return
+	 */
 	@Transactional
 	public User findByUserDetails(UserDetails userDetails) {
 		if (userDetails == null){

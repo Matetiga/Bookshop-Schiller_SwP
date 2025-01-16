@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
-
+/**
+ *
+ */
 class RegistrationForm {
 
 	private final @Email(message = "It has to be a valid email") String email;
@@ -17,6 +19,16 @@ class RegistrationForm {
 	private final @NotEmpty(message = "The last name cannot be empty") String last_name;	 
 	private final @NotEmpty(message = "The Birth Date name cannot be empty") String birthDate;
 
+	/**
+	 *
+	 * @param email
+	 * @param password
+	 * @param confirmPassword
+	 * @param address
+	 * @param name
+	 * @param last_name
+	 * @param birthDate
+	 */
 	public RegistrationForm(String email, String password, String confirmPassword, 
 							String address, String name, String last_name, String birthDate) {
 		this.email = email;
@@ -28,30 +40,58 @@ class RegistrationForm {
 		this.birthDate = birthDate;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getLast_name() {
 		return last_name;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getBirthDate() {
 		return birthDate;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getEmail() {
 		return email;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getPassword() {
 		return password;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getAddress() {
 		return address;
 	}

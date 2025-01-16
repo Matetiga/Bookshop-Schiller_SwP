@@ -22,6 +22,11 @@ class UserDefaultDataInitializer implements DataInitializer {
 	private final UserAccountManagement userAccountManagement;
 	private final UserManagement userManagement;
 
+	/**
+	 *
+	 * @param userAccountManagement
+	 * @param userManagement
+	 */
 	UserDefaultDataInitializer(UserAccountManagement userAccountManagement, UserManagement userManagement) {
 		Assert.notNull(userAccountManagement, "UserAccountManagement must not be null!");
 		Assert.notNull(userManagement, "UserRepository must not be null!");
@@ -30,6 +35,9 @@ class UserDefaultDataInitializer implements DataInitializer {
 		this.userManagement = userManagement;
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void initialize() {
 		//dont add new users if user already exist

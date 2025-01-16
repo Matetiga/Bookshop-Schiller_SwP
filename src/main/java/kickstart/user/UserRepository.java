@@ -7,7 +7,10 @@ import org.springframework.data.util.Streamable;
 
 
 public interface UserRepository extends CrudRepository<User, UserIdentifier> {
-
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	Streamable<User> findAll();
 }

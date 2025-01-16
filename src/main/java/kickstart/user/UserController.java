@@ -33,13 +33,22 @@ class UserController {
 	private MessageSource messageSource;
 	private final UserAchievementService userAchievementService;
 
-
+	/**
+	 *
+	 * @param userManagement
+	 */
 	UserController(UserManagement userManagement) {
 		Assert.notNull(userManagement, "UserManagement.java must not be null!");
 		this.userManagement = userManagement;
 		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
+	/**
+	 *
+	 * @param form
+	 * @param result
+	 * @return
+	 */
 	@PostMapping("/register")
 	String registerNew(@Valid RegistrationForm form, Errors result) {
 
@@ -64,11 +73,23 @@ class UserController {
 		return "redirect:/";
 	}
 
+	/**
+	 *
+	 * @param form
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/register")
 	public String register(RegistrationForm form, Model model) {
 		return "register";
 	}
 
+	/**
+	 *
+	 * @param toastMessage
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/customer-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String customerOverview(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model) {
@@ -87,6 +108,12 @@ class UserController {
 		return "customer-overview";
 	}
 
+	/**
+	 *
+	 * @param toastMessage
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/employee-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String employeeOverview(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model){
@@ -100,6 +127,12 @@ class UserController {
 		return "employee-overview";
 	}
 
+	/**
+	 *
+	 * @param toastMessage
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/admin-overview")
 	@PreAuthorize("hasRole('ADMIN')")
 	String Admins(@RequestParam(value = "toastMessage", required = false) String toastMessage, Model model){
@@ -112,6 +145,12 @@ class UserController {
 		return "admin-overview";
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param source
+	 * @return
+	 */
 	@PostMapping("/promote/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source) {
@@ -124,6 +163,13 @@ class UserController {
 		return "redirect:/" + source + "?toastMessage=" + toastMessage;
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param source
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@PostMapping("/degrade/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source, RedirectAttributes redirectAttributes) {
@@ -132,6 +178,12 @@ class UserController {
 		return "redirect:/" + source + "?toastMessage=" + toastMessage;
 	}
 
+	/**
+	 *
+	 * @param UserDetails
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/account")
 	public String accountOverview(@AuthenticationPrincipal UserDetails UserDetails, Model model) {
 
@@ -147,6 +199,13 @@ class UserController {
 		return "redirect:/login";
 	}
 
+	/**
+	 *
+	 * @param userDetails
+	 * @param form
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/account_edit")
 	public String accountEdit(@AuthenticationPrincipal UserDetails userDetails, EditUserProfilForm form, Model model) {
 
@@ -172,6 +231,14 @@ class UserController {
 
 	}
 
+	/**
+	 *
+	 * @param userDetails
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/account_edit")
 	String updateProfile(@AuthenticationPrincipal UserDetails userDetails, @Valid EditUserProfilForm form, Errors result, Model model) {
 
@@ -197,11 +264,21 @@ class UserController {
 		}
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public UserManagement getUserManagement() {
 		return userManagement;
 	}
 
-
+	/**
+	 *
+	 * @param id
+	 * @param form
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/authority_edit/employee/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public String goToAccountEditOfEmployees(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model){
@@ -212,6 +289,14 @@ class UserController {
 		return addUserEditInformationToModelAndRedirect(id, form, model, user, userType);
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/authority_edit/employee/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public String doAccountEditOfEmployees(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
@@ -219,6 +304,14 @@ class UserController {
 		return pushEditOfUserAccount(form, result, model, user);
 	}
 
+	/**
+	 *
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @param user
+	 * @return
+	 */
 	@NotNull
 	private String pushEditOfUserAccount(@Valid EditPersonbyAuthorityForm form, Errors result, Model model, User user) {
 		if (user == null) {
@@ -238,6 +331,13 @@ class UserController {
 		else return "redirect:/employee-overview";
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param form
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/authority_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	public String goToAccountEditOfCustomer(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model){
@@ -247,6 +347,15 @@ class UserController {
 		return addUserEditInformationToModelAndRedirect(id, form, model, user, userType);
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param form
+	 * @param model
+	 * @param user
+	 * @param userType
+	 * @return
+	 */
 	@NotNull
 	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model, User user, String userType) {
 		if (user == null) {
@@ -263,6 +372,14 @@ class UserController {
 		return "authority_edit";
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/authority_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
@@ -270,6 +387,11 @@ class UserController {
 		return pushEditOfUserAccount(form, result, model, user);
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/customer-overview/filterByDescendingAlphabet")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	public String sortByDescendingAlphabet(Model model) {
@@ -287,6 +409,11 @@ class UserController {
 		return "customer-overview";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/customer-overview/filterByAscendingAlphabet")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	public String sortByAscendingAlphabet(Model model) {
@@ -303,7 +430,12 @@ class UserController {
 		return "customer-overview";
 	}
 
-
+	/**
+	 *
+	 * @param userDetails
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/achievements")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE') or hasRole('CUSTOMER')")
 	String achievements(@AuthenticationPrincipal UserDetails userDetails, Model model){
