@@ -24,8 +24,10 @@ public class InventoryInitializer implements DataInitializer {
 
 	}
 
-
-		@Override
+	/**
+	 * initializes all inventory objects
+	 */
+	@Override
 		public void initialize() {
 			Genre scienceFiction = createGenre("Science Fiction");
 			Genre adventure = createGenre("Adventure");

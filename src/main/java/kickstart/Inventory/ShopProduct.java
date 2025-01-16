@@ -13,7 +13,18 @@ public abstract class ShopProduct extends Product{
 
 
 	@SuppressWarnings({"deprecation"})
+	/**
+	 * Empty constructor
+	 */
 	protected ShopProduct() {}
+
+	/**
+	 * Basic constructor
+	 * @param name
+	 * @param image
+	 * @param price
+	 * @param description
+	 */
 	public ShopProduct(String name, String image, Money price, String description) {
 
 		super(name, price);
@@ -43,6 +54,10 @@ public abstract class ShopProduct extends Product{
 	// Setters
 	// setters for name and price are already given by the Product class (setName() and setPrice())
 
+	/**
+	 *
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		if (description == null){
 			throw new NullPointerException("ShopProduct Description cannot be null");
@@ -53,6 +68,10 @@ public abstract class ShopProduct extends Product{
 		this.description = description;
 	}
 
+	/**
+	 *
+	 * @param image
+	 */
 	public void setImage(String image) {
 		if (image == null){
 			throw new NullPointerException("ShopProduct Image cannot be null");
@@ -67,14 +86,26 @@ public abstract class ShopProduct extends Product{
 	// Getters
 	// getters for name and price are already given by the Product class (getName() and getPrice())
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getImage() {
 		return image;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public ProductIdentifier getProductId() {
 		return this.getId();
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getDescription() {
 		return description;
 	}
