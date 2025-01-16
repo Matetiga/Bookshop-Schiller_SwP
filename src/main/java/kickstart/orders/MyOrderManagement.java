@@ -135,7 +135,7 @@ public class MyOrderManagement {
 	}
 
 	public void initializeRandomOrders(){
-		for (int i = 0; i < 420; i++){
+		for (int i = 0; i < 300; i++){
 			Random random = new Random();
 			List<ShopProduct> shopProductList = shopProductCatalog.findAll().stream().toList();
 

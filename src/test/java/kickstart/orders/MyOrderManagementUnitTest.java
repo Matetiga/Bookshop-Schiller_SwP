@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.salespointframework.quantity.Quantity;
 import org.salespointframework.useraccount.UserAccount;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -105,25 +106,22 @@ public class MyOrderManagementUnitTest {
 		assertFalse(filteredList.contains(order2));
 	}
 
-	/*
 	@Test
-	void testFindByUsername() {
+	void testSortByDate() {
 		MyOrder order1 = new MyOrder(mockUser, "Bar");
+		order1.setDebitTime(LocalDateTime.now().plusSeconds(1));
 		MyOrder order2 = new MyOrder(mockUser, "Rechnung");
+		order2.setDebitTime(LocalDateTime.now().plusSeconds(2));
 		MyOrder order3 = new MyOrder(mockUser, "Bar");
+		order3.setDebitTime(LocalDateTime.now().plusSeconds(3));
 
-		List<MyOrder> orders = List.of(order1, order2, order3);
+		List<MyOrder> orders = List.of(order3, order2, order1);
 
-		Iterable<MyOrder> resultList = myOrderManagement.findByUsername("testUsername", orders);
+		List<MyOrder> resultList = myOrderManagement.sortByDate(orders);
 
-		List<MyOrder> filteredList = new ArrayList<>();
-		resultList.forEach(filteredList::add);
-
-		assertEquals(3, filteredList.size());
-		assertTrue(filteredList.contains(order1));
-		assertTrue(filteredList.contains(order3));
-		assertTrue(filteredList.contains(order2));
+		assertEquals(order1, resultList.get(0));
+		assertEquals(order2, resultList.get(1));
+		assertEquals(order3, resultList.get(2));
 	}
-	*/
 }
 
