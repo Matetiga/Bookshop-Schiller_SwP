@@ -18,6 +18,12 @@ public class Achievement {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	/**
+	 *
+	 * @param title
+	 * @param description
+	 * @param lowest_role_needed
+	 */
 	public Achievement(String title, String description, Role lowest_role_needed) {
 		this.title = title;
 		this.description = description;
@@ -25,26 +31,49 @@ public class Achievement {
 		this.lowest_role_needed = lowest_role_needed;
 	}
 
+	/**
+	 *
+	 */
 	public Achievement() {
 
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public boolean isCompleted() {
 		return completed;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public Role getLowest_role_needed() {
 		return lowest_role_needed;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	//custom hash_code so that Achievements with same title are considered equal in HashSets
 	@Override
 	public int hashCode() {
@@ -55,6 +84,11 @@ public class Achievement {
 		}
 	}
 
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -68,10 +102,18 @@ public class Achievement {
 		return Objects.equals(title, other.title);
 	}
 
+	/**
+	 *
+	 * @param id
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public Long getId() {
 		return id;
 	}
