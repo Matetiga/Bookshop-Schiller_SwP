@@ -16,12 +16,22 @@ public class Genre {
 	private String genre;
 
 	// default constructor for JPA
+
+	/**
+	 * default constructor for JPA
+	 */
 	protected Genre() {}
 	private Genre(String genre) {
 		this.genre = genre;
 	}
 
 	// it kinda follows the Singleton pattern
+
+	/**
+	 *
+	 * @param name
+	 * @return
+	 */
 	public static Genre createGenre(String name){
 		if (name == null) {
 			throw new NullPointerException("Genre creator - Genre cannot be null");
@@ -48,6 +58,10 @@ public class Genre {
 
 	// Setters
 
+	/**
+	 *
+	 * @param genre
+	 */
 	public static void deleteGenre(Genre genre) {
 		if (genre == null) {
 			throw new NullPointerException("Genre deleter - Genre cannot be null");
@@ -62,14 +76,28 @@ public class Genre {
 
 	// Getters
 	// this must be static for it to be reached from the whole system
+
+	/**
+	 *
+	 * @return
+	 */
 	public static Set<Genre> getAllGenres() {
 		return genres;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getGenre() {
 		return genre;
 	}
 
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {

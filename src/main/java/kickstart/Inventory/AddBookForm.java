@@ -39,7 +39,24 @@ public class AddBookForm {
 	@Min(value = 0, message = "Stock can not be negative")
 	private int stock;
 
+	/**
+	 *
+	 *Basic empty constructor
+	 */
 	public AddBookForm() {}
+
+	/**
+	 * Constructor
+	 * @param name
+	 * @param image
+	 * @param description
+	 * @param genre
+	 * @param author
+	 * @param ISBN
+	 * @param publisher
+	 * @param price
+	 * @param stock
+	 */
 	public AddBookForm(String name, String image, String description, Set<String> genre,
 					   String author, String ISBN, String publisher, double price, int stock) {
 		this.name = name;
@@ -54,74 +71,147 @@ public class AddBookForm {
 	}
 
 	// Getters and setters
+
+	/**
+	 *
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 *
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getImage() {
 		return image;
 	}
 
+	/**
+	 *
+	 * @param image
+	 */
 	public void setImage(String image) {
 		this.image = image;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public double getPrice() {
 		return price;
 	}
 
+	/**
+	 *
+	 * @param price
+	 */
 	public void setPrice(double price) {
 		this.price = price;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 *
+	 * @param description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public Set<String> getGenre() {
 		return genre;
 	}
 
+	/**
+	 *
+	 * @param genre
+	 */
 	public void setGenre(Set<String> genre) {
 		this.genre = genre;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getAuthor() {
 		return author;
 	}
 
+	/**
+	 *
+	 * @param author
+	 */
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getISBN() {
 		return ISBN;
 	}
 
+	/**
+	 *
+	 * @param ISBN
+	 */
 	public void setISBN(String ISBN) {
 		this.ISBN = ISBN;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getPublisher() {
 		return publisher;
 	}
 
+	/**
+	 *
+	 * @param publisher
+	 */
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getStock() {
 		return stock;
 	}
 
+	/**
+	 *
+	 * @param stock
+	 */
 	public void setStock(int stock) {
 		this.stock = stock;
 	}

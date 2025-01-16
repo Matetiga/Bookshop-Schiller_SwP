@@ -17,7 +17,22 @@ public class Book extends ShopProduct {
 	private String ISBN;
 	private String publisher;
 
+	/**
+	 * empty constructor
+	 */
 	public Book(){}
+
+	/**
+	 * Basic constructor
+	 * @param name
+	 * @param image
+	 * @param price
+	 * @param description
+	 * @param genres
+	 * @param author
+	 * @param ISBN
+	 * @param publisher
+	 */
 	public Book(String name, String image, Money price, String description,
 				Set<Genre> genres, String author, String ISBN, String publisher) {
 		super(name, image, price, description);
@@ -53,6 +68,11 @@ public class Book extends ShopProduct {
 	}
 
 	// Setters
+
+	/**
+	 *
+	 * @param genre
+	 */
 	public void addBookGenre(Genre genre) {
 		if (genre == null) {
 			throw new NullPointerException("Setter Book Genre cannot be null");
@@ -65,6 +85,11 @@ public class Book extends ShopProduct {
 		}
 		this.genres.add(genre);
 	}
+
+	/**
+	 *
+	 * @param genre
+	 */
 	public void deleteBookGenre(Genre genre){
 		if (genre == null) {
 			throw new NullPointerException("Setter deleteBookGenre cannot be null");
@@ -78,6 +103,10 @@ public class Book extends ShopProduct {
 		this.genres.remove(genre);
 	}
 
+	/**
+	 *
+	 * @param genres
+	 */
 	public void setBookGenres(Set<Genre> genres) {
 		if (genres.isEmpty()) {
 			throw new IllegalArgumentException("Setter Book Genre cannot be empty");
@@ -85,6 +114,10 @@ public class Book extends ShopProduct {
 		this.genres = genres;
 	}
 
+	/**
+	 *
+	 * @param author
+	 */
 	public void setAuthor(String author) {
 		if (author == null) {
 			throw new NullPointerException("Setter Book Author cannot be null");
@@ -107,6 +140,11 @@ public class Book extends ShopProduct {
 	}
 
 	//TODO check for a valid ISBN
+
+	/**
+	 *
+	 * @param ISBN
+	 */
 	public void setISBN(String ISBN) {
 		if (ISBN == null) {
 			throw new NullPointerException("Setter Book ISBN cannot be null");
@@ -118,15 +156,35 @@ public class Book extends ShopProduct {
 	}
 
 	// Getters
+
+	/**
+	 *
+	 * @return
+	 */
 	public Set<Genre> getBookGenres() {
 		return genres;
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	public String getAuthor() {
 		return author;
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	public String getISBN() {
 		return ISBN;
 	}
+
+	/**
+	 *
+	 * @return
+	 */
 	public String getPublisher() {
 		return publisher;
 	}
