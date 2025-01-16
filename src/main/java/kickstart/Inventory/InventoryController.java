@@ -49,6 +49,7 @@ public class InventoryController {
 	@PostMapping("/inventory/add_newGenre")
 	public String addNewGenre(@RequestParam("newGenre") String genre, Model model) {
 		if (genre.isBlank()){
+			model.addAttribute("error_newGenre", "Genre can not be empty");
 			showInventory(model);
 			return "inventory_book";
 		}
