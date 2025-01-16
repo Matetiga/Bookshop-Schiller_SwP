@@ -38,6 +38,12 @@ public class InventoryController {
 	private final UserManagement userManagement;
 	private final UserAchievementService userAchievementService;
 
+	/**
+	 *
+	 * @param shopProductInventory
+	 * @param shopProductCatalog
+	 * @param userManagement
+	 */
 	InventoryController(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog,
 						UserManagement userManagement) {
 		this.shopProductInventory = shopProductInventory;
@@ -46,6 +52,12 @@ public class InventoryController {
 		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
+	/**
+	 * creates new genre
+	 * @param genre
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/add_newGenre")
 	public String addNewGenre(@RequestParam("newGenre") String genre, Model model) {
 		if (genre.isBlank()){
@@ -73,6 +85,12 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	/**
+	 * deletes genre
+	 * @param genre
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/delete_genre")
 	public String deleteGenre(@RequestParam("genre") String genre, Model model) {
 		// this will get the already existing genre
@@ -91,6 +109,11 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_book")
 	public String showInventory(Model model) {
 
@@ -115,6 +138,11 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_merch")
 	public String showMerchInventory(Model model) {
 		List<Map.Entry<Merch, Quantity>> merch = new ArrayList<>();
@@ -134,6 +162,11 @@ public class InventoryController {
 		return "inventory_merch";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_calendar")
 	public String showCalendarInventory(Model model) {
 		List<Map.Entry<Calendar, Quantity>> calendars = new ArrayList<>();
@@ -156,7 +189,13 @@ public class InventoryController {
 		return "inventory_calendar";
 	}
 
-
+	/**
+	 *
+	 * @param id
+	 * @param viewName
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/increase")
 	public String increaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id,
 										  @RequestParam("viewName") String viewName, Model model) {
@@ -179,6 +218,12 @@ public class InventoryController {
 
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/decrease")
 	public String decreaseProductQuantity(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
@@ -207,7 +252,12 @@ public class InventoryController {
 
 	}
 
-
+	/**
+	 *
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
@@ -235,7 +285,11 @@ public class InventoryController {
 
 	}
 
-
+	/**
+	 *
+	 * @param image
+	 * @return
+	 */
 	public String saveImage(MultipartFile image) {
 		String fileName = UUID.randomUUID() + "-" + image.getOriginalFilename();
 
@@ -252,6 +306,12 @@ public class InventoryController {
 		return "../" + path;
 	}
 
+	/**
+	 *
+	 * @param ISBN
+	 * @param id
+	 * @return
+	 */
 	public boolean isValidAndUniqueISBN(String ISBN, Product.ProductIdentifier id) {
 		if (ISBN == null || !ISBN.matches("\\d{13}")) {//d 0-9
 			return false;
@@ -283,6 +343,14 @@ public class InventoryController {
 		&& checkDigit == Character.getNumericValue(ISBN.charAt(12)); // Compare check digit to the 13th digit
 	}
 
+	/**
+	 *
+	 * @param bookForm
+	 * @param result
+	 * @param file
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/add_book")
 	public String addBook(@Valid AddBookForm bookForm, BindingResult result,
 						  @RequestParam("imageFile") MultipartFile file, Model model) {
@@ -315,6 +383,14 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	/**
+	 *
+	 * @param merchForm
+	 * @param result
+	 * @param file
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/add_merch")
 	public String addMerch(@Valid @ModelAttribute("merchForm") AddMerchCalendarForm merchForm, BindingResult result,
 						   @RequestParam("imageFile") MultipartFile file, Model model) {
@@ -335,6 +411,14 @@ public class InventoryController {
 		return "inventory_merch";
 	}
 
+	/**
+	 *
+	 * @param calendarForm
+	 * @param result
+	 * @param file
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/add_calendar")
 	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm, BindingResult result,
 							  @RequestParam("imageFile") MultipartFile file, Model model) {
@@ -358,6 +442,13 @@ public class InventoryController {
 
 	// This method should give all the information of the different products to the html
 	// depending on its class
+
+	/**
+	 *
+	 * @param itemId
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory/editable/{itemId}")
 	public String getDetail(@PathVariable Product.ProductIdentifier itemId, Model model) {
 
@@ -411,6 +502,12 @@ public class InventoryController {
 		return "inventory_editable";
 	}
 
+	/**
+	 *
+	 * @param item
+	 * @param oldQuantity
+	 * @param newQuantity
+	 */
 	private void setStockEdit(UniqueInventoryItem item, Quantity oldQuantity, long newQuantity) {
 		long oldStock = oldQuantity.getAmount().longValue();
 
@@ -422,7 +519,15 @@ public class InventoryController {
 		}
 	}
 
-
+	/**
+	 *
+	 * @param bookForm
+	 * @param result
+	 * @param file
+	 * @param itemId
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/save_book/{itemId}")
 	public String saveBook(@Valid AddBookForm bookForm, BindingResult result,
 						   @RequestParam("imageFile") MultipartFile file,
@@ -466,6 +571,15 @@ public class InventoryController {
 
 	}
 
+	/**
+	 *
+	 * @param calendarForm
+	 * @param result
+	 * @param file
+	 * @param itemId
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/save_calendar/{itemId}")
 	public String saveCalendar(@Valid AddMerchCalendarForm calendarForm, BindingResult result,
 							   @RequestParam("imageFileCalendar") MultipartFile file,
@@ -500,6 +614,15 @@ public class InventoryController {
 
 	}
 
+	/**
+	 *
+	 * @param merchForm
+	 * @param result
+	 * @param file
+	 * @param itemId
+	 * @param model
+	 * @return
+	 */
 	@PostMapping("/inventory/save_merch/{itemId}")
 	public String saveMerch(@Valid AddMerchCalendarForm merchForm, BindingResult result,
 							@RequestParam("imageFileMerch") MultipartFile file,
@@ -533,7 +656,11 @@ public class InventoryController {
 		return "redirect:/inventory_merch";
 	}
 
-
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_calendar/out_of_stock")
 	public String showOutOfStockCalendars(Model model) {
 		List<Map.Entry<Calendar, Quantity>> outOfStockCalendars = new ArrayList<>();
@@ -556,6 +683,11 @@ public class InventoryController {
 		return "inventory_calendar";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_book/out_of_stock")
 	public String showOutOfStockBooks(Model model) {
 		List<Map.Entry<Book, Quantity>> outOfStockBooks = new ArrayList<>();
@@ -577,6 +709,12 @@ public class InventoryController {
 
 		return "inventory_book";
 	}
+
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_merch/out_of_stock")
 	public String showOutOfStockMerch(Model model) {
 		// Filter out-of-stock merch
@@ -599,6 +737,11 @@ public class InventoryController {
 		return "inventory_merch";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_book/sort_price_asc")
 	public String sortBooksByPriceAsc(Model model) {
 
@@ -623,6 +766,11 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_merch/sort_price_asc")
 	public String sortMerchByPriceAsc(Model model) {
 		// Fetch all merch into a normal list
@@ -645,6 +793,11 @@ public class InventoryController {
 		return "inventory_merch";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_calendar/sort_price_asc")
 	public String sortCalendarsByPriceAsc(Model model) {
 
@@ -666,6 +819,11 @@ public class InventoryController {
 		return "inventory_calendar";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_calendar/sort_alpha")
 	public String sortCalendarsByName(Model model) {
 
@@ -688,6 +846,11 @@ public class InventoryController {
 		return "inventory_calendar";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_book/sort_alpha")
 	public String sortBooksByName(Model model) {
 
@@ -711,6 +874,11 @@ public class InventoryController {
 		return "inventory_book";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/inventory_merch/sort_alpha")
 	public String sortMerchByName(Model model) {
 
