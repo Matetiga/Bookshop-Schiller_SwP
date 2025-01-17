@@ -1,0 +1,32 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2021/22
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:** Marco Hernandez
+
+**Gruppe:** 16
+
+== Was habe ich gelernt / was habe ich nicht gelernt?
+Ich habe gelernt, wie eine aktuelle Webseite aufgebaut ist. Ich habe auch gelernt, wie man besser mit Github arbeiten kann. Ich habe gelernt, wie man in einem Gruppenprojekt arbeitet. Und schließlich habe ich meine Programmierfähigkeiten in Java verbessert.
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+Unsere Teamarbeit war von Anfang an sehr gut, wir hatten ein paar kleine Missverständnisse mit einigen unserer Teammitglieder, aber ansonsten lief es sehr gut. Ich habe gelernt, gut zu kommunizieren und die Aufgaben klar aufzuteilen.
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+Zuerst war meine Erfahrung beim Eintauchen in das Framework ein wenig schwierig, da ich zum ersten Mal mit einer solchen objektabhängigen Bibliothek arbeitete. Aber sobald man verstanden hat, wie alles zusammenhängt, war es sehr lohnend, den Dreh raus zu haben
+// Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+NA
+// Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
+
+== Feedback für den Tutor
+Fabian war ein sehr guter Tutor, er hat immer alles gut erklärt und war sehr freundlich. Er war immer da, um zu helfen. Ich habe kein negatives Feedback
+// Fühlten Sie sich durch den vom Lehrstuhl bereitgestellten Tutor gut betreut? Was war positiv? Was war verbesserungswürdig?
+
+== Sonstiges und Anmerkungen
+NA
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
