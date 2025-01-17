@@ -45,6 +45,16 @@ public class CatalogController {
 		this.userAchievementService = new UserAchievementService(this.userManagement);
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @param selectedGenres
+	 * @param sort
+	 * @param priceRange
+	 * @param search
+	 * filter by Genre and Price, Sort by Price
+	 * @return catalog_books (html)
+	 */
 	@GetMapping("/books")
 	String bookCatalog(Model model, @RequestParam(value = "genres", required = false) List<String> selectedGenres,
 					   @RequestParam(value = "sort", required = false) String sort,
@@ -135,6 +145,15 @@ public class CatalogController {
 		return "catalog_books";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @param sort
+	 * @param priceRange
+	 * @param search
+	 * filter and sort by price
+	 * @return catalog_merch (html)
+	 */
 	@GetMapping("/merch")
 	String merchCatalog(Model model,@RequestParam(value = "sort", required = false) String sort,
 						@RequestParam(value = "priceRange", required = false) String priceRange,
@@ -202,6 +221,15 @@ public class CatalogController {
 		return "catalog_merch";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @param sort
+	 * @param priceRange
+	 * @param search
+	 * filter and sort by price
+	 * @return catalog_calender (html)
+	 */
 	@GetMapping("/calenders")
 	String calenderCatalog(Model model,@RequestParam(value = "sort", required = false) String sort,
 						   @RequestParam(value = "priceRange", required = false) String priceRange,
@@ -269,6 +297,12 @@ public class CatalogController {
 		return "catalog_calender";
 	}
 
+	/**
+	 *
+	 * @param bookProduct
+	 * @param model
+	 * @return detail_book (html)
+	 */
 	@GetMapping("/book/{bookProduct}")
 	public String bookDetail(@PathVariable ShopProduct bookProduct, Model model) {
 
@@ -283,6 +317,12 @@ public class CatalogController {
 		return "detail_book";
 	}
 
+	/**
+	 *
+	 * @param merchProduct
+	 * @param model
+	 * @return detail_merch (html)
+	 */
 	@GetMapping("/merch/{merchProduct}")
 	public String merchDetail(@PathVariable ShopProduct merchProduct, Model model) {
 
@@ -297,6 +337,12 @@ public class CatalogController {
 		return "detail_merch";
 	}
 
+	/**
+	 *
+	 * @param calenderProduct
+	 * @param model
+	 * @return detail_calender (html)
+	 */
 	@GetMapping("/calender/{calenderProduct}")
 	public String calenderDetail(@PathVariable ShopProduct calenderProduct, Model model) {
 
