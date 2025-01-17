@@ -1242,7 +1242,7 @@ image::./models/gui/UsersListPage.png[Users List page, 100%, 100%, pdfwidth=100%
 The (analysis) class diagram is supposed to give an overview of the domain in the context of the system, which shall be developed in the scope of this project.
 
 [[AKD]]
-image::./models/analysis/aUMLClassDiagramm/aUML_bookshop.png[Class diagram, 100%, 100%, pdfwidth=100%, title= "Domain model of {project_name}", align=center]
+image::./models/analysis/aUMLClassDiagramm/aUML-Bookshop.png[Class diagram, 100%, 100%, pdfwidth=100%, title= "Domain model of {project_name}", align=center]
 
 === Classes and Enumerations
 The following table gives an overview of the classes/enumerations used in the domain model.
