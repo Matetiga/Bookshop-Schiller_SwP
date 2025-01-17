@@ -1716,6 +1716,73 @@ The following table shows which acceptance tests the software system does have t
 |{Result}     a|All book associated with the "Fantasy" genre now display: "No genre" as their genre
 |===
 
+[[AT035]]
+[cols="1h, 4"]
+|===
+|ID             |<<AT035>>
+|Use Case       |Sort inventory by price
+|{Pre}         a|The worker/admin/user is logged in
+|{Event}       a|Click "Sort by price" button
+|{Result}      a|All items are sorted from cheapest to most expensive
+|===
+
+[[AT036]]
+[cols="1h, 4"]
+|===
+|ID             |<<AT036>>
+|Use Case       |Sort inventory alphabetically
+|{Pre}         a|The worker/admin/user is logged in
+|{Event}       a|Click "Sort by Name (A-Z)" button
+|{Result}      a|All items are sorted alphabetically
+|===
+
+[[AT037]]
+[cols="1h, 4"]
+|===
+|ID             |<<AT037>>
+|Use Case       |Sort inventory by out of stock
+|{Pre}         a|
+-The worker/admin/user is logged in
+-There are books of 0 quantity
+|{Event}       a|Click "Out of stock" button
+|{Result}      a|Only items with the quantity 0 are showed
+|===
+
+[[AT038]]
+[cols="1h, 4"]
+|===
+|ID             |<<AT038>>
+|Use Case       |Add quantity by 1
+|{Pre}         a|
+-The worker/admin/user is logged in
+-Go to the desired item inventory
+|{Event}       a|Click on the "+" button
+|{Result}      a|Item has the original quantity + 1
+|===
+
+[[AT039]]
+[cols="1h, 4"]
+|===
+|ID             |<<AT039>>
+|Use Case       |Decrease quantity by 1
+|{Pre}         a|
+-The worker/admin/user is logged in
+-Go to the desired item inventory
+|{Event}       a|Click on the "-" button
+|{Result}      a|Item has the original quantity - 1
+|===
+
+[[AT040]]
+[cols="1h, 4"]
+|===
+|ID             |<<AT040>>
+|Use Case       |Add a new book
+|{Pre}         a|
+-The worker/admin/user is logged in
+|{Event}       a|Click on the "Add New Book" button and fill the information
+|{Result}      a|The book will be displayed in the book inventory with the passed in information
+|===
+
 [[Glossary]]
 == Glossary
 
