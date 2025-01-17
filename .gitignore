@@ -1,11 +1,12 @@
 # Java and Maven
 *.class
-*.jar
+#*.jar
 target/
 
 # Un-ignore maven wrapper jar
 !/.mvn/wrapper/maven-wrapper.jar
 !swt24w16-1.0.0.BUILD-SNAPSHOT.jar
+!final_swt24w16-1.0.0.BUILD-SNAPSHOT.jar
 
 # Eclipse
 bin/

@@ -534,7 +534,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 2. A new order is registered in the system with the user's information
 
 |Extensions                 |-
-|Functional Requirements    |<<F0220>>, <<F0230>>, <<F0241>>, <<F0244>> , <<F320>>
+|Functional Requirements    |<<F0220>>, <<F0230>>, <<F0241>>, <<F0244>> , <<F0320>>
 |===
 
 
@@ -553,7 +553,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 1. Admin browses to the "Financial overview" page
 
 |Extensions                 |-
-|Functional Requirements    |<<F0401>>
+|Functional Requirements    |<<F0400>>
 |===
 
 
@@ -739,7 +739,7 @@ image::./models/analysis/SequenceDiagrams/SequenceDiagram_inventory/SequenceDiag
 3. If the person hits any of the products, they will be redirected to the item's page
 
 |Extensions                 |
-|Functional Requirements    |<<F0113>>, <<F0115>>
+|Functional Requirements    |<<F0113>>, <<F0114>>
 |===
 
 
@@ -884,7 +884,7 @@ The system shall be able to persistently store data about products (books, calen
 |v0.1
 |Decrease Quantity
 a|
-The system shall be able to automatically reduce the stock of a product in the inventory (<<0100>>), when a product was bought.
+The system shall be able to automatically reduce the stock of a product in the inventory (<<F0100>>), when a product was bought.
 
 |[[F0102]]<<F0102>>
 |v0.1
@@ -1743,5 +1743,5 @@ Please also consult the list of <<actors, actors>>, the list of <<Stakeholders, 
 |Stock                  | Amount of products of one type that are available
 |System                 | General term for the software system (web shop) that has to be implemented during this project.
 |User/Person            | {domain_ref}
-|Bookshop               | {Bookshop_Description
+|Bookshop               | {Bookshop_Description}
 |===
