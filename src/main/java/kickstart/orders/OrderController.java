@@ -39,16 +39,33 @@ public class OrderController {
 
 	}
 
+	/**
+	 * initializes a cart
+	 * @return new Cart
+	 */
 	@ModelAttribute("cart")
 	Cart initializeCart() {
 		return new Cart();
 	}
 
+	/**
+	 *
+	 * @return cart (html)
+	 */
 	@GetMapping("/cart")
 	String cart() {
 		return "cart";
 	}
 
+	/**
+	 *
+	 * @param cart
+	 * @param productId
+	 * @param amount
+	 * @param request
+	 * Adds item to cart
+	 * @return redirect (html)
+	 */
 	@PostMapping("/cartAdd")
 	String cartAdd(@ModelAttribute Cart cart, @RequestParam("productId") Product.ProductIdentifier productId,
 				   @RequestParam("amount") long amount, HttpServletRequest request){
@@ -59,13 +76,26 @@ public class OrderController {
 		return "redirect:" + referer;
 	}
 
-
+	/**
+	 *
+	 * @param productId
+	 * @param cart
+	 * deletes item from cart
+	 * @return cart (html)
+	 */
 	@PostMapping("/cartDelete")
 	String deleteProduct(@RequestParam("productId") String productId, @ModelAttribute Cart cart) {
 		cart.removeItem(productId);
 		return "cart";
 	}
 
+	/**
+	 *
+	 * @param cart
+	 * @param model
+	 * clears cart
+	 * @return cart (html)
+	 */
 	@PostMapping("/clear")
 	String clearCart(@ModelAttribute Cart cart, Model model) {
 
@@ -77,6 +107,15 @@ public class OrderController {
 		return "cart";
 	}
 
+	/**
+	 *
+	 * @param userDetails
+	 * @param cart
+	 * @param paymentMethod
+	 * @param model
+	 * buys all products in cart, creating an order,
+	 * @return order-details (html)
+	 */
 	@PostMapping("/checkout")
 	String buy(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute Cart cart,
 			   @RequestParam("paymentMethod") String paymentMethod, Model model) {
@@ -126,7 +165,14 @@ public class OrderController {
 		return "my-order-details";
 	}
 
-
+	/**
+	 *
+	 * @param productId
+	 * @param cart
+	 * @param model
+	 * increase quantity of one item in cart by 1
+	 * @return cart (html)
+	 */
 	@PostMapping ("/cartIncrease")
 	public String increaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId,
 								   @ModelAttribute Cart cart, Model model) {
@@ -147,12 +193,25 @@ public class OrderController {
 		return "cart";
 	}
 
+	/**
+	 *
+	 * @param productId
+	 * @param cart
+	 * decrease quantity of one item in cart by 1
+	 * @return cart (html)
+	 */
 	@PostMapping ("/cartDecrease")
 	String decreaseQuantity(@RequestParam("productId") Product.ProductIdentifier productId, @ModelAttribute Cart cart) {
 		cart.addOrUpdateItem(inventory.findByProductIdentifier(productId).get().getProduct(), -1);
 		return "redirect:/cart";
 	}
 
+	/**
+	 *
+	 * @param order
+	 * @param model
+	 * deletes ordered products from stock
+	 */
 	public void deleteProductsFromStock(MyOrder order, Model model){
 		for(OrderLine orderLine : order.getOrderLines()){
 			inventory.findByProductIdentifier(orderLine.getProductIdentifier()).ifPresent(item -> {

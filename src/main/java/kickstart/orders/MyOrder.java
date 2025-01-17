@@ -61,6 +61,9 @@ public class MyOrder extends Order {
 		this.myOrderStatus = state;
 	}
 
+	/**
+	 * changes state of an order
+	 */
 	public void changeStatus(){
 		if(this.getStringPaymentMethod().equals("Bar")){
 			switch (this.getMyOrderStatus()){

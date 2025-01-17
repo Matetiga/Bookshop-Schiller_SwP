@@ -32,6 +32,13 @@ public class MyOrderManagement {
 		this.shopProductCatalog = shopProductCatalog;
 	}
 
+	/**
+	 *
+	 * @param state
+	 * @param filteredList
+	 * find Orders by their State
+	 * @return orderList
+	 */
 	public Iterable<MyOrder> findByStatus(String state, Iterable<MyOrder> filteredList){
 		if(state == null || state.equals("Alle") || state.equals("All")){
 			return filteredList;
@@ -46,6 +53,13 @@ public class MyOrderManagement {
 		}
 	}
 
+	/**
+	 *
+	 * @param paymentMethod
+	 * @param list
+	 * find orders by their payment method
+	 * @return orderList
+	 */
 	public Iterable<MyOrder> findByPaymentMethod(String paymentMethod, Iterable<MyOrder> list){
 		if(paymentMethod == null || paymentMethod.equals("Alle")){
 			return list;
@@ -60,6 +74,13 @@ public class MyOrderManagement {
 		}
 	}
 
+	/**
+	 *
+	 * @param productName
+	 * @param filteredList
+	 * find orders by product name (of product which was in the order)
+	 * @return orderList
+	 */
 	public Iterable<MyOrder> findByProductName(String productName, Iterable<MyOrder> filteredList){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : filteredList){
@@ -72,6 +93,13 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
+	/**
+	 *
+	 * @param username
+	 * @param list
+	 * find orders by username of the user who created the order
+	 * @return orderList
+	 */
 	public Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
@@ -82,6 +110,14 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
+	/**
+	 *
+	 * @param month
+	 * @param year
+	 * @param list
+	 * find orders by month and year of placement
+	 * @return
+	 */
 	public Iterable<MyOrder> findByMonthAndYear(Month month, int year, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
@@ -92,6 +128,12 @@ public class MyOrderManagement {
 		return orderList;
 	}
 
+	/**
+	 *
+	 * @param orderList
+	 * calculates total of an order
+	 * @return sum (Money)
+	 */
 	public double getTotalOfOrderList(Iterable<MyOrder> orderList){
 		double sum = 0;
 		for(MyOrder order : orderList){
@@ -100,10 +142,23 @@ public class MyOrderManagement {
 		return sum;
 	}
 
+	/**
+	 *
+	 * @param month
+	 * @param year
+	 * @param orderList
+	 * calculates total of all order of one month
+	 * @return  sum (Money)
+	 */
 	public double getTotalOfMonthAndYear(Month month, int year, Iterable<MyOrder> orderList){
 		return this.getTotalOfOrderList(this.findByMonthAndYear(month, year, orderList));
 	}
 
+	/**
+	 *
+	 * @param orderList
+	 * used to set delivery time (changes order state from "in Lieferung" to "geliefert" after set time)
+	 */
 	public void setDeliveryState(Iterable<MyOrder> orderList){
 		for(MyOrder order : this.findByStatus("in Lieferung", orderList)){
 			if(LocalDateTime.now().minusSeconds(30).isAfter(order.getStartDeliveryTime())){
@@ -112,6 +167,15 @@ public class MyOrderManagement {
 		}
 	}
 
+	/**
+	 *
+	 * @param state
+	 * @param paymentMethod
+	 * @param productName
+	 * @param username
+	 * filter orders
+	 * @return filtered list
+	 */
 	public Iterable<MyOrder> filterAllOrders(String state, String paymentMethod, String productName, String username){
 		Iterable<MyOrder> filterList = this.findByStatus(state, myOrderRepository.findAll());
 		filterList = this.findByPaymentMethod(paymentMethod, filterList);
@@ -126,6 +190,12 @@ public class MyOrderManagement {
 		return filterList;
 	}
 
+	/**
+	 *
+	 * @param iterable
+	 * sorts orders by date
+	 * @return sorted list
+	 */
 	public List<MyOrder> sortByDate(Iterable<MyOrder> iterable){
 		List<MyOrder> list = new ArrayList<>();
 		iterable.forEach(list::add);
@@ -134,6 +204,9 @@ public class MyOrderManagement {
 		return list;
 	}
 
+	/**
+	 * crates random example orders
+	 */
 	public void initializeRandomOrders(){
 		for (int i = 0; i < 300; i++){
 			Random random = new Random();
@@ -157,12 +230,23 @@ public class MyOrderManagement {
 		}
 	}
 
+	/**
+	 *
+	 * @param id
+	 * finds an order by its id
+	 * @return order
+	 */
 	public MyOrder findByID(Order.OrderIdentifier id) {
 		return myOrderRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Order not found with ID: " + id));
 	}
 
-	//For customer-overview we can filter for customers who have orders of some state
+	/**
+	 *
+	 * @param state
+	 * For customer-overview we can filter for customers who have orders of some state
+	 * @return streamable users
+	 */
 	public Set<User> getFilteredCustomersByStateOfOrders(@NotNull String state){
 		if (state.equals("Alle") || state.equals("All")){
 			Streamable<User> users= userManagement.findAll();
@@ -180,6 +264,14 @@ public class MyOrderManagement {
 		return users;
 	}
 
+	/**
+	 *
+	 * @param users
+	 * @param name
+	 * @param email
+	 * filters Customers
+	 * @return Set of users
+	 */
 	public Set<User> filterCustomers(Set<User> users, String name, String email){
 		return userManagement.filterCustomers(users, name, email);
 	}

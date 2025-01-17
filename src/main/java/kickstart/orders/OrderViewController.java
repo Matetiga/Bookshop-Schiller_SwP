@@ -67,6 +67,12 @@ public class OrderViewController {
 		return this.paymentMethods;
 	}
 
+	/**
+	 *
+	 * @param model
+	 * used for creating order-overview
+	 * @return order-overview (html)
+	 */
 	@GetMapping("/order-overview")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
 	String orderOverview(Model model){
@@ -91,6 +97,13 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
+	/**
+	 *
+	 * @param orderId
+	 * @param model
+	 * mapping to delete order
+	 * @return order-overview (html)
+	 */
 	@PostMapping("/deleteOrder")
 	String deleteOrder(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 
@@ -101,6 +114,13 @@ public class OrderViewController {
 		return "redirect:/order-overview";
 	}
 
+	/**
+	 *
+	 * @param orderId
+	 * @param model
+	 * mapping for changing State of an order
+	 * @return order-details (html)
+	 */
 	@PostMapping("/changeStatus")
 	String changeStatus(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 
@@ -117,6 +137,17 @@ public class OrderViewController {
 		return "order-details";
 	}
 
+
+	/**
+	 *
+	 * @param state
+	 * @param paymentMethod
+	 * @param productName
+	 * @param username
+	 * @param model
+	 * mapping for filtering orders
+	 * @return order-overview
+	 */
 	@PostMapping("/filterOrders")
 	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
 		Iterable<MyOrder> filteredList = myOrderManagement.filterAllOrders(state, paymentMethod, productName, username);
@@ -143,6 +174,12 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * mapping for sorting orders by date
+	 * @return order-overview (html)
+	 */
 	@PostMapping("/sortByDate")
 	String sortByDate(Model model){
 		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.filterAllOrders(lastFilterOptions[0], lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]));
@@ -164,6 +201,13 @@ public class OrderViewController {
 		return "order-overview";
 	}
 
+	/**
+	 *
+	 * @param orderId
+	 * @param model
+	 * mapping for orders details page
+	 * @return order-details (html)
+	 */
 	@PostMapping("/order/{orderID}")
 	public String orderDetailsByIDAdmin(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
@@ -174,6 +218,13 @@ public class OrderViewController {
 		return "order-details";
 	}
 
+	/**
+	 *
+	 * @param orderId
+	 * @param model
+	 * mapping for my order details page
+	 * @return my-order-details (html)
+	 */
 	@PostMapping("/my-order/{orderID}")
 	public String orderDetailsByID(@PathVariable("orderID") Order.OrderIdentifier orderId, Model model) {
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
@@ -184,11 +235,22 @@ public class OrderViewController {
 		return "my-order-details";
 	}
 
+	/**
+	 * mapping for order-details page
+	 * @return
+	 */
 	@GetMapping("/order-details")
 	String orderDetails(){
 		return "order-details";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @param UserDetails
+	 * mapping for my orders page
+	 * @return my-orders (html)
+	 */
 	@GetMapping("/my-orders")
 	@PreAuthorize("isAuthenticated()")
 	String myOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
@@ -202,6 +264,13 @@ public class OrderViewController {
 		return "my-orders";
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @param UserDetails
+	 * for saving last filtered value (from filter by date)
+	 * @return my-orders (html)
+	 */
 	@PostMapping("/sortByDateKonto")
 	String sortDateKontoOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
 		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
@@ -218,6 +287,13 @@ public class OrderViewController {
 		return "my-orders";
 	}
 
+	/**
+	 *
+	 * @param id
+	 * @param model
+	 * Mapping from order details page to product details
+	 * @return catalogController.productDetail
+	 */
 	@GetMapping("/product/{id}")
 	public String showProduct(@PathVariable Product.ProductIdentifier id, Model model) {
 		ShopProduct product = shopProductCatalog.findById(id).get();
@@ -231,7 +307,16 @@ public class OrderViewController {
 		}
 	}
 
-	/*
+
+
+	/**
+	 *
+	 * @param state
+	 * @param customerName
+	 * @param customerEmail
+	 * @param model
+	 * mapping for filtering customers in customer overview page
+	 * @return customer overview
 	This HAS to be in order controller and NOT in UserController even though it would be more fitting, because a cycle would be formed:
 	order -> user -> order
 	 */

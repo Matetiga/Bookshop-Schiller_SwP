@@ -22,6 +22,10 @@ public class FinanceController {
 		this.myOrderRepository = myOrderRepository;
 	}
 
+	/**
+	 * Gets Total for each month and puts it in a HashMap with month
+	 * @return revenueData
+	 */
 	@GetMapping("/finance-data")
 	@ResponseBody
 	public Map<String, Double> monthlyRevenueData() {
@@ -46,6 +50,11 @@ public class FinanceController {
 		return revenueData;
 	}
 
+	/**
+	 *
+	 * @param model
+	 * @return finance-overview (html)
+	 */
 	@GetMapping("/finance-overview")
 	@PreAuthorize("hasRole('ADMIN')")
 	String financeOverview(Model model) {
