@@ -170,10 +170,10 @@ The persistence is deactivated by default. To activate persistence storage, the 
 # spring.jpa.hibernate.ddl-auto=update
 ....
 
-==== User Interface
+==== User Interface (For the sake of clarity, the diagram has been simplified, which is why arrows/elements do not appear)
 
 [[user-interface]]
-image::./models/design/General/DialogMap(black_white).png[dialoque_map, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the application", align=center]
+image::./models/design/General/DialogMap(updated).svg[dialoque_map, 100%, 100%, pdfwidth=100%, title= "Dialog Map of the application", align=center]
 
 === Use of external frameworks
 
@@ -209,7 +209,7 @@ image::./models/design/General/bookshop(black_white).svg[title = class design di
 === Catalog
 
 
-image::models/design/Catalog/juml_catalog(black_white).svg[title = class design diagram - catalog]
+image::models/design/Catalog/juml_catalog12.svg[title = class design diagram - catalog]
 
 === User
 

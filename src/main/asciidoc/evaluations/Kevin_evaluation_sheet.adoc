@@ -1,0 +1,38 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2021/22
+// Auch wenn der Bogen nicht anonymisiert ist, dürfen Sie gern Ihre Meinung offen kundtun.
+// Sowohl positive als auch negative Anmerkungen werden gern gesehen und zur stetigen Verbesserung genutzt.
+// Versuchen Sie in dieser Auswertung also stets sowohl Positives wie auch Negatives zu erwähnen.
+
+**Von:** Kevin Grandl
+
+**Gruppe:** 16
+
+== Was habe ich gelernt / was habe ich nicht gelernt?
+// Ausführung der positiven und negativen Erfahrungen, die im Softwarepraktikum gesammelt wurden
+Ich habe gelernt, wie man ein Projekt von Anfang bis Ende aufbaut.
+Dabei habe ich auch Erfahrungen gesammelt, wie man im Team arbeitet und das Konzept des Pair-Programmings kennengelernt.
+Außerdem habe ich meine Java Kenntnisse erweitert.
+
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+// Kurze Beschreibung der Zusammenarbeit im Team. Was lief gut? Was war verbesserungswürdig? Was würden Sie das nächste Mal anders machen?
+Das Team war motiviert am Projekt zu arbeiten.
+Das Aufteilen und durcharbeiten der Aufgaben verlief Reibungslos.
+Unser Team hat super funktioniert und der Scrum-Master war seiner Rolle würdig.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+// Einschätzung der Arbeit mit den bereitgestellten und zusätzlich genutzten Frameworks. Was War gut? Was war verbesserungswürdig?
+Anfangs war es schwierig sich einzuarbeiten, da man sehr viel Material hatte. Ich habe einiges an Zeit gebraucht, bis ich mich an Salespoint und Spring gewöhnt habe.
+Da hat auch die Einführungsaufgabe mit dem GuestBook nicht wirklich geholfen.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+// Möglichst mit Beschreibung, warum die Umsetzung des von Ihnen angebrachten Vorschlages nötig ist.
+Ein besseres Modelierungstool sollte für das Projekt vorgeschlagen werden. Das Arbeiten mit Papyrus war total frustierend und hat sehr viel Zeit gekostet.
+
+== Feedback für den Tutor
+// Fühlten Sie sich durch den vom Lehrstuhl bereitgestellten Tutor gut betreut? Was war positiv? Was war verbesserungswürdig?
+Der Tutor hat uns gut betreut und stand fast immer für Fragen zu Verfügung.
+Durch sein lockeres Auftreten, fühlte sich das Praktikum weniger stressig an, was dazu führte, dass ich mehr Spaß daran hatte.
+
+== Sonstiges und Anmerkungen
+// Welche Aspekte fanden in den oben genannten Punkten keine Erwähnung?
