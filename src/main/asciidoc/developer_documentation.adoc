@@ -160,6 +160,7 @@ image::./models/design/General/ClientServerModel.png[context diagram c4, 100%, 1
 
 ==== Design Patterns
 * Spring MVC
+* Singleton (for the Genre class) 
 
 ==== Persistence
 The application uses *Hibernate annotation based mapping* to map Java classes to database tables. As a database, *H2* is used.
