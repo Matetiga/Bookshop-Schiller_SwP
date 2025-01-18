@@ -14,7 +14,7 @@ public class Book extends ShopProduct {
 	@ElementCollection
 	private Set<Genre> genres = new HashSet<>();
 	private String author;
-	private String ISBN;
+	private String isbn;
 	private String publisher;
 
 	/**
@@ -30,11 +30,11 @@ public class Book extends ShopProduct {
 	 * @param description
 	 * @param genres
 	 * @param author
-	 * @param ISBN
+	 * @param isbn
 	 * @param publisher
 	 */
 	public Book(String name, String image, Money price, String description,
-				Set<Genre> genres, String author, String ISBN, String publisher) {
+				Set<Genre> genres, String author, String isbn, String publisher) {
 		super(name, image, price, description);
 		if (genres.isEmpty()) {
 			throw new IllegalArgumentException("Book Genre cannot be empty");
@@ -47,10 +47,10 @@ public class Book extends ShopProduct {
 			throw new IllegalArgumentException("Book Author cannot be empty");
 		}
 
-		if(ISBN == null){
+		if(isbn == null){
 			throw new NullPointerException("Book ISBN cannot be null");
 		}
-		if(ISBN.isBlank()){
+		if(isbn.isBlank()){
 			throw new IllegalArgumentException("Book ISBN cannot be empty");
 		}
 
@@ -63,7 +63,7 @@ public class Book extends ShopProduct {
 
 		this.genres = genres;
 		this.author = author;
-		this.ISBN = ISBN;
+		this.isbn = isbn;
 		this.publisher = publisher;
 	}
 
@@ -139,20 +139,18 @@ public class Book extends ShopProduct {
 		this.publisher = publisher;
 	}
 
-	//TODO check for a valid ISBN
-
 	/**
 	 *
-	 * @param ISBN
+	 * @param isbn
 	 */
-	public void setISBN(String ISBN) {
-		if (ISBN == null) {
+	public void setISBN(String isbn) {
+		if (isbn == null) {
 			throw new NullPointerException("Setter Book ISBN cannot be null");
 		}
-		if(ISBN.isBlank()){
+		if(isbn.isBlank()){
 			throw new IllegalArgumentException("Setter Book ISBN cannot be empty");
 		}
-		this.ISBN = ISBN;
+		this.isbn = isbn;
 	}
 
 	// Getters
@@ -178,7 +176,7 @@ public class Book extends ShopProduct {
 	 * @return
 	 */
 	public String getISBN() {
-		return ISBN;
+		return isbn;
 	}
 
 	/**

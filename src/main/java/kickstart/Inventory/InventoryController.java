@@ -118,7 +118,8 @@ public class InventoryController {
 	public String showInventory(Model model) {
 
 		UserDetails userDetails = userAchievementService.getCurrentUser();
-		Achievement ach1 = new Achievement("With great power comes great responsibility or something like that...", "You have visited the inventory", Role.of("CUSTOMER"));
+		Achievement ach1 = new Achievement("With great power comes great responsibility or something like that...",
+			"You have visited the inventory", Role.of("CUSTOMER"));
 		userAchievementService.processAchievement(userDetails, ach1, model);
 
 		List<Map.Entry<Book, Quantity>> books = new ArrayList<>();
@@ -235,21 +236,24 @@ public class InventoryController {
 			}
 		});
 
+		String viewName = "";
+
 		if (shopProduct.getProduct() instanceof Book) {
 			showInventory(model);
-			return "inventory_book";
+			viewName = "inventory_book";
 		}
-		if (shopProduct.getProduct() instanceof Calendar) {
+		else if (shopProduct.getProduct() instanceof Calendar) {
 			showCalendarInventory(model);
-			return "redirect:/inventory_calendar";
+			viewName = "redirect:/inventory_calendar";
 		}
-		if (shopProduct.getProduct() instanceof Merch) {
+		else if (shopProduct.getProduct() instanceof Merch) {
 			showMerchInventory(model);
-			return "redirect:/inventory_merch";
+			viewName = "redirect:/inventory_merch";
 		} else {
-			return "inventory_book";
+			viewName = "inventory_book";
 		}
 
+		return viewName;
 	}
 
 	/**
@@ -260,6 +264,8 @@ public class InventoryController {
 	 */
 	@PostMapping("/inventory/delete")
 	public String deleteProduct(@RequestParam("itemId") Product.ProductIdentifier id, Model model) {
+		String viewName = "";
+
 		UniqueInventoryItem shopProduct = shopProductInventory.findByProductIdentifier(id).get();
 		shopProductInventory.findByProductIdentifier(id).ifPresent(shopProductInventory::delete);
 		if (shopProduct.getProduct() instanceof Book) {
@@ -270,19 +276,20 @@ public class InventoryController {
 				model.addAttribute("showNoBooks", true);
 			}
 			showInventory(model);
-			return "inventory_book";
+			viewName = "inventory_book";
 		}
 		if (shopProduct.getProduct() instanceof Calendar) {
 			showCalendarInventory(model);
-			return "redirect:/inventory_calendar";
+			viewName ="redirect:/inventory_calendar";
 		}
-		if (shopProduct.getProduct() instanceof Merch) {
+		else if (shopProduct.getProduct() instanceof Merch) {
 			showMerchInventory(model);
-			return "redirect:/inventory_merch";
+			viewName = "redirect:/inventory_merch";
 		} else {
-			return "inventory_book";
+			viewName = "inventory_book";
 		}
 
+		return viewName;
 	}
 
 	/**
@@ -420,8 +427,8 @@ public class InventoryController {
 	 * @return
 	 */
 	@PostMapping("/inventory/add_calendar")
-	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm, BindingResult result,
-							  @RequestParam("imageFile") MultipartFile file, Model model) {
+	public String addCalendar(@Valid @ModelAttribute("calendarForm") AddMerchCalendarForm calendarForm,
+							  BindingResult result, @RequestParam("imageFile") MultipartFile file, Model model) {
 		if (result.hasErrors()) {
 			showCalendarInventory(model);
 			model.addAttribute("showModal", true);

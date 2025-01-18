@@ -13,7 +13,7 @@ public class Achievement {
 	private String title;
 	private String description;
 	private boolean completed;
-	private Role lowest_role_needed;
+	private Role lowestRoleNeeded;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,13 +22,13 @@ public class Achievement {
 	 *
 	 * @param title
 	 * @param description
-	 * @param lowest_role_needed
+	 * @param lowestRoleNeeded
 	 */
-	public Achievement(String title, String description, Role lowest_role_needed) {
+	public Achievement(String title, String description, Role lowestRoleNeeded) {
 		this.title = title;
 		this.description = description;
 		this.completed = false;
-		this.lowest_role_needed = lowest_role_needed;
+		this.lowestRoleNeeded = lowestRoleNeeded;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class Achievement {
 	 * @return
 	 */
 	public Role getLowest_role_needed() {
-		return lowest_role_needed;
+		return lowestRoleNeeded;
 	}
 
 	/**
