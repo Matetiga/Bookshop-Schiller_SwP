@@ -241,12 +241,10 @@ public class InventoryController {
 		if (shopProduct.getProduct() instanceof Book) {
 			showInventory(model);
 			viewName = "inventory_book";
-		}
-		else if (shopProduct.getProduct() instanceof Calendar) {
+		} else if (shopProduct.getProduct() instanceof Calendar) {
 			showCalendarInventory(model);
 			viewName = "redirect:/inventory_calendar";
-		}
-		else if (shopProduct.getProduct() instanceof Merch) {
+		} else if (shopProduct.getProduct() instanceof Merch) {
 			showMerchInventory(model);
 			viewName = "redirect:/inventory_merch";
 		} else {
@@ -281,8 +279,7 @@ public class InventoryController {
 		if (shopProduct.getProduct() instanceof Calendar) {
 			showCalendarInventory(model);
 			viewName ="redirect:/inventory_calendar";
-		}
-		else if (shopProduct.getProduct() instanceof Merch) {
+		} else if (shopProduct.getProduct() instanceof Merch) {
 			showMerchInventory(model);
 			viewName = "redirect:/inventory_merch";
 		} else {

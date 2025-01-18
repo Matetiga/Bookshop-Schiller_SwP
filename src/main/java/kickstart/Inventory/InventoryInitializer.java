@@ -18,7 +18,8 @@ public class InventoryInitializer implements DataInitializer {
 	private final UniqueInventory<UniqueInventoryItem> shopProductInventory;
 	private final ShopProductCatalog shopProductCatalog;
 
-	InventoryInitializer(UniqueInventory<UniqueInventoryItem> shopProductInventory, ShopProductCatalog shopProductCatalog) {
+	InventoryInitializer(UniqueInventory<UniqueInventoryItem> shopProductInventory,
+						 ShopProductCatalog shopProductCatalog) {
 		this.shopProductInventory = shopProductInventory;
 		this.shopProductCatalog = shopProductCatalog;
 
