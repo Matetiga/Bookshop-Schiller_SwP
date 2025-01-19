@@ -33,7 +33,8 @@ public class UserManagement {
 	 * @param users
 	 * @param userAccounts
 	 */
-	UserManagement(UserRepository users, @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
+	UserManagement(UserRepository users,
+				   @Qualifier("persistentUserAccountManagement") UserAccountManagement userAccounts) {
 
         Assert.notNull(users, "UserRepository must not be null!");
         Assert.notNull(userAccounts, "UserAccountManagement must not be null!");
@@ -167,22 +168,29 @@ public class UserManagement {
 	public String promoteAccountById(UUID id) {
 		User user = this.safeUserGetByID(id);
 
-		if (user.getUserAccount().hasRole(Role.of("ADMIN"))){
+		if (user.getUserAccount().hasRole(Role.of("ADMIN"))) {
 			return "Promotion failed: Cannot promote admin account further.";
 		}
-		if (user.getUserAccount().hasRole((Role.of("EMPLOYEE")))){
-			user.getUserAccount().add(Role.of("ADMIN"));
+
+		String promotionResult = null;
+
+		if (user.getUserAccount().hasRole(Role.of("EMPLOYEE"))) {
 			user.getUserAccount().remove(Role.of("EMPLOYEE"));
-			return String.format("Promotion successful: Account '%s' has been promoted to Role of %s", id.toString(), Role.of("ADMIN"));
-		}
-		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))){
-			user.getUserAccount().add(Role.of("EMPLOYEE"));
+			user.getUserAccount().add(Role.of("ADMIN"));
+			promotionResult = String.format("Promotion successful: Account '%s' has been promoted to Role of %s",
+				id.toString(), Role.of("ADMIN"));
+		} else if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))) {
 			user.getUserAccount().remove(Role.of("CUSTOMER"));
-			return String.format("Promotion successful: Account '%s' has been promoted to Role of %s", id.toString(), Role.of("EMPLOYEE"));
+			user.getUserAccount().add(Role.of("EMPLOYEE"));
+			promotionResult = String.format("Promotion successful: Account '%s' has been promoted to Role of %s",
+				id.toString(), Role.of("EMPLOYEE"));
 		}
 
-		return "Promotion failed: Account '%s' does not exist.";
+		return promotionResult != null
+			? promotionResult
+			: String.format("Promotion failed: Account '%s' does not exist.", id.toString());
 	}
+
 
 	/**
 	 *
@@ -192,31 +200,32 @@ public class UserManagement {
 	@Transactional
 	public String degradeAccountById(UUID id) {
 		User user = this.safeUserGetByID(id);
-		//This prevents admin1 for example to degrade himself
-		if (currentUserSameAsID(id)){
-			System.out.println("Thinks same id");
+
+		if (currentUserSameAsID(id)) {
 			return "Degradation failed: Cannot degrade own Account.";
 		}
 
-		if (user.getUserAccount().hasRole(Role.of("ADMIN"))){
+		boolean accountDegraded = false;
+
+		if (user.getUserAccount().hasRole(Role.of("ADMIN"))) {
 			user.getUserAccount().remove(Role.of("ADMIN"));
 			user.getUserAccount().add(Role.of("EMPLOYEE"));
-			return String.format("Degradation successful: Account '%s' has been degraded to Role of %s.", id.toString(), Role.of("EMPLOYEE"));
-		}
-
-		if (user.getUserAccount().hasRole((Role.of("EMPLOYEE")))){
-			user.getUserAccount().add(Role.of("CUSTOMER"));
+			accountDegraded = true;
+		} else if (user.getUserAccount().hasRole(Role.of("EMPLOYEE"))) {
 			user.getUserAccount().remove(Role.of("EMPLOYEE"));
-			return String.format("Degradation successful: Account '%s' has been degraded to Role of %s.", id.toString(), Role.of("CUSTOMER"));
-		}
-
-		if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))){
+			user.getUserAccount().add(Role.of("CUSTOMER"));
+			accountDegraded = true;
+		} else if (user.getUserAccount().hasRole(Role.of("CUSTOMER"))) {
 			users.delete(user);
-			return String.format("Customer Account deleted successfully: Account '%s' has been deleted", id.toString());
-
+			return String.format("Customer Account deleted successfully: Account '%s' has been deleted",
+				id.toString());
 		}
-		return "Degradation failed: Account '%s' does not exist.";
+
+		return accountDegraded
+			? String.format("Degradation successful: Account '%s' has been degraded!", id.toString())
+			: String.format("Degradation failed: Account '%s' does not exist.", id.toString());
 	}
+
 
 	/**
 	 *

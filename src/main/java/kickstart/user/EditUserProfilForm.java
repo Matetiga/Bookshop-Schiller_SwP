@@ -7,28 +7,30 @@ import jakarta.validation.constraints.Size;
 
 class EditUserProfilForm {
 
-	private @NotEmpty(message = "The Address cannot be empty") String edit_address;
-	private @NotEmpty(message = "The Name cannot be empty") String edit_name;
-	private @NotEmpty(message = "The Last Name cannot be empty") String edit_last_name;
+	private @NotEmpty(message = "The Address cannot be empty") String editAddress;
+	private @NotEmpty(message = "The Name cannot be empty") String editName;
+	private @NotEmpty(message = "The Last Name cannot be empty") String editLastName;
 	private @Size(min = 8, message = "Password must be at least 8 characters")
-	 		@Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*", message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\\\\\":{}|<>") String edit_password;
-	private String edit_confirmPassword;
+	 		@Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*",
+				message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\\\\\":{}|<>")
+	String editPassword;
+	private String editConfirmPassword;
 
 	/**
 	 *
 	 * @param edit_address
 	 * @param edit_name
 	 * @param edit_last_name
-	 * @param birthDate
 	 * @param edit_password
 	 * @param edit_confirmPassword
 	 */
-	public EditUserProfilForm(String edit_address, String edit_name, String edit_last_name, String birthDate, String edit_password, String edit_confirmPassword) {
-		this.edit_address = edit_address;
-		this.edit_name = edit_name;
-		this.edit_last_name = edit_last_name;
-		this.edit_password = edit_password;
-		this.edit_confirmPassword = edit_confirmPassword;
+	public EditUserProfilForm(String edit_address, String edit_name, String edit_last_name,
+							  String edit_password, String edit_confirmPassword) {
+		this.editAddress = edit_address;
+		this.editName = edit_name;
+		this.editLastName = edit_last_name;
+		this.editPassword = edit_password;
+		this.editConfirmPassword = edit_confirmPassword;
 	}
 
 	/**
@@ -36,7 +38,7 @@ class EditUserProfilForm {
 	 * @return
 	 */
 	public String getEdit_name() {
-		return edit_name;
+		return editName;
 	}
 
 	/**
@@ -44,7 +46,7 @@ class EditUserProfilForm {
 	 * @return
 	 */
 	public String getEdit_last_name() {
-		return edit_last_name;
+		return editLastName;
 	}
 
 	/**
@@ -52,7 +54,7 @@ class EditUserProfilForm {
 	 * @return
 	 */
 	public String getEdit_address() {
-		return edit_address;
+		return editAddress;
 	}
 
 	/**
@@ -60,7 +62,7 @@ class EditUserProfilForm {
 	 * @return
 	 */
 	public String getEdit_password() {
-		return edit_password;
+		return editPassword;
 	}
 
 	/**
@@ -68,7 +70,7 @@ class EditUserProfilForm {
 	 * @return
 	 */
 	public String getEdit_confirmPassword() {
-		return edit_confirmPassword;
+		return editConfirmPassword;
 	}
 
 	/**
@@ -76,7 +78,7 @@ class EditUserProfilForm {
 	 * @param edit_address
 	 */
 	public void setEdit_address(String edit_address) {
-		this.edit_address = edit_address;
+		this.editAddress = edit_address;
 	}
 
 	/**
@@ -84,7 +86,7 @@ class EditUserProfilForm {
 	 * @param edit_name
 	 */
 	public void setEdit_name(String edit_name) {
-		this.edit_name = edit_name;
+		this.editName = edit_name;
 	}
 
 	/**
@@ -92,7 +94,7 @@ class EditUserProfilForm {
 	 * @param edit_last_name
 	 */
 	public void setEdit_last_name(String edit_last_name) {
-		this.edit_last_name = edit_last_name;
+		this.editLastName = edit_last_name;
 	}
 
 	/**
@@ -100,7 +102,7 @@ class EditUserProfilForm {
 	 * @param edit_password
 	 */
 	public void setEdit_password(String edit_password) {
-		this.edit_password = edit_password;
+		this.editPassword = edit_password;
 	}
 
 	/**
@@ -108,6 +110,6 @@ class EditUserProfilForm {
 	 * @param edit_confirmPassword
 	 */
 	public void setEdit_confirmPassword(String edit_confirmPassword) {
-		this.edit_confirmPassword = edit_confirmPassword;
+		this.editConfirmPassword = edit_confirmPassword;
 	}
 }

@@ -18,7 +18,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	private @EmbeddedId UserIdentifier id = new UserIdentifier();
 	private String address;
 	private String name;
-	private String last_name;
+	private String lastName;
     private String birthDate;
 	private LocalDateTime registrationDate;
 
@@ -48,7 +48,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 		this.userAccount = userAccount;
 		this.address = address;
 		this.name = name;
-		this.last_name = last_name;
+		this.lastName = last_name;
 		this.birthDate = birthDate;
 		this.registrationDate = LocalDateTime.now();
 	}
@@ -90,7 +90,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	 * @return
 	 */
 	public String getLast_name() {
-		return last_name;
+		return lastName;
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	 * @param last_name
 	 */
 	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+		this.lastName = last_name;
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	 * @return
 	 */
 	public String getFullName() {
-		return name + " " + last_name;
+		return name + " " + lastName;
 	}
 
 	/**
@@ -165,8 +165,13 @@ public class User extends AbstractAggregateRoot<UserIdentifier> {
 	 * @return
 	 */
 	public Role getHighestRole(){
-		if (this.getUserAccount().hasRole(Role.of("ADMIN"))) return Role.of("ADMIN");
-		if (this.getUserAccount().hasRole((Role.of("EMPLOYEE")))) return Role.of("EMPLOYEE");
+		if (this.getUserAccount().hasRole(Role.of("ADMIN"))) {
+			return Role.of("ADMIN");
+		}
+
+		if (this.getUserAccount().hasRole((Role.of("EMPLOYEE")))) {
+			return Role.of("EMPLOYEE");
+		}
 
 		return Role.of("CUSTOMER");
 	}
