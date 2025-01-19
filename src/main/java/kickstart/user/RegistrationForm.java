@@ -12,7 +12,9 @@ class RegistrationForm {
 
 	private final @Email(message = "It has to be a valid email") String email;
 	private final @Size(min = 8, message = "Password must be at least 8 characters") 
-				  @Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*", message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\":{}|<>") String password;
+				  @Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*",
+					  message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\":{}|<>")
+	String password;
 	private final @NotEmpty(message = "The address cannot be empty") String address;
 	private final String confirmPassword;
 	private final @NotEmpty(message = "The name cannot be empty") String name;

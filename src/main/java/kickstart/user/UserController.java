@@ -253,14 +253,14 @@ class UserController {
 
 
 		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
-			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match");
+			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword",
+				"Passwords do not match");
 		}
 
 		if (result.hasErrors()) {
 			model.addAttribute("editUserProfilForm", form);
 			return "account_edit"; 
-		}
-		else {
+		} else {
 			userManagement.editProfile(user, user.getUserAccount(), form);
 			return "redirect:/account";
 		}
@@ -364,7 +364,8 @@ class UserController {
 	 */
 	@NotNull
 	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id,
-															EditPersonbyAuthorityForm form, Model model, User user, String userType) {
+															EditPersonbyAuthorityForm form,
+															Model model, User user, String userType) {
 		if (user == null) {
 			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
 		} else {
