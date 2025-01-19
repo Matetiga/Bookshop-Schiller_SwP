@@ -13,7 +13,7 @@ public class Genre {
 	@ElementCollection
 	private static Set<Genre> genres = new HashSet<>();
 
-	private String genre;
+	private String genreName;
 
 	// default constructor for JPA
 
@@ -21,8 +21,8 @@ public class Genre {
 	 * default constructor for JPA
 	 */
 	protected Genre() {}
-	private Genre(String genre) {
-		this.genre = genre;
+	private Genre(String genreName) {
+		this.genreName = genreName;
 	}
 
 	// it kinda follows the Singleton pattern
@@ -41,11 +41,11 @@ public class Genre {
 		}
 
 		String norm_name = name.replaceAll("\\s", "").toLowerCase();
-		for(Genre genre: genres){
-			String norm_genre = genre.getGenre().replaceAll("\\s", "").toLowerCase();
+		for(Genre genreName: genres){
+			String norm_genre = genreName.getGenre().replaceAll("\\s", "").toLowerCase();
 			if(norm_genre.equals(norm_name)){
 				// if the genre already exists, return it
-				return genre;
+				return genreName;
 			}
 		}
 
@@ -60,17 +60,17 @@ public class Genre {
 
 	/**
 	 *
-	 * @param genre
+	 * @param genreName
 	 */
-	public static void deleteGenre(Genre genre) {
-		if (genre == null) {
+	public static void deleteGenre(Genre genreName) {
+		if (genreName == null) {
 			throw new NullPointerException("Genre deleter - Genre cannot be null");
 		}
 
-		if (!genres.contains(genre)) {
+		if (!genres.contains(genreName)) {
 			throw new IllegalArgumentException("Genre does not exist");
 		}
-		genres.remove(genre);
+		genres.remove(genreName);
 	}
 
 
@@ -90,7 +90,7 @@ public class Genre {
 	 * @return
 	 */
 	public String getGenre() {
-		return genre;
+		return genreName;
 	}
 
 	/**
@@ -105,12 +105,12 @@ public class Genre {
 		}
 		if (obj instanceof Genre objGenre ) {
 			// Compare two Genre objects
-			String normalizedGenre = genre.replaceAll("\\s", "").toLowerCase();
+			String normalizedGenre = genreName.replaceAll("\\s", "").toLowerCase();
 			String normalizedObjGenre = objGenre.getGenre().replaceAll("\\s", "").toLowerCase();
 			return normalizedGenre.equals(normalizedObjGenre);
 		} else if (obj instanceof String objString) {
 			// Compare a Genre object with a String
-			String normalizedGenre = genre.replaceAll("\\s", "").toLowerCase();
+			String normalizedGenre = genreName.replaceAll("\\s", "").toLowerCase();
 			String normalizedString = objString.replaceAll("\\s", "").toLowerCase();
 			return normalizedGenre.equals(normalizedString);
 		}
@@ -119,7 +119,7 @@ public class Genre {
 
 	@Override
 	public int hashCode() {
-		return genre.hashCode();
+		return genreName.hashCode();
 	}
 
 }

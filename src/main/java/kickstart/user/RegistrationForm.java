@@ -12,11 +12,13 @@ class RegistrationForm {
 
 	private final @Email(message = "It has to be a valid email") String email;
 	private final @Size(min = 8, message = "Password must be at least 8 characters") 
-				  @Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*", message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\":{}|<>") String password;
+				  @Pattern(regexp = ".*[!@#$%^&(),.?\":{}|<>].*",
+					  message = "Password must contain at least one special character of: !@#$%^&*(),.?\\\":{}|<>")
+	String password;
 	private final @NotEmpty(message = "The address cannot be empty") String address;
 	private final String confirmPassword;
 	private final @NotEmpty(message = "The name cannot be empty") String name;
-	private final @NotEmpty(message = "The last name cannot be empty") String last_name;	 
+	private final @NotEmpty(message = "The last name cannot be empty") String lastName;
 	private final @NotEmpty(message = "The Birth Date name cannot be empty") String birthDate;
 
 	/**
@@ -36,7 +38,7 @@ class RegistrationForm {
 		this.confirmPassword = confirmPassword;
 		this.address = address;
 		this.name = name;
-		this.last_name = last_name;
+		this.lastName = last_name;
 		this.birthDate = birthDate;
 	}
 
@@ -53,7 +55,7 @@ class RegistrationForm {
 	 * @return
 	 */
 	public String getLast_name() {
-		return last_name;
+		return lastName;
 	}
 
 	/**

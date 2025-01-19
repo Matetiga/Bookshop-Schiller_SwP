@@ -141,17 +141,14 @@ public class OrderController {
 
 			// Achievement for buying all Snoop Dogg's copies
 			cart.stream()
-				.filter(item -> item.getProduct().getName().equals("From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen"))
+				.filter(item -> item.getProduct().getName().equals(
+					"From Crook To Cook: Platinum Recipes From Tha Boss Dogg's Kitchen"))
 				.findFirst()
 				.ifPresent(item -> {
-					if(item.getQuantity().getAmount().intValue() == 420){
-						if (!model.containsAttribute("achievement")) {
-
-							Achievement achievement = new Achievement("Pass in the buffffffffffffffffffffffffff",
-								"yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeah", Role.of("CUSTOMER"));
-							userAchievementService.processAchievement(userDetails, achievement, model);
-
-						}
+					if(item.getQuantity().getAmount().intValue() == 420 && !model.containsAttribute("achievement")){
+						Achievement achievement = new Achievement("Pass in the buffffffffffffffffffffffffff",
+							"yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeah", Role.of("CUSTOMER"));
+						userAchievementService.processAchievement(userDetails, achievement, model);
 					}
 				});
 
@@ -178,7 +175,8 @@ public class OrderController {
 								   @ModelAttribute Cart cart, Model model) {
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Achievement ach = new Achievement("Lieber zuviel, als zuwenig!", "Erhöhe die Produktanzahl im Warenkorb.", Role.of("CUSTOMER"));
+		Achievement ach = new Achievement("Lieber zuviel, als zuwenig!",
+			"Erhöhe die Produktanzahl im Warenkorb.", Role.of("CUSTOMER"));
 		userAchievementService.processAchievement(userDetails, ach, model);
 
 		int quantity = cart.getQuantity(productId).getAmount().intValue();

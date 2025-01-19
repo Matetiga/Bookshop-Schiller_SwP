@@ -171,7 +171,7 @@ class EditUserProfilFormUnitTests {
             .andExpect(status().isOk()) // Erwartet Status 200 (View bleibt auf der gleichen Seite)
             .andExpect(view().name("account_edit")) // Bleibt auf der Bearbeitungsseite
             .andExpect(model().attributeExists("editUserProfilForm")) // Prüft, ob das Formular existiert
-            .andExpect(model().attributeHasFieldErrors("editUserProfilForm", "edit_password")); // Passwort-Validierungsfehler
+            .andExpect(model().attributeHasFieldErrors("editUserProfilForm", "editPassword")); // Passwort-Validierungsfehler
     }
 
     @Test
@@ -234,6 +234,6 @@ class EditUserProfilFormUnitTests {
             .andExpect(status().isOk()) // Erwartet Status 200 (View bleibt auf der gleichen Seite)
             .andExpect(view().name("account_edit")) // Bleibt auf der Bearbeitungsseite
             .andExpect(model().attributeExists("editUserProfilForm")) // Prüft, ob das Formular existiert
-            .andExpect(model().attributeHasFieldErrors("editUserProfilForm", "edit_name")); // Name-Validierungsfehler
+            .andExpect(model().attributeHasFieldErrors("editUserProfilForm", "editName")); // Name-Validierungsfehler
     }
 }

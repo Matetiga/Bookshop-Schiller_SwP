@@ -26,7 +26,8 @@ public class MyOrderManagement {
 
 	private final ShopProductCatalog shopProductCatalog;
 
-	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement, ShopProductCatalog shopProductCatalog){
+	MyOrderManagement(MyOrderRepository myOrderRepository, UserManagement userManagement,
+					  ShopProductCatalog shopProductCatalog){
 		this.myOrderRepository = myOrderRepository;
 		this.userManagement = userManagement;
 		this.shopProductCatalog = shopProductCatalog;
@@ -103,7 +104,8 @@ public class MyOrderManagement {
 	public Iterable<MyOrder> findByUsername(String username, Iterable<MyOrder> list){
 		ArrayList<MyOrder> orderList = new ArrayList<>();
 		for(MyOrder order : list){
-			if(userManagement.findByUsername(username) == userManagement.findByID(UUID.fromString(order.getUserAccountIdentifier().toString()))){
+			if(userManagement.findByUsername(username) == userManagement.findByID(
+				UUID.fromString(order.getUserAccountIdentifier().toString()))){
 				orderList.add(order);
 			}
 		}
@@ -212,7 +214,8 @@ public class MyOrderManagement {
 			Random random = new Random();
 			List<ShopProduct> shopProductList = shopProductCatalog.findAll().stream().toList();
 
-			MyOrder randomOrder = new MyOrder(userManagement.findByUsername(random.nextBoolean() ? "customer1@example.com" : "customer2@example.com"), random.nextBoolean() ? "Bar" : "Rechnung");
+			MyOrder randomOrder = new MyOrder(userManagement.findByUsername(random.nextBoolean() ?
+				"customer1@example.com" : "customer2@example.com"), random.nextBoolean() ? "Bar" : "Rechnung");
 
 			for (int j = 0; j < 5; j++){
 				ShopProduct randomProduct;
@@ -223,7 +226,8 @@ public class MyOrderManagement {
 				randomOrder.addOrderLine(randomProduct, Quantity.of(random.nextInt(1, 4)));
 			}
 
-			randomOrder.setDebitTime(LocalDateTime.of(random.nextInt(2023, 2025), random.nextInt(12) + 1, random.nextInt(1, 29), random.nextInt(0, 24), random.nextInt(0, 60)));
+			randomOrder.setDebitTime(LocalDateTime.of(random.nextInt(2023, 2025),
+				random.nextInt(12) + 1, random.nextInt(1, 29), random.nextInt(0, 24), random.nextInt(0, 60)));
 			randomOrder.setState("Abgeschlossen");
 
 			myOrderRepository.save(randomOrder);

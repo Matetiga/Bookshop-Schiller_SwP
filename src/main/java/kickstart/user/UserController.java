@@ -154,11 +154,6 @@ class UserController {
 	@PostMapping("/promote/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public String promoteUser(@PathVariable("id") UUID id, @RequestParam String source) {
-		/*
-		When a User gets promoted there should be a confirmation message that is saved below.
-		However, we reload the site after each button click. The message wouldn't be visible. That's why we add the message as URL parameter to pass this information,
-		so that on reload, we can check if a toastMessage has been left. If so => display it
-		 */
 		String toastMessage = userManagement.promoteAccountById(id);
 		return "redirect:/" + source + "?toastMessage=" + toastMessage;
 	}
@@ -172,7 +167,8 @@ class UserController {
 	 */
 	@PostMapping("/degrade/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source, RedirectAttributes redirectAttributes) {
+	public String degradeUser(@PathVariable("id") UUID id, @RequestParam String source,
+							  RedirectAttributes redirectAttributes) {
 		String toastMessage = userManagement.degradeAccountById(id);
 		redirectAttributes.addFlashAttribute("toastMessage", toastMessage);
 		return "redirect:/" + source + "?toastMessage=" + toastMessage;
@@ -187,7 +183,9 @@ class UserController {
 	@GetMapping("/account")
 	public String accountOverview(@AuthenticationPrincipal UserDetails UserDetails, Model model) {
 
-		if (UserDetails == null) return "redirect:/login";
+		if (UserDetails == null){
+			return "redirect:/login";
+		}
 
 
 		for (User user : userManagement.findAll()) {
@@ -215,7 +213,8 @@ class UserController {
 			throw new IllegalStateException("User have to exists, but does not.");
 		}
 
-		Achievement achievement = new Achievement("Ändere wer du bist!", "Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
+		Achievement achievement = new Achievement("Ändere wer du bist!",
+			"Zum ersten mal auf das Account Edit gekommen!", Role.of("CUSTOMER"));
 		userAchievementService.processAchievement(userDetails, achievement, model);
 
 		form.setEdit_name(user.getName());
@@ -240,25 +239,28 @@ class UserController {
 	 * @return
 	 */
 	@PostMapping("/account_edit")
-	String updateProfile(@AuthenticationPrincipal UserDetails userDetails, @Valid EditUserProfilForm form, Errors result, Model model) {
+	String updateProfile(@AuthenticationPrincipal UserDetails userDetails,
+						 @Valid EditUserProfilForm form, Errors result, Model model) {
 
 		if (userDetails == null){
 			throw new IllegalStateException("User have to exists, but does not.");
 		}
 		User user = userManagement.findByUsername(userDetails.getUsername());
 		
-		if (user == null) throw new IllegalStateException("User have to exists, but exists not.");
+		if (user == null){
+			throw new IllegalStateException("User have to exists, but exists not.");
+		}
 
 
 		if (!form.getEdit_password().equals(form.getEdit_confirmPassword())) {
-			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword", "Passwords do not match");
+			result.rejectValue("edit_confirmPassword", "error.edit_confirmPassword",
+				"Passwords do not match");
 		}
 
 		if (result.hasErrors()) {
 			model.addAttribute("editUserProfilForm", form);
 			return "account_edit"; 
-		}
-		else {
+		} else {
 			userManagement.editProfile(user, user.getUserAccount(), form);
 			return "redirect:/account";
 		}
@@ -281,7 +283,8 @@ class UserController {
 	 */
 	@GetMapping("/authority_edit/employee/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String goToAccountEditOfEmployees(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model){
+	public String goToAccountEditOfEmployees(@PathVariable("id") UUID id,
+											 EditPersonbyAuthorityForm form, Model model){
 		User user = userManagement.safeUserGetByID(id);
 		String userType = "employee";
 
@@ -299,7 +302,8 @@ class UserController {
 	 */
 	@PostMapping("/authority_edit/employee/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public String doAccountEditOfEmployees(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
+	public String doAccountEditOfEmployees(@PathVariable("id") UUID id,
+										   @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
 		User user = userManagement.safeUserGetByID(id);
 		return pushEditOfUserAccount(form, result, model, user);
 	}
@@ -313,7 +317,8 @@ class UserController {
 	 * @return
 	 */
 	@NotNull
-	private String pushEditOfUserAccount(@Valid EditPersonbyAuthorityForm form, Errors result, Model model, User user) {
+	private String pushEditOfUserAccount(@Valid EditPersonbyAuthorityForm form,
+										 Errors result, Model model, User user) {
 		if (user == null) {
 			throw new IllegalStateException("User have to exists, but exists not.");
 		}
@@ -321,14 +326,14 @@ class UserController {
 		if (result.hasErrors()) {
 			model.addAttribute("editPersonbyAuthorityForm", form);
 			return "authority_edit";
-		}
-		else {
+		}else {
 			userManagement.editProfilebyAuthority(user, form);
 		}
 		if (user.getHighestRole().equals(Role.of("CUSTOMER"))) {
 			return "redirect:/customer-overview";
+		}else{
+			return "redirect:/employee-overview";
 		}
-		else return "redirect:/employee-overview";
 	}
 
 	/**
@@ -340,7 +345,8 @@ class UserController {
 	 */
 	@GetMapping("/authority_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	public String goToAccountEditOfCustomer(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model){
+	public String goToAccountEditOfCustomer(@PathVariable("id") UUID id,
+											EditPersonbyAuthorityForm form, Model model){
 		User user = userManagement.safeUserGetByID(id);
 		String userType = "customer";
 
@@ -357,16 +363,17 @@ class UserController {
 	 * @return
 	 */
 	@NotNull
-	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id, EditPersonbyAuthorityForm form, Model model, User user, String userType) {
+	private String addUserEditInformationToModelAndRedirect(@PathVariable("id") UUID id,
+															EditPersonbyAuthorityForm form,
+															Model model, User user, String userType) {
 		if (user == null) {
 			throw new IllegalStateException("User has to exists, but can't find in UserRepository");
-		}
-		else {
+		} else {
 			form.setnew_name(user.getName());
 			form.setnew_last_name(user.getLast_name());
 			form.setnew_address(user.getAddress());
 			model.addAttribute("editPersonbyAuthorityForm", form);
-			model.addAttribute("source", "/authority_edit/" + userType + "/" + id); //for dynamic post button (is id present or not)
+			model.addAttribute("source", "/authority_edit/" + userType + "/" + id);
 		}
 
 		return "authority_edit";
@@ -382,7 +389,8 @@ class UserController {
 	 */
 	@PostMapping("/authority_edit/customer/{id}")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
+	public String doAccountEditOfCustomer(@PathVariable("id") UUID id,
+										  @Valid EditPersonbyAuthorityForm form, Errors result, Model model){
 		User user = userManagement.safeUserGetByID(id);
 		return pushEditOfUserAccount(form, result, model, user);
 	}
@@ -439,7 +447,8 @@ class UserController {
 	@GetMapping("/achievements")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE') or hasRole('CUSTOMER')")
 	String achievements(@AuthenticationPrincipal UserDetails userDetails, Model model){
-		Achievement achievement = new Achievement("Achievement Hunter!", "Besuche deine gesammelten und sehr sinnvollen Achievements ;D!", Role.of("CUSTOMER"));
+		Achievement achievement = new Achievement("Achievement Hunter!",
+			"Besuche deine gesammelten und sehr sinnvollen Achievements ;D!", Role.of("CUSTOMER"));
 
 		userAchievementService.processAchievement(userDetails, achievement, model);
 		userAchievementService.addAllAchievementsToModel(userDetails, model);

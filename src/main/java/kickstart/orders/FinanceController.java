@@ -40,10 +40,11 @@ public class FinanceController {
 			}
 
 			if(dataMonth.getValue() <= LocalDateTime.now().getMonth().getValue()){
-				revenueData.put(dataMonth.toString(), myOrderManagement.getTotalOfMonthAndYear(dataMonth, LocalDateTime.now().getYear(), myOrderRepository.findAll()));
-			}
-			else{
-				revenueData.put(dataMonth.toString(), myOrderManagement.getTotalOfMonthAndYear(dataMonth, LocalDateTime.now().getYear() - 1, myOrderRepository.findAll()));
+				revenueData.put(dataMonth.toString(), myOrderManagement.getTotalOfMonthAndYear(dataMonth,
+					LocalDateTime.now().getYear(), myOrderRepository.findAll()));
+			}else{
+				revenueData.put(dataMonth.toString(), myOrderManagement.getTotalOfMonthAndYear(dataMonth,
+					LocalDateTime.now().getYear() - 1, myOrderRepository.findAll()));
 			}
 		}
 		System.out.println(revenueData);

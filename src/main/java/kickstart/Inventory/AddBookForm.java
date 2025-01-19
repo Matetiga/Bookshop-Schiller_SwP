@@ -31,7 +31,7 @@ public class AddBookForm {
 	private String author;
 
 	@NotBlank(message = "ISBN is required")
-	private String ISBN;
+	private String isbn;
 
 	@NotBlank(message = "Publisher is required")
 	private String publisher;
@@ -52,20 +52,20 @@ public class AddBookForm {
 	 * @param description
 	 * @param genre
 	 * @param author
-	 * @param ISBN
+	 * @param isbn
 	 * @param publisher
 	 * @param price
 	 * @param stock
 	 */
 	public AddBookForm(String name, String image, String description, Set<String> genre,
-					   String author, String ISBN, String publisher, double price, int stock) {
+					   String author, String isbn, String publisher, double price, int stock) {
 		this.name = name;
 		this.image = image;
 		this.price = price;
 		this.description = description;
 		this.genre = genre;
 		this.author = author;
-		this.ISBN = ISBN;
+		this.isbn = isbn;
 		this.publisher = publisher;
 		this.stock = stock;
 	}
@@ -173,15 +173,15 @@ public class AddBookForm {
 	 * @return
 	 */
 	public String getISBN() {
-		return ISBN;
+		return isbn;
 	}
 
 	/**
 	 *
-	 * @param ISBN
+	 * @param isbn
 	 */
-	public void setISBN(String ISBN) {
-		this.ISBN = ISBN;
+	public void setISBN(String isbn) {
+		this.isbn = isbn;
 	}
 
 	/**
