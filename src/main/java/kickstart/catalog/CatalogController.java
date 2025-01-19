@@ -37,7 +37,8 @@ public class CatalogController {
 	private final UserAchievementService userAchievementService;
 
 
-	CatalogController(ShopProductCatalog productCatalog, UniqueInventory<UniqueInventoryItem> inventory, UserManagement userManagement) {
+	CatalogController(ShopProductCatalog productCatalog, UniqueInventory<UniqueInventoryItem> inventory,
+					  UserManagement userManagement) {
 
 		this.catalog = productCatalog;
 		this.inventory = inventory;
@@ -102,7 +103,8 @@ public class CatalogController {
 				.toList();
 		}
 
-		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert", Role.of("CUSTOMER"));
+		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert",
+			Role.of("CUSTOMER"));
 		// Filter books cheaper than 10€ or more expensive than 15€
 		if("under10".equalsIgnoreCase(priceRange)) {
 			filteredBooks = filteredBooks.stream()
@@ -186,7 +188,8 @@ public class CatalogController {
 				.toList();
 		}
 
-		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert", Role.of("CUSTOMER"));
+		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert",
+			Role.of("CUSTOMER"));
 		// Filter merch cheaper than 10€ or more expensive than 15€
 		if("under10".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
@@ -261,7 +264,8 @@ public class CatalogController {
 				.toList();
 		}
 
-		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert", Role.of("CUSTOMER"));
+		Achievement ach1 = new Achievement("Luxus für Lau!","Du hast im Katalog nach 'unter 10€' gefiltert",
+			Role.of("CUSTOMER"));
 		// Filter calendar cheaper than 10€ or more expensive than 15€
 		if("under10".equalsIgnoreCase(priceRange)) {
 			catalog = catalog.stream()
