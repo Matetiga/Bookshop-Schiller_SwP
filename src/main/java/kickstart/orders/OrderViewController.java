@@ -125,7 +125,8 @@ public class OrderViewController {
 	String changeStatus(@RequestParam("orderId") Order.OrderIdentifier orderId, Model model){
 
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Achievement ach = new Achievement("Zustandsmaschine", "Du hast den Zustand einer Bestellung geändert", Role.of("EMPLOYEE"));
+		Achievement ach = new Achievement("Zustandsmaschine",
+			"Du hast den Zustand einer Bestellung geändert", Role.of("EMPLOYEE"));
 		userAchievementService.processAchievement(userDetails, ach, model);
 
 		MyOrder order = myOrderRepository.findById(orderId).get();
@@ -149,7 +150,11 @@ public class OrderViewController {
 	 * @return order-overview
 	 */
 	@PostMapping("/filterOrders")
-	String filterOrders(@RequestParam("filterState") String state, @RequestParam("filterPaymentMethod") String paymentMethod, @RequestParam(value = "productName", required = false, defaultValue = "") String productName, @RequestParam(value = "userId", required = false, defaultValue = "") String username, Model model){
+	String filterOrders(@RequestParam("filterState") String state,
+						@RequestParam("filterPaymentMethod") String paymentMethod,
+						@RequestParam(value = "productName", required = false, defaultValue = "") String productName,
+						@RequestParam(value = "userId", required = false, defaultValue = "") String username,
+						Model model){
 		Iterable<MyOrder> filteredList = myOrderManagement.filterAllOrders(state, paymentMethod, productName, username);
 
 		List<MyOrder> orderList = myOrderManagement.sortByDate(filteredList);
@@ -167,8 +172,10 @@ public class OrderViewController {
 		this.lastFilterOptions = new String[] {state, paymentMethod, productName, username};
 
 		if (paymentMethod.equals("Bar")){
-			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Achievement ach = new Achievement("Nur Bares ist Wahres", "In der Bestellübersicht nach der Bezahlmethode Bar gefiltert", Role.of("EMPLOYEE"));
+			UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+			Achievement ach = new Achievement("Nur Bares ist Wahres",
+				"In der Bestellübersicht nach der Bezahlmethode Bar gefiltert", Role.of("EMPLOYEE"));
 			userAchievementService.processAchievement(userDetails, ach, model);
 		}
 		return "order-overview";
@@ -182,7 +189,8 @@ public class OrderViewController {
 	 */
 	@PostMapping("/sortByDate")
 	String sortByDate(Model model){
-		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.filterAllOrders(lastFilterOptions[0], lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]));
+		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.filterAllOrders(lastFilterOptions[0],
+			lastFilterOptions[1], lastFilterOptions[2], lastFilterOptions[3]));
 
 		if(lastSortDateValue.equals("neueste")){
 			lastSortDateValue = "älteste";
@@ -256,7 +264,8 @@ public class OrderViewController {
 	String myOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
 		myOrderManagement.setDeliveryState(myOrderRepository.findAll());
 
-		Iterable<MyOrder> orderList = myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll());
+		Iterable<MyOrder> orderList = myOrderManagement.findByUsername(UserDetails.getUsername(),
+			myOrderRepository.findAll());
 
 		model.addAttribute("orderList", myOrderManagement.sortByDate(orderList).reversed());
 		model.addAttribute("sortDateButtonValueKonto", "neueste");
@@ -273,7 +282,8 @@ public class OrderViewController {
 	 */
 	@PostMapping("/sortByDateKonto")
 	String sortDateKontoOrders(Model model, @AuthenticationPrincipal UserDetails UserDetails){
-		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.findByUsername(UserDetails.getUsername(), myOrderRepository.findAll()));
+		List<MyOrder> orderList = myOrderManagement.sortByDate(myOrderManagement.findByUsername(
+			UserDetails.getUsername(), myOrderRepository.findAll()));
 
 		if(lastSortDateValueKonto.equals("neueste")){
 			lastSortDateValueKonto = "älteste";
@@ -317,15 +327,19 @@ public class OrderViewController {
 	 * @param model
 	 * mapping for filtering customers in customer overview page
 	 * @return customer overview
-	This HAS to be in order controller and NOT in UserController even though it would be more fitting, because a cycle would be formed:
+	This HAS to be in order controller and NOT in UserController even though it would be more fitting,
+	because a cycle would be formed:
 	order -> user -> order
 	 */
 	@PostMapping("filterCustomers")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYEE')")
-	String filterCustomers(@RequestParam("filterState") String state, @RequestParam(value = "customerName", required = false, defaultValue = "") String customerName, @RequestParam(value = "customerEmail", required = false, defaultValue = "") String customerEmail, Model model){
+	String filterCustomers(@RequestParam("filterState") String state, @RequestParam(value = "customerName",
+		required = false, defaultValue = "") String customerName, @RequestParam(value = "customerEmail",
+		required = false, defaultValue = "") String customerEmail, Model model){
 		Set<User> customers = myOrderManagement.getFilteredCustomersByStateOfOrders(state);
 		customers = myOrderManagement.filterCustomers(customers, customerName, customerEmail);
-		customers.removeIf(customer -> customer.getHighestRole() == null || !customer.getHighestRole().equals(Role.of("CUSTOMER")));
+		customers.removeIf(customer -> customer.getHighestRole() == null || !customer.getHighestRole().equals(
+			Role.of("CUSTOMER")));
 
 		String states = messageSource.getMessage("order.states", null, LocaleContextHolder.getLocale());
 
