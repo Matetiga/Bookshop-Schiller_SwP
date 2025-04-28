@@ -4,6 +4,38 @@ image:https://img.shields.io/badge/SonarQube-checked-blue?logo=sonarqube["SonarQ
 // Hi there! We've already included some generally useful information in here.
 // Feel free to edit the first section to add a short description of your task and your project.
 
+= Software Project (Technical University Dresden)
+This repository is part of the Software Engineering lab at the Technical University of Dresden.
+Aimed to create a web application for a fictional bookshop company in a group of 7.
+The project should include general features of an online shop, such as: catalog, shopping, managing inventory and orders,
+costumer management and an achievement system.
+
+== Used Technologies
+- Salespoint framework
+- Spring Boot
+- Thymeleaf
+- Boostrap
+
+=== My Role
+I was responsible for the implementation of the inventory management
+
+- creating products with a specific template (every product has a name, description, price, ..., but books should have a
+functional ISBN number and author)
+- editing and deleting products
+- frontend of the inventory management site
+
+
+== Members:
+- Willi Richter
+- Erion Leka
+- Linus Leuner
+- Marco Hernandez
+- Willi Richter
+- Vincent
+- Martin Najera (Me)
+
+---
+
 = Kickstart
 
 The kickstart module is a template project to bootstrap the Java project in the Software Engineering lab.
